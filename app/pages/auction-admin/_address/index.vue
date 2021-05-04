@@ -1,0 +1,692 @@
+<template>
+	<div>
+		<div class="row d-flex justify-content-center">
+			<div class="col-md-11 mt-6">
+				<div v-if="!loading">
+					<div
+						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
+					>
+						<span
+							class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+						>
+							Auction Details
+						</span>
+					</div>
+					<hr />
+					<div class="px-md-5">
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(0)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-5 mt-3">
+										<base-input
+											v-model="document.website"
+											label="Website"
+											name="website"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-5">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(1)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-5 mt-3">
+										<base-input
+											v-model="document.icon"
+											label="Icon"
+											name="icon"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+										<div class="warning-info">* must be 256 * 256</div>
+									</div>
+									<div class="col-md-* mt-5">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(2)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-5 mt-3">
+										<div class="mb-3">Description</div>
+										<base-input
+											:rules="`required|text:${document.description}`"
+											name="description"
+										>
+											<textarea
+												v-model="document.description"
+												class="form-control font-weight-bold text-bg-white p-2"
+												maxlength="300"
+												type="text"
+												rules="required|text"
+											/>
+										</base-input>
+
+										<div class="warning-info">* max 300 letters</div>
+									</div>
+									<div class="col-md-* mt-5">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<!-- <validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(2)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-5 mt-3">
+										<div class="mb-3">Description</div>
+										<textarea
+											v-model="document.description"
+											class="form-control font-weight-bold text-bg-white p-2"
+											maxlength="300"
+											type="text"
+											rule="required|text"
+										/>
+										<div class="warning-info">* max 300 letters</div>
+									</div>
+									<div class="col-md-* mt-5">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer> -->
+					</div>
+					<hr />
+					<div
+						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
+					>
+						<span
+							class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+						>
+							Socials
+						</span>
+					</div>
+					<hr />
+					<div class="px-md-5">
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(3)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-2 mt-4">
+										<i class="fa fa-file" />
+										Whitepaper
+									</div>
+									<div class="col-md-3 mt-3">
+										<base-input
+											v-model="document.whitepaper"
+											name="whitepaper"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(4)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-2 mt-4">
+										<i class="fab fa-github" />
+										Github
+									</div>
+									<div class="col-md-3 mt-3">
+										<base-input
+											v-model="document.github"
+											name="github"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(5)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-2 mt-4">
+										<i class="fab fa-telegram" />
+										Telegram
+									</div>
+									<div class="col-md-3 mt-3">
+										<base-input
+											v-model="document.telegram"
+											name="telegram"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(6)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-2 mt-4">
+										<i class="fab fa-weixin" />
+										Wechat
+									</div>
+									<div class="col-md-3 mt-3">
+										<base-input
+											v-model="document.wechat"
+											name="wechat"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(7)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-2 mt-4">
+										<i class="fab fa-discord" />
+										Discord
+									</div>
+									<div class="col-md-3 mt-3">
+										<base-input
+											v-model="document.discord"
+											name="discord"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(8)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-2 mt-4">
+										<i class="fab fa-medium" />
+										Medium
+									</div>
+									<div class="col-md-3 mt-3">
+										<base-input
+											v-model="document.medium"
+											name="medium"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(9)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-2 mt-4">
+										<i class="fab fa-reddit" />
+										Reddit
+									</div>
+									<div class="col-md-3 mt-3">
+										<base-input
+											v-model="document.reddit"
+											name="reddit"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(10)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-2 mt-4">
+										<i class="fab fa-twitter" />
+										Twitter
+									</div>
+									<div class="col-md-3 mt-3">
+										<base-input
+											v-model="document.twitter"
+											name="twitter"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation"
+								@submit.prevent="updateDocument(11)"
+							>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-2 mt-4">
+										<i class="fa fa-book" />
+										Docs
+									</div>
+									<div class="col-md-3 mt-3">
+										<base-input
+											v-model="document.docs"
+											name="docs"
+											placeholder=""
+											type="text"
+											rules="required|website"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+					</div>
+					<hr />
+					<div
+						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
+					>
+						<span
+							class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+						>
+							List
+						</span>
+					</div>
+					<hr />
+					<div class="px-md-5">
+						<validation-observer v-slot="{ invalid }">
+							<form class="needs-validation" @submit.prevent="updateList">
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-5 mt-3">
+										<base-input
+											v-model="list.address"
+											name="list"
+											placeholder=""
+											type="text"
+											rules="required|isAddress"
+										></base-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<form class="needs-validation" @submit.prevent="updateListStatus">
+							<div class="row">
+								<div class="col-md-3" />
+								<label
+									class="form-control-label font-weight-bolder col-md-4 mt-4"
+									style="text-align: right"
+								>
+									status: {{ list.status ? "active" : "inactive" }}
+								</label>
+								<div class="col-md-* mt-2">
+									<base-button
+										class="float-right"
+										type="primary"
+										native-type="submit"
+										:disabled="invalid"
+									>
+										{{ list.status ? "disable" : "enable" }}
+									</base-button>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<loader v-else width="80" height="80" y="250" />
+			</div>
+		</div>
+	</div>
+</template>
+
+<script>
+import { mapGetters } from "vuex"
+import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
+import { getContractInstance as dutchAuctionContract } from "@/services/web3/auctions/dutch"
+import { getContractInstance as crowdsaleContract } from "@/services/web3/auctions/crowdsale"
+import { getContractInstance as batchAuctionContract } from "@/services/web3/auctions/batch"
+import {
+	makeBatchCall,
+	sendTransaction,
+	sendTransactionAndWait,
+} from "@/services/web3/base"
+import Swal from "sweetalert2"
+
+export default {
+	name: "AuctionAdminInfo",
+	data() {
+		return {
+			auctionAddress: this.$route.params.address,
+			document: {
+				website: "",
+				icon: "",
+				description: "",
+				whitepaper: "",
+				github: "",
+				telegram: "",
+				wechat: "",
+				discord: "",
+				medium: "",
+				reddit: "",
+				twitter: "",
+				docs: "",
+			},
+			list: {
+				address: "",
+				status: false,
+			},
+			contractInstance: null,
+			loading: true,
+			subscription: null,
+		}
+	},
+	computed: {
+		...mapGetters({
+			coinbase: "ethereum/coinbase",
+		}),
+	},
+	async mounted() {
+		// Contract
+		await this.getTemplateId()
+		switch (parseInt(this.marketTemplateId)) {
+			case 1:
+				this.contractInstance = crowdsaleContract(this.auctionAddress)
+				break
+			case 2:
+				this.contractInstance = dutchAuctionContract(this.auctionAddress)
+				break
+			case 3:
+				this.contractInstance = batchAuctionContract(this.auctionAddress)
+				break
+			default:
+				break
+		}
+
+		// Documents
+		const methods = [
+			{ methodName: "getDocuments", args: [this.auctionAddress] },
+		]
+		const [documents] = await makeBatchCall(misoHelperContract(), methods)
+
+		documents.forEach((document) => {
+			const name = document["0"]
+			const data = document["1"]
+			if (name && data) {
+				this.document[name] = data
+			}
+		})
+
+		// PointList
+		const pointListMethod = [{ methodName: "pointList" }]
+		const [pointList] = await makeBatchCall(
+			this.contractInstance,
+			pointListMethod
+		)
+		this.list.address = pointList
+
+		// PointList Status
+		const marketStatusMethod = [{ methodName: "marketStatus" }]
+		const [marketStatus] = await makeBatchCall(
+			this.contractInstance,
+			marketStatusMethod
+		)
+		this.list.status = marketStatus.usePointList
+
+		this.loading = false
+	},
+	methods: {
+		async getTemplateId() {
+			const methods = [{ methodName: "marketTemplate" }]
+			const [marketTemplate] = await makeBatchCall(
+				dutchAuctionContract(this.auctionAddress),
+				methods
+			)
+			this.marketTemplateId = marketTemplate
+		},
+		async updateDocument(index) {
+			const name = Object.keys(this.document)[index]
+			const data = this.document[name]
+			const method = this.contractInstance.methods.setDocument(name, data)
+
+			if (name === "icon") {
+				const img = new Image()
+				img.onload = async () => {
+					if (img.width === 256 && img.height === 256) {
+						await sendTransaction(method, { from: this.coinbase })
+					} else {
+						Swal.fire({
+							icon: "error",
+							title: "Oops!",
+							html: "The icon must be 256 X 256",
+							buttonsStyling: false,
+							showCancelButton: false,
+							confirmButtonText: "Close",
+							confirmButtonClass: "btn btn-fill",
+						})
+					}
+				}
+				img.src = data
+			} else {
+				await sendTransaction(method, { from: this.coinbase })
+			}
+		},
+		async updateList() {
+			const method = this.contractInstance.methods.setList(this.list.address)
+			await sendTransaction(method, { from: this.coinbase })
+		},
+		async updateListStatus() {
+			const method = this.contractInstance.methods.enableList(!this.list.status)
+			await sendTransactionAndWait(
+				method,
+				{ from: this.coinbase },
+				(receipt) => {
+					if (receipt.status) {
+						this.list.status = !this.list.status
+					}
+				}
+			)
+		},
+	},
+}
+</script>
+
+<style lang="scss" scoped>
+.warning-info {
+	width: 100%;
+	margin-top: 0.25rem;
+	font-size: 80%;
+	color: #ba54f5;
+}
+textarea.form-control {
+	height: 150px;
+	line-height: 1.5;
+	border: 1px solid lighten(#222a42, 5%);
+	&:focus,
+	&:active {
+		border: 1px solid #f46e41;
+	}
+}
+</style>

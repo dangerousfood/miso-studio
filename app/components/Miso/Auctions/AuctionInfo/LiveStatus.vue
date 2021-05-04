@@ -1,0 +1,1041 @@
+<template>
+	<div class="position-relative h-100">
+		<card class="p1-2 project-status h-100">
+			<div v-if="!finalize.author">
+				<div class="d-flex justify-content-between mt-2 project-status_text">
+					<div class="d-flex flex-column">
+						<h5 class="fs-1 mb-1 font-weight-bold">STATUS:</h5>
+						<div class="d-flex align-items-baseline">
+							<p class="fs-3 text-white font-weight-bold text-capitalize live">
+								{{ status.auction }}
+							</p>
+							<span
+								class="status ml-2"
+								:class="[
+									isUpcoming
+										? 'bg-warning'
+										: isLive
+										? 'bg-success'
+										: 'bg-danger',
+								]"
+							></span>
+						</div>
+					</div>
+					<div v-if="!isUpcoming" class="d-flex flex-column">
+						<h5 class="fs-1 mb-1 font-weight-bold text-center">COUNTDOWN:</h5>
+						<p
+							class="fs-3 text-white font-weight-bold d-flex status_counter text-center"
+						>
+							<span class="">{{ getFullTime }}</span>
+						</p>
+					</div>
+					<div class="d-flex flex-column">
+						<span v-if="status.type === 'batch'">
+							<h5 class="fs-1 mb-1 font-weight-bold text-center">
+								TOTAL TOKENS:
+							</h5>
+							<p class="fs-3 text-white font-weight-bold text-center">
+								{{ marketInfo.totalTokens }}
+							</p>
+						</span>
+						<span v-else>
+							<h5 class="fs-1 mb-1 font-weight-bold text-center">
+								TOKENS REMAINING:
+							</h5>
+							<p class="fs-3 text-white font-weight-bold text-center">
+								{{ maxTokenAmount }}/{{ marketInfo.totalTokens }}
+							</p>
+						</span>
+					</div>
+					<div class="d-flex flex-column">
+						<h5 class="fs-1 mb-1 font-weight-bold text-right">PARTICIPANTS:</h5>
+						<p class="fs-3 text-white font-weight-bold text-right">
+							{{ totalParticipants }}
+						</p>
+					</div>
+				</div>
+				<base-divider class="mt-2 py-2" />
+				<div v-if="!isUpcoming && status.auction !== 'finished'">
+					<!-- CrowedProgress -->
+					<crowd-progress
+						v-if="status.type === 'crowdsale'"
+						class="pt-5"
+						:status="status"
+						:market-info="marketInfo"
+						:user-info="userInfo"
+						:progress="crowdProgress"
+						:finalize="finalize.user"
+					/>
+					<!-- CrowedProgress -->
+					<!-- DutchProgress -->
+					<dutch-progress
+						v-if="status.type === 'dutch'"
+						class="my-5"
+						:status="status"
+						:market-info="marketInfo"
+						:user-info="userInfo"
+						:progress="dutchProgress"
+						:finalize="finalize.user"
+					/>
+					<!-- DutchProgress -->
+					<!-- BatchProgress -->
+					<batch-progress
+						v-if="status.type === 'batch'"
+						class="my-5"
+						:status="status"
+						:market-info="marketInfo"
+						:user-info="userInfo"
+						:progress="timeProgress"
+						:finalize="finalize.user"
+					/>
+					<!-- BatchProgress -->
+				</div>
+				<div
+					v-else-if="!isUpcoming && status.auction === 'finished'"
+					class="d-flex"
+				>
+					<div class="finalized-box">
+						<video
+							v-if="mode"
+							class="finalized-video"
+							autoplay
+							poster="~/assets/video/covers/dark_mode_finalize.jpg"
+						>
+							<source src="~/assets/video/dark_mode.webm" type="video/webm" />
+							<source src="~/assets/video/dark_mode.mp4" type="video/mp4" />
+						</video>
+						<video
+							v-else
+							class="finalized-video"
+							autoplay
+							poster="~/assets/video/covers/light_mode_finalize.jpg"
+						>
+							<source src="~/assets/video/light_mode.webm" type="video/webm" />
+							<source src="~/assets/video/dark_mode.mp4" type="video/mp4" />
+						</video>
+					</div>
+				</div>
+				<div v-else class="d-flex flex-column flex-grow-1 my-5 py-4">
+					<div class="text-white text-center">COUNTDOWN</div>
+					<div class="text-white font-weight-bold text-center fs-16">
+						<span class="counter-line">{{ getFullTime }}</span>
+					</div>
+				</div>
+				<!-- DutchProgress -->
+				<base-divider class="mb-5 pb-2" />
+				<!-- active auction -->
+				<div v-if="getStatus" class="row no-gutters">
+					<div class="col-xl-6 col-md-6 col-12">
+						<div class="d-flex justify-content-between mb-2">
+							<template v-if="status.type === 'batch'">
+								<div class="font-weight-bold text-uppercase d-flex flex-column">
+									<span class="fs-1">Amount</span>
+									<span class="text-white fs-3">
+										{{ userTokens }}
+										{{ textCheck(marketInfo.paymentCurrency.symbol) }}
+									</span>
+								</div>
+								<div class="font-weight-bold text-uppercase d-flex flex-column">
+									<span class="fs-1">Balance</span>
+									<span class="text-white fs-3">
+										{{ accountBalance }} {{ marketInfo.paymentCurrency.symbol }}
+									</span>
+								</div>
+							</template>
+							<template v-else>
+								<div class="font-weight-bold text-uppercase d-flex flex-column">
+									<span class="fs-1">Token Amount</span>
+									<span class="text-white fs-3">
+										{{ tokenAmount }} {{ textCheck(tokenInfo.symbol) }}
+									</span>
+								</div>
+								<div class="font-weight-bold text-uppercase d-flex flex-column">
+									<span class="fs-1">MAX</span>
+									<span class="text-white fs-3">
+										{{ maxTokenAmount }} {{ textCheck(tokenInfo.symbol) }}
+									</span>
+								</div>
+							</template>
+						</div>
+						<div class="position-relative d-flex">
+							<div class="w-100">
+								<client-only>
+									<vue-slider
+										v-model="userLimit"
+										:max="maxInvestAmount"
+										:min="0"
+										:interval="0.00000000001"
+										:dot-style="{
+											background: '#f46e41',
+										}"
+										:process-style="{
+											background: '#f46e41',
+										}"
+										tooltip="none"
+										class="vue-slider"
+									></vue-slider>
+								</client-only>
+							</div>
+						</div>
+						<div
+							v-if="marketInfo.hasPointList"
+							class="text-uppercase font-weight-bold fs-1 limit position-relative"
+						>
+							<div class="d-inline position-absolute pt-4 limit_wrapper w-100">
+								<span :class="[mode ? 'bg-dark' : 'bg-light']"></span>
+
+								<div class="d-flex flex-column right">
+									<p class="d-block pl-2 text-left m-0 fs-1">wallet max</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-xl-6 col-md-6 col-12">
+						<div
+							class="ml-xl-4 ml-0 pl-0 pl-xl-3 invest mt-xl-2 mt-5 pt-4 pt-md-0 mt-md-0 pl-md-3 pt-xl-0"
+						>
+							<base-input
+								v-model="selectedTokenQuantity"
+								rounded
+								type="number"
+								step="0.1"
+								name="input"
+								:bg-color="['#20284E', '#D5D6DC']"
+								input-classes="is-large invest-input font-weight-bolder"
+								:class="responsiveClass"
+							>
+								<template #sub-button>
+									<div class="h-100 invest-bg">
+										<base-button
+											v-if="isApproved"
+											class="btn font-weight-bold text-uppercase fs-2 px-5"
+											:disabled="selectedTokenQuantity <= 0 || isUpcoming"
+											:loading="loading"
+											@click="invest"
+										>
+											invest {{ marketInfo.paymentCurrency.symbol }}
+										</base-button>
+										<base-button
+											v-else
+											class="btn font-weight-bold text-uppercase fs-2 px-5"
+											:disabled="selectedTokenQuantity <= 0 || isUpcoming"
+											:loading="loading"
+											@click="approve"
+										>
+											approve {{ marketInfo.paymentCurrency.symbol }}
+										</base-button>
+									</div>
+								</template>
+							</base-input>
+						</div>
+						<div v-if="isUpcoming" class="font-weight-bold text-center fs-1">
+							You can invest as soon as the auction is LIVE.
+						</div>
+					</div>
+				</div>
+				<!-- if auction is finished -->
+				<div v-else-if="status.auction === 'finished'" class="row no-gutters">
+					<div class="d-flex flex-column flex-grow-1">
+						<div v-if="status.auctionSuccessful">
+							<!-- not finalized -->
+							<div v-if="!marketInfo.finalized">
+								<!-- admin privileges -->
+								<div v-if="userInfo.isAdmin">
+									<div class="text-center text-white font-weight-bold fs-5">
+										Congratulations!
+									</div>
+									<div class="text-center fs-3 mt-2 mb-4">
+										Your auction was successful
+									</div>
+									<div
+										v-if="!marketInfo.finalized"
+										class="withdraw d-flex justify-content-center"
+									>
+										<base-button
+											class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+											:loading="loading"
+											@click="finalizeAuction"
+										>
+											finalize
+										</base-button>
+									</div>
+								</div>
+								<div v-else>
+									<div class="font-weight-bold text-white fs-4 text-center">
+										Auction Finished Successfully
+									</div>
+									<div class="font-weight-bold text-center mb-4">
+										you are able to claim {{ userTokensClaimable }}
+										{{ textCheck(tokenInfo.symbol) }} when it is finalized
+									</div>
+								</div>
+							</div>
+							<!-- claim -->
+							<div v-else-if="!isClaimed">
+								<div class="font-weight-bold text-white fs-4 text-center">
+									Auction Finished Successfully
+								</div>
+								<div class="font-weight-bold text-center mb-4">
+									you are able to claim {{ userTokensClaimable }}
+									{{ textCheck(tokenInfo.symbol) }}
+								</div>
+
+								<div
+									v-if="marketInfo.finalized"
+									class="withdraw d-flex justify-content-center"
+								>
+									<base-button
+										class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+										:disabled="!canClaim"
+										:loading="loading"
+										@click="withdraw"
+									>
+										claim
+									</base-button>
+								</div>
+
+								<div v-else class="text-center fs-3 mt-2 mb-4">
+									Auction hasn't been finalized.
+								</div>
+							</div>
+							<!-- claimed user -->
+							<div v-if="isClaimed" class="finalize_bg-user">
+								<div class="w-100">
+									<div class="text-white font-weight-bold fs-5 text-center">
+										Your investment was successful
+									</div>
+									<div class="font-weight-bold text-center">
+										You can view your balance on
+										<a href="#" class="font-weight-bold">etherscan</a>
+									</div>
+									<div class="d-flex justify-content-center mt-4">
+										<div
+											class="twitt bg-default text-uppercase font-weight-bold text-white"
+										>
+											<svg-icon icon="twitte-default" width="30" height="30" />
+											<span class="ml-3">tweet this!</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- withdraw -->
+						<div v-else>
+							<div class="font-weight-bold text-white fs-4 text-center mb-2">
+								Auction Failed to Reach a Target
+							</div>
+							<div v-if="marketInfo.finalized">
+								<div class="font-weight-bold text-center mb-4">
+									you are able to withdraw {{ userCommitments }}
+									{{ marketInfo.paymentCurrency.symbol }}
+								</div>
+								<div class="withdraw d-flex justify-content-center">
+									<base-button
+										class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+										:loading="loading"
+										:disabled="parseFloat(userInfo.commitments) === 0"
+										@click="withdraw"
+									>
+										withdraw
+									</base-button>
+								</div>
+							</div>
+							<div v-else>
+								<div v-if="userInfo.isAdmin">
+									<div
+										v-if="!marketInfo.finalized"
+										class="withdraw d-flex justify-content-center"
+									>
+										<base-button
+											class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+											:loading="loading"
+											@click="finalizeAuction"
+										>
+											finalize
+										</base-button>
+									</div>
+								</div>
+								<div v-else class="font-weight-bold text-center mb-4">
+									you are able to withdraw {{ userCommitments }}
+									{{ marketInfo.paymentCurrency.symbol }} when it is finalized
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</card>
+	</div>
+</template>
+
+<script>
+// import BigNumber from "bignumber.js"
+import { mapGetters } from "vuex"
+import {
+	sendTransaction,
+	sendTransactionAndWait,
+	makeBatchCall,
+} from "@/services/web3/base"
+import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
+import { getContractInstance as crowdsaleContract } from "@/services/web3/auctions/crowdsale"
+import { getContractInstance as dutchAuctionContract } from "@/services/web3/auctions/dutch"
+import { getContractInstance as batchAuctionContract } from "@/services/web3/auctions/batch"
+import { getContractInstance as hyperbolicAuctionContract } from "@/services/web3/auctions/hyperbolic"
+import { getContractInstance as erc20TokenContract } from "@/services/web3/erc20Token"
+import {
+	to18Decimals,
+	toDecimals,
+	divNumbers,
+	multiplyNumbers,
+	toPrecision,
+} from "@/util"
+import CrowdProgress from "~/components/Miso/Auctions/Details/CrowdProgress"
+import DutchProgress from "~/components/Miso/Auctions/Details/DutchProgress"
+import BatchProgress from "~/components/Miso/Auctions/Details/BatchProgress"
+import BaseDivider from "~/components/BaseDivider.vue"
+
+export default {
+	name: "LiveStatus",
+	components: {
+		BaseDivider,
+		CrowdProgress,
+		DutchProgress,
+		BatchProgress,
+	},
+	props: {
+		status: {
+			type: [Object, Array],
+			required: true,
+			description: "full data for status card",
+		},
+		tokenInfo: {
+			type: [Object, Array],
+			required: true,
+		},
+		marketInfo: {
+			type: [Object, Array],
+			required: true,
+		},
+		userInfo: {
+			type: [Object, Array],
+			required: true,
+		},
+	},
+	data() {
+		return {
+			displaySeconds: "00",
+			displayMinutes: "00",
+			displayHours: "00",
+			displayDays: "00",
+			userTokens: 0,
+			accountBalance: 0,
+			// TODO A.K. this need to be updated with connected wallet's bance in marketInfo.paymentCurrency currency
+			maxValue: 20,
+			limit: null,
+			now: new Date(),
+			finalize: {
+				author: false,
+				user: false,
+			},
+			allowance: 0,
+			loading: false,
+		}
+	},
+	computed: {
+		...mapGetters({ mode: "theme/getMode" }),
+		...mapGetters({
+			coinbase: "ethereum/coinbase",
+			// TODO: add user's balance
+			// accountBalance: "ethereum/accountBalance",
+			totalParticipants: "commitments/totalParticipants",
+		}),
+		// TODO needs to be set if user is author of auction or not
+		isAuthor() {
+			return false
+		},
+		/* videoPoster() {
+			if (this.mode) {
+				return require("~/assets/video/covers/dark_mode_finalize.jpg")
+			}
+			return require("~/assets/video/covers/light_mode_finalize.jpg")
+		}, */
+		/* video_webm() {
+			if (this.mode) {
+				return require("~/assets/video/dark_mode.webm")
+			}
+			return require("~/assets/video/light_mode.webm")
+		},
+		video_mp4() {
+			if (this.mode) {
+				return require("~/assets/video/dark_mode.mp4")
+			}
+			return require("~/assets/video/light_mode.mp4")
+		}, */
+		userLimit: {
+			get() {
+				return this.userTokens
+			},
+			set(val) {
+				this.userTokens = val
+			},
+		},
+		seconds: () => 1000,
+		minutes() {
+			return this.seconds * 60
+		},
+		hours() {
+			return this.minutes * 60
+		},
+
+		days() {
+			return this.hours * 24
+		},
+		computedIconColor() {
+			if (this.mode) {
+				return "#ffffff"
+			}
+			return "rgba(255, 255, 255, 0.2)"
+		},
+		getFullTime() {
+			return `${this.displayDays} : ${this.displayHours} : ${this.displayMinutes} : ${this.displaySeconds}`
+		},
+		limitWidth() {
+			return this.limit
+		},
+		selectedTokenQuantity: {
+			get() {
+				return this.userTokens
+			},
+			set(val) {
+				if (val > this.maxInvestAmount) {
+					this.userTokens = this.maxInvestAmount
+				} else {
+					this.userTokens = val
+				}
+			},
+		},
+		getStatus() {
+			if (
+				this.displayDays === "00" &&
+				this.displayHours === "00" &&
+				this.displayMinutes === "00" &&
+				this.displaySeconds === "00"
+			) {
+				return false
+			}
+			return true
+		},
+		responsiveClass() {
+			if (this.$screen.width > 992 && this.$screen.width < 1250) {
+				return "fs-2"
+			}
+			return "fs-3"
+		},
+		finishedStatusText() {
+			return this.status.auctionSuccessful
+				? "Auction Finished Successfully"
+				: "Auction Failed to Reach a Target"
+		},
+		isUpcoming() {
+			const currentTimestamp = Date.parse(new Date()) / 1000
+			return this.marketInfo.startTime > currentTimestamp
+		},
+		isLive() {
+			const currentTimestamp = Date.parse(new Date()) / 1000
+			return currentTimestamp < this.marketInfo.endTime
+		},
+		maxTokenAmount() {
+			return toPrecision(
+				Math.max(
+					0,
+					this.marketInfo.totalTokens - this.marketInfo.totalTokensCommitted
+				),
+				3
+			)
+		},
+		maxInvestAmount() {
+			if (this.status.type === "batch") {
+				return this.accountBalance
+			}
+
+			return parseFloat(
+				multiplyNumbers(this.maxTokenAmount, this.marketInfo.currentPrice)
+			)
+		},
+		tokenAmount() {
+			if (this.status.type === "batch") {
+				if (parseFloat(this.marketInfo.currentPrice) === 0)
+					return this.marketInfo.totalTokens
+				return divNumbers(
+					this.selectedTokenQuantity,
+					this.marketInfo.currentPrice
+				)
+			}
+			return toPrecision(
+				divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice),
+				3
+			)
+		},
+		isApproved() {
+			if (
+				this.marketInfo.paymentCurrency.addr ===
+				"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+			) {
+				return true
+			}
+			return (
+				parseInt(this.allowance) >=
+				parseInt(to18Decimals(this.selectedTokenQuantity))
+			)
+		},
+		dutchProgress() {
+			const startPrice = this.marketInfo.startPrice
+			const minimumPrice = this.marketInfo.minimumPrice
+			const currentPrice = this.marketInfo.currentPrice
+
+			const d1 = startPrice - minimumPrice
+			const d2 = Math.max(0, currentPrice - minimumPrice)
+			const progress = 100 - (100 * d2) / d1
+
+			return progress
+		},
+		crowdProgress() {
+			const hard = this.marketInfo.totalTokens / this.marketInfo.rate
+			const commitmentsTotal = this.marketInfo.commitmentsTotal
+
+			const d1 = hard
+			const d2 = Math.max(0, hard - commitmentsTotal)
+			const progress = 100 - (100 * d2) / d1
+
+			return progress
+		},
+		timeProgress() {
+			const startTime = new Date(parseInt(this.marketInfo.startTime) * 1000)
+			const endTime = new Date(parseInt(this.marketInfo.endTime) * 1000)
+			if (endTime <= this.now) return 100
+			const d1 = startTime - endTime
+			const d2 = this.now - endTime
+			const progress = 100 - (100 * d2) / d1
+
+			return progress
+		},
+		userCommitments() {
+			return toDecimals(this.userInfo.commitments)
+		},
+		userTokensClaimable() {
+			return toDecimals(this.userInfo.tokensClaimable)
+		},
+		canClaim() {
+			return this.userInfo.tokensClaimable > 0
+		},
+		canWithdraw() {
+			return this.userInfo.commitments > 0
+		},
+		isClaimed() {
+			const claimed = parseFloat(this.userInfo.claimed)
+			const tokensClaimable = parseFloat(this.userInfo.tokensClaimable)
+			return claimed > 0 && tokensClaimable === 0
+		},
+	},
+	watch: {
+		mode: {
+			deep: true,
+			handler() {
+				const video = document.querySelector(".finalized-video")
+				video.load()
+				video.play()
+			},
+		},
+	},
+	created() {
+		if (this.marketInfo.hasPointList) {
+			this.limit = Math.floor(this.maxTokenAmount) // TODO: get user's max amount
+		} else {
+			this.limit = 100
+		}
+	},
+	async mounted() {
+		// if (!this.status.auctionSuccessful) {
+		this.showCountDown()
+		// }
+		if (this.coinbase) {
+			const paymentTokenAddress = this.marketInfo.paymentCurrency.addr
+			let balance = 0
+			if (
+				paymentTokenAddress !== "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+			) {
+				const methods = [{ methodName: "balanceOf", args: [this.coinbase] }]
+				balance = await makeBatchCall(
+					erc20TokenContract(paymentTokenAddress),
+					methods
+				)
+				await this.updateAllowance()
+			} else {
+				balance = await web3.eth.getBalance(this.coinbase)
+			}
+			this.accountBalance = parseFloat(toPrecision(toDecimals(balance), 3))
+		}
+		const auctionAddress = this.$route.params.address
+		switch (this.status.type) {
+			case "crowdsale":
+				this.contractInstance = crowdsaleContract(auctionAddress)
+				break
+			case "dutch":
+				this.contractInstance = dutchAuctionContract(auctionAddress)
+				break
+			case "batch":
+				this.contractInstance = batchAuctionContract(auctionAddress)
+				break
+			case "hyperbolic":
+				this.contractInstance = hyperbolicAuctionContract(auctionAddress)
+				break
+		}
+
+		this.userTokens = this.maxInvestAmount
+
+		setInterval(() => {
+			this.now = new Date()
+		}, 2000)
+	},
+	beforeDestroy() {
+		clearInterval(this.interval)
+	},
+	methods: {
+		textCheck(str, val) {
+			const pattern = /^[()\s0-9a-zA-Z]+$/
+			if (str.match(pattern)) {
+				return str
+			} else {
+				return `-`
+			}
+		},
+		async withdraw() {
+			this.loading = true
+			const method = this.contractInstance.methods.withdrawTokens(this.coinbase)
+
+			await sendTransactionAndWait(
+				method,
+				{ from: this.coinbase },
+				(receipt) => {
+					if (receipt.status) {
+						this.$emit("updateUserInfo")
+					}
+					this.loading = false
+				}
+			)
+
+			// Bob logic
+			this.finalize.user = true
+			// }
+		},
+		async finalizeAuction() {
+			this.loading = true
+			const method = this.contractInstance.methods.finalize()
+
+			await sendTransactionAndWait(
+				method,
+				{ from: this.coinbase },
+				(receipt) => {
+					if (receipt.status) {
+						this.$emit("auctionFinalized")
+					}
+					this.loading = false
+				}
+			)
+
+			this.finalize.user = true
+		},
+		showCountDown() {
+			if (this.status.auction === "finished") return
+			const timer = setInterval(() => {
+				// Get today's date
+				const now = new Date().getTime()
+				// Set the date counting down to
+				const countDownDate = new Date(this.status.date).getTime()
+				// Find the distance between now and the count down time
+				const distance = countDownDate - now
+				// If the count down is finished, write some text
+				if (distance < 0) {
+					this.live = false
+					clearInterval(timer)
+					return
+				}
+				// Time calculations for days, hours, minutes and seconds
+				const days = Math.floor(distance / this.days)
+				const hours = Math.floor((distance % this.days) / this.hours)
+				const minutes = Math.floor((distance % this.hours) / this.minutes)
+				const seconds = Math.floor((distance % this.minutes) / this.seconds)
+
+				// Update display days, hours, minutes and seconds
+				this.displaySeconds = seconds < 10 ? "0" + seconds : seconds
+				this.displayMinutes = minutes < 10 ? "0" + minutes : minutes
+				this.displayHours = hours < 10 ? "0" + hours : hours
+				this.displayDays = days < 10 ? "0" + days : days
+			}, 1000)
+		},
+		async invest() {
+			this.loading = true
+			let method
+			let value = 0
+			if (
+				this.marketInfo.paymentCurrency.addr ===
+				"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+			) {
+				method = this.contractInstance.methods.commitEth(this.coinbase, true)
+				value = to18Decimals(this.selectedTokenQuantity)
+			} else {
+				method = this.contractInstance.methods.commitTokens(
+					to18Decimals(this.selectedTokenQuantity),
+					true
+				)
+			}
+			// TODO: update user's allowance when transaction confirmed
+			await sendTransaction(method, {
+				from: this.coinbase,
+				value,
+			})
+			this.loading = false
+		},
+
+		approve() {
+			this.loading = true
+			const auctionAddress = this.$route.params.address
+			const allowanceAmount = to18Decimals(this.selectedTokenQuantity)
+			const method = erc20TokenContract(
+				this.marketInfo.paymentCurrency.addr
+			).methods.approve(auctionAddress, allowanceAmount)
+
+			sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+				if (receipt.status) {
+					this.allowance = allowanceAmount
+				}
+				this.loading = false
+			})
+		},
+		async updateAllowance() {
+			const auctionAddress = this.$route.params.address
+			const methods = [
+				{
+					methodName: "allowance",
+					args: [
+						this.marketInfo.paymentCurrency.addr,
+						this.coinbase,
+						auctionAddress,
+					],
+				},
+			]
+
+			const [allowance] = await makeBatchCall(misoHelperContract(), methods)
+			this.allowance = allowance
+		},
+		updateTimestamp() {
+			this.timestamp = Math.round(new Date().getTime() / 1000)
+		},
+	},
+}
+</script>
+
+<style lang="scss" scoped>
+.finalized {
+	&-box {
+		width: 100%;
+		max-height: 350px;
+		margin: 10px 0;
+	}
+	&-video {
+		width: 100%;
+		height: 100%;
+	}
+}
+.status {
+	height: 10px;
+	width: 10px;
+	border-radius: 100%;
+
+	&_counter {
+		span {
+			min-width: 127px;
+			display: inline-block;
+			text-align: left;
+		}
+	}
+}
+@media screen and (max-width: 450px) {
+	.live {
+		font-size: 13px;
+	}
+	.status_counter {
+		font-size: 13px;
+	}
+}
+
+.invest {
+	@media screen and (min-width: 1200px) and (max-width: 1600px) {
+		justify-content: space-around;
+		margin-left: 1rem !important;
+		padding-left: 0 !important;
+	}
+
+	&-bg {
+		background: #20284e;
+		border-radius: 34234234px;
+	}
+	button {
+		background: #f46e41 !important;
+		border-radius: 34234234px;
+		margin: 0;
+		height: inherit;
+		@media screen and (min-width: 1200px) and (max-width: 1600px) {
+			font-size: 14px;
+			padding-left: 2rem !important;
+			padding-right: 2rem !important;
+		}
+		@media screen and (min-width: 992px) and (max-width: 1350px) {
+			font-size: 14px;
+			padding-left: 1rem !important;
+			padding-right: 1rem !important;
+		}
+		@media screen and (max-width: 400px) {
+			font-size: 14px;
+		}
+	}
+	span:first-child {
+		font-size: 10px;
+	}
+}
+
+.withdraw {
+	@media screen and (min-width: 1200px) and (max-width: 1400px) {
+		justify-content: space-around;
+		margin-left: 1rem !important;
+		padding-left: 0 !important;
+	}
+
+	button {
+		background: #f46e41 !important;
+		border-radius: 34234234px;
+		margin: 0;
+		height: inherit;
+		@media screen and (min-width: 1200px) and (max-width: 1400px) {
+			font-size: 14px;
+			padding-left: 2rem !important;
+			padding-right: 2rem !important;
+		}
+		@media screen and (max-width: 400px) {
+			font-size: 14px;
+		}
+	}
+	span:first-child {
+		font-size: 10px;
+	}
+}
+.limit {
+	position: relative;
+	display: flex;
+	align-items: baseline;
+	&_wrapper {
+		transform: translateX(100%);
+		.right {
+			p {
+				text-align: left !important;
+			}
+		}
+		div {
+			transform: translate(-11%, 0);
+			padding-top: 10px;
+		}
+	}
+	span {
+		position: absolute;
+		left: -0.4%;
+		top: 2px;
+		width: 1px;
+		height: 25px;
+	}
+	p {
+		vertical-align: text-bottom;
+		white-space: nowrap;
+		min-width: 50px;
+		text-align: center;
+		transform: translateX(-8%);
+
+		@media screen and (max-width: 450px) {
+			font-size: 9px;
+		}
+	}
+	.bg-light {
+		background: rgba(0, 10, 53, 0.2) !important;
+	}
+	.bg-dark {
+		background: rgba(255, 255, 255, 0.2) !important;
+	}
+}
+.bg-light {
+	background: rgba(0, 10, 53, 0.2) !important;
+}
+.bg-dark {
+	background: rgba(255, 255, 255, 0.2) !important;
+}
+</style>
+
+<style lang="scss">
+.slider.slider-primary .noUi-handle {
+	box-shadow: none;
+}
+.limit-slider .noUi-origin:not(:last-child) {
+	display: none;
+}
+
+@media screen and (max-width: 500px) {
+	.project-status_text {
+		h5 {
+			font-size: 10px !important;
+		}
+		p {
+			font-size: 12px !important;
+		}
+	}
+}
+.counter-line {
+	display: inline-block;
+	min-width: 315px;
+	text-align: left;
+}
+.finalize {
+	border-radius: 30px;
+	padding: 15px 40px;
+	&_bg {
+		&-animation {
+			border-radius: 100%;
+			height: 170px;
+			width: 170px;
+			background: #00082b;
+			margin: 40px 0;
+		}
+		.transaction {
+			border-radius: 60px;
+		}
+		&-user {
+			a {
+				color: #f46e41 !important;
+				text-decoration: underline;
+			}
+			.twitt {
+				background: #00082b !important;
+				padding: 15px 40px;
+				border-radius: 34px;
+				cursor: pointer;
+			}
+			&_box {
+				top: 70%;
+				left: 50%;
+				transform: translate(-50%, -70%);
+
+				.success {
+					margin: 100px 0 100px 0;
+				}
+			}
+		}
+	}
+}
+</style>
