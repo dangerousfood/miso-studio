@@ -189,7 +189,7 @@
           "type": "address"
         }
       ],
-      "name": "initMISOLiquidityLauncher",
+      "name": "initMISOLauncher",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"

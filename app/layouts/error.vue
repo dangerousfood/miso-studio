@@ -315,7 +315,7 @@
 						>
 							<h2 class="text-center font-weight-bold">Not Found.</h2>
 							<div class="text-center pt-3">
-								<span class="font-weight-bold">This page doesn't exist.</span>
+								<span class="font-weight-bold">If there is a pending transaction, refresh the page.</span>
 							</div>
 							<nuxt-link to="/" class="btn mt-4">Go Back</nuxt-link>
 						</div>

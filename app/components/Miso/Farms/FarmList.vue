@@ -281,6 +281,9 @@ export default {
 		align-items: center;
 	}
 	.info-button {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 		border-radius: 30px;
 		min-width: 150px;
 		word-break: normal;
@@ -288,15 +291,18 @@ export default {
 		border: 1px solid rgba(255, 255, 255, 0.3);
 		color: #fff;
 		transition: all 0.2s linear;
+		background-size: 210% 210%;
+		background-position: top right;
 		&:hover,
 		&:focus {
-			background: linear-gradient(
-				90deg,
-				#f04a27 0%,
-				#f67440 50%,
-				#ec4422 100%
+			background-color: transparent !important;
+			background-image: linear-gradient(
+				to bottom left,
+				#f46e41,
+				#ba54f5,
+				#f46e41
 			) !important;
-			color: #fff !important;
+			color: #ffffff !important;
 			transition: all 0.2s linear;
 		}
 		span {

@@ -11,6 +11,8 @@
 						>
 							Auction Details
 						</span>
+						<p class="mt-4">Only the Auction admin and approved operators for this auction are able to edit any of the details below.</p>
+						<p>Do not waste your gas.</p>
 					</div>
 					<hr />
 					<div class="px-md-5">
@@ -461,8 +463,9 @@
 						<span
 							class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
 						>
-							List
+							Permission List
 						</span>
+						<p class="mt-4">Auctions are open by default. You can add a smart contract with approval logic to your auction. This will restrict users participating in your auction if enabled. Please refer to our developer documentation and sample list in our Github Repo.</p>
 					</div>
 					<hr />
 					<div class="px-md-5">

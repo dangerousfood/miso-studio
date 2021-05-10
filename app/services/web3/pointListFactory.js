@@ -1,4 +1,4 @@
-import { pointListFactory } from "@/config/contractConfig"
+import { pointListFactory } from "@/constants/contractConfig"
 import { getNetworkId } from "./base"
 
 const pointListFactoryAbi = pointListFactory.abi

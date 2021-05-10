@@ -1,5 +1,5 @@
 export const state = () => ({
-	theme: false,
+	theme: JSON.parse(localStorage.getItem("miso-theme")) || true,
 })
 
 export const mutations = {

@@ -7,6 +7,7 @@ module.exports = {
 	defaultNetwork: 5,
 	1: {
 		name: "Ethereum Mainnet",
+		unit: "ETH",
 		isTest: false,
 		hasExplorer: true,
 		explorer: {
@@ -24,6 +25,7 @@ module.exports = {
 	},
 	3: {
 		name: "Ropsten test network",
+		unit: "ETH",
 		isTest: true,
 		hasExplorer: true,
 		explorer: {
@@ -36,6 +38,7 @@ module.exports = {
 	},
 	4: {
 		name: "Rinkeby test network",
+		unit: "ETH",
 		isTest: true,
 		hasExplorer: true,
 		explorer: {
@@ -48,6 +51,7 @@ module.exports = {
 	},
 	5: {
 		name: "Görli test network",
+		unit: "ETH",
 		isTest: true,
 		hasExplorer: true,
 		explorer: {
@@ -62,6 +66,7 @@ module.exports = {
 	},
 	42: {
 		name: " Kovan test network",
+		unit: "ETH",
 		isTest: true,
 		hasExplorer: true,
 		explorer: {

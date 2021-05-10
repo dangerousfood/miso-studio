@@ -4,51 +4,41 @@
 			<div v-if="!finalize.author">
 				<div class="d-flex justify-content-between mt-2 project-status_text">
 					<div class="d-flex flex-column">
-						<h5 class="fs-1 mb-1 font-weight-bold">STATUS:</h5>
+						<span class="fs-1 mb-1 text-uppercase font-weight-bold">Tokens:</span>
 						<div class="d-flex align-items-baseline">
 							<p class="fs-3 text-white font-weight-bold text-capitalize live">
-								{{ status.auction }}
+								{{ marketInfo.totalTokens }}
 							</p>
-							<span
-								class="status ml-2"
-								:class="[
-									isUpcoming
-										? 'bg-warning'
-										: isLive
-										? 'bg-success'
-										: 'bg-danger',
-								]"
-							></span>
 						</div>
 					</div>
-					<div v-if="!isUpcoming" class="d-flex flex-column">
-						<h5 class="fs-1 mb-1 font-weight-bold text-center">COUNTDOWN:</h5>
-						<p
-							class="fs-3 text-white font-weight-bold d-flex status_counter text-center"
-						>
-							<span class="">{{ getFullTime }}</span>
+					<div class="d-flex flex-column">
+						<span class="fs-1 mb-1 text-center text-uppercase font-weight-bold">
+							Commitments:
+						</span>
+						<p class="fs-3 text-white font-weight-bold text-center">
+							{{ totalCommitments }} {{ textCheck(marketInfo.paymentCurrency.symbol) }}
 						</p>
 					</div>
 					<div class="d-flex flex-column">
 						<span v-if="status.type === 'batch'">
-							<h5 class="fs-1 mb-1 font-weight-bold text-center">
-								TOTAL TOKENS:
-							</h5>
+							<span class="fs-1 mb-1 text-uppercase font-weight-bold text-center">
+								Total Tokens:
+							</span>
 							<p class="fs-3 text-white font-weight-bold text-center">
 								{{ marketInfo.totalTokens }}
 							</p>
 						</span>
 						<span v-else>
-							<h5 class="fs-1 mb-1 font-weight-bold text-center">
-								TOKENS REMAINING:
-							</h5>
+							<span class="fs-1 mb-1 text-center text-uppercase font-weight-bold">
+								Remaining:
+							</span>
 							<p class="fs-3 text-white font-weight-bold text-center">
-								{{ maxTokenAmount }}/{{ marketInfo.totalTokens }}
+								{{percentRemaining}} %
 							</p>
 						</span>
 					</div>
 					<div class="d-flex flex-column">
-						<h5 class="fs-1 mb-1 font-weight-bold text-right">PARTICIPANTS:</h5>
+						<span class="fs-1 mb-1 text-right text-uppercase  font-weight-bold">Participants:</span>
 						<p class="fs-3 text-white font-weight-bold text-right">
 							{{ totalParticipants }}
 						</p>
@@ -94,7 +84,10 @@
 					v-else-if="!isUpcoming && status.auction === 'finished'"
 					class="d-flex"
 				>
-					<div class="finalized-box">
+					<div
+						v-if="status.auctionSuccessful && marketInfo.finalized"
+						class="finalized-box"
+					>
 						<video
 							v-if="mode"
 							class="finalized-video"
@@ -208,15 +201,17 @@
 									<div class="h-100 invest-bg">
 										<base-button
 											v-if="isApproved"
+											:round="true"
 											class="btn font-weight-bold text-uppercase fs-2 px-5"
 											:disabled="selectedTokenQuantity <= 0 || isUpcoming"
 											:loading="loading"
 											@click="invest"
 										>
-											invest {{ marketInfo.paymentCurrency.symbol }}
+											commit {{ marketInfo.paymentCurrency.symbol }}
 										</base-button>
 										<base-button
 											v-else
+											:round="true"
 											class="btn font-weight-bold text-uppercase fs-2 px-5"
 											:disabled="selectedTokenQuantity <= 0 || isUpcoming"
 											:loading="loading"
@@ -229,7 +224,7 @@
 							</base-input>
 						</div>
 						<div v-if="isUpcoming" class="font-weight-bold text-center fs-1">
-							You can invest as soon as the auction is LIVE.
+							You can participate as soon as the auction is LIVE.
 						</div>
 					</div>
 				</div>
@@ -302,9 +297,9 @@
 							<div v-if="isClaimed" class="finalize_bg-user">
 								<div class="w-100">
 									<div class="text-white font-weight-bold fs-5 text-center">
-										Your investment was successful
+										Your participation was successful
 									</div>
-									<div class="font-weight-bold text-center">
+									<!-- <div class="font-weight-bold text-center">
 										You can view your balance on
 										<a href="#" class="font-weight-bold">etherscan</a>
 									</div>
@@ -315,7 +310,7 @@
 											<svg-icon icon="twitte-default" width="30" height="30" />
 											<span class="ml-3">tweet this!</span>
 										</div>
-									</div>
+									</div> -->
 								</div>
 							</div>
 						</div>
@@ -377,10 +372,7 @@ import {
 	makeBatchCall,
 } from "@/services/web3/base"
 import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
-import { getContractInstance as crowdsaleContract } from "@/services/web3/auctions/crowdsale"
-import { getContractInstance as dutchAuctionContract } from "@/services/web3/auctions/dutch"
-import { getContractInstance as batchAuctionContract } from "@/services/web3/auctions/batch"
-import { getContractInstance as hyperbolicAuctionContract } from "@/services/web3/auctions/hyperbolic"
+import { getContractInstance as getAuctionContract } from "@/services/web3/auctions/auction"
 import { getContractInstance as erc20TokenContract } from "@/services/web3/erc20Token"
 import {
 	to18Decimals,
@@ -406,7 +398,6 @@ export default {
 		status: {
 			type: [Object, Array],
 			required: true,
-			description: "full data for status card",
 		},
 		tokenInfo: {
 			type: [Object, Array],
@@ -453,24 +444,6 @@ export default {
 		isAuthor() {
 			return false
 		},
-		/* videoPoster() {
-			if (this.mode) {
-				return require("~/assets/video/covers/dark_mode_finalize.jpg")
-			}
-			return require("~/assets/video/covers/light_mode_finalize.jpg")
-		}, */
-		/* video_webm() {
-			if (this.mode) {
-				return require("~/assets/video/dark_mode.webm")
-			}
-			return require("~/assets/video/light_mode.webm")
-		},
-		video_mp4() {
-			if (this.mode) {
-				return require("~/assets/video/dark_mode.mp4")
-			}
-			return require("~/assets/video/light_mode.mp4")
-		}, */
 		userLimit: {
 			get() {
 				return this.userTokens
@@ -497,7 +470,7 @@ export default {
 			return "rgba(255, 255, 255, 0.2)"
 		},
 		getFullTime() {
-			return `${this.displayDays} : ${this.displayHours} : ${this.displayMinutes} : ${this.displaySeconds}`
+			return `${this.displayDays}d : ${this.displayHours}h : ${this.displayMinutes}m : ${this.displaySeconds}s`
 		},
 		limitWidth() {
 			return this.limit
@@ -560,6 +533,18 @@ export default {
 
 			return parseFloat(
 				multiplyNumbers(this.maxTokenAmount, this.marketInfo.currentPrice)
+			)
+		},
+		percentRemaining() {
+			return parseFloat(toPrecision(
+					divNumbers(this.maxTokenAmount, this.marketInfo.totalTokens) * 100,
+				4
+			))
+		},
+		totalCommitments() {
+			return toPrecision(
+				this.marketInfo.commitmentsTotal,
+				3
 			)
 		},
 		tokenAmount() {
@@ -642,8 +627,10 @@ export default {
 			deep: true,
 			handler() {
 				const video = document.querySelector(".finalized-video")
-				video.load()
-				video.play()
+				if (video) {
+					video.load()
+					video.play()
+				}
 			},
 		},
 	},
@@ -676,22 +663,10 @@ export default {
 			this.accountBalance = parseFloat(toPrecision(toDecimals(balance), 3))
 		}
 		const auctionAddress = this.$route.params.address
-		switch (this.status.type) {
-			case "crowdsale":
-				this.contractInstance = crowdsaleContract(auctionAddress)
-				break
-			case "dutch":
-				this.contractInstance = dutchAuctionContract(auctionAddress)
-				break
-			case "batch":
-				this.contractInstance = batchAuctionContract(auctionAddress)
-				break
-			case "hyperbolic":
-				this.contractInstance = hyperbolicAuctionContract(auctionAddress)
-				break
-		}
+		this.contractInstance = getAuctionContract(auctionAddress)
 
-		this.userTokens = this.maxInvestAmount
+		// I DONT WANT THIS
+		// this.userTokens = this.maxInvestAmount
 
 		setInterval(() => {
 			this.now = new Date()
@@ -711,7 +686,8 @@ export default {
 		},
 		async withdraw() {
 			this.loading = true
-			const method = this.contractInstance.methods.withdrawTokens(this.coinbase)
+			const contract = getAuctionContract(this.$route.params.address)
+			const method = contract.methods.withdrawTokens(this.coinbase)
 
 			await sendTransactionAndWait(
 				method,
@@ -730,7 +706,8 @@ export default {
 		},
 		async finalizeAuction() {
 			this.loading = true
-			const method = this.contractInstance.methods.finalize()
+			const contract = getAuctionContract(this.$route.params.address)
+			const method = contract.methods.finalize()
 
 			await sendTransactionAndWait(
 				method,
@@ -774,6 +751,7 @@ export default {
 			}, 1000)
 		},
 		async invest() {
+			const contract = getAuctionContract(this.$route.params.address)
 			this.loading = true
 			let method
 			let value = 0
@@ -781,10 +759,10 @@ export default {
 				this.marketInfo.paymentCurrency.addr ===
 				"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
 			) {
-				method = this.contractInstance.methods.commitEth(this.coinbase, true)
+				method = contract.methods.commitEth(this.coinbase, true)
 				value = to18Decimals(this.selectedTokenQuantity)
 			} else {
-				method = this.contractInstance.methods.commitTokens(
+				method = contract.methods.commitTokens(
 					to18Decimals(this.selectedTokenQuantity),
 					true
 				)
@@ -996,10 +974,24 @@ export default {
 		}
 	}
 }
+@media screen and (max-width: 400px) {
+	.project-status_text {
+		h5 {
+			font-size: 8px !important;
+		}
+		p {
+			font-size: 10px !important;
+		}
+	}
+}
 .counter-line {
 	display: inline-block;
 	min-width: 315px;
 	text-align: left;
+	@media screen and (max-width: 550px) {
+		font-size: 25px;
+		min-width: 276px;
+	}
 }
 .finalize {
 	border-radius: 30px;

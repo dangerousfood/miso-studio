@@ -1,6 +1,6 @@
 /* eslint-disable no-async-promise-executor */
 import Swal from "sweetalert2"
-import networkConfig from "@/config/networkConfig"
+import networkConfig from "@/constants/networkConfig"
 
 const rightNetworks = networkConfig.rightNetworks
 const defaultNetwork = networkConfig.defaultNetwork
@@ -172,8 +172,6 @@ const getConnectionTitle = () => {
 	const isRightNetwork = store.getters["ethereum/isRightNetwork"]
 	if (store.getters["ethereum/isOk"]) {
 		return networkConfig[networkId].name
-	} else if (!store.getters["ethereum/walletFound"]) {
-		return "WALLET NOT DETECTED!"
 	} else if (!isRightNetwork && networkId === 1) {
 		return "Testnet only, Mainnet upgrade"
 	} else if (!isRightNetwork) {
@@ -189,9 +187,7 @@ const getConnectionBody = () => {
 	const defaultNetworkName =
 		networkConfig[store.getters["ethereum/defaultNetworkId"]].name
 	try {
-		if (!store.state.ethereum.walletFound) {
-			return `<p>Wallet is not detected in your browser, to continue please install Metamask extension for your browser</p> <a v-bind: href="https://metamask.io/" target="_blank">Get MetaMask</a>`
-		} else if (!isRightNetwork) {
+		if (!isRightNetwork) {
 			return `You are on ${networkConfig[networkId].name} . Please change your network to ${defaultNetworkName}.`
 		} else {
 			return `Please connect to Ethereum wallet to be able to proceed.`

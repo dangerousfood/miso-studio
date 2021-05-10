@@ -1,14 +1,12 @@
-import { isRightNetwork } from "@/services/web3Provider"
-import networkConfig from "../config/networkConfig"
+import Web3 from "web3"
+// import { isRightNetwork } from "@/services/web3Provider"
+import networkConfig from "../constants/networkConfig"
+import walletProvider from "../services/walletProvider"
+const rightNetworks = networkConfig.rightNetworks
 
 export const state = () => ({
-	loading: true,
-	walletFound: false,
-	initialized: false,
-	isInjected: false,
 	networkId: null,
 	coinbase: null,
-	rightNetworks: networkConfig.rightNetworks,
 	defaultNetworkId: networkConfig.defaultNetwork,
 	explorer: {
 		root: null,
@@ -19,17 +17,6 @@ export const state = () => ({
 })
 
 export const mutations = {
-	INIT_WEB3_INSTANCE: (state, payload) => {
-		const web3Copy = state
-		web3Copy.initialized = payload.initialized
-		web3Copy.isInjected = payload.injectedWeb3
-		web3Copy.walletFound = payload.walletFound
-		web3Copy.coinbase = payload.coinbase
-		if (payload.networkId) {
-			web3Copy.networkId = parseInt(payload.networkId)
-		}
-		state = web3Copy
-	},
 	SET_COINBASE: (state, account) => {
 		state.coinbase = account
 	},
@@ -45,33 +32,53 @@ export const mutations = {
 }
 
 export const actions = {
-	injectWeb3({ commit, state }, payload) {
-		if (!state.isInjected) {
-			commit("INIT_WEB3_INSTANCE", payload)
-			commit("SET_LOADING", false)
-
-			if (isRightNetwork(state.networkId)) {
-				commit("SET_EXPLORER", networkConfig[state.networkId].explorer)
-			} else {
-				commit("SET_EXPLORER", networkConfig[state.defaultNetworkId].explorer)
-			}
-		}
+	async enableAccount({ dispatch }) {
+		const provider = await walletProvider.connectWallet()
+		dispatch("setProvider", provider)
 	},
+	async disconnectAccount({ commit }) {
+		await walletProvider.disconnectProvider()
+		commit("SET_COINBASE", null)
+	},
+	async changeWallet({ dispatch }) {
+		const provider = await walletProvider.changeWallet()
+		dispatch("setProvider", provider)
+	},
+	setProvider({ commit, state, dispatch }, provider) {
+		const data = {
+			account: null,
+			networkId: null,
+		}
 
-	async enableAccount({ commit, state }) {
-		if (state.isInjected) {
-			if (!state.coinbase) {
-				let account = null
-				try {
-					const accounts = await window.ethereum.enable()
-					account = accounts[0]
-				} catch (error) {
-					console.log("error on connecting account", error)
-				}
-				commit("SET_COINBASE", account)
-				return true
+		if (provider) {
+			if (provider.isMetaMask) {
+				data.account = provider.selectedAddress
+				data.networkId = provider.networkVersion
 			} else {
-				return false
+				data.account = provider.accounts[0]
+				data.networkId = provider.chainId
+			}
+
+			// Subscribe to account change
+			provider.on("accountsChanged", (accounts) => {
+				if (state.coinbase) {
+					commit("SET_COINBASE", accounts[0])
+				}
+			})
+
+			// Subscribe to chainId change
+			provider.on("chainChanged", (chainId) => {
+				window.location.reload()
+			})
+
+			commit("SET_COINBASE", data.account)
+			dispatch("setNetwork", data.networkId)
+
+			if (isRightNetwork(data.networkId)) {
+				web3 = new Web3(provider)
+			} else {
+				const httpProvider = networkConfig[state.defaultNetworkId].httpProvider
+				web3 = new Web3(new Web3.providers.HttpProvider(httpProvider))
 			}
 		}
 	},
@@ -80,8 +87,13 @@ export const actions = {
 		commit("SET_COINBASE", payload)
 	},
 
-	setNetwork({ commit }, networkId) {
+	setNetwork({ commit, state }, networkId) {
 		commit("SET_NETWORK", networkId)
+		if (isRightNetwork(networkId)) {
+			commit("SET_EXPLORER", networkConfig[networkId].explorer)
+		} else {
+			commit("SET_EXPLORER", networkConfig[state.defaultNetworkId].explorer)
+		}
 	},
 
 	setExplorer({ commit }, payload) {
@@ -91,23 +103,11 @@ export const actions = {
 
 export const getters = {
 	isOk: (state) => {
-		return !!(
-			isRightNetwork(state.networkId) &&
-			state.coinbase &&
-			state.isInjected
-		)
+		return !!(isRightNetwork(state.networkId) && state.coinbase)
 	},
 
 	isRightNetwork: (state) => {
 		return isRightNetwork(state.networkId)
-	},
-
-	isInjected: (state) => {
-		return state.isInjected
-	},
-
-	initialized: (state) => {
-		return state.initialized
 	},
 
 	rightNetwork: (state) => {
@@ -142,15 +142,11 @@ export const getters = {
 		return state.explorer.root + state.explorer.tx
 	},
 
-	loading: (state) => {
-		return state.loading
-	},
-
 	gasPrice: (state) => {
 		return state.gasPrice
 	},
+}
 
-	walletFound: (state) => {
-		return state.walletFound
-	},
+const isRightNetwork = (netId) => {
+	return rightNetworks.includes(parseInt(netId))
 }

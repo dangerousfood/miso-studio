@@ -160,7 +160,7 @@
 								:disabled="!coinbase"
 								class="btn font-weight-bold text-uppercase fs-2 px-5"
 							>
-								invest
+								commit
 							</button>
 						</template>
 					</base-input>

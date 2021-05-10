@@ -1,4 +1,4 @@
-import { farmFactory } from "@/config/contractConfig"
+import { farmFactory } from "@/constants/contractConfig"
 import {
 	sendTransaction as _sendTransaction,
 	makeBatchCall as _makeBatchCall,

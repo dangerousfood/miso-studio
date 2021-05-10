@@ -1,4 +1,4 @@
-import { recipe02 } from "../../../config/contractConfig"
+import { recipe02 } from "../../../constants/contractConfig"
 import {
 	getNetworkId,
 	makeBatchCall as _makeBatchCall,

@@ -12,6 +12,7 @@
 					<div>
 						<client-only>
 							<liquid-wizard
+								:start-index="tabIndex"
 								:next-button-text="nextBtnText"
 								:next-btn-loading="nextBtnLoading"
 								@update:startIndex="onTabChanged"
@@ -23,10 +24,11 @@
 									</template>
 									<first-step
 										ref="step-1"
+										:data="model"
 										@active-input="firstStepInputs($event)"
 										@on-validated="onStepValidated"
 									/>
-									<base-divider class="mt-4" />
+									<base-divider class="py-4 mt-5" />
 								</wizard-tab>
 								<wizard-tab :before-change="() => validateStep('step-2')">
 									<template slot="label">
@@ -35,16 +37,24 @@
 									</template>
 									<second-step
 										ref="step-2"
+										:data="model"
 										@active-input="secondStepInputs($event)"
 										@on-validated="onStepValidated"
 									/>
+									<base-divider class="py-4 mt-5" />
 								</wizard-tab>
 								<wizard-tab :before-change="() => validateStep('step-3')">
 									<template slot="label">
 										<span class="fs-4 font-weight-bold">3</span>
 										<p>LAUNCH SETTINGS</p>
 									</template>
-									<third-step ref="step-3" @on-validated="onStepValidated" />
+									<third-step
+										ref="step-3"
+										:data="model"
+										@active-input="thirdStepInputs($event)"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
 								</wizard-tab>
 							</liquid-wizard>
 						</client-only>
@@ -91,6 +101,18 @@
 					</zoom-y-transition>
 				</template>
 			</div>
+			<div v-if="tabIndex === 2">
+				<template v-for="(item, index) in ThirdStep">
+					<zoom-y-transition :key="index" :duration="300">
+						<notificatoin
+							:active="item.active"
+							:title="item.title"
+							:description="item.desctiption"
+							:top="item.top"
+						/>
+					</zoom-y-transition>
+				</template>
+			</div>
 		</div>
 	</div>
 </template>
@@ -103,6 +125,7 @@ import SecondStep from "@/components/Miso/Factory/Liquidity/SecondtStep"
 import ThirdStep from "@/components/Miso/Factory/Liquidity/ThirdStep"
 import { Vue } from "vue-property-decorator"
 import { ZoomYTransition } from "vue2-transitions"
+import { mapMutations, mapGetters } from "vuex"
 // import ThirdStep from "@/components/Miso/Factory/Liquidity/FirstStep"
 export default {
 	name: "LiquidityFactoory",
@@ -148,7 +171,7 @@ export default {
 			],
 			SecondStep: [
 				{
-					active: false,
+					active: true,
 					top: 24.5,
 					title: "LIQUIDITY PAIR TOKEN*",
 					desctiption:
@@ -162,10 +185,34 @@ export default {
 						"Select the amount of your custom token and it’s pair token to be allocated for it’s upcoming liquidity pool on SushiSwap.",
 				},
 			],
+			ThirdStep: [
+				{
+					active: false,
+					top: 24.5,
+					title: "VAULT ADDRESS*",
+					desctiption:
+						"Enter the wallet address that will hold the created SLP tokens as well as any remaining base pair tokens.  Can be the admin address, or any other wallet address you have access to.",
+				},
+				{
+					active: false,
+					top: 45.5,
+					title: "LAUNCH DATE*",
+					desctiption:
+						"Select the date to launch your liquidity pool on SushiSwap.  You must have put your funds in the launcher by this date - if you do not, the community can then launch a pool for your token themselves.",
+				},
+				{
+					active: false,
+					top: 67.5,
+					title: "LIQUIDITY LOCKUP TIMELINE*",
+					desctiption:
+						"Set a timeline during which SLP tokens cannot be withdrawn from your liquidity pool on SushiSwap.  Industry standard lockup times are from 90 to 180 days to prevent rugpulling, but you can set a custom timeline as you see fit.",
+				},
+			],
 			sidebarTitles: ["Initial Setup", "Liquidity Options", "Launch Settings"],
 		}
 	},
 	computed: {
+		...mapGetters({ liquidity: "factory/liquidModel" }),
 		stepTitle() {
 			return ""
 		},
@@ -184,10 +231,16 @@ export default {
 			})
 		},
 	},
+	created() {
+		if (Object.keys(this.liquidity).length !== 0) {
+			this.model = this.liquidity
+		}
+	},
 	mounted() {
 		this.breackpoint = this.$screen.breakpoint
 	},
 	methods: {
+		...mapMutations({ modelUpdate: "factory/UPDATE_MODEL" }),
 		firstStepInputs(event) {
 			let i = 0
 			for (const key in event) {
@@ -202,6 +255,13 @@ export default {
 				i++
 			}
 		},
+		thirdStepInputs(event) {
+			let i = 0
+			for (const key in event) {
+				Vue.set(this.ThirdStep[i], "active", event[key])
+				i++
+			}
+		},
 		async validateStep(ref) {
 			return await this.$refs[ref].validate()
 		},
@@ -209,11 +269,16 @@ export default {
 			this.tabIndex = newValue
 		},
 		onStepValidated(validated, model) {
-			console.log(validated, model)
 			if (this.model === null) {
 				this.model = model
 			} else {
 				Object.assign(this.model, model)
+			}
+			this.modelUpdate(model)
+			if (this.tabIndex === 2 && validated) {
+				this.$router.push({
+					path: `/factory/liquidity/${this.model.token.address}`,
+				})
 			}
 		},
 	},

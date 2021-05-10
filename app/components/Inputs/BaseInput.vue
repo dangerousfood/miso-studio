@@ -64,6 +64,7 @@
 				<label v-if="subLabel" :class="subLabelClasses">{{ subLabel }}</label>
 			</slot>
 			<slot name="svgIcon"></slot>
+			<slot name="custom"></slot>
 			<slot name="timestemp"></slot>
 			<div class="position-absolute right-0 top-0 h-100">
 				<slot name="sub-button"></slot>

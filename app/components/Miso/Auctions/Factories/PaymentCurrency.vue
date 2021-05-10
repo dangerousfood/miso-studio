@@ -80,7 +80,7 @@
 <script>
 import { mapGetters } from "vuex"
 import { isErc20Token } from "@/services/web3/erc20Token"
-import { dai } from "@/config/contractConfig"
+import { dai } from "@/constants/contractConfig"
 
 export default {
 	props: {

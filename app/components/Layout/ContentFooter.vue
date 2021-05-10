@@ -11,14 +11,14 @@
 					Medium Articles
 				</a>
 			</div>
-			<div class="footer-image">
+			<!-- <div class="footer-image">
 				<img src="s3/img/misoBowl.png" class="img-fluid" alt="miso" />
-			</div>
+			</div> -->
 			<div class="copyright">
-				MISO &copy; {{ year }}, made with
+				MISO &copy; {{ year }}, made by
 
-				<a href="https://sushiswap.fi" rel="noopener" target="_blank">
-					SushiSwap
+				<a href="https://sushi.com/" rel="noopener" target="_blank">
+					Sushi
 				</a>
 			</div>
 		</div>

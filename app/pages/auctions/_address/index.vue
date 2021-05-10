@@ -1,14 +1,15 @@
 <template>
 	<div>
 		<div v-if="!loading" class="row mt-4 pt-3 justify-content-center">
-			<div class="col-12 col-lg-5">
+			<div class="col-12 col-lg-6">
 				<about-card
 					:info="about"
 					:price="marketInfo.currentPrice"
 					:type="status.type"
+					:status="status"
 				/>
 			</div>
-			<div class="col-12 col-lg-7 mt-4 pt-3 pt-lg-0 mt-lg-0">
+			<div class="col-12 col-lg-6 mt-4 pt-3 pt-lg-0 mt-lg-0">
 				<live-status
 					:status="status"
 					:market-info="marketInfo"
@@ -108,6 +109,7 @@ export default {
 			contractInstance: null,
 			loading: true,
 			subscription: null,
+			aboutStatus: {},
 		}
 	},
 	computed: {

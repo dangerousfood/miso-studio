@@ -10,7 +10,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { tokenFactory } from "@/config/contractConfig"
+import { tokenFactory } from "@/constants/contractConfig"
 import PointsListFactoryForm from "@/components/Miso/PointsList/PointsListFactoryForm"
 
 const tokenFactoryAddress = tokenFactory.address

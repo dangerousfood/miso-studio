@@ -62,6 +62,7 @@
 								:type="computedButtonType"
 								:disabled="activeTabIndex === 0 || nextBtnLoading"
 								class="btn btn-previous"
+								:round="true"
 								@click.native="prevTab"
 							>
 								{{ prevButtonText }}
@@ -70,6 +71,7 @@
 								:loading="nextBtnLoading"
 								type="primary"
 								class="btn btn-next"
+								:round="true"
 								@click.native="nextTab"
 							>
 								{{ nextButtonText }}

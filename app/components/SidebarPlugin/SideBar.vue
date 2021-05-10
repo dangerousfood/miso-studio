@@ -1,6 +1,11 @@
 <template>
 	<div class="sidebar" :class="{ 'sidebar-bg': darkModeBg }">
-		<div ref="sidebarScrollArea" class="sidebar-wrapper position-relative">
+		<div
+			ref="sidebarScrollArea"
+			class="sidebar-wrapper position-relative"
+			@mouseenter="showBar = true"
+			@mouseleave="showBar = false"
+		>
 			<div
 				class="logo pl-4"
 				:class="[darkModeBg ? 'sidebar-divider' : 'dark_bg']"
@@ -29,7 +34,7 @@
 			</div>
 			<slot></slot>
 			<div v-if="!darkModeBg" class="dark-mode_bg">
-				<ul ref="links" class="nav">
+				<ul v-if="!slidebar" ref="links" class="nav">
 					<!-- nav item section -->
 					<li v-for="(navItem, i) in navItems" :key="i" class="nav-items">
 						<p
@@ -84,7 +89,7 @@
 					</li>
 				</ul>
 				<div class="socials">
-					<ul class="nav mb-3">
+					<ul v-if="!slidebar" class="nav mb-3">
 						<li class="nav-item text-white">
 							<a
 								href="https://instantmiso.gitbook.io/miso/"
@@ -126,112 +131,110 @@
 							</a>
 						</li>
 					</ul>
-					<div v-if="!darkModeBg" class="app-versioin">
-						<span class="text-white">SushiSwap v1.0.0.3</span>
-					</div>
 				</div>
 			</div>
 			<div v-else class="image_bg">
-				<ul class="nav">
-					<!-- nav item section -->
-					<li v-for="(navItem, i) in navItems" :key="i" class="nav-items">
-						<p
-							class="d-flex mt-0 justify-content-between align-items-center"
-							@mouseenter="navItem.hover = true"
-							@mouseleave="navItem.hover = false"
-							@click="toggleNavItem(navItem)"
-						>
-							<span class="font-weight-bold">{{ navItem.name }}</span>
-							<span v-if="!navItem.active">
-								<svg-icon
-									v-if="!navItem.hover"
-									icon="menu-down"
-									height="10"
-									width="10"
-									color="#ffffff #ffffff"
-									:fill="false"
-								/>
-								<svg-icon
-									v-else
-									icon="menu-down"
-									height="10"
-									width="10"
-									:color="svgColor"
-									:fill="false"
-								/>
-							</span>
-							<span v-else>
-								<svg-icon
-									icon="menu-up"
-									height="10"
-									width="10"
-									:color="svgColor"
-									:fill="false"
-								/>
-							</span>
-						</p>
-						<transition name="slide" mode="out-in">
-							<div v-show="navItem.active" class="section-dropdown">
-								<ul>
-									<nuxt-link
-										v-for="(link, index) in navItem.childLinks"
-										:key="index"
-										:to="link.path"
-										tag="li"
-									>
-										{{ link.name }}
-									</nuxt-link>
-								</ul>
-							</div>
-						</transition>
-					</li>
-				</ul>
-				<div class="socials">
-					<ul class="nav mb-3">
-						<li class="nav-item text-white">
-							<a
-								href="https://instantmiso.gitbook.io/miso/"
-								target="_blank"
-								class="mt-3 mb-0 py-0 d-flex align-items-center"
+				<fade-transition>
+					<ul v-show="showSidebar" class="nav">
+						<!-- nav item section -->
+						<li v-for="(navItem, i) in navItems" :key="i" class="nav-items">
+							<p
+								class="d-flex mt-0 justify-content-between align-items-center"
+								@mouseenter="navItem.hover = true"
+								@mouseleave="navItem.hover = false"
+								@click="toggleNavItem(navItem)"
 							>
-								<svg-icon icon="docs" height="18" width="18" />
-								<span class="pl-2 font-weight-bold fs-1">Documentation</span>
-							</a>
-						</li>
-						<li class="nav-item text-white">
-							<a
-								href="https://github.com/chefgonpachi/MISO"
-								target="_blank"
-								class="mt-3 mb-0 py-0 d-flex align-items-center"
-							>
-								<svg-icon icon="github" height="18" width="18" />
-								<span class="pl-2 font-weight-bold fs-1">Github</span>
-							</a>
-						</li>
-						<li class="nav-item text-white">
-							<a
-								href="https://discord.gg/3x9z8Wa5y4"
-								target="_blank"
-								class="mt-3 mb-0 py-0 d-flex align-items-center"
-							>
-								<svg-icon icon="discord" height="18" width="18" />
-								<span class="pl-2 font-weight-bold fs-1">Discord</span>
-							</a>
-						</li>
-						<li class="nav-item text-white">
-							<a
-								href="https://twitter.com/chefgonpachi"
-								target="_blank"
-								class="mt-3 mb-0 py-0 d-flex align-items-center"
-							>
-								<svg-icon icon="twitt-side" height="16" width="16" />
-								<span class="pl-2 font-weight-bold fs-1">Twitter</span>
-							</a>
+								<span class="font-weight-bold">{{ navItem.name }}</span>
+								<span v-if="!navItem.active">
+									<svg-icon
+										v-if="!navItem.hover"
+										icon="menu-down"
+										height="10"
+										width="10"
+										color="#ffffff #ffffff"
+										:fill="false"
+									/>
+									<svg-icon
+										v-else
+										icon="menu-down"
+										height="10"
+										width="10"
+										:color="svgColor"
+										:fill="false"
+									/>
+								</span>
+								<span v-else>
+									<svg-icon
+										icon="menu-up"
+										height="10"
+										width="10"
+										:color="svgColor"
+										:fill="false"
+									/>
+								</span>
+							</p>
+							<transition name="slide" mode="out-in">
+								<div v-show="navItem.active" class="section-dropdown">
+									<ul>
+										<nuxt-link
+											v-for="(link, index) in navItem.childLinks"
+											:key="index"
+											:to="link.path"
+											tag="li"
+										>
+											{{ link.name }}
+										</nuxt-link>
+									</ul>
+								</div>
+							</transition>
 						</li>
 					</ul>
-					<div v-if="!darkModeBg" class="app-versioin">
-						<span class="text-white">SushiSwap v1.0.0.4</span>
-					</div>
+				</fade-transition>
+				<div class="socials">
+					<fade-transition>
+						<ul v-show="showSidebar" class="nav mb-3">
+							<li class="nav-item text-white">
+								<a
+									href="https://instantmiso.gitbook.io/miso/"
+									target="_blank"
+									class="mt-3 mb-0 py-0 d-flex align-items-center"
+								>
+									<svg-icon icon="docs" height="18" width="18" />
+									<span class="pl-2 font-weight-bold fs-1">Documentation</span>
+								</a>
+							</li>
+							<li class="nav-item text-white">
+								<a
+									href="https://github.com/chefgonpachi/MISO"
+									target="_blank"
+									class="mt-3 mb-0 py-0 d-flex align-items-center"
+								>
+									<svg-icon icon="github" height="18" width="18" />
+									<span class="pl-2 font-weight-bold fs-1">Github</span>
+								</a>
+							</li>
+							<li class="nav-item text-white">
+								<a
+									href="https://discord.gg/3x9z8Wa5y4"
+									target="_blank"
+									class="mt-3 mb-0 py-0 d-flex align-items-center"
+								>
+									<svg-icon icon="discord" height="18" width="18" />
+									<span class="pl-2 font-weight-bold fs-1">Discord</span>
+								</a>
+							</li>
+							<li class="nav-item text-white">
+								<a
+									href="https://twitter.com/chefgonpachi"
+									target="_blank"
+									class="mt-3 mb-0 py-0 d-flex align-items-center"
+								>
+									<svg-icon icon="twitt-side" height="16" width="16" />
+									<span class="pl-2 font-weight-bold fs-1">Twitter</span>
+								</a>
+							</li>
+						</ul>
+					</fade-transition>
 				</div>
 			</div>
 		</div>
@@ -239,8 +242,12 @@
 </template>
 
 <script>
+import { FadeTransition } from "vue2-transitions"
 export default {
 	name: "Sidebar",
+	components: {
+		FadeTransition,
+	},
 	provide() {
 		return {
 			autoClose: this.autoClose,
@@ -283,6 +290,7 @@ export default {
 	},
 	data() {
 		return {
+			showBar: false,
 			initHeight: 0,
 			navItems: [
 				{
@@ -381,6 +389,12 @@ export default {
 	computed: {
 		svgColor() {
 			return !this.darkModeBg ? "#F25462 #F25462" : "#000000 #000000"
+		},
+		showSidebar() {
+			if (this.slidebar) {
+				return !!this.showBar
+			}
+			return true
 		},
 	},
 	watch: {

@@ -79,6 +79,13 @@ extend("text", {
 		return value.match(letters)
 	},
 })
+extend("isNumber", {
+	message: (field) => field + " can only contain numbers",
+	validate: (value) => {
+		const letters = /^[0-9]+$/
+		return value.match(letters)
+	},
+})
 
 extend("decimal", {
 	message: "The {_field_} field must contain only decimal values",

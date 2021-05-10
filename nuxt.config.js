@@ -44,9 +44,6 @@ module.exports = {
 					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css",
 			},
 		],
-		bodyAttrs: {
-			class: "", // delete the class to have the sidebar expanded by default. Add `white-content` class here to enable "white" mode.
-		},
 	},
 	router: {
 		base: "/",

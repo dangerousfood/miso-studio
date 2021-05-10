@@ -84,10 +84,8 @@
 			</div>
 		</div> -->
 		<div class="d-flex flex-column mt-3 pt-3">
-			<div class="font-weight-bold text-white text-uppercase fs-1">
-				ingredients:
-			</div>
-			<div class="d-flex mt-3">
+			<div class="font-weight-bold text-white text-uppercase fs-1"></div>
+			<div class="d-flex align-items-center mt-3">
 				<span class="mr-3">
 					<svg-icon
 						:icon="status.type"
@@ -96,6 +94,15 @@
 						:color="computedIconColor"
 					/>
 				</span>
+				<span class="text-capitalize font-weight-bold text-white">
+					{{ auctionType }}
+				</span>
+				<div
+					class="font-weight-bold text-white text-uppercase buy-sake"
+					v-if="buybuttonflag"
+				>
+					buy sake
+				</div>
 			</div>
 		</div>
 	</card>
@@ -136,6 +143,11 @@ export default {
 		ingredients: {
 			type: Array,
 			required: true,
+		},
+		buybuttonflag: {
+			type: Boolean,
+			default: false,
+			required: false,
 		},
 	},
 	data() {
@@ -186,6 +198,12 @@ export default {
 		},
 		days() {
 			return this.hours * 24
+		},
+		auctionType() {
+			if (this.status.type === "crowdsale") {
+				return "Crowd Auction"
+			}
+			return `${this.status.type} Auction`
 		},
 		computedStatusColor() {
 			if (this.status.auction === "upcoming") {
@@ -248,7 +266,7 @@ export default {
 		},
 
 		getFullTime() {
-			return `${this.displayDays} : ${this.displayHours} : ${this.displayMinutes} : ${this.displaySeconds}`
+			return `${this.displayDays}d : ${this.displayHours}h : ${this.displayMinutes}m : ${this.displaySeconds}s`
 		},
 	},
 	async mounted() {
@@ -475,7 +493,20 @@ export default {
 	}
 }
 .counter-line {
-	font-size: 33px;
-	max-width: 288px;
+	font-size: 28px;
+	max-width: 300px;
+}
+.buy-sake {
+	position: absolute;
+	right: 10px;
+	bottom: 30px;
+	background-image: linear-gradient(
+		135deg,
+		rgba(246, 102, 69, 0.6) 36.52%,
+		rgba(123, 97, 255, 0.6) 72.9%
+	);
+	text-align: center;
+	padding: 8px 20px;
+	border-radius: 6px;
 }
 </style>

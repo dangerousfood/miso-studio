@@ -3,8 +3,9 @@
 		:is="tag"
 		:type="tag === 'button' ? nativeType : ''"
 		:disabled="disabled || loading"
-		class="btn"
+		class="btn py-3"
 		:to="to"
+		:style="{ 'min-width': minWidth + 'px' }"
 		:class="[
 			{ 'btn-round': round },
 			{ 'btn-block': block },
@@ -39,6 +40,10 @@ export default {
 			default: undefined,
 		},
 		round: Boolean,
+		minWidth: {
+			type: [String, Number],
+			default: 120,
+		},
 		icon: Boolean,
 		block: Boolean,
 		loading: Boolean,

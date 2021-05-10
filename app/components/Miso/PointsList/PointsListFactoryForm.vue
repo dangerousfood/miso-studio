@@ -68,17 +68,23 @@
 											></base-input>
 										</div>
 										<div class="col-md-1 mt-4">
-											<button class="btn" @click.prevent="removePoint(index)">
+											<base-button
+												type="primary"
+												:min-width="50"
+												@click.prevent="removePoint(index)"
+											>
 												-
-											</button>
+											</base-button>
 										</div>
 									</div>
-									<button
-										class="btn btn-warning mt-4"
+									<base-button
+										class="mt-4"
+										type="primary"
+										:round="true"
 										@click.prevent="addPoint"
 									>
 										Add to List
-									</button>
+									</base-button>
 								</div>
 								<hr />
 								<base-button
@@ -86,6 +92,7 @@
 									:loading="waitingForConfirmation"
 									class="float-right"
 									type="primary"
+									:round="true"
 									native-type="submit"
 								>
 									Deploy
@@ -224,6 +231,7 @@ import {
 import { sendTransaction, toWei } from "@/services/web3/base"
 import SimpleWizard from "@/components/Miso/PointsList/PointsListFactoryForm/Wizard"
 import WizardTab from "@/components/Miso/PointsList/PointsListFactoryForm/WizardTab"
+import { BaseButton } from "~/components"
 
 // import { waitForReceipt } from "@/services/web3/base"
 
@@ -233,6 +241,7 @@ export default {
 		[Step.name]: Step,
 		SimpleWizard,
 		WizardTab,
+		BaseButton,
 	},
 	data() {
 		return {

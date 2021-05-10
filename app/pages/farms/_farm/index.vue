@@ -205,9 +205,10 @@ export default {
 	},
 	methods: {
 		approve(pid, tokenAddress) {
+			const BN = web3.utils.BN
 			const method = erc20Contract(tokenAddress).methods.approve(
 				this.farmAddress,
-				BigNumber(2).pow(256).minus(1)
+				new BN(2).pow(new BN(256)).sub(new BN(1)).toString()
 			)
 			sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 				if (receipt.status) {
@@ -300,16 +301,19 @@ export default {
 	background: transparent;
 	border: 1px solid rgba(255, 255, 255, 0.3);
 	color: #fff;
+	background-size: 210% 210%;
+	background-position: top right;
 	transition: all 0.2s linear;
 	&:hover,
 	&:focus {
-		background: linear-gradient(
-			90deg,
-			#f04a27 0%,
-			#f67440 50%,
-			#ec4422 100%
+		background-color: transparent !important;
+		background-image: linear-gradient(
+			to bottom left,
+			#f46e41,
+			#ba54f5,
+			#f46e41
 		) !important;
-		color: #fff !important;
+		color: #ffffff !important;
 		transition: all 0.2s linear;
 	}
 	span {

@@ -1,16 +1,60 @@
 <template>
 	<card class="pt-2 pb-4 mb-1 h-100 about-project">
 		<div class="d-flex flex-column">
-			<div class="d-flex">
-				<!-- <svg-icon icon="sooper" height="60" width="52" /> -->
-				<div class="pl-4 d-flex flex-column">
-					<h4 class="card-title font-weight-bold text-capitalize fs-5 mb-1">
-						{{ textCheck(info.title, "title") }}
-					</h4>
-					<p class="font-weight-bold text-uppercase fs-2">
-						{{ textCheck(info.tokenPair, "token") }}:
-						<span class="text-white">{{ tokenPrice }}</span>
-					</p>
+			<div class="d-flex justify-content-between align-items-start">
+				<div class="d-flex">
+					<div v-if="checkImage" class="token-img">
+						<img :src="info.icon" class="img-fluid" />
+					</div>
+					<div class="d-flex flex-column" :class="{ 'pl-4': checkImage }">
+						<div class="d-flex align-items-center">
+							<h4 class="card-title font-weight-bold text-capitalize fs-5 mb-1">
+								{{ textCheck(info.title, "title") }}
+							</h4>
+							<span
+								class="fs-1 status-text font-weight-bold text-capitalize text-white radius-sm px-2 ml-2"
+							>
+								{{ status.auction }} sale
+							</span>
+						</div>
+						<p class="font-weight-bold text-uppercase fs-2">
+							{{ textCheck(info.tokenPair, "token") }}:
+							<span class="text-white">{{ tokenPrice }}</span>
+						</p>
+					</div>
+				</div>
+				<div v-if="status.auction !== 'upcoming'" class="duration">
+					<div class="bg-primary radius-md">
+						<div class="d-flex justify-content-around text-white">
+							<div class="d-flex flex-column align-items-center text-uppercase">
+								<span class="fs-2 font-weight-bold">
+									{{ displayDays }}
+								</span>
+								<span class="abbr">days</span>
+							</div>
+							&nbsp;:&nbsp;
+							<div class="d-flex flex-column align-items-center text-uppercase">
+								<span class="fs-2 font-weight-bold">
+									{{ displayHours }}
+								</span>
+								<span class="abbr">hrs</span>
+							</div>
+							&nbsp;:&nbsp;
+							<div class="d-flex flex-column align-items-center text-uppercase">
+								<span class="fs-2 font-weight-bold">
+									{{ displayMinutes }}
+								</span>
+								<span class="abbr">min</span>
+							</div>
+							&nbsp;:&nbsp;
+							<div class="d-flex flex-column align-items-center text-uppercase">
+								<span class="fs-2 font-weight-bold">
+									{{ displaySeconds }}
+								</span>
+								<span class="abbr">Sec</span>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -39,7 +83,7 @@
 					</div>
 				</div>
 				<div v-if="info.website && urlCheck" class="pt-3">
-					<h5 class="fs-1 font-weight-bold mb-2">Website:</h5>
+					<h5 class="fs-1 font-weight-bold mb-2 text-uppercase">Website:</h5>
 					<a
 						:href="info.website"
 						target="_blank"
@@ -67,26 +111,21 @@
 				</div>
 			</div>
 			<div class="pt-4 pr-5">
-				<h5 class="fs-1 mb-1 font-weight-bold text-uppercase">admin:</h5>
+				<!-- <h5 class="fs-1 mb-1 font-weight-bold text-uppercase">admin:</h5> -->
 				<nuxt-link :to="`/auction-admin/${auctionAddress}`">Edit</nuxt-link>
 			</div>
-			<base-divider class="my-4 py-2" />
-
-			<div v-if="info.icons.ingredient.length" class="pt-4 mt-3 pr-5">
-				<h5 class="fs-1 font-weight-bold text-uppercase">ingredients:</h5>
-				<div class="d-flex">
-					<el-popover
-						:close-delay="60"
-						trigger="hover"
-						placement="top"
-						class="vue-icon p-1"
-					>
-						<div>
-							<div class="font-weight-bold p-0 text-center">
-								{{ tooltip }}
-							</div>
-						</div>
-
+			<div v-if="info.description" class="pt-4 pr-5">
+				<h5 class="fs-1 mb-1 font-weight-bold text-uppercase">Description:</h5>
+				<p class="fs-2">
+					<!-- {{ textCheck(info.description, "description") }} -->
+					{{ info.description }}
+				</p>
+			</div>
+			<base-divider v-if="!info.description" class="my-4 py-2" />
+			<div v-if="info.icons.ingredient.length" class="pt-4 pr-5">
+				<h5 class="fs-1 font-weight-bold text-uppercase">Auction Type:</h5>
+				<div class="d-flex align-items-center">
+					<span class="mr-3">
 						<svg-icon
 							slot="reference"
 							class="mr-2 cursor-pointer"
@@ -96,7 +135,10 @@
 							:original="true"
 							:color="computedIconColor"
 						/>
-					</el-popover>
+					</span>
+					<span class="text-capitalize font-weight-bold text-white">
+						{{ auctionType }}
+					</span>
 				</div>
 			</div>
 		</div>
@@ -105,17 +147,21 @@
 
 <script>
 import { Card, BaseDivider } from "@/components"
-import { Popover } from "element-ui"
+// import { Popover } from "element-ui"
 import { theme } from "@/mixins/theme"
 
 export default {
 	components: {
 		Card,
 		BaseDivider,
-		[Popover.name]: Popover,
 	},
 	mixins: [theme],
 	props: {
+		status: {
+			type: [Object, Array],
+			required: true,
+			description: "full data for status card",
+		},
 		info: {
 			type: [Object, Array],
 			required: true,
@@ -134,6 +180,10 @@ export default {
 	},
 	data() {
 		return {
+			displaySeconds: "00",
+			displayMinutes: "00",
+			displayHours: "00",
+			displayDays: "00",
 			theme: false,
 			auctionAddress: this.$route.params.address,
 			hoverIcon: {},
@@ -151,6 +201,26 @@ export default {
 		}
 	},
 	computed: {
+		seconds: () => 1000,
+		minutes() {
+			return this.seconds * 60
+		},
+		hours() {
+			return this.minutes * 60
+		},
+
+		days() {
+			return this.hours * 24
+		},
+		getFullTime() {
+			return `${this.displayDays} : ${this.displayHours} : ${this.displayMinutes} : ${this.displaySeconds}`
+		},
+		auctionType() {
+			if (this.type === "crowdsale") {
+				return "Crowd Sale"
+			}
+			return `${this.type} Auction`
+		},
 		tooltip() {
 			if (this.type.toLowerCase() === "dutch") {
 				return "Dutch Auction"
@@ -158,6 +228,12 @@ export default {
 				return "Batch Auction"
 			}
 			return "Crowdsale"
+		},
+		checkImage() {
+			if (this.info.icon) {
+				return this.info.icon.match(/\.(jpeg|jpg|gif|png)$/) != null
+			}
+			return false
 		},
 		urlCheck() {
 			const pattern = new RegExp(
@@ -178,6 +254,9 @@ export default {
 			return this.price
 		},
 	},
+	mounted() {
+		this.showCountDown()
+	},
 	methods: {
 		// copy data to clipboard on click & display message
 		copyToClipboard(value) {
@@ -191,12 +270,40 @@ export default {
 			})
 		},
 		textCheck(str, val) {
-			const pattern = /^[()\s0-9a-zA-Z]+$/
+			const pattern = /^[()\s0-9a-zA-Z.,$#:&_]+$/
 			if (str.match(pattern)) {
 				return str
 			} else {
 				return `No ${val}`
 			}
+		},
+		showCountDown() {
+			if (this.status.auction === "finished") return
+			const timer = setInterval(() => {
+				// Get today's date
+				const now = new Date().getTime()
+				// Set the date counting down to
+				const countDownDate = new Date(this.status.date).getTime()
+				// Find the distance between now and the count down time
+				const distance = countDownDate - now
+				// If the count down is finished, write some text
+				if (distance < 0) {
+					this.live = false
+					clearInterval(timer)
+					return
+				}
+				// Time calculations for days, hours, minutes and seconds
+				const days = Math.floor(distance / this.days)
+				const hours = Math.floor((distance % this.days) / this.hours)
+				const minutes = Math.floor((distance % this.hours) / this.minutes)
+				const seconds = Math.floor((distance % this.minutes) / this.seconds)
+
+				// Update display days, hours, minutes and seconds
+				this.displaySeconds = seconds < 10 ? "0" + seconds : seconds
+				this.displayMinutes = minutes < 10 ? "0" + minutes : minutes
+				this.displayHours = hours < 10 ? "0" + hours : hours
+				this.displayDays = days < 10 ? "0" + days : days
+			}, 1000)
 		},
 	},
 }
@@ -204,6 +311,25 @@ export default {
 
 <style lang="scss" scoped>
 // remove when icon
+.token-img {
+	height: 60px;
+	width: 60px;
+}
+.status-text {
+	background: #5b323b;
+}
+.duration {
+	min-height: 50px;
+	min-width: 152px;
+	.bg-primary {
+		height: 100%;
+		padding: 4px 14px;
+		.abbr {
+			font-size: 11px;
+		}
+	}
+}
+
 .is-60x60 {
 	height: 60px;
 	width: 60px;

@@ -42,13 +42,13 @@
             </div>
           </card>
         </div>
-        <div class="col-lg-2">
+        <!-- <div class="col-lg-2">
           <div class="row">
             <div class="col-md-12 mt-3">
               <n-link :to="`/tokens/${tokenInfo.address}`" class="float-right btn btn-outline-primary">View Token</n-link>
             </div>
           </div>
-        </div>
+        </div> -->
 <!--        <div class="col-lg-6">-->
           <!-- <stats-card title="Token" type="gradient-default"></stats-card> -->
 <!--        </div>-->

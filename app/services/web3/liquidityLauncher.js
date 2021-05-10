@@ -1,4 +1,4 @@
-import { liquidityLauncher } from "@/config/contractConfig";
+import { liquidityLauncher } from "@/constants/contractConfig";
 import { sendTransaction as _sendTransaction, makeBatchCall as _makeBatchCall, getNetworkId } from "./base";
 
 const liquidityLauncherAbi = liquidityLauncher.abi;

@@ -16,7 +16,7 @@
 						:class="[getMode ? 'bg-dark' : 'bg-light']"
 					></span>
 					<span class="text pl-2 text-uppercase font-weight-bold">
-						soft cap:
+						min raise
 					</span>
 					<span class="fs-2 pl-2 text-white font-weight-bold no-whitespace">
 						{{ soft }} {{ marketInfo.paymentCurrency.symbol }}
@@ -79,7 +79,7 @@
 			<span class="progress-status_end" :class="[statusColor]">
 				<span class="d-flex flex-column progress-status_text-box right">
 					<span class="text pr-2 text-right text-uppercase font-weight-bold">
-						hard cap:
+						max raise
 					</span>
 					<span class="fs-2 pr-2 text-white font-weight-bold text-right">
 						{{ hard }} {{ marketInfo.paymentCurrency.symbol }}

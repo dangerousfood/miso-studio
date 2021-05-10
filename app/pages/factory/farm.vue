@@ -10,7 +10,7 @@
 
 <script>
 import { mapGetters } from "vuex"
-import { farmFactory } from "@/config/contractConfig"
+import { farmFactory } from "@/constants/contractConfig"
 import FarmFactoryForm from "@/components/Miso/Farms/FarmFactoryForm"
 
 const farmFactoryAddress = farmFactory.address

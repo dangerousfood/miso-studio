@@ -39,11 +39,11 @@
       <span class="h6 surtitle text-muted">Created At</span>
       <span class="d-block h4">{{createdDate}}</span>
     </div>
-    <div v-if="!totalTokens" class="row">
+    <!-- <div v-if="!totalTokens" class="row">
       <div class="col-md-12 mt-3">
         <n-link :to="`/tokens/${address}`" class="float-right btn btn-outline-primary">View Token</n-link>
       </div>
-    </div>
+    </div> -->
   </card>
 </template>
 <script>

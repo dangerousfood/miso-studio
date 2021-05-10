@@ -109,7 +109,7 @@
 import { mapGetters, mapActions } from "vuex"
 import { Table, TableColumn } from "element-ui"
 import { BaseInput, BasePagination } from "@/components"
-import networkConfig from "@/config/networkConfig"
+import networkConfig from "@/constants/networkConfig"
 // import LoadingMainPanel from "~/components/Layout/LoadingMainPanel"
 import { theme } from "@/mixins/theme"
 import clientPaginationMixin from "~/components/Tables/PaginatedTables/clientPaginationMixin"
@@ -247,17 +247,20 @@ export default {
 		background: transparent;
 		border: 1px solid rgba(255, 255, 255, 0.3) !important;
 		color: #fff;
-		transition: all 0.2s linear;
+		background-size: 210% 210%;
+		background-position: top right;
+		transition: all 0.1s ease-in;
 		&:hover {
-			background: linear-gradient(
-				90deg,
-				#f04a27 0%,
-				#f67440 50%,
-				#ec4422 100%
+			background-color: transparent !important;
+			background-image: linear-gradient(
+				to bottom left,
+				#f46e41,
+				#ba54f5,
+				#f46e41
 			) !important;
-			color: #fff !important;
+			color: #ffffff !important;
 			transform: translateY(0);
-			transition: all 0.2s linear;
+			transition: all 0.1s ease-out;
 		}
 		span {
 			padding: 4px 0;

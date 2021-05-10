@@ -24,7 +24,7 @@
 								@submit.prevent="handleSubmit(createToken)"
 							>
 								<div class="form-row justify-content-center mb-4">
-									<div class="col-lg-6 col-md-8 m-auto">
+									<div class="col-lg-12 col-md-8 m-auto">
 										<label
 											class="form-control-label font-weight-bolder mb-4 fs-3"
 										>
@@ -37,6 +37,7 @@
 														v-for="token in tokenTypes"
 														:key="token.name"
 														class="d-flex flex-column"
+														@click="focuseColor('tokenType')"
 													>
 														<svg-icon
 															:icon="token.icon"
@@ -58,7 +59,7 @@
 									</div>
 								</div>
 								<div class="form-row justify-content-md-center">
-									<div class="col-md-6 mr-1">
+									<div class="col-md-12 mr-1">
 										<base-input
 											v-model="tokenModel.name"
 											label="Token Name"
@@ -66,9 +67,10 @@
 											placeholder="Miso Token"
 											type="text"
 											rules="required"
+											@focus="focuseColor('tokenName')"
 										></base-input>
 									</div>
-									<div class="col-md-6 mr-1">
+									<div class="col-md-12 mr-1">
 										<base-input
 											v-model="tokenModel.symbol"
 											label="Token Symbol"
@@ -76,9 +78,10 @@
 											placeholder="MISO"
 											type="text"
 											rules="required"
+											@focus="focuseColor('tokenSymbol')"
 										></base-input>
 									</div>
-									<div class="col-md-6 mr-1">
+									<div class="col-md-12 mr-1">
 										<base-input
 											v-if="tokenModel.templateId == '2'"
 											v-model="tokenModel.totalSupply"
@@ -88,6 +91,7 @@
 											type="number"
 											min="0"
 											rules="required|numeric|min_value:1"
+											@focus="focuseColor('totalSupply')"
 										></base-input>
 										<base-input
 											v-else
@@ -98,6 +102,7 @@
 											type="number"
 											min="0"
 											rules="required|numeric|min_value:1"
+											@focus="focuseColor('initialSupply')"
 										></base-input>
 									</div>
 								</div>
@@ -107,6 +112,7 @@
 									:loading="waitingForConfirmation"
 									class="float-right"
 									type="primary"
+									:round="true"
 									native-type="submit"
 								>
 									Deploy
@@ -214,30 +220,33 @@
 										</div>
 										<div class="col-sm-12 col-md-12">
 											<span class="h6 surtitle text-muted">Token</span>
-											<span class="d-block h4">
+											<!-- <span class="d-block h4">
 												<nuxt-link :to="`/tokens/${tokenAddress}`">
 													{{ tokenAddress }}
 												</nuxt-link>
-											</span>
-											<n-link
-												:to="'/factory/auctions/new?token=' + tokenAddress"
+											</span> -->
+											<a
+												class="d-block h4 text-primary"
+												:href="`${explorer.root}${explorer.address}${tokenAddress}`"
+												target="blank"
 											>
-												<base-button outline type="primary">
-													Create Auction
-												</base-button>
-											</n-link>
+												{{ tokenAddress }}
+											</a>
 										</div>
 									</card>
 								</div>
 							</div>
 							<hr />
-							<base-button
-								class="float-right"
-								type="primary"
-								@click="redirect(`/tokens/${tokenAddress}`)"
-							>
-								View Token Info
-							</base-button>
+							<n-link :to="'/factory/auctions/new?token=' + tokenAddress">
+								<base-button
+									outline
+									type="primary"
+									class="float-right"
+									:round="true"
+								>
+									Create Auction
+								</base-button>
+							</n-link>
 						</div>
 					</wizard-tab>
 				</simple-wizard>
@@ -315,9 +324,15 @@ export default {
 			transactionHash: null,
 			tokenAddress: null,
 			tokenCreatedEventSubscribtion: null,
+			colors: {
+				tokenType: false,
+				tokenName: false,
+				tokenSymbol: false,
+				initialSupply: false,
+				totalSupply: false,
+			},
 		}
 	},
-
 	computed: {
 		...mapGetters({
 			coinbase: "ethereum/coinbase",
@@ -347,6 +362,16 @@ export default {
 		this.unsubscribeFromTokenCreatedEvent()
 	},
 	methods: {
+		focuseColor(val) {
+			for (const key in this.colors) {
+				if (val === key) {
+					this.colors[key] = true
+				} else {
+					this.colors[key] = false
+				}
+			}
+			this.$emit("active-focus", this.colors)
+		},
 		validateStep(ref) {
 			return this.$refs[ref].validate()
 		},
@@ -367,6 +392,7 @@ export default {
 			} else {
 				this.activeStep++
 			}
+			this.$emit("active-step", this.activeStep)
 		},
 		async createToken() {
 			this.waitingForConfirmation = true
@@ -429,3 +455,21 @@ export default {
 	},
 }
 </script>
+<style lang="scss" scoped>
+.btn-custom {
+	padding: 12px 40px;
+	background: rgb(240, 74, 39);
+	background: linear-gradient(
+		90deg,
+		rgba(240, 74, 39, 1) 0%,
+		rgba(246, 116, 64, 1) 50%,
+		rgba(236, 68, 34, 1) 100%
+	);
+	box-shadow: none;
+	border-width: 1px;
+	border: none;
+	&_white {
+		border: 1px solid #ffffff;
+	}
+}
+</style>

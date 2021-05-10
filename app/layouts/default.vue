@@ -28,6 +28,7 @@
 </template>
 <script>
 /* eslint-disable no-new */
+import { mapGetters } from "vuex"
 import PerfectScrollbar from "perfect-scrollbar"
 import "perfect-scrollbar/css/perfect-scrollbar.css"
 // import SidebarShare from "@/components/Layout/SidebarSharePlugin"
@@ -64,25 +65,26 @@ export default {
 	},
 	data() {
 		return {
-			darkMode: true,
+			// darkMode: "",
 			slideBar: false,
 		}
 	},
 	computed: {
+		...mapGetters({ darkMode: "theme/getMode" }),
 		isFullScreenRoute() {
 			return this.$route.path === "/maps/full-screen"
 		},
 	},
 	mounted() {
 		this.initScrollbar()
-		if (process.browser) {
+		/* if (process.browser) {
 			const pageThem = JSON.parse(localStorage.getItem("miso-theme"))
 			if (pageThem !== null) {
 				this.darkMode = pageThem
 			}
-		}
+		} */
 	},
-	created() {},
+
 	methods: {
 		toggleSidebar() {
 			if (this.$sidebar.showSidebar) {
@@ -105,7 +107,7 @@ export default {
 		},
 		setThemMode(event) {
 			localStorage.setItem("miso-theme", event)
-			this.darkMode = event
+			// this.darkMode = this.mode
 		},
 	},
 }

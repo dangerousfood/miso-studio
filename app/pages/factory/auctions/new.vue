@@ -133,15 +133,17 @@
 			</div>
 			<div v-if="tabIndex > 1" class="d-flex flex-column my-4">
 				<span class="font-weight-bold pb-1 fs-1">CONTRACT</span>
-				<nuxt-link
+				<base-button
 					:to="{ path: `/auctions/${deployedMarket.address}` }"
-					tag="button"
-					class="btn btn-primary"
+					tag="nuxt-link"
+					:round="true"
+					type="primary"
+					pryma
 					:disabled="tabIndex < 2"
 					:class="tabIndex < 2 ? 'cursor-none' : ''"
 				>
 					View Auction
-				</nuxt-link>
+				</base-button>
 			</div>
 			<div class="d-flex flex-column my-4">
 				<span class="font-weight-bold pb-1 fs-1">DETAILS</span>
@@ -166,7 +168,7 @@ import { BaseDivider, SimpleWizard, WizardTab } from "@/components"
 import { theme } from "@/mixins/theme"
 import { sendTransactionAndWait } from "@/services/web3/base"
 import { to18Decimals } from "@/util"
-import { dai } from "@/config/contractConfig"
+import { dai } from "@/constants/contractConfig"
 import { getContractInstance as misoMarketContract } from "@/services/web3/misoMarket"
 
 import DutchFirstStep from "@/components/Miso/Auctions/Factories/DutchFactoryForm/DutchFirstStep"
@@ -349,7 +351,7 @@ export default {
 				startDate,
 				endDate,
 				rate,
-				model.goal,
+				to18Decimals(model.goal),
 				operator,
 				pointList,
 				model.fundWallet,

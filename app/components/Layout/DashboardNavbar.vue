@@ -25,7 +25,7 @@
 				class="text-white"
 				:class="[slideBar ? 'pl-4 ml-1' : 'pl-2']"
 			>
-				InstantMISO v1.0.0.3
+				MISO v1.0.1.3
 			</span>
 		</div>
 		<div
@@ -89,6 +89,7 @@
 						v-else
 						:class="{ 'connect-btn_white': !darkMode }"
 						class="text-uppercase rounded-pill connect-btn text-white"
+						@click="showModal = true"
 					>
 						<span class="mr-2">{{ coinbase | truncate }}</span>
 						<div class="avatar-group primary">
@@ -106,21 +107,53 @@
 				</div>
 			</client-only>
 		</ul>
+		<div v-if="coinbase">
+			<modal :show.sync="showModal">
+				<template slot="header">
+					<h5 class="modal-title">Account</h5>
+				</template>
+				<div class="row">
+					<div class="col-9">
+						<span class="mr-2">{{ coinbase }}</span>
+					</div>
+					<div class="col-3">
+						<div class="avatar-group primary">
+							<span class="avatar avatar-sm rounded-circle">
+								<eth-image
+									:opts="{
+										seed: coinbase,
+										size: 10,
+										scale: 5,
+									}"
+								/>
+							</span>
+						</div>
+					</div>
+				</div>
+				<template slot="footer">
+					<base-button type="secondary" @click="disconnect()">
+						Disconnect
+					</base-button>
+					<base-button type="secondary" @click="change()">Change</base-button>
+				</template>
+			</modal>
+		</div>
 	</base-nav>
 </template>
 <script>
 import { mapGetters, mapActions, mapMutations } from "vuex"
-import { BaseNav, BaseSwitch } from "@/components"
+import { BaseNav, BaseSwitch, Modal } from "@/components"
 import { ZoomXTransition } from "vue2-transitions"
 import EthImage from "@/components/Miso/EthIdentication/EthImage.vue"
-// import WalletConnectionBadge from "@/components/web3-core/inform/WalletConnectionBadge";
 
 export default {
+	name: "DishboardNavbar",
 	components: {
 		BaseNav,
 		BaseSwitch,
 		EthImage,
 		ZoomXTransition,
+		Modal,
 	},
 	props: {
 		slideBar: {
@@ -135,20 +168,17 @@ export default {
 			showMenu: false,
 			searchModalVisible: false,
 			searchQuery: "",
-			darkMode: true,
+			darkMode: "",
 			breackpoint: null,
 			showSideBar: false,
+			showModal: false,
 		}
 	},
 	computed: {
 		...mapGetters({
 			coinbase: "ethereum/coinbase",
+			mode: "theme/getMode",
 		}),
-		// routeName() {
-		// 	const { path } = this.$route
-		// 	let parts = path.split("/")
-		// 	return parts.map((p) => this.capitalizeFirstLetter(p)).join(" ")
-		// },
 		isRTL() {
 			return this.$rtl.isRTL
 		},
@@ -172,24 +202,20 @@ export default {
 
 	watch: {
 		darkMode(type) {
-			const docClasses = document.body.classList
 			this.SET_THEME(type)
-			if (type) {
-				docClasses.remove("white-content")
-			} else {
-				docClasses.add("white-content")
-			}
+			this.initTheme(type)
 		},
 		"$screen.breakpoint"(val) {
 			this.breackpoint = val
 		},
 	},
-	mounted() {
+	created() {
 		if (process.browser) {
 			const pageThem = JSON.parse(localStorage.getItem("miso-theme"))
 			if (pageThem !== null) {
 				this.SET_THEME(pageThem)
-				this.darkMode = pageThem
+				this.darkMode = this.mode
+				this.initTheme(pageThem)
 			}
 		}
 		this.breackpoint = this.$screen.breakpoint
@@ -197,21 +223,39 @@ export default {
 	methods: {
 		...mapActions({
 			enableAccount: "ethereum/enableAccount",
+			disconnectAccount: "ethereum/disconnectAccount",
+			changeWallet: "ethereum/changeWallet",
 		}),
 		...mapMutations("theme", ["SET_THEME"]),
 		async connectAccount() {
-			const connected = await this.enableAccount()
-			if (!connected) {
-				this.$swal.fire({
-					icon: "warning",
-					title: `WALLET NOT DETECTED!`,
-					html: `<p>Wallet is not detected in your browser, to continue please install Metamask extension for your browser</p> <a v-bind: href="https://metamask.io/" target="_blank">Get MetaMask</a>`,
-					buttonsStyling: false,
-					showCancelButton: false,
-					confirmButtonClass: "btn btn-primary btn-fill",
-					confirmButtonText: `Close`,
-				})
+			await this.enableAccount()
+			// if (!connected) {
+			// 	this.$swal.fire({
+			// 		icon: "warning",
+			// 		title: `WALLET NOT DETECTED!`,
+			// 		html: `<p>Wallet is not detected in your browser, to continue please install Metamask extension for your browser</p> <a v-bind: href="https://metamask.io/" target="_blank">Get MetaMask</a>`,
+			// 		buttonsStyling: false,
+			// 		showCancelButton: false,
+			// 		confirmButtonClass: "btn btn-primary btn-fill",
+			// 		confirmButtonText: `Close`,
+			// 	})
+			// }
+		},
+		initTheme(val) {
+			const body = document.body
+			if (val) {
+				body.classList.remove("white-content")
+			} else {
+				body.classList.add("white-content")
 			}
+		},
+		async disconnect() {
+			await this.disconnectAccount()
+			this.showModal = false
+		},
+		async change() {
+			this.showModal = false
+			await this.changeWallet()
 		},
 		toggleMode(type) {
 			this.$emit("darkMode", type)

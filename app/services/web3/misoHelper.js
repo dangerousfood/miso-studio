@@ -1,4 +1,4 @@
-import { misoHelper } from "@/config/contractConfig"
+import { misoHelper } from "@/constants/contractConfig"
 import { getNetworkId } from "./base"
 
 const misoHelperAbi = misoHelper.abi

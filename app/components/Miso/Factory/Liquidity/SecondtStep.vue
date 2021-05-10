@@ -2,7 +2,7 @@
 	<div>
 		<validation-observer ref="observer">
 			<div class="row">
-				<div class="col-12" @click="activeSectionCalc('token')">
+				<div class="col-12">
 					<div class="d-flex">
 						<div class="d-inline border-bottom mb-4">
 							<div
@@ -122,6 +122,8 @@
 								:disabled="!inputActive"
 								placeholder="Search by token name, token symbol, or Enter an ERC-20 token address"
 								class="custom-input"
+								name="token"
+								:rules="rule"
 							/>
 						</div>
 					</div>
@@ -159,12 +161,15 @@
 						<div class="col-12">
 							<div class="d-flex amount">
 								<div class="amount_section">
-									<div class="d-flex align-items-center w-100">
+									<div class="d-flex align-items-center w-100 mb-3">
 										<base-input
 											v-model="model.amount"
 											:disabled="amountType !== 'input'"
-											placeholder="Search by token name, token symbol, or Enter an ERC-20 token address"
+											rules="required"
+											name="amount"
+											placeholder="200,000"
 											class="custom-input w-100"
+											@focus="activeSectionCalc('provision')"
 										/>
 										<span class="ml-3">LCRX</span>
 									</div>
@@ -225,6 +230,7 @@
 <script>
 export default {
 	name: "SecondStep",
+	props: ["data"],
 	data() {
 		return {
 			colors: {
@@ -234,8 +240,8 @@ export default {
 				type: "ETH",
 				amount: "",
 			},
-			type: "",
-			amountType: "",
+			type: "ETH",
+			amountType: "input",
 			inputActive: false,
 			customType: "",
 			percentage: 0,
@@ -243,6 +249,7 @@ export default {
 				token: false,
 				provision: false,
 			},
+			rule: "",
 		}
 	},
 	computed: {
@@ -282,12 +289,28 @@ export default {
 		},
 		type(val) {
 			if (val !== "custom") {
+				this.rule = ""
 				this.model.type = val
 				this.inputActive = false
 			} else {
+				this.rule = "required"
 				this.inputActive = true
 			}
 		},
+	},
+	created() {
+		const typeChecks = ["USD", "ETH", "DAI", "USDT"]
+		if (this.data) {
+			Object.assign(this.model, this.data)
+			typeChecks.forEach((el) => {
+				if (el !== this.model.type) {
+					this.type = "custom"
+					this.customType = this.model.type
+				} else {
+					this.type = this.data.type
+				}
+			})
+		}
 	},
 	methods: {
 		validate() {

@@ -92,7 +92,7 @@
 								progress > 28 ? 'text-top' : 'text-bottom',
 							]"
 						>
-							<span class="font-weight-bold fs-1">CURRENT PRICE</span>
+							<span class="font-weight-bold fs-1">AUCTION PRICE</span>
 							<span class="font-weight-bold fs-3 text-white">
 								{{ marketInfo.currentPrice }}
 								{{ marketInfo.paymentCurrency.symbol }}

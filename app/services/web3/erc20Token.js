@@ -1,4 +1,4 @@
-import { ERC20 } from "../../config/contractConfig"
+import { ERC20 } from "../../constants/contractConfig"
 
 const fixedTokenAbi = ERC20.abi
 let contractInstance

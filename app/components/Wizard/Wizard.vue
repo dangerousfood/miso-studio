@@ -59,6 +59,7 @@
 						<div class="d-flex justify-content-between step">
 							<base-button
 								v-if="activeTabIndex < tabCount - 1"
+								:round="true"
 								wide
 								:type="computedButtonType"
 								:disabled="activeTabIndex === 0 || nextBtnLoading"
@@ -69,6 +70,7 @@
 							</base-button>
 							<base-button
 								v-if="activeTabIndex < tabCount - 1"
+								:round="true"
 								:loading="nextBtnLoading"
 								type="primary"
 								class="btn btn-next"

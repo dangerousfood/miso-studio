@@ -99,6 +99,7 @@ export default {
 		BaseInput,
 		Autocomplete,
 	},
+	props: ["data"],
 	data() {
 		return {
 			model: {
@@ -119,6 +120,11 @@ export default {
 	},
 	computed: {
 		...mapGetters({ coinbase: "ethereum/coinbase", tokens: "tokens/list" }),
+	},
+	created() {
+		if (this.data) {
+			Object.assign(this.model, this.data)
+		}
 	},
 	methods: {
 		...mapActions({
