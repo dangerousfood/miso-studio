@@ -141,16 +141,19 @@
 						</video>
 					</div>
 				</div>
-				<div v-else class="d-flex flex-column flex-grow-1 my-5 py-4">
+				<div v-else class="d-flex flex-column flex-grow-1 my-5 py-4 upcoming-counter">
 					<div class="text-white text-center">COUNTDOWN</div>
 					<div class="text-white font-weight-bold text-center fs-16">
 						<span class="counter-line">{{ getFullTime }}</span>
 					</div>
 				</div>
 				<!-- DutchProgress -->
-				<base-divider v-if="getStatus" class="mb-5 pb-2" />
+				<base-divider
+					v-if="getStatus && status.auction !== 'upcoming'"
+					class="mb-5 pb-2"
+				/>
 				<!-- active auction -->
-				<div v-if="getStatus" class="row no-gutters">
+				<div v-if="getStatus && status.auction !== 'upcoming'" class="row no-gutters">
 					<div class="col-xl-6 col-md-6 col-12">
 						<div class="d-flex justify-content-between mb-2">
 							<template v-if="status.type === 'batch'">
@@ -875,6 +878,13 @@ export default {
 		width: 100%;
 		height: 100%;
 	}
+}
+.upcoming-counter {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
 }
 .center-status {
 	position: absolute;
