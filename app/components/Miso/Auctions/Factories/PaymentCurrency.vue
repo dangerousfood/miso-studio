@@ -8,7 +8,16 @@
 		</div>
 		<div class="col-md-6">
 			<div
-				class="border border-2 d-flex justify-content-between align-items-baseline my-2 px-3 py-2 cursor-pointer"
+				class="
+					border border-2
+					d-flex
+					justify-content-between
+					align-items-baseline
+					my-2
+					px-3
+					py-2
+					cursor-pointer
+				"
 				:class="{ 'bg-primary': paymentCurrency.symbol === 'ETH' }"
 				@click="onCurrencyChanged('ETH')"
 			>
@@ -28,7 +37,16 @@
 		</div>
 		<div class="col-md-6">
 			<div
-				class="border border-2 d-flex justify-content-between align-items-baseline my-2 px-3 py-2 cursor-pointer"
+				class="
+					border border-2
+					d-flex
+					justify-content-between
+					align-items-baseline
+					my-2
+					px-3
+					py-2
+					cursor-pointer
+				"
 				:class="{ 'bg-primary': paymentCurrency.symbol === 'DAI' }"
 				@click="onCurrencyChanged('DAI')"
 			>
@@ -55,11 +73,7 @@
 					class="custom"
 				>
 					<template slot="error">
-						<div
-							v-if="errorMessage"
-							class="invalid-feedback"
-							style="display: block"
-						>
+						<div v-if="errorMessage" class="invalid-feedback" style="display: block">
 							{{ errorMessage }}
 						</div>
 					</template>
@@ -78,9 +92,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { isErc20Token } from "@/services/web3/erc20Token"
-import { dai } from "@/constants/contractConfig"
+import { mapGetters } from 'vuex'
+import { isErc20Token } from '@/services/web3/erc20Token'
+import { dai } from '@/constants/contractConfig'
 
 export default {
 	props: {
@@ -92,12 +106,12 @@ export default {
 	data() {
 		return {
 			paymentCurrency: {
-				address: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-				name: "Ethereum",
-				symbol: "ETH",
+				address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+				name: 'Ethereum',
+				symbol: 'ETH',
 				decimals: 18,
 			},
-			customToken: "",
+			customToken: '',
 			loading: false,
 			success: false,
 			errorMessage: null,
@@ -105,13 +119,13 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 		}),
 	},
 	watch: {
 		customToken(newValue) {
-			if (newValue !== "") {
-				this.paymentCurrency.symbol = ""
+			if (newValue !== '') {
+				this.paymentCurrency.symbol = ''
 				this.updateCustomCurrency(newValue)
 			}
 		},
@@ -124,7 +138,7 @@ export default {
 			if (isValidAddress) {
 				const erc20Info = await isErc20Token(currency)
 				if (!erc20Info) {
-					this.errorMessage = "Address is not ERC20"
+					this.errorMessage = 'Address is not ERC20'
 					this.success = false
 				} else {
 					this.paymentCurrency = erc20Info
@@ -133,7 +147,7 @@ export default {
 					this.success = true
 				}
 			} else {
-				this.errorMessage = "Invalid Address"
+				this.errorMessage = 'Invalid Address'
 				this.success = false
 			}
 
@@ -141,34 +155,34 @@ export default {
 				this.resetPaymentCurrency()
 			}
 			this.loading = false
-			this.$emit("currency-updated", this.paymentCurrency)
+			this.$emit('currency-updated', this.paymentCurrency)
 		},
 
 		onCurrencyChanged(currency) {
 			this.errorMessage = null
 			this.success = false
 			const paymentCurrency = this.paymentCurrency
-			if (currency === "ETH") {
-				paymentCurrency.address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
-				paymentCurrency.name = "Ethereum"
-				paymentCurrency.symbol = "ETH"
+			if (currency === 'ETH') {
+				paymentCurrency.address = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+				paymentCurrency.name = 'Ethereum'
+				paymentCurrency.symbol = 'ETH'
 				paymentCurrency.decimals = 18
 			} else {
 				paymentCurrency.address = dai.address[this.currentProvidersNetworkId]
-				paymentCurrency.name = "Dai Stablecoin"
-				paymentCurrency.symbol = "DAI"
+				paymentCurrency.name = 'Dai Stablecoin'
+				paymentCurrency.symbol = 'DAI'
 				paymentCurrency.decimals = 18
 			}
 
-			this.$emit("currency-updated", this.paymentCurrency)
-			this.customToken = ""
+			this.$emit('currency-updated', this.paymentCurrency)
+			this.customToken = ''
 		},
 
 		resetPaymentCurrency() {
 			this.paymentCurrency = {
-				address: "",
-				name: "",
-				symbol: "",
+				address: '',
+				name: '',
+				symbol: '',
 				decimals: 0,
 			}
 		},

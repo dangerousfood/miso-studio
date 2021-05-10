@@ -1,7 +1,7 @@
-import Web3 from "web3"
+import Web3 from 'web3'
 // import { isRightNetwork } from "@/services/web3Provider"
-import networkConfig from "../constants/networkConfig"
-import walletProvider from "../services/walletProvider"
+import networkConfig from '../constants/networkConfig'
+import walletProvider from '../services/walletProvider'
 const rightNetworks = networkConfig.rightNetworks
 
 export const state = () => ({
@@ -34,15 +34,15 @@ export const mutations = {
 export const actions = {
 	async enableAccount({ dispatch }) {
 		const provider = await walletProvider.connectWallet()
-		dispatch("setProvider", provider)
+		dispatch('setProvider', provider)
 	},
 	async disconnectAccount({ commit }) {
 		await walletProvider.disconnectProvider()
-		commit("SET_COINBASE", null)
+		commit('SET_COINBASE', null)
 	},
 	async changeWallet({ dispatch }) {
 		const provider = await walletProvider.changeWallet()
-		dispatch("setProvider", provider)
+		dispatch('setProvider', provider)
 	},
 	setProvider({ commit, state, dispatch }, provider) {
 		const data = {
@@ -60,19 +60,19 @@ export const actions = {
 			}
 
 			// Subscribe to account change
-			provider.on("accountsChanged", (accounts) => {
+			provider.on('accountsChanged', (accounts) => {
 				if (state.coinbase) {
-					commit("SET_COINBASE", accounts[0])
+					commit('SET_COINBASE', accounts[0])
 				}
 			})
 
 			// Subscribe to chainId change
-			provider.on("chainChanged", (chainId) => {
+			provider.on('chainChanged', (chainId) => {
 				window.location.reload()
 			})
 
-			commit("SET_COINBASE", data.account)
-			dispatch("setNetwork", data.networkId)
+			commit('SET_COINBASE', data.account)
+			dispatch('setNetwork', data.networkId)
 
 			if (isRightNetwork(data.networkId)) {
 				web3 = new Web3(provider)
@@ -84,20 +84,20 @@ export const actions = {
 	},
 
 	setCoinbase({ commit }, payload) {
-		commit("SET_COINBASE", payload)
+		commit('SET_COINBASE', payload)
 	},
 
 	setNetwork({ commit, state }, networkId) {
-		commit("SET_NETWORK", networkId)
+		commit('SET_NETWORK', networkId)
 		if (isRightNetwork(networkId)) {
-			commit("SET_EXPLORER", networkConfig[networkId].explorer)
+			commit('SET_EXPLORER', networkConfig[networkId].explorer)
 		} else {
-			commit("SET_EXPLORER", networkConfig[state.defaultNetworkId].explorer)
+			commit('SET_EXPLORER', networkConfig[state.defaultNetworkId].explorer)
 		}
 	},
 
 	setExplorer({ commit }, payload) {
-		commit("SET_EXPLORER", payload)
+		commit('SET_EXPLORER', payload)
 	},
 }
 

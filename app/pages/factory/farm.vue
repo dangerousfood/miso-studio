@@ -9,26 +9,26 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { farmFactory } from "@/constants/contractConfig"
-import FarmFactoryForm from "@/components/Miso/Farms/FarmFactoryForm"
+import { mapGetters } from 'vuex'
+import { farmFactory } from '@/constants/contractConfig'
+import FarmFactoryForm from '@/components/Miso/Farms/FarmFactoryForm'
 
 const farmFactoryAddress = farmFactory.address
 export default {
 	components: {
 		FarmFactoryForm,
 	},
-	layout: "DashboardLayout",
+	layout: 'DashboardLayout',
 	data() {
 		return {
-			contractAddress: "",
+			contractAddress: '',
 			tokenAddress: this.$route.query.token,
 			deploymentFee: 0,
 		}
 	},
 	computed: {
 		...mapGetters({
-			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 		}),
 	},
 	mounted() {

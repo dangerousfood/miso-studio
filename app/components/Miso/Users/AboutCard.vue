@@ -102,9 +102,9 @@
 </template>
 
 <script>
-import { Card, BaseDivider } from "@/components"
-import { Popover } from "element-ui"
-import { theme } from "@/mixins/theme"
+import { Card, BaseDivider } from '@/components'
+import { Popover } from 'element-ui'
+import { theme } from '@/mixins/theme'
 
 export default {
 	components: {
@@ -117,7 +117,7 @@ export default {
 		info: {
 			type: [Object, Array],
 			required: true,
-			description: "full data for about card",
+			description: 'full data for about card',
 		},
 	},
 	data() {
@@ -131,10 +131,10 @@ export default {
 		copyToClipboard(value) {
 			navigator.clipboard.writeText(value).then(() => {
 				this.$notify({
-					type: "success",
-					verticalAlign: "bottom",
-					horizontalAlign: "right",
-					message: "successfully copied to clipboard!",
+					type: 'success',
+					verticalAlign: 'bottom',
+					horizontalAlign: 'right',
+					message: 'successfully copied to clipboard!',
 				})
 			})
 		},
@@ -163,7 +163,7 @@ export default {
 	&_icon::after {
 		position: absolute;
 		border-radius: 2px;
-		content: "";
+		content: '';
 		transition: all 0.3s ease-in;
 		left: 0;
 		top: 0;
@@ -177,7 +177,7 @@ export default {
 			transition: all 0.3s ease-in;
 		}
 		&:after {
-			content: "";
+			content: '';
 			opacity: 1;
 			background: #111b47;
 			transition: all 0.3s ease-in;

@@ -52,9 +52,9 @@ export default {
 	data() {
 		return {
 			model: {
-				email: "",
-				password: "",
-				fullName: "",
+				email: '',
+				password: '',
+				fullName: '',
 			},
 			modelValidations: {
 				fullName: {
@@ -77,7 +77,7 @@ export default {
 		},
 		validate() {
 			this.$validator.validateAll().then((isValid) => {
-				this.$emit("on-submit", this.registerForm, isValid)
+				this.$emit('on-submit', this.registerForm, isValid)
 			})
 		},
 	},

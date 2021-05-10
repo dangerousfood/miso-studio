@@ -1,9 +1,7 @@
 <template>
 	<div class="container-fluid container-padding">
 		<div class="my-4 gradient-background">
-			<div class="top-50 text-white title">
-				Let us celebrate with a sip of SAKE.
-			</div>
+			<div class="top-50 text-white title">Let us celebrate with a sip of SAKE.</div>
 			<img class="sake-img" src="@/assets/svg/sake.svg" />
 		</div>
 		<div v-if="!loading" class="row">
@@ -79,8 +77,8 @@
 					<img src="@/assets/svg/misoamalog.svg" />
 				</div>
 				<div class="miso-ama-description">
-					Follow interviews and articles on Medium and Youtube to find out more
-					about MISO.
+					Follow interviews and articles on Medium and Youtube to find out more about
+					MISO.
 				</div>
 			</div>
 		</div>
@@ -88,12 +86,12 @@
 </template>
 
 <script>
-import SpecialCard from "@/components/Miso/Auctions/Specials/SpecialCard"
-import AmaCard from "@/components/Miso/Auctions/Specials/AmaCard"
-import { mapGetters, mapActions } from "vuex"
+import SpecialCard from '@/components/Miso/Auctions/Specials/SpecialCard'
+import AmaCard from '@/components/Miso/Auctions/Specials/AmaCard'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-	name: "LiveAuctions",
+	name: 'LiveAuctions',
 	components: {
 		SpecialCard,
 		AmaCard,
@@ -104,29 +102,29 @@ export default {
 			auctionsList: [],
 			ingredients: [
 				{
-					icon: "wheat",
-					text: "Mintable",
+					icon: 'wheat',
+					text: 'Mintable',
 				},
 				{
-					icon: "teapot",
-					text: "Pool Liquidity",
+					icon: 'teapot',
+					text: 'Pool Liquidity',
 				},
 				{
-					icon: "crowd",
-					text: "Crowdsale",
+					icon: 'crowd',
+					text: 'Crowdsale',
 				},
 			],
 		}
 	},
 	computed: {
-		...mapGetters({ auctions: "auctions/list" }),
+		...mapGetters({ auctions: 'auctions/list' }),
 	},
 	mounted() {
 		this.initAuctions()
 	},
 	methods: {
 		...mapActions({
-			getAuctions: "auctions/getAuctions",
+			getAuctions: 'auctions/getAuctions',
 		}),
 		async initAuctions() {
 			await this.getAuctions()
@@ -197,7 +195,7 @@ export default {
 }
 
 .miso-ama {
-	background-image: url("@/assets/images/misoama.png");
+	background-image: url('@/assets/images/misoama.png');
 	height: 361px;
 	background-size: 100% 100%;
 	text-align: center;

@@ -1,6 +1,6 @@
 // import { getAuctions } from "@/services/web3/auctionFactory"
-import { makeBatchCall } from "@/services/web3/base"
-import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
+import { makeBatchCall } from '@/services/web3/base'
+import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 
 export const state = () => ({
 	auctions: [],
@@ -21,14 +21,14 @@ export const mutations = {
 
 export const actions = {
 	async getAuctions({ commit, state }) {
-		commit("SET_LOADING", true)
-		const methods = [{ methodName: "getMarkets" }]
+		commit('SET_LOADING', true)
+		const methods = [{ methodName: 'getMarkets' }]
 		const auctions = await makeBatchCall(misoHelperContract(), methods)
 		if (auctions.length > 0) {
 			// const sortedAuctions = sort(auctions, "createdAt", "desc")
-			commit("SET_AUCTIONS", auctions[0])
+			commit('SET_AUCTIONS', auctions[0])
 		}
-		commit("SET_LOADING", false)
+		commit('SET_LOADING', false)
 	},
 	// async getAuctions({ commit, state }) {
 	// 	commit("SET_LOADING", true)
@@ -59,15 +59,11 @@ export const getters = {
 		return state.loading
 	},
 	auctionInProcess: (state) => {
-		const finishedAuctions = state.auctions.filter(
-			(el) => el.status === "in process"
-		)
+		const finishedAuctions = state.auctions.filter((el) => el.status === 'in process')
 		return finishedAuctions.length
 	},
 	finishedAuctions: (state) => {
-		const finishedAuctions = state.auctions.filter(
-			(el) => el.status === "finished"
-		)
+		const finishedAuctions = state.auctions.filter((el) => el.status === 'finished')
 		return finishedAuctions.length
 	},
 }

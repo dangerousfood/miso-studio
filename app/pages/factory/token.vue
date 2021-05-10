@@ -9,14 +9,32 @@
 			</div>
 
 			<div
-				class="col-12 col-lg-3 col-xl-4 bg-dark mb-sm-5 mb-md-0 darker-side order-0 position-relative"
+				class="
+					col-12 col-lg-3 col-xl-4
+					bg-dark
+					mb-sm-5 mb-md-0
+					darker-side
+					order-0
+					position-relative
+				"
 			>
 				<div class="d-flex align-items-center mt-5 mb-2 pl-3">
 					<div class="text-white fs-7 text-capitalize font-weight-bold pr-3">
 						{{ sidebarTitles[tabIndex] }}
 					</div>
 					<p
-						class="bg-brown fs-3 py-1 px-3 mb-0 d-flex align-items-center radius-lg text-white font-weight-bold"
+						class="
+							bg-brown
+							fs-3
+							py-1
+							px-3
+							mb-0
+							d-flex
+							align-items-center
+							radius-lg
+							text-white
+							font-weight-bold
+						"
 					>
 						Step {{ tabIndex + 1 }} of 3
 					</p>
@@ -24,12 +42,9 @@
 				<div class="pl-3">
 					* indicates required step
 					<span class="text-white fs-3">
-						Create your own Token at the Token Factory. For details on all
-						current Token types, please visit our
-						<a
-							href="https://instantmiso.gitbook.io/miso/tokens"
-							target="_blank"
-						>
+						Create your own Token at the Token Factory. For details on all current
+						Token types, please visit our
+						<a href="https://instantmiso.gitbook.io/miso/tokens" target="_blank">
 							Documentation
 						</a>
 					</span>
@@ -53,12 +68,12 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { Vue } from "vue-property-decorator"
-import { ZoomYTransition } from "vue2-transitions"
-import { tokenFactory } from "@/constants/contractConfig"
-import TokenFactoryForm from "@/components/Miso/Tokens/TokenFactoryForm"
-import Notificatoin from "@/components/Miso/Factory/Liquidity/sidebarNotification"
+import { mapGetters } from 'vuex'
+import { Vue } from 'vue-property-decorator'
+import { ZoomYTransition } from 'vue2-transitions'
+import { tokenFactory } from '@/constants/contractConfig'
+import TokenFactoryForm from '@/components/Miso/Tokens/TokenFactoryForm'
+import Notificatoin from '@/components/Miso/Factory/Liquidity/sidebarNotification'
 
 const tokenFactoryAddress = tokenFactory.address
 
@@ -68,55 +83,55 @@ export default {
 		Notificatoin,
 		ZoomYTransition,
 	},
-	layout: "DashboardLayout",
+	layout: 'DashboardLayout',
 	data() {
 		return {
-			contractAddress: "",
+			contractAddress: '',
 			deploymentFee: 0.1,
 			tabIndex: 0,
 			allSteps: [
 				{
 					active: false,
 					top: 32,
-					title: "TOKEN TYPE*",
+					title: 'TOKEN TYPE*',
 					desctiption:
-						"Select a token type. For details on our current token types, please visit the Documentation",
+						'Select a token type. For details on our current token types, please visit the Documentation',
 				},
 				{
 					active: false,
 					top: 42,
-					title: "TOKEN NAME*",
+					title: 'TOKEN NAME*',
 					desctiption:
-						"This will be the name of your token. Choose wisely, this cannot be changed later",
+						'This will be the name of your token. Choose wisely, this cannot be changed later',
 				},
 				{
 					active: false,
 					top: 52,
-					title: "TOKEN SYMBOL*",
+					title: 'TOKEN SYMBOL*',
 					desctiption:
-						"This will be the symbol of your token, normally a short version of your token name.",
+						'This will be the symbol of your token, normally a short version of your token name.',
 				},
 				{
 					active: false,
 					top: 61.5,
-					title: "INITIAL SUPPLY*",
-					desctiption: "This will be the number of tokens initially minted.",
+					title: 'INITIAL SUPPLY*',
+					desctiption: 'This will be the number of tokens initially minted.',
 				},
 				{
 					active: false,
 					top: 61.5,
-					title: "TOTAL SUPPLY*",
+					title: 'TOTAL SUPPLY*',
 					desctiption:
-						"This will be the number of tokens ever minted. This number is fixed.",
+						'This will be the number of tokens ever minted. This number is fixed.',
 				},
 			],
 
-			sidebarTitles: ["TOKEN DETAILS", "DEPLOYMENT", "RESULT"],
+			sidebarTitles: ['TOKEN DETAILS', 'DEPLOYMENT', 'RESULT'],
 		}
 	},
 	computed: {
 		...mapGetters({
-			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 		}),
 	},
 	mounted() {
@@ -133,7 +148,7 @@ export default {
 			console.log(event)
 			let i = 0
 			for (const key in event) {
-				Vue.set(this.allSteps[i], "active", event[key])
+				Vue.set(this.allSteps[i], 'active', event[key])
 				i++
 			}
 		},

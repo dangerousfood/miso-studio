@@ -3,9 +3,7 @@
 		<div class="farmDetails_wrapper">
 			<div class="row justify-content-center">
 				<div class="col-12-mobile col-md-10">
-					<h3
-						class="font-weight-bold text-white fs-8 text-center mb-0 mt-4 mt-sm-0"
-					>
+					<h3 class="font-weight-bold text-white fs-8 text-center mb-0 mt-4 mt-sm-0">
 						FARM
 					</h3>
 					<p class="text-center text-white">
@@ -18,14 +16,17 @@
 							class="d-flex flex-column flex-sm-row justify-content-between px-4 py-2"
 						>
 							<div
-								class="farmDetails_token miso-border_light pb-2 pb-sm-0 align-items-center"
+								class="
+									farmDetails_token
+									miso-border_light
+									pb-2 pb-sm-0
+									align-items-center
+								"
 							>
 								<!-- <div class="farmDetails_token-img bg-white">
 									<img src="~static/img/sushi.png" alt="token" />
 								</div> -->
-								<p class="m-0 pl-2 font-weight-bold fs-3 text-white">
-									Farm Details:
-								</p>
+								<p class="m-0 pl-2 font-weight-bold fs-3 text-white">Farm Details:</p>
 								<div class="flex flex-column ml-3">
 									<p class="m-0 pl-2">
 										Rewards {{ farmInfo.rewardsPerBlock }} / block
@@ -54,15 +55,18 @@
 					</card>
 				</div>
 				<div class="col-12-mobile col-md-10 col-lg-10 col-xl-8">
-					<div
-						v-for="poolInfo in poolsInfo"
-						:key="poolInfo.pid"
-						class="row mt-2"
-					>
+					<div v-for="poolInfo in poolsInfo" :key="poolInfo.pid" class="row mt-2">
 						<div class="col-sm-7 col-12 mb-4 mb-sm-0">
 							<card class="h-100 mb-0">
 								<div
-									class="d-flex flex-column flex-sm-row justify-content-between align-items-center pl-4 py-2"
+									class="
+										d-flex
+										flex-column flex-sm-row
+										justify-content-between
+										align-items-center
+										pl-4
+										py-2
+									"
 								>
 									<div class="d-flex flex-column">
 										<p class="font-weight-bold text-white fs-1 m-0">
@@ -80,9 +84,7 @@
 											v-if="!poolInfo.isApproved"
 											class="btn info-button"
 											role="link"
-											@click="
-												approve(poolInfo.pid, poolInfo.stakingTokenAddress)
-											"
+											@click="approve(poolInfo.pid, poolInfo.stakingTokenAddress)"
 										>
 											Approve
 										</button>
@@ -110,13 +112,9 @@
 						</div>
 						<div class="col-sm-5 col-12">
 							<card class="h-100 mb-0">
-								<div
-									class="d-flex align-items-center justify-content-between py-1"
-								>
+								<div class="d-flex align-items-center justify-content-between py-1">
 									<div class="d-flex flex-column h-100 justify-content-center">
-										<p class="font-weight-bold text-white fs-2 m-0">
-											Claim Rewards
-										</p>
+										<p class="font-weight-bold text-white fs-2 m-0">Claim Rewards</p>
 										<p class="font-weight-bold text-white fs-2 m-0">
 											{{ poolInfo.pendingRewards.toFixed(2) }}
 										</p>
@@ -139,19 +137,19 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { Card } from "@/components"
-import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
-import { getContractInstance as masterChefContract } from "@/services/web3/masterChef"
-import { getContractInstance as erc20Contract } from "@/services/web3/erc20Token"
-import { fromWei, toWei } from "@/services/web3/base"
-import { zeroAddress } from "@/util/web3"
-import BigNumber from "bignumber.js"
-import { makeBatchCall, sendTransactionAndWait } from "~/services/web3/base"
-import BaseInput from "~/components/Inputs/BaseInput.vue"
+import { mapGetters } from 'vuex'
+import { Card } from '@/components'
+import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
+import { getContractInstance as masterChefContract } from '@/services/web3/masterChef'
+import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
+import { fromWei, toWei } from '@/services/web3/base'
+import { zeroAddress } from '@/util/web3'
+import BigNumber from 'bignumber.js'
+import { makeBatchCall, sendTransactionAndWait } from '~/services/web3/base'
+import BaseInput from '~/components/Inputs/BaseInput.vue'
 
 export default {
-	name: "FarmDetails",
+	name: 'FarmDetails',
 	components: {
 		Card,
 		BaseInput,
@@ -161,14 +159,14 @@ export default {
 			farmAddress: this.$route.params.farm,
 			poolsInfo: [],
 			farmInfo: {
-				rewardToken: "",
+				rewardToken: '',
 				rewardsPerBlock: 0,
 			},
 		}
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
+			coinbase: 'ethereum/coinbase',
 		}),
 	},
 	async mounted() {
@@ -177,7 +175,7 @@ export default {
 		// Get FarmDetail
 		const methods = [
 			{
-				methodName: "getFarmDetail",
+				methodName: 'getFarmDetail',
 				args: [this.farmAddress, this.coinbase || zeroAddress],
 			},
 		]
@@ -231,7 +229,7 @@ export default {
 					if (receipt.status) {
 						const pool = this.poolsInfo.find((pool) => pool.pid === pid)
 						if (pool) {
-							console.log("++++++", receipt.events)
+							console.log('++++++', receipt.events)
 							pool.totalStaked = pool.totalStaked.plus(
 								fromWei(receipt.events.Deposit.returnValues.amount)
 							)
@@ -242,10 +240,7 @@ export default {
 		},
 		claim(pid, amount) {
 			if (parseFloat(amount) > 0) {
-				const method = this.contractInstance.methods.withdraw(
-					pid,
-					toWei(amount)
-				)
+				const method = this.contractInstance.methods.withdraw(pid, toWei(amount))
 				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 					if (receipt.status) {
 						const pool = this.poolsInfo.find((pool) => pool.pid === pid)

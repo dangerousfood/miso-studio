@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import Spinner from "@/components/Loading/Spinner"
+import Spinner from '@/components/Loading/Spinner'
 
 export default {
 	components: {
@@ -48,19 +48,19 @@ export default {
 		value: {
 			type: String,
 			required: false,
-			default: "",
+			default: '',
 		},
 		label: {
 			type: String,
-			default: "Label",
+			default: 'Label',
 		},
 		name: {
 			type: String,
-			default: "name",
+			default: 'name',
 		},
 		type: {
 			type: String,
-			default: "text",
+			default: 'text',
 		},
 		suggestions: {
 			type: Array,
@@ -68,11 +68,11 @@ export default {
 		},
 		placeholder: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		noData: {
 			type: String,
-			default: "No results",
+			default: 'No results',
 		},
 		loading: {
 			type: Boolean,
@@ -80,7 +80,7 @@ export default {
 		},
 		rules: {
 			type: [String, Array, Object],
-			default: "",
+			default: '',
 		},
 	},
 	data() {
@@ -96,18 +96,18 @@ export default {
 		matches() {
 			return this.suggestions.filter((obj) =>
 				Object.keys(obj).some((key) =>
-					key !== "blockNumber"
-						? obj[key].toLowerCase().includes((this.value || "").toLowerCase())
+					key !== 'blockNumber'
+						? obj[key].toLowerCase().includes((this.value || '').toLowerCase())
 						: false
 				)
 			)
 		},
 	},
 	mounted() {
-		document.addEventListener("click", this.handleClickOutside)
+		document.addEventListener('click', this.handleClickOutside)
 	},
 	destroyed() {
-		document.removeEventListener("click", this.handleClickOutside)
+		document.removeEventListener('click', this.handleClickOutside)
 	},
 	methods: {
 		updateValue(value) {
@@ -115,13 +115,13 @@ export default {
 				this.open = true
 				this.current = 0
 			}
-			this.$emit("input", value)
+			this.$emit('input', value)
 		},
 		enter(value) {
 			const matched = this.matches[this.current]
 			if (matched) {
-				this.$emit("input", matched)
-				this.$emit("complete", matched)
+				this.$emit('input', matched)
+				this.$emit('complete', matched)
 				this.open = false
 			}
 		},
@@ -140,7 +140,7 @@ export default {
 		},
 		suggestionClick(index) {
 			const result = this.matches[index]
-			this.$emit("complete", result)
+			this.$emit('complete', result)
 			this.open = false
 		},
 		handleClickOutside(evt) {

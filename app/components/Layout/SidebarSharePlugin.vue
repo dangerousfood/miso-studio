@@ -1,5 +1,5 @@
 <template>
-	<div class="fixed-plugin" v-click-outside="closeDropDown">
+	<div v-click-outside="closeDropDown" class="fixed-plugin">
 		<div class="dropdown show-dropdown" :class="{ show: isOpen }">
 			<a data-toggle="dropdown" class="settings-icon">
 				<i class="fa fa-cog fa-2x" @click="toggleDropDown"></i>
@@ -26,10 +26,7 @@
 				<li class="adjustments-line">
 					<div class="togglebutton switch-sidebar-mini">
 						<span class="label-switch">OFF</span>
-						<base-switch
-							v-model="sidebarMini"
-							@input="minimizeSidebar"
-						></base-switch>
+						<base-switch v-model="sidebarMini" @input="minimizeSidebar"></base-switch>
 						<span class="label-switch label-right">ON</span>
 					</div>
 
@@ -71,10 +68,10 @@
 	</div>
 </template>
 <script>
-import { BaseSwitch } from "@/components"
+import { BaseSwitch } from '@/components'
 
 export default {
-	name: "sidebar-share",
+	name: 'SidebarShare',
 	components: {
 		BaseSwitch,
 	},
@@ -87,12 +84,12 @@ export default {
 			darkMode: true,
 			isOpen: false,
 			sidebarColors: [
-				{ color: "primary", active: false, value: "primary" },
-				{ color: "vue", active: true, value: "vue" },
-				{ color: "info", active: false, value: "blue" },
-				{ color: "success", active: false, value: "green" },
-				{ color: "warning", active: false, value: "orange" },
-				{ color: "danger", active: false, value: "red" },
+				{ color: 'primary', active: false, value: 'primary' },
+				{ color: 'vue', active: true, value: 'vue' },
+				{ color: 'info', active: false, value: 'blue' },
+				{ color: 'success', active: false, value: 'green' },
+				{ color: 'warning', active: false, value: 'orange' },
+				{ color: 'danger', active: false, value: 'red' },
 			],
 		}
 	},
@@ -110,15 +107,15 @@ export default {
 			itemToActivate.active = true
 		},
 		changeSidebarBackground(item) {
-			this.$emit("update:backgroundColor", item.value)
+			this.$emit('update:backgroundColor', item.value)
 			this.toggleList(this.sidebarColors, item)
 		},
 		toggleMode(type) {
-			let docClasses = document.body.classList
+			const docClasses = document.body.classList
 			if (type) {
-				docClasses.remove("white-content")
+				docClasses.remove('white-content')
 			} else {
-				docClasses.add("white-content")
+				docClasses.add('white-content')
 			}
 		},
 		minimizeSidebar() {
@@ -128,7 +125,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-@import "~@/assets/sass/dashboard/custom/variables";
+@import '~@/assets/sass/dashboard/custom/variables';
 
 .settings-icon {
 	cursor: pointer;

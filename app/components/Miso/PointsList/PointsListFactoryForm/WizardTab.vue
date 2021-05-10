@@ -13,16 +13,16 @@
 </template>
 <script>
 export default {
-	name: "WizardTab",
-	inject: ["addTab", "removeTab"],
+	name: 'WizardTab',
+	inject: ['addTab', 'removeTab'],
 	props: {
 		label: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		id: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		beforeChange: {
 			type: Function,
@@ -34,7 +34,7 @@ export default {
 			active: false,
 			checked: false,
 			hasError: false,
-			tabId: "",
+			tabId: '',
 		}
 	},
 	mounted() {

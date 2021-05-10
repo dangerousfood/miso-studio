@@ -21,10 +21,7 @@
 				:style="`width: ${value}%;`"
 			>
 				<slot>
-					<span
-						v-if="showValue && valuePosition === 'right'"
-						class="progress-value"
-					>
+					<span v-if="showValue && valuePosition === 'right'" class="progress-value">
 						{{ value }}%
 					</span>
 				</slot>
@@ -34,7 +31,7 @@
 </template>
 <script>
 export default {
-	name: "BaseProgress",
+	name: 'BaseProgress',
 	props: {
 		striped: Boolean,
 		showValue: {
@@ -45,7 +42,7 @@ export default {
 		label: String,
 		valuePosition: {
 			type: String,
-			default: "left", // left | right
+			default: 'left', // left | right
 		},
 		height: {
 			type: Number,
@@ -53,11 +50,11 @@ export default {
 		},
 		type: {
 			type: String,
-			default: "default",
+			default: 'default',
 		},
 		size: {
 			type: String,
-			default: "sm",
+			default: 'sm',
 		},
 		value: {
 			type: Number,
@@ -70,8 +67,8 @@ export default {
 	computed: {
 		computedClasses() {
 			return [
-				{ "progress-bar-striped": this.striped },
-				{ "progress-bar-animated": this.animated },
+				{ 'progress-bar-striped': this.striped },
+				{ 'progress-bar-animated': this.animated },
 			]
 		},
 	},

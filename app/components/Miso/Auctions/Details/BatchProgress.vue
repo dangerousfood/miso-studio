@@ -33,9 +33,7 @@
 					class="progress-status_indicator-line_status-bottom"
 					:style="{ left: computedProgress }"
 				>
-					<span
-						class="d-flex flex-column align-items-end position-absolute pl-2"
-					>
+					<span class="d-flex flex-column align-items-end position-absolute pl-2">
 						<span class="font-weight-bold fs-1 no-whitespace text-uppercase">
 							CURRENT PRICE
 						</span>
@@ -73,24 +71,40 @@
 		</div>
 		<span
 			:style="[finalize.user ? { opacity: 0.1 } : '']"
-			class="position-absolute bottom-0 fs-1 font-weight-bold progress-status_start-text"
+			class="
+				position-absolute
+				bottom-0
+				fs-1
+				font-weight-bold
+				progress-status_start-text
+			"
 		>
 			AUCTION START
 		</span>
 		<span
 			:style="[finalize ? { opacity: 0.1 } : '']"
-			class="position-absolute bottom-0 fs-1 font-weight-bold progress-status_end-text"
+			class="
+				position-absolute
+				bottom-0
+				fs-1
+				font-weight-bold
+				progress-status_end-text
+			"
 		>
 			AUCTION END
 		</span>
 		<div
 			v-if="isClaimed"
-			class="position-absolute finalize-box d-flex align-items-center justify-content-center"
+			class="
+				position-absolute
+				finalize-box
+				d-flex
+				align-items-center
+				justify-content-center
+			"
 		>
 			<div class="d-flex flex-column align-items-center">
-				<div class="fs-5 text-white font-weight-bold">
-					Your tokens have been
-				</div>
+				<div class="fs-5 text-white font-weight-bold">Your tokens have been</div>
 				<div class="fs-10 text-white font-weight-bold">CLAIMED</div>
 			</div>
 		</div>
@@ -98,7 +112,7 @@
 </template>
 
 <script>
-import { inpidatorTheme } from "@/mixins/auctionIndicator"
+import { inpidatorTheme } from '@/mixins/auctionIndicator'
 export default {
 	mixins: [inpidatorTheme],
 	props: {

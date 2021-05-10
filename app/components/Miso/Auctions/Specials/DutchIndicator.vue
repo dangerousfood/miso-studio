@@ -2,9 +2,7 @@
 	<div class="d-flex progress-status">
 		<div class="d-flex w-100 position-relative">
 			<!-- starting price text -->
-			<span
-				class="position-absolute progress-status_start-price d-flex flex-column"
-			>
+			<span class="position-absolute progress-status_start-price d-flex flex-column">
 				<span class="font-weight-bold fs-1 text-uppercase">starting price</span>
 				<span class="font-weight-bold text-white fs-2 text-uppercase">
 					{{ marketInfo.startPrice }} {{ marketInfo.paymentCurrency.symbol }}
@@ -34,14 +32,8 @@
 					:class="[statusColor]"
 					:style="{ width: progress + '%' }"
 				></span>
-				<span
-					class="progress-status_line_left-dot"
-					:class="[statusColor]"
-				></span>
-				<span
-					class="progress-status_line_right-dot"
-					:class="[statusColor]"
-				></span>
+				<span class="progress-status_line_left-dot" :class="[statusColor]"></span>
+				<span class="progress-status_line_right-dot" :class="[statusColor]"></span>
 				<span
 					v-if="progress !== 0"
 					class="text-box d-flex align-items-end"
@@ -90,14 +82,14 @@
 </template>
 
 <script>
-import { inpidatorTheme } from "@/mixins/auctionIndicator"
+import { inpidatorTheme } from '@/mixins/auctionIndicator'
 export default {
 	mixins: [inpidatorTheme],
 	props: {
 		progress: {
 			type: [Number, String],
 			default: 0,
-			description: "progress in percentage",
+			description: 'progress in percentage',
 		},
 		status: {
 			type: Object,
@@ -126,8 +118,8 @@ export default {
 	},
 	computed: {
 		computedProgess() {
-			if (this.progress > 99 && this.$route.name.includes("auctions-address")) {
-				if (this.$route.name.includes("auctions-address")) {
+			if (this.progress > 99 && this.$route.name.includes('auctions-address')) {
+				if (this.$route.name.includes('auctions-address')) {
 					return this.progress - 2.1
 				}
 			} else if (this.progress > 99) {
@@ -139,7 +131,7 @@ export default {
 			if (this.progress > 99 || this.progress < 1) {
 				return 0
 			}
-			return "1px"
+			return '1px'
 		},
 	},
 }
@@ -156,7 +148,7 @@ export default {
 		&-line {
 			width: calc(100% / 4);
 			&:not(:last-child)::after {
-				content: "";
+				content: '';
 				height: 100%;
 				display: block;
 				right: 0;
@@ -165,7 +157,7 @@ export default {
 			}
 
 			&::before {
-				content: "";
+				content: '';
 				width: 100%;
 				height: 1px;
 				border-bottom: 1px solid;
@@ -295,7 +287,7 @@ export default {
 		transform: translateX(0%) rotate(6deg);
 		&_left-dot {
 			position: absolute;
-			content: "";
+			content: '';
 			z-index: 50;
 			left: 0;
 			top: 50%;
@@ -308,7 +300,7 @@ export default {
 		}
 		&_right-dot {
 			position: absolute;
-			content: "";
+			content: '';
 			z-index: 50;
 			right: 0;
 			top: 50%;
@@ -345,7 +337,7 @@ export default {
 		top: 50%;
 		z-index: 99;
 		transform: translate(0%, -50%);
-		content: "";
+		content: '';
 		background: #95ce22;
 		width: 8px;
 		height: 8px;
@@ -358,7 +350,7 @@ export default {
 		right: 0;
 		z-index: 99;
 		transform: translate(0%, -50%);
-		content: "";
+		content: '';
 		background: #95ce22;
 		width: 8px;
 		height: 8px;
@@ -384,7 +376,7 @@ export default {
 			}
 		}
 		&-line {
-			content: "";
+			content: '';
 			position: absolute;
 			bottom: 0;
 			height: 94%;

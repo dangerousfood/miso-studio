@@ -28,12 +28,12 @@
 </template>
 <script>
 export default {
-	name: "BaseButton",
+	name: 'BaseButton',
 	props: {
 		tag: {
 			type: String,
-			default: "button",
-			description: "Button html tag",
+			default: 'button',
+			description: 'Button html tag',
 		},
 		to: {
 			type: [String, Object],
@@ -51,31 +51,31 @@ export default {
 		disabled: Boolean,
 		type: {
 			type: String,
-			default: "default",
-			description: "Button type (primary|secondary|danger etc)",
+			default: 'default',
+			description: 'Button type (primary|secondary|danger etc)',
 		},
 		nativeType: {
 			type: String,
-			default: "button",
-			description: "Button native type (e.g button, input etc)",
+			default: 'button',
+			description: 'Button native type (e.g button, input etc)',
 		},
 		size: {
 			type: String,
-			default: "",
-			description: "Button size (sm|lg)",
+			default: '',
+			description: 'Button size (sm|lg)',
 		},
 		simple: {
 			type: Boolean,
-			description: "Whether button is simple (outlined)",
+			description: 'Whether button is simple (outlined)',
 		},
 		link: {
 			type: Boolean,
-			description: "Whether button is a link (no borders or background)",
+			description: 'Whether button is a link (no borders or background)',
 		},
 	},
 	methods: {
 		handleClick(evt) {
-			this.$emit("click", evt)
+			this.$emit('click', evt)
 		},
 	},
 }

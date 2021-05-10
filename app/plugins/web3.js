@@ -1,12 +1,12 @@
-import Web3 from "web3"
-import networkConfig from "../constants/networkConfig"
+import Web3 from 'web3'
+import networkConfig from '../constants/networkConfig'
 
 const defaultNetwork = networkConfig.defaultNetwork
 
 export default ({ store }) => {
 	if (window.ethereum) {
 		window.ethereum.autoRefreshOnNetworkChange = false
-		store.dispatch("ethereum/setProvider", ethereum)
+		store.dispatch('ethereum/setProvider', ethereum)
 	} else {
 		window.web3 = getHttpWeb3Provider()
 	}

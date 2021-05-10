@@ -2,9 +2,7 @@
 	<div>
 		<div class="hero-section mt-5 pt-2 mb-3 pb-1 text-white">
 			<div class="d-flex justify-content-between">
-				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">
-					LIST OF TOKENS
-				</p>
+				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">LIST OF TOKENS</p>
 				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">
 					DISPLAYING {{ startItem }} to {{ endItem }} of {{ total }}
 				</p>
@@ -21,7 +19,16 @@
 			<div class="col-md-8 col-sm-5 col-12">
 				<div class="row no-gutters">
 					<div
-						class="col-xl-3 offset-xl-9 col-lg-4 offset-lg-8 col-md-4 offset-md-8 col-sm-10 offset-sm-7"
+						class="
+							col-xl-3
+							offset-xl-9
+							col-lg-4
+							offset-lg-8
+							col-md-4
+							offset-md-8
+							col-sm-10
+							offset-sm-7
+						"
 					>
 						<!-- number of item to display in table -->
 						<div class="select_wrapper">
@@ -74,11 +81,7 @@
 							prop="symbol"
 							label="SYMBOL"
 						></el-table-column>
-						<el-table-column
-							min-width="180"
-							label="TOKEN INFO"
-							header-align="center"
-						>
+						<el-table-column min-width="180" label="TOKEN INFO" header-align="center">
 							<div slot-scope="{ row }" class="d-flex justify-content-center">
 								<button class="btn info-button" @click="ethLink(row.addr)">
 									<span class="fs-2">View Info</span>
@@ -88,7 +91,13 @@
 					</el-table>
 				</div>
 				<div
-					class="padination-wrapper d-flex align-items-center justify-content-between pt-4"
+					class="
+						padination-wrapper
+						d-flex
+						align-items-center
+						justify-content-between
+						pt-4
+					"
 				>
 					<span class="fs-2">
 						Showing {{ startItem }} to {{ endItem }} of {{ total }} entries
@@ -106,13 +115,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { Table, TableColumn } from "element-ui"
-import { BaseInput, BasePagination } from "@/components"
-import networkConfig from "@/constants/networkConfig"
+import { mapGetters, mapActions } from 'vuex'
+import { Table, TableColumn } from 'element-ui'
+import { BaseInput, BasePagination } from '@/components'
+import networkConfig from '@/constants/networkConfig'
 // import LoadingMainPanel from "~/components/Layout/LoadingMainPanel"
-import { theme } from "@/mixins/theme"
-import clientPaginationMixin from "~/components/Tables/PaginatedTables/clientPaginationMixin"
+import { theme } from '@/mixins/theme'
+import clientPaginationMixin from '~/components/Tables/PaginatedTables/clientPaginationMixin'
 
 export default {
 	components: {
@@ -126,13 +135,13 @@ export default {
 	data() {
 		return {
 			loading: true,
-			searchQuery: "",
-			propsToSearch: ["token", "name", "symbol"],
+			searchQuery: '',
+			propsToSearch: ['token', 'name', 'symbol'],
 			tableData: [],
 		}
 	},
 	computed: {
-		...mapGetters({ tokens: "tokens/list", networkId: "ethereum/networkId" }),
+		...mapGetters({ tokens: 'tokens/list', networkId: 'ethereum/networkId' }),
 		total() {
 			return this.tableData.length
 		},
@@ -155,11 +164,11 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			getTokens: "tokens/getTokens",
+			getTokens: 'tokens/getTokens',
 		}),
 		ethLink(addr) {
-			const url = networkConfig[this.networkId].explorer.root + "token/" + addr
-			window.open(url, "_blank").focus()
+			const url = networkConfig[this.networkId].explorer.root + 'token/' + addr
+			window.open(url, '_blank').focus()
 		},
 		getPeriodValue(row) {
 			const dateStart = new Date(row.startDate)
@@ -167,15 +176,13 @@ export default {
 			const dateNow = new Date()
 
 			const fullPeriod = Math.ceil(Math.abs(dateEnd - dateStart) / (60 * 1000))
-			const periodForNow = Math.ceil(
-				Math.abs(dateNow - dateStart) / (60 * 1000)
-			)
+			const periodForNow = Math.ceil(Math.abs(dateNow - dateStart) / (60 * 1000))
 
 			const res = (periodForNow * 100) / fullPeriod
 
-			if (row.status === "finished") {
+			if (row.status === 'finished') {
 				return 100
-			} else if (row.status === "not started") {
+			} else if (row.status === 'not started') {
 				return 0
 			} else {
 				return res
@@ -195,7 +202,7 @@ export default {
 	div {
 		position: relative;
 		&::after {
-			content: "";
+			content: '';
 			position: absolute;
 			display: inline-block;
 			width: 100%;
@@ -204,7 +211,7 @@ export default {
 			height: 3px;
 		}
 		p::after {
-			content: "";
+			content: '';
 			position: absolute;
 			display: inline-block;
 			width: 100%;

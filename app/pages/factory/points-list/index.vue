@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { tokenFactory } from "@/constants/contractConfig"
-import PointsListFactoryForm from "@/components/Miso/PointsList/PointsListFactoryForm"
+import { mapGetters } from 'vuex'
+import { tokenFactory } from '@/constants/contractConfig'
+import PointsListFactoryForm from '@/components/Miso/PointsList/PointsListFactoryForm'
 
 const tokenFactoryAddress = tokenFactory.address
 
@@ -19,16 +19,16 @@ export default {
 	components: {
 		PointsListFactoryForm,
 	},
-	layout: "DashboardLayout",
+	layout: 'DashboardLayout',
 	data() {
 		return {
-			contractAddress: "",
+			contractAddress: '',
 			deploymentFee: 0.1,
 		}
 	},
 	computed: {
 		...mapGetters({
-			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 		}),
 	},
 	mounted() {

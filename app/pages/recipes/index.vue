@@ -3,13 +3,8 @@
 		<base-header class="pb-6">
 			<div class="row align-items-center py-4">
 				<div class="col-lg-8 col-9 d-flex align-items-center">
-					<n-link to="/" class="h2 text-dark d-inline-block mb-0">
-						MISO -
-					</n-link>
-					<nav
-						aria-label="breadcrumb"
-						class="d-none d-md-inline-block ml-1 mt-1"
-					>
+					<n-link to="/" class="h2 text-dark d-inline-block mb-0">MISO -</n-link>
+					<nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-1 mt-1">
 						<route-breadcrumb />
 					</nav>
 				</div>
@@ -33,9 +28,7 @@
 								<span class="d-block h4">{{ contractAddress }}</span>
 							</div>
 							<div>
-								<span class="h6 surtitle text-muted">
-									Minimum deployment fee
-								</span>
+								<span class="h6 surtitle text-muted">Minimum deployment fee</span>
 								<span class="d-block h4">{{ deploymentFee }} ETH</span>
 							</div>
 						</card>
@@ -50,25 +43,25 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { recipe02 } from "@/constants/contractConfig"
-import Recipe02 from "@/components/Miso/Recipes/Recipe02"
+import { mapGetters } from 'vuex'
+import { recipe02 } from '@/constants/contractConfig'
+import Recipe02 from '@/components/Miso/Recipes/Recipe02'
 
 const contractAddress = recipe02.address
 export default {
 	components: {
 		Recipe02,
 	},
-	layout: "DashboardLayout",
+	layout: 'DashboardLayout',
 	data() {
 		return {
-			contractAddress: "",
+			contractAddress: '',
 			deploymentFee: 0,
 		}
 	},
 	computed: {
 		...mapGetters({
-			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 		}),
 	},
 	mounted() {

@@ -19,9 +19,7 @@
 			<card>
 				<div slot="header" class="row">
 					<div class="col">
-						<h6 class="text-uppercase text-muted ls-1 mb-1">
-							Transaction Hash
-						</h6>
+						<h6 class="text-uppercase text-muted ls-1 mb-1">Transaction Hash</h6>
 					</div>
 				</div>
 				<div class="col-sm-12 col-md-12">
@@ -38,7 +36,7 @@
 	</div>
 </template>
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters } from 'vuex'
 
 export default {
 	props: {
@@ -49,7 +47,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			explorer: "ethereum/explorer",
+			explorer: 'ethereum/explorer',
 		}),
 	},
 	methods: {
@@ -58,7 +56,7 @@ export default {
 		},
 		validate() {
 			return this.$validator.validateAll().then((res) => {
-				this.$emit("on-validated", res, this.model)
+				this.$emit('on-validated', res, this.model)
 				return res
 			})
 		},

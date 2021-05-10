@@ -73,95 +73,95 @@
 	</validation-provider>
 </template>
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters } from 'vuex'
 
 export default {
-	name: "BaseInput",
+	name: 'BaseInput',
 	inheritAttrs: false,
 	props: {
 		required: {
 			type: Boolean,
-			description: "Whether input is required (adds an asterix *)",
+			description: 'Whether input is required (adds an asterix *)',
 		},
 		group: {
 			type: Boolean,
 			description:
-				"Whether input is an input group (manual override in special cases)",
+				'Whether input is an input group (manual override in special cases)',
 		},
 		alternative: {
 			type: Boolean,
-			description: "Whether input is of alternative layout",
+			description: 'Whether input is of alternative layout',
 		},
 		label: {
 			type: String,
-			description: "Input label (text before input)",
+			description: 'Input label (text before input)',
 		},
 		subLabel: {
 			type: String,
-			description: "Input label (text after input)",
+			description: 'Input label (text after input)',
 		},
 		error: {
 			type: String,
-			description: "Input error (below input)",
+			description: 'Input error (below input)',
 		},
 		successMessage: {
 			type: String,
-			description: "Input success message",
-			default: "",
+			description: 'Input success message',
+			default: '',
 		},
 		labelClasses: {
 			type: String,
-			description: "Input label css classes",
-			default: "form-control-label",
+			description: 'Input label css classes',
+			default: 'form-control-label',
 		},
 		subLabelClasses: {
 			type: String,
-			description: "Input label css classes",
-			default: "form-control-label text-muted small",
+			description: 'Input label css classes',
+			default: 'form-control-label text-muted small',
 		},
 		inputClasses: {
 			type: String,
-			description: "Input css classes",
+			description: 'Input css classes',
 		},
 		inputGroupClasses: {
 			type: String,
-			description: "Input group css classes",
+			description: 'Input group css classes',
 		},
 		value: {
 			type: [String, Number],
-			description: "Input value",
+			description: 'Input value',
 		},
 		type: {
 			type: String,
-			description: "Input type",
-			default: "text",
+			description: 'Input type',
+			default: 'text',
 		},
 		appendIcon: {
 			type: String,
-			description: "Append icon (right)",
+			description: 'Append icon (right)',
 		},
 		prependIcon: {
 			type: String,
-			description: "Prepend icon (left)",
+			description: 'Prepend icon (left)',
 		},
 		rules: {
 			type: [String, Array, Object],
-			description: "Vee validate validation rules",
-			default: "",
+			description: 'Vee validate validation rules',
+			default: '',
 		},
 		name: {
 			type: String,
-			description: "Input name (used for validation)",
-			default: "",
+			description: 'Input name (used for validation)',
+			default: '',
 		},
 		rounded: {
 			type: Boolean,
-			description: "add roder radius to input",
+			description: 'add roder radius to input',
 			default: false,
 		},
 		bgColor: {
 			type: Array,
-			description: "inputs background color light/dark",
+			description: 'inputs background color light/dark',
 			default: undefined,
 		},
 	},
@@ -171,7 +171,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters("theme", ["getMode"]),
+		...mapGetters('theme', ['getMode']),
 		inputBgColor() {
 			if (this.bgColor && this.getMode) {
 				return {
@@ -182,7 +182,7 @@ export default {
 					background: this.bgColor[1],
 				}
 			}
-			return ""
+			return ''
 		},
 		listeners() {
 			return {
@@ -213,15 +213,15 @@ export default {
 	methods: {
 		updateValue(evt) {
 			const value = evt.target.value
-			this.$emit("input", value)
+			this.$emit('input', value)
 		},
 		onFocus(evt) {
 			this.focused = true
-			this.$emit("focus", evt)
+			this.$emit('focus', evt)
 		},
 		onBlur(evt) {
 			this.focused = false
-			this.$emit("blur", evt)
+			this.$emit('blur', evt)
 		},
 	},
 }

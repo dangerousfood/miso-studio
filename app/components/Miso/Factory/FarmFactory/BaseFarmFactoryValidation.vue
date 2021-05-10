@@ -8,10 +8,7 @@
 		</el-steps>
 		<div class="mt-5">
 			<validation-observer v-if="activeStep === 0" v-slot="{ handleSubmit }">
-				<form
-					class="needs-validation"
-					@submit.prevent="handleSubmit(createFarm)"
-				>
+				<form class="needs-validation" @submit.prevent="handleSubmit(createFarm)">
 					<div class="form-row justify-content-md-center">
 						<div class="col-lg-6 mr-1">
 							<base-input
@@ -141,9 +138,7 @@
 						<card>
 							<div slot="header" class="row">
 								<div class="col">
-									<h6 class="text-uppercase text-muted ls-1 mb-1">
-										Transaction
-									</h6>
+									<h6 class="text-uppercase text-muted ls-1 mb-1">Transaction</h6>
 								</div>
 							</div>
 							<div class="col-sm-12 col-md-12">
@@ -213,16 +208,16 @@
 </template>
 
 <script>
-import { Step, Steps } from "element-ui"
-import { mapGetters } from "vuex"
+import { Step, Steps } from 'element-ui'
+import { mapGetters } from 'vuex'
 import {
 	sendTransaction as farmFactoryCreate,
 	subscribeToFarmCreatedEvent,
-} from "@/services/web3/farmFactory"
-import { ValidationObserver } from "vee-validate"
+} from '@/services/web3/farmFactory'
+import { ValidationObserver } from 'vee-validate'
 
 export default {
-	name: "BaseFarmFactoryValidation",
+	name: 'BaseFarmFactoryValidation',
 	components: {
 		[Steps.name]: Steps,
 		[Step.name]: Step,
@@ -235,21 +230,21 @@ export default {
 			transactionHash: null,
 			farmAddress: null,
 			farmFactoryDetailsForm: {
-				rewardsAddress: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
+				rewardsAddress: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
 				rewardsAmountPerBlock: 0,
 				startBlock: 0,
-				devaddr: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
-				accessControls: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
+				devaddr: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
+				accessControls: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
 				templateId: 1,
-				integratorFeeAccount: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
+				integratorFeeAccount: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
 			},
 			farmCreatedEventSubscribtion: null,
 		}
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
 		}),
 		hideNextBtn() {
 			return this.activeStep === 1
@@ -275,7 +270,7 @@ export default {
 			]
 
 			const data = web3.eth.abi.encodeParameters(
-				["address", "uint256", "uint256", "address", "address"],
+				['address', 'uint256', 'uint256', 'address', 'address'],
 				dataParams
 			)
 
@@ -284,11 +279,11 @@ export default {
 				this.farmFactoryDetailsForm.integratorFeeAccount,
 				data,
 			]
-			const txHash = await farmFactoryCreate("createFarm", args, {
+			const txHash = await farmFactoryCreate('createFarm', args, {
 				from: this.coinbase,
 			})
 
-			console.log(txHash, "txHash")
+			console.log(txHash, 'txHash')
 
 			if (txHash) {
 				this.transactionHash = txHash
@@ -299,11 +294,11 @@ export default {
 		changeStep() {
 			if (this.activeStep === 2) {
 				this.farmFactoryDetailsForm = {
-					rewardsAddress: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
+					rewardsAddress: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
 					rewardsAmountPerBlock: 0,
 					startBlock: 0,
-					devaddr: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
-					accessControls: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
+					devaddr: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
+					accessControls: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
 					templateId: 1,
 				}
 				this.activeStep = 0
@@ -313,7 +308,7 @@ export default {
 		},
 		subscribeToFarmCreatedEvent() {
 			this.farmCreatedEventSubscribtion = subscribeToFarmCreatedEvent()
-				.on("data", async (event) => {
+				.on('data', async (event) => {
 					if (this.transactionHash) {
 						if (this.transactionHash.toLowerCase() === event.transactionHash) {
 							// console.log(event.returnValues, 'token');
@@ -322,8 +317,8 @@ export default {
 						}
 					}
 				})
-				.on("error", (error) => {
-					console.log("event error:", error)
+				.on('error', (error) => {
+					console.log('event error:', error)
 				})
 		},
 		unsubscribeFromFarmCreatedEvent() {

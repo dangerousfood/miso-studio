@@ -7,20 +7,27 @@
 						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
 					>
 						<span
-							class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+							class="
+								text-uppercase text-secondary
+								font-weight-bold
+								border-bottom
+								pb-2
+								fs-4
+								h-100
+							"
 						>
 							Auction Details
 						</span>
-						<p class="mt-4">Only the Auction admin and approved operators for this auction are able to edit any of the details below.</p>
+						<p class="mt-4">
+							Only the Auction admin and approved operators for this auction are able
+							to edit any of the details below.
+						</p>
 						<p>Do not waste your gas.</p>
 					</div>
 					<hr />
 					<div class="px-md-5">
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(0)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(0)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-5 mt-3">
@@ -47,10 +54,7 @@
 							</form>
 						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(1)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(1)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-5 mt-3">
@@ -78,10 +82,7 @@
 							</form>
 						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(2)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(2)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-5 mt-3">
@@ -151,7 +152,14 @@
 						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
 					>
 						<span
-							class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+							class="
+								text-uppercase text-secondary
+								font-weight-bold
+								border-bottom
+								pb-2
+								fs-4
+								h-100
+							"
 						>
 							Socials
 						</span>
@@ -159,10 +167,7 @@
 					<hr />
 					<div class="px-md-5">
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(3)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(3)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-2 mt-4">
@@ -192,10 +197,7 @@
 							</form>
 						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(4)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(4)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-2 mt-4">
@@ -225,10 +227,7 @@
 							</form>
 						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(5)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(5)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-2 mt-4">
@@ -258,10 +257,7 @@
 							</form>
 						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(6)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(6)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-2 mt-4">
@@ -291,10 +287,7 @@
 							</form>
 						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(7)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(7)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-2 mt-4">
@@ -324,10 +317,7 @@
 							</form>
 						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(8)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(8)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-2 mt-4">
@@ -357,10 +347,7 @@
 							</form>
 						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(9)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(9)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-2 mt-4">
@@ -390,10 +377,7 @@
 							</form>
 						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(10)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(10)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-2 mt-4">
@@ -423,10 +407,7 @@
 							</form>
 						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
-							<form
-								class="needs-validation"
-								@submit.prevent="updateDocument(11)"
-							>
+							<form class="needs-validation" @submit.prevent="updateDocument(11)">
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-2 mt-4">
@@ -461,11 +442,23 @@
 						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
 					>
 						<span
-							class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+							class="
+								text-uppercase text-secondary
+								font-weight-bold
+								border-bottom
+								pb-2
+								fs-4
+								h-100
+							"
 						>
 							Permission List
 						</span>
-						<p class="mt-4">Auctions are open by default. You can add a smart contract with approval logic to your auction. This will restrict users participating in your auction if enabled. Please refer to our developer documentation and sample list in our Github Repo.</p>
+						<p class="mt-4">
+							Auctions are open by default. You can add a smart contract with approval
+							logic to your auction. This will restrict users participating in your
+							auction if enabled. Please refer to our developer documentation and
+							sample list in our Github Repo.
+						</p>
 					</div>
 					<hr />
 					<div class="px-md-5">
@@ -502,7 +495,7 @@
 									class="form-control-label font-weight-bolder col-md-4 mt-4"
 									style="text-align: right"
 								>
-									status: {{ list.status ? "active" : "inactive" }}
+									status: {{ list.status ? 'active' : 'inactive' }}
 								</label>
 								<div class="col-md-* mt-2">
 									<base-button
@@ -511,7 +504,7 @@
 										native-type="submit"
 										:disabled="invalid"
 									>
-										{{ list.status ? "disable" : "enable" }}
+										{{ list.status ? 'disable' : 'enable' }}
 									</base-button>
 								</div>
 							</div>
@@ -526,39 +519,39 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
-import { getContractInstance as dutchAuctionContract } from "@/services/web3/auctions/dutch"
-import { getContractInstance as crowdsaleContract } from "@/services/web3/auctions/crowdsale"
-import { getContractInstance as batchAuctionContract } from "@/services/web3/auctions/batch"
+import { mapGetters } from 'vuex'
+import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
+import { getContractInstance as dutchAuctionContract } from '@/services/web3/auctions/dutch'
+import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
+import { getContractInstance as batchAuctionContract } from '@/services/web3/auctions/batch'
 import {
 	makeBatchCall,
 	sendTransaction,
 	sendTransactionAndWait,
-} from "@/services/web3/base"
-import Swal from "sweetalert2"
+} from '@/services/web3/base'
+import Swal from 'sweetalert2'
 
 export default {
-	name: "AuctionAdminInfo",
+	name: 'AuctionAdminInfo',
 	data() {
 		return {
 			auctionAddress: this.$route.params.address,
 			document: {
-				website: "",
-				icon: "",
-				description: "",
-				whitepaper: "",
-				github: "",
-				telegram: "",
-				wechat: "",
-				discord: "",
-				medium: "",
-				reddit: "",
-				twitter: "",
-				docs: "",
+				website: '',
+				icon: '',
+				description: '',
+				whitepaper: '',
+				github: '',
+				telegram: '',
+				wechat: '',
+				discord: '',
+				medium: '',
+				reddit: '',
+				twitter: '',
+				docs: '',
 			},
 			list: {
-				address: "",
+				address: '',
 				status: false,
 			},
 			contractInstance: null,
@@ -568,7 +561,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
+			coinbase: 'ethereum/coinbase',
 		}),
 	},
 	async mounted() {
@@ -589,29 +582,24 @@ export default {
 		}
 
 		// Documents
-		const methods = [
-			{ methodName: "getDocuments", args: [this.auctionAddress] },
-		]
+		const methods = [{ methodName: 'getDocuments', args: [this.auctionAddress] }]
 		const [documents] = await makeBatchCall(misoHelperContract(), methods)
 
 		documents.forEach((document) => {
-			const name = document["0"]
-			const data = document["1"]
+			const name = document['0']
+			const data = document['1']
 			if (name && data) {
 				this.document[name] = data
 			}
 		})
 
 		// PointList
-		const pointListMethod = [{ methodName: "pointList" }]
-		const [pointList] = await makeBatchCall(
-			this.contractInstance,
-			pointListMethod
-		)
+		const pointListMethod = [{ methodName: 'pointList' }]
+		const [pointList] = await makeBatchCall(this.contractInstance, pointListMethod)
 		this.list.address = pointList
 
 		// PointList Status
-		const marketStatusMethod = [{ methodName: "marketStatus" }]
+		const marketStatusMethod = [{ methodName: 'marketStatus' }]
 		const [marketStatus] = await makeBatchCall(
 			this.contractInstance,
 			marketStatusMethod
@@ -622,7 +610,7 @@ export default {
 	},
 	methods: {
 		async getTemplateId() {
-			const methods = [{ methodName: "marketTemplate" }]
+			const methods = [{ methodName: 'marketTemplate' }]
 			const [marketTemplate] = await makeBatchCall(
 				dutchAuctionContract(this.auctionAddress),
 				methods
@@ -634,20 +622,20 @@ export default {
 			const data = this.document[name]
 			const method = this.contractInstance.methods.setDocument(name, data)
 
-			if (name === "icon") {
+			if (name === 'icon') {
 				const img = new Image()
 				img.onload = async () => {
 					if (img.width === 256 && img.height === 256) {
 						await sendTransaction(method, { from: this.coinbase })
 					} else {
 						Swal.fire({
-							icon: "error",
-							title: "Oops!",
-							html: "The icon must be 256 X 256",
+							icon: 'error',
+							title: 'Oops!',
+							html: 'The icon must be 256 X 256',
 							buttonsStyling: false,
 							showCancelButton: false,
-							confirmButtonText: "Close",
-							confirmButtonClass: "btn btn-fill",
+							confirmButtonText: 'Close',
+							confirmButtonClass: 'btn btn-fill',
 						})
 					}
 				}
@@ -662,15 +650,11 @@ export default {
 		},
 		async updateListStatus() {
 			const method = this.contractInstance.methods.enableList(!this.list.status)
-			await sendTransactionAndWait(
-				method,
-				{ from: this.coinbase },
-				(receipt) => {
-					if (receipt.status) {
-						this.list.status = !this.list.status
-					}
+			await sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+				if (receipt.status) {
+					this.list.status = !this.list.status
 				}
-			)
+			})
 		},
 	},
 }

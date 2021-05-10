@@ -3,9 +3,7 @@
 		class="footer ml-auto"
 		:class="[!slideBar ? 'active-footer' : 'inactive-footer']"
 	>
-		<div
-			class="container-fluid d-flex justify-content-between align-items-center"
-		>
+		<div class="container-fluid d-flex justify-content-between align-items-center">
 			<div class="footer-link">
 				<a href="https://medium.com/instantmiso" target="_blank" rel="noopener">
 					Medium Articles
@@ -17,9 +15,7 @@
 			<div class="copyright">
 				MISO &copy; {{ year }}, made by
 
-				<a href="https://sushi.com/" rel="noopener" target="_blank">
-					Sushi
-				</a>
+				<a href="https://sushi.com/" rel="noopener" target="_blank">Sushi</a>
 			</div>
 		</div>
 	</footer>

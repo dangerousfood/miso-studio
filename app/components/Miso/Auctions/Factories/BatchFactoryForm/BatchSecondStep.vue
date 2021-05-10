@@ -50,9 +50,7 @@
 						</span>
 					</div>
 					<div v-if="!isETH" class="col-sm-12 col-md-12">
-						<span class="h6 surtitle text-muted fs-3">
-							Payment Token Address
-						</span>
+						<span class="h6 surtitle text-muted fs-3">Payment Token Address</span>
 						<span class="d-block h4 has-text-weight-bold text-white fs-2">
 							<eth-image
 								class="avatar avatar-xs mr-2"
@@ -96,7 +94,7 @@
 	</div>
 </template>
 <script>
-import EthImage from "@/components/web3-core/eth-identication/EthImage"
+import EthImage from '@/components/web3-core/eth-identication/EthImage'
 
 export default {
 	components: {
@@ -112,11 +110,11 @@ export default {
 		isETH() {
 			return (
 				this.model.paymentCurrency.address ===
-				"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+				'0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
 			)
 		},
 		paymentType() {
-			return this.isETH ? "ETH" : "ERC20"
+			return this.isETH ? 'ETH' : 'ERC20'
 		},
 	},
 }

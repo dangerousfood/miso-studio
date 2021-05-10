@@ -38,8 +38,8 @@
 					<base-alert v-if="!coinbase" type="danger">
 						<strong>Error</strong>
 						<span class="alert-inner--text">
-							Account is not connected. Please connect to Ethereum wallet to be
-							able to proceed
+							Account is not connected. Please connect to Ethereum wallet to be able
+							to proceed
 						</span>
 					</base-alert>
 					<base-alert v-else-if="userHasToken" type="secondary">
@@ -58,10 +58,7 @@
 							</span>
 						</div>
 					</base-alert>
-					<base-alert
-						v-else-if="model.token.symbol && !userLoading"
-						type="danger"
-					>
+					<base-alert v-else-if="model.token.symbol && !userLoading" type="danger">
 						<span class="alert-inner--text">
 							You don't have any {{ model.token.symbol }}
 						</span>
@@ -81,11 +78,7 @@
 							v-if="model.token.address && coinbase"
 							class="d-flex flex-column step"
 						>
-							<base-button
-								class="btn"
-								:loading="userLoading"
-								@click="updateUserInfo"
-							>
+							<base-button class="btn" :loading="userLoading" @click="updateUserInfo">
 								refresh
 							</base-button>
 						</div>
@@ -111,11 +104,7 @@
 						</base-input>
 					</div>
 					<div v-if="!tokensApproved && model.tokenSupply > 0" class="mt-5">
-						<base-button
-							class="btn"
-							:loading="approveLoading"
-							@click="approve()"
-						>
+						<base-button class="btn" :loading="approveLoading" @click="approve()">
 							Approve
 						</base-button>
 					</div>
@@ -173,9 +162,7 @@
 										class="col-md-6 right-icon position-relative"
 										name="start date"
 										type="text"
-										:rules="`required|afterNow:${
-											(model.startDate, 'start date')
-										}`"
+										:rules="`required|afterNow:${(model.startDate, 'start date')}`"
 									>
 										<el-date-picker
 											v-model="model.startDate"
@@ -199,23 +186,12 @@
 									</base-input>
 								</div>
 								<div class="col-md-6 col-sm-12">
-									<base-input
-										:placeholder="getDuration"
-										disabled
-										class="endDate"
-									>
+									<base-input :placeholder="getDuration" disabled class="endDate">
 										<template #prepend>
-											<svg-icon
-												icon="clock"
-												width="20"
-												height="21"
-												:fill="false"
-											/>
+											<svg-icon icon="clock" width="20" height="21" :fill="false" />
 										</template>
 										<template #label>
-											<span class="font-weight-bold text-uppercase">
-												duration
-											</span>
+											<span class="font-weight-bold text-uppercase">duration</span>
 										</template>
 									</base-input>
 								</div>
@@ -223,9 +199,7 @@
 									<div class="d-flex flex-column">
 										<div class="d-flex justify-content-start">
 											<div>
-												<div class="text-left pl-5 ml-2 text-capitalize">
-													days
-												</div>
+												<div class="text-left pl-5 ml-2 text-capitalize">days</div>
 												<div class="d-flex justify-content-start number-input">
 													<p class="number-input_down d-flex align-items-start">
 														<button
@@ -267,9 +241,7 @@
 												</div>
 											</div>
 											<div>
-												<div class="text-left pl-5 ml-1 text-capitalize">
-													hours
-												</div>
+												<div class="text-left pl-5 ml-1 text-capitalize">hours</div>
 												<div class="d-flex justify-content-start number-input">
 													<p class="number-input_down d-flex align-items-start">
 														<button
@@ -343,10 +315,7 @@
 							</div>
 						</div>
 					</div>
-					<p
-						class="font-weight-bold cursor-pointer"
-						@click="selectCurrentAccount"
-					>
+					<p class="font-weight-bold cursor-pointer" @click="selectCurrentAccount">
 						Send to my account
 					</p>
 				</div>
@@ -360,16 +329,16 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { BaseDivider, BaseAlert } from "@/components"
-import { DatePicker, TimeSelect } from "element-ui"
-import { getContractInstance as erc20Contract } from "@/services/web3/erc20Token"
-import { misoMarket as misoMarketConfig } from "@/constants/contractConfig"
-import { makeBatchCall, sendTransactionAndWait } from "@/services/web3/base"
-import { toDecimals, to18Decimals } from "@/util"
-import { duration } from "@/mixins/duration.js"
-import Autocomplete from "@/components/Inputs/Autocomplete"
-import PaymentCurrency from "../PaymentCurrency.vue"
+import { mapGetters, mapActions } from 'vuex'
+import { BaseDivider, BaseAlert } from '@/components'
+import { DatePicker, TimeSelect } from 'element-ui'
+import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
+import { misoMarket as misoMarketConfig } from '@/constants/contractConfig'
+import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
+import { toDecimals, to18Decimals } from '@/util'
+import { duration } from '@/mixins/duration.js'
+import Autocomplete from '@/components/Inputs/Autocomplete'
+import PaymentCurrency from '../PaymentCurrency.vue'
 
 export default {
 	components: {
@@ -383,25 +352,25 @@ export default {
 	mixins: [duration],
 	data() {
 		return {
-			misoMarketAddress: "",
+			misoMarketAddress: '',
 			model: {
 				token: {
 					address: this.$route.query.token,
-					name: "",
-					symbol: "",
+					name: '',
+					symbol: '',
 					decimals: 0,
 				},
 				paymentCurrency: {
-					address: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-					name: "Ethereum",
-					symbol: "ETH",
+					address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+					name: 'Ethereum',
+					symbol: 'ETH',
 					decimals: 18,
 				},
-				startDate: "",
-				endDate: "",
+				startDate: '',
+				endDate: '',
 				tokenSupply: 0,
-				minimumCommitmentAmount: "",
-				fundWallet: "",
+				minimumCommitmentAmount: '',
+				fundWallet: '',
 			},
 			user: {
 				tokenBalance: 0,
@@ -414,10 +383,10 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
-			tokens: "tokens/list",
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
+			tokens: 'tokens/list',
 		}),
 		formatedTokenBalance() {
 			if (!this.user.tokenBalance) return 0
@@ -438,16 +407,16 @@ export default {
 		},
 		getStartTimeAbbr() {
 			return new Date(this.model.startDate)
-				.toLocaleTimeString("en-us", { timeZoneName: "short" })
-				.split(" ")[2]
+				.toLocaleTimeString('en-us', { timeZoneName: 'short' })
+				.split(' ')[2]
 		},
 		getEndTimeAbbr() {
 			return new Date(this.model.endDate)
-				.toLocaleTimeString("en-us", { timeZoneName: "short" })
-				.split(" ")[2]
+				.toLocaleTimeString('en-us', { timeZoneName: 'short' })
+				.split(' ')[2]
 		},
 		minRaise() {
-			if (this.model.minimumCommitmentAmount !== "") {
+			if (this.model.minimumCommitmentAmount !== '') {
 				return (
 					parseFloat(this.model.tokenSupply) *
 					parseFloat(this.model.minimumCommitmentAmount)
@@ -457,10 +426,9 @@ export default {
 		},
 	},
 	async mounted() {
-		this.misoMarketAddress =
-			misoMarketConfig.address[this.currentProvidersNetworkId]
+		this.misoMarketAddress = misoMarketConfig.address[this.currentProvidersNetworkId]
 		const tokenAddress = this.model.token.address
-		if ((tokenAddress || "").length > 0) {
+		if ((tokenAddress || '').length > 0) {
 			await this.fetchTokens()
 			const matches = this.tokens.filter(
 				(token) => token.addr.toLowerCase() === tokenAddress.toLowerCase()
@@ -472,11 +440,11 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			getTokens: "tokens/getTokens",
+			getTokens: 'tokens/getTokens',
 		}),
 		validate() {
 			return this.$refs.observer.validate().then((res) => {
-				this.$emit("on-validated", res, this.model)
+				this.$emit('on-validated', res, this.model)
 				return res && this.model.paymentCurrency.address
 			})
 		},
@@ -484,9 +452,9 @@ export default {
 			// Clear Tokens
 			this.user.allowance = 0
 			this.user.tokenBalance = 0
-			this.model.token.name = ""
-			this.model.token.symbol = ""
-			this.model.token.decimals = ""
+			this.model.token.name = ''
+			this.model.token.symbol = ''
+			this.model.token.decimals = ''
 
 			// Get Tokens
 			if (!this.tokensLoading) {
@@ -501,11 +469,11 @@ export default {
 			this.userLoading = true
 			const methods = [
 				{
-					methodName: "allowance",
+					methodName: 'allowance',
 					args: [this.coinbase, this.misoMarketAddress],
 				},
 				{
-					methodName: "balanceOf",
+					methodName: 'balanceOf',
 					args: [this.coinbase],
 				},
 			]

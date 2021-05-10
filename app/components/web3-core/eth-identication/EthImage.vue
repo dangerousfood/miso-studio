@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import blockies from "ethereum-blockies-updated"
+import blockies from 'ethereum-blockies-updated'
 export default {
-	name: "EthImage",
+	name: 'EthImage',
 	props: {
 		opts: Object,
 	},

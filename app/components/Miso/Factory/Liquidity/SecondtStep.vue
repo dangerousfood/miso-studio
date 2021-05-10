@@ -14,7 +14,13 @@
 						</div>
 					</div>
 					<div
-						class="border-miso radio_wrapper d-flex justify-content-between align-items-center"
+						class="
+							border-miso
+							radio_wrapper
+							d-flex
+							justify-content-between
+							align-items-center
+						"
 					>
 						<div
 							class="d-flex align-items-center pl-3"
@@ -46,11 +52,7 @@
 										DAI
 									</base-radio>
 									<div class="tokenImage">
-										<img
-											src="@/assets/svg/DAI.svg"
-											alt="DAI"
-											class="img-fluid"
-										/>
+										<img src="@/assets/svg/DAI.svg" alt="DAI" class="img-fluid" />
 									</div>
 								</div>
 							</div>
@@ -91,11 +93,7 @@
 										TETHER (USDT)
 									</base-radio>
 									<div class="tokenImage">
-										<img
-											src="@/assets/svg/USDT.svg"
-											alt="USDT"
-											class="img-fluid"
-										/>
+										<img src="@/assets/svg/USDT.svg" alt="USDT" class="img-fluid" />
 									</div>
 								</div>
 							</div>
@@ -177,12 +175,15 @@
 										Remaining Token Balance: {{ remainingTokens }}
 									</span>
 								</div>
-								<div class="amount_or d-flex justify-content-center pt-3">
-									- Or -
-								</div>
+								<div class="amount_or d-flex justify-content-center pt-3">- Or -</div>
 								<div class="amount_section">
 									<div
-										class="d-flex align-items-center justify-content-between slider-label"
+										class="
+											d-flex
+											align-items-center
+											justify-content-between
+											slider-label
+										"
 									>
 										<span class="fs-1">0%</span>
 										<span class="fs-1">100% (ETH)</span>
@@ -206,18 +207,15 @@
 										></vue-slider>
 									</client-only>
 									<div class="mt-4 pt-2">
-										<span class="fs-1">
-											Your auction allocation: 800,000 LCRX
-										</span>
+										<span class="fs-1">Your auction allocation: 800,000 LCRX</span>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="mt-5 fs-2">
-								25% of amount raised from auction in ETH, pairing with 200,000
-								LCRX, will be launched on SushiSwap as a 50/50 weighting
-								liquidity pool.
+								25% of amount raised from auction in ETH, pairing with 200,000 LCRX,
+								will be launched on SushiSwap as a 50/50 weighting liquidity pool.
 							</div>
 						</div>
 					</div>
@@ -229,39 +227,39 @@
 
 <script>
 export default {
-	name: "SecondStep",
-	props: ["data"],
+	name: 'SecondStep',
+	props: ['data'],
 	data() {
 		return {
 			colors: {
 				token: false,
 			},
 			model: {
-				type: "ETH",
-				amount: "",
+				type: 'ETH',
+				amount: '',
 			},
-			type: "ETH",
-			amountType: "input",
+			type: 'ETH',
+			amountType: 'input',
 			inputActive: false,
-			customType: "",
+			customType: '',
 			percentage: 0,
 			activeSection: {
 				token: false,
 				provision: false,
 			},
-			rule: "",
+			rule: '',
 		}
 	},
 	computed: {
 		computedFontSize() {
 			const width = this.$screen.width
 			if (width >= 1200 && width <= 1400) {
-				return "fs-xs"
+				return 'fs-xs'
 			}
-			return "fs-1"
+			return 'fs-1'
 		},
 		computedCustomType() {
-			if (this.custom === "custom") {
+			if (this.custom === 'custom') {
 				return true
 			}
 			return false
@@ -271,40 +269,40 @@ export default {
 			const userEth = 10 // wallet max Eth
 			const rate = 0.0001 // rate ETH - token
 			const submitedTokens = userEth / rate - this.model.amount
-			return this.model.amount !== "" ? submitedTokens : 0
+			return this.model.amount !== '' ? submitedTokens : 0
 		},
 	},
 	watch: {
 		customType(val) {
-			const typeChecks = ["USD", "ETH", "DAI", "USDT"]
+			const typeChecks = ['USD', 'ETH', 'DAI', 'USDT']
 			typeChecks.forEach((el) => {
 				if (el !== this.customType) {
 					this.model.type = val
 				} else {
 					this.type = val
 					this.inputActive = false
-					this.customType = ""
+					this.customType = ''
 				}
 			})
 		},
 		type(val) {
-			if (val !== "custom") {
-				this.rule = ""
+			if (val !== 'custom') {
+				this.rule = ''
 				this.model.type = val
 				this.inputActive = false
 			} else {
-				this.rule = "required"
+				this.rule = 'required'
 				this.inputActive = true
 			}
 		},
 	},
 	created() {
-		const typeChecks = ["USD", "ETH", "DAI", "USDT"]
+		const typeChecks = ['USD', 'ETH', 'DAI', 'USDT']
 		if (this.data) {
 			Object.assign(this.model, this.data)
 			typeChecks.forEach((el) => {
 				if (el !== this.model.type) {
-					this.type = "custom"
+					this.type = 'custom'
 					this.customType = this.model.type
 				} else {
 					this.type = this.data.type
@@ -315,7 +313,7 @@ export default {
 	methods: {
 		validate() {
 			return this.$refs.observer.validate().then((res) => {
-				this.$emit("on-validated", res, this.model)
+				this.$emit('on-validated', res, this.model)
 				return res
 			})
 		},
@@ -327,7 +325,7 @@ export default {
 					this.activeSection[key] = false
 				}
 			}
-			this.$emit("active-input", this.activeSection)
+			this.$emit('active-input', this.activeSection)
 		},
 	},
 }

@@ -35,9 +35,7 @@
 						>
 							Live
 						</span>
-						<span v-else-if="isEnd(row)" class="pl-3 text-capitalize">
-							Finished
-						</span>
+						<span v-else-if="isEnd(row)" class="pl-3 text-capitalize">Finished</span>
 						<span v-else class="pl-3 text-capitalize">Upcoming</span>
 					</div>
 				</div>
@@ -52,11 +50,7 @@
 					</div>
 				</div>
 			</el-table-column>
-			<el-table-column
-				header-align="right"
-				min-width="180"
-				label="AUCTION INFO"
-			>
+			<el-table-column header-align="right" min-width="180" label="AUCTION INFO">
 				<div slot-scope="{ row }" class="d-flex justify-content-end">
 					<nuxt-link v-slot="{ navigate }" :to="`/auctions/${row.addr}`" custom>
 						<button class="btn info-button" role="link" @click="navigate">
@@ -70,7 +64,7 @@
 </template>
 
 <script>
-import { Table, TableColumn } from "element-ui"
+import { Table, TableColumn } from 'element-ui'
 
 export default {
 	components: {
@@ -81,7 +75,7 @@ export default {
 		listData: {
 			type: [Array, Object],
 			required: true,
-			description: "data to display perPage in Auction table",
+			description: 'data to display perPage in Auction table',
 		},
 	},
 	methods: {
@@ -94,9 +88,7 @@ export default {
 			} else if (startTime > now) {
 				return 0
 			} else {
-				const fullPeriod = Math.ceil(
-					Math.abs(endTime - startTime) / (60 * 1000)
-				)
+				const fullPeriod = Math.ceil(Math.abs(endTime - startTime) / (60 * 1000))
 
 				const periodForNow = Math.ceil(Math.abs(now - startTime) / (60 * 1000))
 				const res = (periodForNow * 100) / fullPeriod

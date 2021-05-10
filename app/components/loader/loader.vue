@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import Circle5 from "vue-loading-spinner/src/components/Circle5"
+import Circle5 from 'vue-loading-spinner/src/components/Circle5'
 export default {
-	name: "Loader",
+	name: 'Loader',
 	components: {
 		Circle5,
 	},
@@ -36,8 +36,8 @@ export default {
 	computed: {
 		size() {
 			return {
-				height: this.height + "px",
-				width: this.width + "px",
+				height: this.height + 'px',
+				width: this.width + 'px',
 			}
 		},
 		space() {

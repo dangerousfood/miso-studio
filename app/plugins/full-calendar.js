@@ -2,4 +2,4 @@
 // We will render them on the client only by making this plugin ssr:false
 import Vue from 'vue'
 import Calendar from '@/components/Calendar/Calendar'
-Vue.component('calendar', Calendar)
+Vue.component('Calendar', Calendar)

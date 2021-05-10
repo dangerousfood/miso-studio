@@ -1,11 +1,16 @@
 <template>
 	<div class="row">
 		<div class="col-12 col-lg-10 col-xl-9 order-1 order-lg-0">
-			<div
-				class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
-			>
+			<div class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative">
 				<span
-					class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+					class="
+						text-uppercase text-secondary
+						font-weight-bold
+						border-bottom
+						pb-2
+						fs-4
+						h-100
+					"
 				>
 					Auction form
 				</span>
@@ -30,15 +35,22 @@
 									</div>
 								</div>
 								<div
-									class="col-lg-10 col-12 m-auto d-flex flex-sm-row flex-column justify-content-between"
+									class="
+										col-lg-10 col-12
+										m-auto
+										d-flex
+										flex-sm-row flex-column
+										justify-content-between
+									"
 								>
-									<div
-										v-for="option in auctionTypes"
-										:key="option.id"
-										class="mt-5"
-									>
+									<div v-for="option in auctionTypes" :key="option.id" class="mt-5">
 										<div
-											class="d-flex flex-column align-items-center justify-content-around"
+											class="
+												d-flex
+												flex-column
+												align-items-center
+												justify-content-around
+											"
 										>
 											<svg-icon
 												:icon="option.icon"
@@ -119,14 +131,17 @@
 				</client-only>
 			</div>
 		</div>
-		<div
-			class="col-12 col-lg-2 col-xl-3 bg-dark mb-sm-5 mb-md-0 darker-side order-0"
-		>
-			<div
-				class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
-			>
+		<div class="col-12 col-lg-2 col-xl-3 bg-dark mb-sm-5 mb-md-0 darker-side order-0">
+			<div class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative">
 				<span
-					class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+					class="
+						text-uppercase text-secondary
+						font-weight-bold
+						border-bottom
+						pb-2
+						fs-4
+						h-100
+					"
 				>
 					Auction factory
 				</span>
@@ -148,8 +163,8 @@
 			<div class="d-flex flex-column my-4">
 				<span class="font-weight-bold pb-1 fs-1">DETAILS</span>
 				<span class="text-white fs-3">
-					Create your own Auction at the Market Factory. For details on all
-					current Market types, please visit our
+					Create your own Auction at the Market Factory. For details on all current
+					Market types, please visit our
 					<a
 						href="https://instantmiso.gitbook.io/miso/markets/markets"
 						target="_blank"
@@ -162,28 +177,28 @@
 	</div>
 </template>
 <script>
-import { mapGetters } from "vuex"
-import { BaseDivider, SimpleWizard, WizardTab } from "@/components"
+import { mapGetters } from 'vuex'
+import { BaseDivider, SimpleWizard, WizardTab } from '@/components'
 
-import { theme } from "@/mixins/theme"
-import { sendTransactionAndWait } from "@/services/web3/base"
-import { to18Decimals } from "@/util"
-import { dai } from "@/constants/contractConfig"
-import { getContractInstance as misoMarketContract } from "@/services/web3/misoMarket"
+import { theme } from '@/mixins/theme'
+import { sendTransactionAndWait } from '@/services/web3/base'
+import { to18Decimals } from '@/util'
+import { dai } from '@/constants/contractConfig'
+import { getContractInstance as misoMarketContract } from '@/services/web3/misoMarket'
 
-import DutchFirstStep from "@/components/Miso/Auctions/Factories/DutchFactoryForm/DutchFirstStep"
-import DutchSecondStep from "@/components/Miso/Auctions/Factories/DutchFactoryForm/DutchSecondStep.vue"
+import DutchFirstStep from '@/components/Miso/Auctions/Factories/DutchFactoryForm/DutchFirstStep'
+import DutchSecondStep from '@/components/Miso/Auctions/Factories/DutchFactoryForm/DutchSecondStep.vue'
 
-import CrowdsaleFirstStep from "@/components/Miso/Auctions/Factories/CrowdsaleFactoryForm/CrowdsaleFirstStep"
-import CrowdsaleSecondStep from "@/components/Miso/Auctions/Factories/CrowdsaleFactoryForm/CrowdsaleSecondStep"
+import CrowdsaleFirstStep from '@/components/Miso/Auctions/Factories/CrowdsaleFactoryForm/CrowdsaleFirstStep'
+import CrowdsaleSecondStep from '@/components/Miso/Auctions/Factories/CrowdsaleFactoryForm/CrowdsaleSecondStep'
 
-import BatchFirstStep from "@/components/Miso/Auctions/Factories/BatchFactoryForm/BatchFirstStep"
-import BatchSecondStep from "@/components/Miso/Auctions/Factories/BatchFactoryForm/BatchSecondStep"
+import BatchFirstStep from '@/components/Miso/Auctions/Factories/BatchFactoryForm/BatchFirstStep'
+import BatchSecondStep from '@/components/Miso/Auctions/Factories/BatchFactoryForm/BatchSecondStep'
 
-import ThirdStep from "~/components/Miso/Auctions/Factories/ThirdStep.vue"
+import ThirdStep from '~/components/Miso/Auctions/Factories/ThirdStep.vue'
 
 export default {
-	name: "WizardForm",
+	name: 'WizardForm',
 	components: {
 		BaseDivider,
 		SimpleWizard,
@@ -205,22 +220,22 @@ export default {
 			chosenAuctionType: 1,
 			auctionTypes: [
 				{
-					title: "Dutch Auction",
+					title: 'Dutch Auction',
 					id: 1,
 					disabled: false,
-					icon: "dutch",
+					icon: 'dutch',
 				},
 				{
-					title: "Fixed Price Crowdsale",
+					title: 'Fixed Price Crowdsale',
 					id: 2,
 					disabled: false,
-					icon: "crowdsale",
+					icon: 'crowdsale',
 				},
 				{
-					title: "Batch Auction",
+					title: 'Batch Auction',
 					id: 3,
 					disabled: false,
-					icon: "batch",
+					icon: 'batch',
 				},
 				/* {
 					title: "Hyperbolic Auction",
@@ -230,23 +245,23 @@ export default {
 			],
 			nextBtnLoading: false,
 			deployedMarket: {
-				address: "",
-				txHash: "",
+				address: '',
+				txHash: '',
 			},
 			breackpoint: null,
 		}
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
+			coinbase: 'ethereum/coinbase',
 		}),
 		nextBtnText() {
-			if (this.tabIndex === 1) return "Create"
-			return "Next"
+			if (this.tabIndex === 1) return 'Create'
+			return 'Next'
 		},
 	},
 	watch: {
-		"$screen.breakpoint"(val) {
+		'$screen.breakpoint'(val) {
 			this.breackpoint = val
 		},
 	},
@@ -277,7 +292,7 @@ export default {
 						data = this.getBatchData()
 						break
 				}
-				console.log("data:", data)
+				console.log('data:', data)
 				const method = misoMarketContract().methods.createMarket(
 					this.chosenAuctionType,
 					model.token.address,
@@ -290,8 +305,7 @@ export default {
 					this.nextBtnLoading = false
 					if (receipt) {
 						this.deployedMarket.txHash = receipt.transactionHash
-						this.deployedMarket.address =
-							receipt.events.MarketCreated.returnValues[1]
+						this.deployedMarket.address = receipt.events.MarketCreated.returnValues[1]
 					}
 					resolve(receipt.status)
 				})
@@ -302,7 +316,7 @@ export default {
 			const startDate = new Date(model.startDate).getTime() / 1000
 			const endDate = new Date(model.endDate).getTime() / 1000
 
-			const pointList = "0x0000000000000000000000000000000000000000"
+			const pointList = '0x0000000000000000000000000000000000000000'
 			const operator = this.coinbase
 			const dataParams = [
 				this.marketFactoryAddress,
@@ -320,17 +334,17 @@ export default {
 
 			return web3.eth.abi.encodeParameters(
 				[
-					"address",
-					"address",
-					"uint256",
-					"uint256",
-					"uint256",
-					"address",
-					"uint256",
-					"uint256",
-					"address",
-					"address",
-					"address",
+					'address',
+					'address',
+					'uint256',
+					'uint256',
+					'uint256',
+					'address',
+					'uint256',
+					'uint256',
+					'address',
+					'address',
+					'address',
 				],
 				dataParams
 			)
@@ -340,7 +354,7 @@ export default {
 			const startDate = new Date(model.startDate).getTime() / 1000
 			const endDate = new Date(model.endDate).getTime() / 1000
 
-			const pointList = "0x0000000000000000000000000000000000000000"
+			const pointList = '0x0000000000000000000000000000000000000000'
 			const operator = this.coinbase
 			const rate = to18Decimals(1 / this.model.tokenPrice)
 			const dataParams = [
@@ -359,17 +373,17 @@ export default {
 
 			return web3.eth.abi.encodeParameters(
 				[
-					"address",
-					"address",
-					"address",
-					"uint256",
-					"uint256",
-					"uint256",
-					"uint256",
-					"uint256",
-					"address",
-					"address",
-					"address",
+					'address',
+					'address',
+					'address',
+					'uint256',
+					'uint256',
+					'uint256',
+					'uint256',
+					'uint256',
+					'address',
+					'address',
+					'address',
 				],
 				dataParams
 			)
@@ -379,7 +393,7 @@ export default {
 			const startDate = new Date(model.startDate).getTime() / 1000
 			const endDate = new Date(model.endDate).getTime() / 1000
 
-			const pointList = "0x0000000000000000000000000000000000000000"
+			const pointList = '0x0000000000000000000000000000000000000000'
 			const operator = this.coinbase
 			const dataParams = [
 				this.marketFactoryAddress,
@@ -396,16 +410,16 @@ export default {
 
 			return web3.eth.abi.encodeParameters(
 				[
-					"address",
-					"address",
-					"uint256",
-					"uint256",
-					"uint256",
-					"address",
-					"uint256",
-					"address",
-					"address",
-					"address",
+					'address',
+					'address',
+					'uint256',
+					'uint256',
+					'uint256',
+					'address',
+					'uint256',
+					'address',
+					'address',
+					'address',
 				],
 				dataParams
 			)

@@ -121,7 +121,13 @@
 											<base-radio
 												v-model="type"
 												name="custom"
-												class="text-white text-uppercase font-weight-bold fs-4 mr-3 mb-2"
+												class="
+													text-white text-uppercase
+													font-weight-bold
+													fs-4
+													mr-3
+													mb-2
+												"
 											>
 												custom
 											</base-radio>
@@ -148,9 +154,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { DatePicker, TimeSelect } from "element-ui"
-import { BaseInput, BaseRadio } from "@/components"
+import { mapGetters } from 'vuex'
+import { DatePicker, TimeSelect } from 'element-ui'
+import { BaseInput, BaseRadio } from '@/components'
 
 export default {
 	components: {
@@ -159,17 +165,17 @@ export default {
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
 	},
-	props: ["data"],
+	props: ['data'],
 	data() {
 		return {
 			model: {
-				vaultAddr: "",
+				vaultAddr: '',
 				lunchDate: null,
-				endTime: "",
+				endTime: '',
 			},
 			type: 180,
-			rule: "",
-			customDays: "",
+			rule: '',
+			customDays: '',
 			inputDays: null,
 			activeSection: {
 				one: false,
@@ -179,23 +185,23 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({ coinbase: "ethereum/coinbase" }),
+		...mapGetters({ coinbase: 'ethereum/coinbase' }),
 	},
 	watch: {
 		type(val) {
-			if (val !== "custom") {
+			if (val !== 'custom') {
 				this.customDays = val
 				this.inputDays = null
-				this.rule = ""
+				this.rule = ''
 			} else {
 				this.customDays = null
-				this.rule = "isNumber|required"
+				this.rule = 'isNumber|required'
 			}
 		},
 		inputDays(val) {
 			this.customDays = parseInt(val)
 		},
-		"model.lunchDate"(val) {
+		'model.lunchDate'(val) {
 			if (this.customDays) {
 				const result = new Date(val)
 				result.setDate(val.getDate() + this.customDays)
@@ -221,7 +227,7 @@ export default {
 				(1000 * 60 * 60 * 24)
 
 			if (diff !== 180 && diff !== 90 && !isNaN(diff)) {
-				this.type = "custom"
+				this.type = 'custom'
 				this.inputDays = diff
 			}
 		}
@@ -229,11 +235,11 @@ export default {
 	methods: {
 		selectCurrentAccount() {
 			this.model.vaultAddr = this.coinbase
-			this.setActiveSection("one")
+			this.setActiveSection('one')
 		},
 		validate() {
 			return this.$refs.observer.validate().then((res) => {
-				this.$emit("on-validated", res, this.model)
+				this.$emit('on-validated', res, this.model)
 				return res
 			})
 		},
@@ -245,7 +251,7 @@ export default {
 					this.activeSection[key] = false
 				}
 			}
-			this.$emit("active-input", this.activeSection)
+			this.$emit('active-input', this.activeSection)
 		},
 	},
 }

@@ -1,10 +1,15 @@
 <template>
 	<div>
-		<div
-			class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
-		>
+		<div class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative">
 			<span
-				class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+				class="
+					text-uppercase text-secondary
+					font-weight-bold
+					border-bottom
+					pb-2
+					fs-4
+					h-100
+				"
 			>
 				LIST FACTORY
 			</span>
@@ -123,9 +128,7 @@
 										v-if="pointsListModel.points.length > 0"
 										class="col-sm-12 col-md-12"
 									>
-										<span class="h6 surtitle text-muted">
-											Accounts & Amounts
-										</span>
+										<span class="h6 surtitle text-muted">Accounts & Amounts</span>
 										<span
 											v-for="(point, index) in pointsListModel.points"
 											:key="index"
@@ -140,9 +143,7 @@
 								<card>
 									<div slot="header" class="row">
 										<div class="col">
-											<h6 class="text-uppercase text-muted ls-1 mb-1">
-												Transaction
-											</h6>
+											<h6 class="text-uppercase text-muted ls-1 mb-1">Transaction</h6>
 										</div>
 									</div>
 									<div class="col-sm-12 col-md-12">
@@ -184,9 +185,7 @@
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-12">
-											<span class="h6 surtitle text-muted">
-												Transaction Hash
-											</span>
+											<span class="h6 surtitle text-muted">Transaction Hash</span>
 											<a
 												class="d-block h4 text-primary"
 												:href="`${explorer.root}${explorer.tx}${transactionHash}`"
@@ -222,16 +221,16 @@
 	</div>
 </template>
 <script>
-import { mapGetters } from "vuex"
-import { Steps, Step } from "element-ui"
+import { mapGetters } from 'vuex'
+import { Steps, Step } from 'element-ui'
 import {
 	subscribeToPointListDeployedEvent,
 	getContractInstance,
-} from "@/services/web3/pointListFactory"
-import { sendTransaction, toWei } from "@/services/web3/base"
-import SimpleWizard from "@/components/Miso/PointsList/PointsListFactoryForm/Wizard"
-import WizardTab from "@/components/Miso/PointsList/PointsListFactoryForm/WizardTab"
-import { BaseButton } from "~/components"
+} from '@/services/web3/pointListFactory'
+import { sendTransaction, toWei } from '@/services/web3/base'
+import SimpleWizard from '@/components/Miso/PointsList/PointsListFactoryForm/Wizard'
+import WizardTab from '@/components/Miso/PointsList/PointsListFactoryForm/WizardTab'
+import { BaseButton } from '~/components'
 
 // import { waitForReceipt } from "@/services/web3/base"
 
@@ -250,21 +249,21 @@ export default {
 			prevBtnDisabled: true,
 			steps: [
 				{
-					title: "Points List",
+					title: 'Points List',
 					needsValidation: true,
-					refName: "pointsListDetail",
+					refName: 'pointsListDetail',
 				},
 				{
-					title: "Deployment",
+					title: 'Deployment',
 					needsValidation: false,
 				},
 				{
-					title: "Result",
+					title: 'Result',
 					needsValidation: false,
 				},
 			],
 			pointsListModel: {
-				listOwner: "",
+				listOwner: '',
 				points: [],
 			},
 			waitingForConfirmation: false,
@@ -275,17 +274,17 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
 		}),
 		nextBtnText() {
-			let text = ""
+			let text = ''
 			switch (this.activeStep) {
 				case 0:
-					text = "Deploy"
+					text = 'Deploy'
 					break
 				case 2:
-					text = "Start Over"
+					text = 'Start Over'
 					break
 			}
 			return text
@@ -312,10 +311,10 @@ export default {
 		changeStep() {
 			if (this.activeStep === 2) {
 				this.pointsListModel = {
-					listOwner: "",
+					listOwner: '',
 					points: [
 						{
-							account: "",
+							account: '',
 							amount: 0,
 						},
 					],
@@ -329,7 +328,7 @@ export default {
 			this.pointsListModel.listOwner = this.coinbase
 		},
 		addPoint() {
-			this.pointsListModel.points.push({ account: "", amount: 0 })
+			this.pointsListModel.points.push({ account: '', amount: 0 })
 		},
 		removePoint(index) {
 			this.pointsListModel.points.splice(index, 1)
@@ -358,7 +357,7 @@ export default {
 		},
 		subscribeToPointListDeployedEvent() {
 			this.pointListDeployedEventSubscribtion = subscribeToPointListDeployedEvent()
-				.on("data", (event) => {
+				.on('data', (event) => {
 					if (this.transactionHash) {
 						if (this.transactionHash.toLowerCase() === event.transactionHash) {
 							this.pointListAddress = event.returnValues.pointList
@@ -366,8 +365,8 @@ export default {
 						}
 					}
 				})
-				.on("error", (error) => {
-					console.log("event error:", error)
+				.on('error', (error) => {
+					console.log('event error:', error)
 				})
 		},
 		unsubscribeFromPointListDeployedEvent() {

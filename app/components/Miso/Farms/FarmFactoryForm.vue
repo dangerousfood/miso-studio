@@ -1,10 +1,15 @@
 <template>
 	<div>
-		<div
-			class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
-		>
+		<div class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative">
 			<span
-				class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+				class="
+					text-uppercase text-secondary
+					font-weight-bold
+					border-bottom
+					pb-2
+					fs-4
+					h-100
+				"
 			>
 				FARM FACTORY
 			</span>
@@ -35,9 +40,7 @@
 												<div class="row">
 													<div class="col-12">
 														<div class="d-flex justify-content-between">
-															<div
-																class="d-flex flex-column align-items-center"
-															>
+															<div class="d-flex flex-column align-items-center">
 																<svg-icon
 																	icon="masterchif"
 																	width="60"
@@ -154,18 +157,14 @@
 									<card>
 										<div slot="header" class="row">
 											<div class="col">
-												<h6 class="text-uppercase text-muted ls-1 mb-1">
-													Farm
-												</h6>
+												<h6 class="text-uppercase text-muted ls-1 mb-1">Farm</h6>
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-12">
 											<span class="h6 surtitle text-muted">Type</span>
 											<span class="d-block h4">
 												{{
-													farmFactoryDetailsForm.templateId === 1
-														? "Master Chef"
-														: ""
+													farmFactoryDetailsForm.templateId === 1 ? 'Master Chef' : ''
 												}}
 											</span>
 										</div>
@@ -176,9 +175,7 @@
 											</span>
 										</div>
 										<div class="col-sm-12 col-md-12">
-											<span class="h6 surtitle text-muted">
-												Rewards Per Block
-											</span>
+											<span class="h6 surtitle text-muted">Rewards Per Block</span>
 											<span class="d-block h4">
 												{{ farmFactoryDetailsForm.rewardsAmountPerBlock }}
 											</span>
@@ -213,9 +210,7 @@
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-12">
-											<span class="h6 surtitle text-muted">
-												Transaction Hash
-											</span>
+											<span class="h6 surtitle text-muted">Transaction Hash</span>
 											<a
 												class="d-block"
 												:href="`${explorer.root}${explorer.tx}${transactionHash}`"
@@ -254,9 +249,7 @@
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-12">
-											<span class="h6 surtitle text-muted">
-												Transaction Hash
-											</span>
+											<span class="h6 surtitle text-muted">Transaction Hash</span>
 											<a
 												class="d-block h4 text-primary"
 												:href="`${explorer.root}${explorer.tx}${transactionHash}`"
@@ -299,21 +292,21 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { Steps, Step } from "element-ui"
+import { mapGetters, mapActions } from 'vuex'
+import { Steps, Step } from 'element-ui'
 import {
 	sendTransaction as farmFactoryCreate,
 	subscribeToFarmCreatedEvent,
-} from "@/services/web3/farmFactory"
-import { ValidationObserver } from "vee-validate"
-import SimpleWizard from "@/components/Miso/Farms/FarmsFactoryForm/Wizard"
-import WizardTab from "@/components/Miso/Farms/FarmsFactoryForm/WizardTab"
-import Autocomplete from "@/components/Inputs/Autocomplete"
-import { theme } from "@/mixins/theme"
+} from '@/services/web3/farmFactory'
+import { ValidationObserver } from 'vee-validate'
+import SimpleWizard from '@/components/Miso/Farms/FarmsFactoryForm/Wizard'
+import WizardTab from '@/components/Miso/Farms/FarmsFactoryForm/WizardTab'
+import Autocomplete from '@/components/Inputs/Autocomplete'
+import { theme } from '@/mixins/theme'
 // import BigNumber from "bignumber.js"
 
 export default {
-	name: "FarmFactoryForm",
+	name: 'FarmFactoryForm',
 	components: {
 		[Steps.name]: Steps,
 		[Step.name]: Step,
@@ -330,15 +323,15 @@ export default {
 			transactionHash: null,
 			farmAddress: null,
 			farmFactoryDetailsForm: {
-				rewardsAddress: "",
+				rewardsAddress: '',
 				rewardsAmountPerBlock: 0,
 				lowerBlock: 0,
 				startBlock: 0,
 				upperBlock: 200000,
-				devaddr: "",
-				accessControls: "",
+				devaddr: '',
+				accessControls: '',
 				templateId: 1,
-				integratorFeeAccount: "",
+				integratorFeeAccount: '',
 			},
 			farmCreatedEventSubscribtion: null,
 			tokensLoading: false,
@@ -346,9 +339,9 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
-			tokens: "tokens/list",
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
+			tokens: 'tokens/list',
 		}),
 		hideNextBtn() {
 			return this.activeStep === 1
@@ -363,7 +356,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			getTokens: "tokens/getTokens",
+			getTokens: 'tokens/getTokens',
 		}),
 		selectCurrentAccount() {
 			this.farmFactoryDetailsForm.integratorFeeAccount = this.coinbase
@@ -379,8 +372,7 @@ export default {
 			const blockNumber = await web3.eth.getBlockNumber()
 			const currentBlock = await web3.eth.getBlock(blockNumber)
 			const pastBlock = await web3.eth.getBlock(blockNumber - 1000)
-			const averageBlockTime =
-				(currentBlock.timestamp - pastBlock.timestamp) / 1000
+			const averageBlockTime = (currentBlock.timestamp - pastBlock.timestamp) / 1000
 			this.farmFactoryDetailsForm.lowerBlock = blockNumber
 			this.farmFactoryDetailsForm.startBlock =
 				blockNumber + Math.ceil(86400 / averageBlockTime)
@@ -411,7 +403,7 @@ export default {
 				this.farmFactoryDetailsForm.accessControls,
 			]
 			const data = web3.eth.abi.encodeParameters(
-				["address", "uint256", "uint256", "address", "address"],
+				['address', 'uint256', 'uint256', 'address', 'address'],
 				dataParams
 			)
 			const args = [
@@ -419,10 +411,10 @@ export default {
 				this.farmFactoryDetailsForm.integratorFeeAccount,
 				data,
 			]
-			const txHash = await farmFactoryCreate("createFarm", args, {
+			const txHash = await farmFactoryCreate('createFarm', args, {
 				from: this.coinbase,
 			})
-			console.log(txHash, "txHash")
+			console.log(txHash, 'txHash')
 			if (txHash) {
 				this.transactionHash = txHash
 				this.changeStep()
@@ -432,13 +424,13 @@ export default {
 		changeStep() {
 			if (this.activeStep === 2) {
 				this.farmFactoryDetailsForm.startBlock = this.farmFactoryDetailsForm = {
-					rewardsAddress: "",
+					rewardsAddress: '',
 					rewardsAmountPerBlock: 0,
 					lowerBlock: 0,
 					startBlock: 0,
 					upperBlock: 200000,
-					devaddr: "",
-					accessControls: "",
+					devaddr: '',
+					accessControls: '',
 					templateId: 1,
 				}
 				this.activeStep = 0
@@ -449,7 +441,7 @@ export default {
 		},
 		subscribeToFarmCreatedEvent() {
 			this.farmCreatedEventSubscribtion = subscribeToFarmCreatedEvent()
-				.on("data", (event) => {
+				.on('data', (event) => {
 					if (this.transactionHash) {
 						if (this.transactionHash.toLowerCase() === event.transactionHash) {
 							// console.log(event.returnValues, 'token');
@@ -458,8 +450,8 @@ export default {
 						}
 					}
 				})
-				.on("error", (error) => {
-					console.log("event error:", error)
+				.on('error', (error) => {
+					console.log('event error:', error)
 				})
 		},
 		unsubscribeFromFarmCreatedEvent() {

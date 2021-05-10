@@ -11,9 +11,9 @@
 		>
 			<span class="line" :class="[getMode ? 'bg-dark' : 'bg-light']"></span>
 			<span class="font-weight-bold pl-2 price">
-				<span class="text-white">{{ price[0].toLocaleString("en-US") }}</span>
+				<span class="text-white">{{ price[0].toLocaleString('en-US') }}</span>
 				/
-				<span>{{ price[1].toLocaleString("en-US") }}</span>
+				<span>{{ price[1].toLocaleString('en-US') }}</span>
 			</span>
 		</span>
 	</span>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-	name: "ProgressLine",
+	name: 'ProgressLine',
 	props: {
 		progress: {
 			type: [Number, String],

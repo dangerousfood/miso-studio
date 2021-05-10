@@ -64,14 +64,32 @@
 		</div>
 
 		<div
-			class="col-12 col-lg-3 col-xl-4 bg-dark mb-sm-5 mb-md-0 darker-side order-0 position-relative"
+			class="
+				col-12 col-lg-3 col-xl-4
+				bg-dark
+				mb-sm-5 mb-md-0
+				darker-side
+				order-0
+				position-relative
+			"
 		>
 			<div class="d-flex align-items-center mt-5 mb-2 pl-3">
 				<div class="text-white fs-7 text-capitalize font-weight-bold pr-3">
 					{{ sidebarTitles[tabIndex] }}
 				</div>
 				<p
-					class="bg-brown fs-3 py-1 px-3 mb-0 d-flex align-items-center radius-lg text-white font-weight-bold"
+					class="
+						bg-brown
+						fs-3
+						py-1
+						px-3
+						mb-0
+						d-flex
+						align-items-center
+						radius-lg
+						text-white
+						font-weight-bold
+					"
 				>
 					Step {{ tabIndex + 1 }} of 3
 				</p>
@@ -118,17 +136,17 @@
 </template>
 
 <script>
-import Notificatoin from "@/components/Miso/Factory/Liquidity/sidebarNotification"
-import { LiquidWizard, WizardTab, BaseDivider } from "@/components"
-import FirstStep from "@/components/Miso/Factory/Liquidity/FirstStep"
-import SecondStep from "@/components/Miso/Factory/Liquidity/SecondtStep"
-import ThirdStep from "@/components/Miso/Factory/Liquidity/ThirdStep"
-import { Vue } from "vue-property-decorator"
-import { ZoomYTransition } from "vue2-transitions"
-import { mapMutations, mapGetters } from "vuex"
+import Notificatoin from '@/components/Miso/Factory/Liquidity/sidebarNotification'
+import { LiquidWizard, WizardTab, BaseDivider } from '@/components'
+import FirstStep from '@/components/Miso/Factory/Liquidity/FirstStep'
+import SecondStep from '@/components/Miso/Factory/Liquidity/SecondtStep'
+import ThirdStep from '@/components/Miso/Factory/Liquidity/ThirdStep'
+import { Vue } from 'vue-property-decorator'
+import { ZoomYTransition } from 'vue2-transitions'
+import { mapMutations, mapGetters } from 'vuex'
 // import ThirdStep from "@/components/Miso/Factory/Liquidity/FirstStep"
 export default {
-	name: "LiquidityFactoory",
+	name: 'LiquidityFactoory',
 	components: {
 		LiquidWizard,
 		WizardTab,
@@ -150,79 +168,79 @@ export default {
 				{
 					active: false,
 					top: 24.5,
-					title: "ADMIN ADDRESS*",
+					title: 'ADMIN ADDRESS*',
 					desctiption:
-						"Enter the wallet address used to create this token on MISO. This enables you to proceed with launching liquidity on SUSHI, and is needed for administrative actions like defining access/permission lists and setting token distribution percentages and lockup timelines.",
+						'Enter the wallet address used to create this token on MISO. This enables you to proceed with launching liquidity on SUSHI, and is needed for administrative actions like defining access/permission lists and setting token distribution percentages and lockup timelines.',
 				},
 				{
 					active: false,
 					top: 46.5,
-					title: "AUCTION ADDRESS (optional)",
+					title: 'AUCTION ADDRESS (optional)',
 					desctiption:
-						"Enter the address of the auction held for this token. This enables us to import data from the auction to facilitate the launching process. This is not required, if you did not have an auction, leave this field blank.",
+						'Enter the address of the auction held for this token. This enables us to import data from the auction to facilitate the launching process. This is not required, if you did not have an auction, leave this field blank.',
 				},
 				{
 					active: false,
 					top: 64.5,
-					title: "YOUR TOKEN ADDRESS",
+					title: 'YOUR TOKEN ADDRESS',
 					desctiption:
-						"Search by token name or token symbol. Or, Enter the contract address of your MISO-created token.",
+						'Search by token name or token symbol. Or, Enter the contract address of your MISO-created token.',
 				},
 			],
 			SecondStep: [
 				{
 					active: true,
 					top: 24.5,
-					title: "LIQUIDITY PAIR TOKEN*",
+					title: 'LIQUIDITY PAIR TOKEN*',
 					desctiption:
-						"Select the asset that your custom token will be paired with when it’s liquidity pool is launched on SushiSwap.  Common pair tokens are ETH and stablecoins, but you can use any ERC-20 token.",
+						'Select the asset that your custom token will be paired with when it’s liquidity pool is launched on SushiSwap.  Common pair tokens are ETH and stablecoins, but you can use any ERC-20 token.',
 				},
 				{
 					active: false,
 					top: 60,
-					title: "SUSHI LIQUIDITY PROVISIONING*",
+					title: 'SUSHI LIQUIDITY PROVISIONING*',
 					desctiption:
-						"Select the amount of your custom token and it’s pair token to be allocated for it’s upcoming liquidity pool on SushiSwap.",
+						'Select the amount of your custom token and it’s pair token to be allocated for it’s upcoming liquidity pool on SushiSwap.',
 				},
 			],
 			ThirdStep: [
 				{
 					active: false,
 					top: 24.5,
-					title: "VAULT ADDRESS*",
+					title: 'VAULT ADDRESS*',
 					desctiption:
-						"Enter the wallet address that will hold the created SLP tokens as well as any remaining base pair tokens.  Can be the admin address, or any other wallet address you have access to.",
+						'Enter the wallet address that will hold the created SLP tokens as well as any remaining base pair tokens.  Can be the admin address, or any other wallet address you have access to.',
 				},
 				{
 					active: false,
 					top: 45.5,
-					title: "LAUNCH DATE*",
+					title: 'LAUNCH DATE*',
 					desctiption:
-						"Select the date to launch your liquidity pool on SushiSwap.  You must have put your funds in the launcher by this date - if you do not, the community can then launch a pool for your token themselves.",
+						'Select the date to launch your liquidity pool on SushiSwap.  You must have put your funds in the launcher by this date - if you do not, the community can then launch a pool for your token themselves.',
 				},
 				{
 					active: false,
 					top: 67.5,
-					title: "LIQUIDITY LOCKUP TIMELINE*",
+					title: 'LIQUIDITY LOCKUP TIMELINE*',
 					desctiption:
-						"Set a timeline during which SLP tokens cannot be withdrawn from your liquidity pool on SushiSwap.  Industry standard lockup times are from 90 to 180 days to prevent rugpulling, but you can set a custom timeline as you see fit.",
+						'Set a timeline during which SLP tokens cannot be withdrawn from your liquidity pool on SushiSwap.  Industry standard lockup times are from 90 to 180 days to prevent rugpulling, but you can set a custom timeline as you see fit.',
 				},
 			],
-			sidebarTitles: ["Initial Setup", "Liquidity Options", "Launch Settings"],
+			sidebarTitles: ['Initial Setup', 'Liquidity Options', 'Launch Settings'],
 		}
 	},
 	computed: {
-		...mapGetters({ liquidity: "factory/liquidModel" }),
+		...mapGetters({ liquidity: 'factory/liquidModel' }),
 		stepTitle() {
-			return ""
+			return ''
 		},
 		nextBtnText() {
-			if (this.tabIndex === 2) return "Review"
-			return "Next"
+			if (this.tabIndex === 2) return 'Review'
+			return 'Next'
 		},
 	},
 	watch: {
-		"$screen.breakpoint"(val) {
+		'$screen.breakpoint'(val) {
 			this.breackpoint = val
 		},
 		tabIndex() {
@@ -240,25 +258,25 @@ export default {
 		this.breackpoint = this.$screen.breakpoint
 	},
 	methods: {
-		...mapMutations({ modelUpdate: "factory/UPDATE_MODEL" }),
+		...mapMutations({ modelUpdate: 'factory/UPDATE_MODEL' }),
 		firstStepInputs(event) {
 			let i = 0
 			for (const key in event) {
-				Vue.set(this.firstSteps[i], "active", event[key])
+				Vue.set(this.firstSteps[i], 'active', event[key])
 				i++
 			}
 		},
 		secondStepInputs(event) {
 			let i = 0
 			for (const key in event) {
-				Vue.set(this.SecondStep[i], "active", event[key])
+				Vue.set(this.SecondStep[i], 'active', event[key])
 				i++
 			}
 		},
 		thirdStepInputs(event) {
 			let i = 0
 			for (const key in event) {
-				Vue.set(this.ThirdStep[i], "active", event[key])
+				Vue.set(this.ThirdStep[i], 'active', event[key])
 				i++
 			}
 		},

@@ -21,7 +21,16 @@
 			<div class="col-md-8 col-sm-5 col-12">
 				<div class="row no-gutters">
 					<div
-						class="col-xl-3 offset-xl-9 col-lg-4 offset-lg-8 col-md-4 offset-md-8 col-sm-10 offset-sm-7"
+						class="
+							col-xl-3
+							offset-xl-9
+							col-lg-4
+							offset-lg-8
+							col-md-4
+							offset-md-8
+							col-sm-10
+							offset-sm-7
+						"
 					>
 						<!-- number of item to display in table -->
 						<base-input class="select-input position-relative">
@@ -58,7 +67,13 @@
 				<loader v-else width="80" height="80" y="150" />
 				<!-- pagination with settings -->
 				<div
-					class="padination-wrapper d-flex align-items-center justify-content-between pt-4"
+					class="
+						padination-wrapper
+						d-flex
+						align-items-center
+						justify-content-between
+						pt-4
+					"
 				>
 					<span class="fs-2">
 						Showing {{ startItem }} to {{ endItem }} of {{ total }} entries
@@ -76,10 +91,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { BaseInput, BasePagination } from "@/components"
-import AuctionList from "~/components/Miso/Auctions/AuctionList"
-import clientPaginationMixin from "~/components/Tables/PaginatedTables/clientPaginationMixin"
+import { mapGetters, mapActions } from 'vuex'
+import { BaseInput, BasePagination } from '@/components'
+import AuctionList from '~/components/Miso/Auctions/AuctionList'
+import clientPaginationMixin from '~/components/Tables/PaginatedTables/clientPaginationMixin'
 
 export default {
 	components: {
@@ -90,20 +105,20 @@ export default {
 	mixins: [clientPaginationMixin],
 	data() {
 		return {
-			searchQuery: "",
-			propsToSearch: ["address", "name", "symbol"],
+			searchQuery: '',
+			propsToSearch: ['address', 'name', 'symbol'],
 			tableData: [],
 			loading: true,
 		}
 	},
 	computed: {
-		...mapGetters({ auctions: "auctions/list" }),
-		...mapGetters("theme", ["getMode"]),
+		...mapGetters({ auctions: 'auctions/list' }),
+		...mapGetters('theme', ['getMode']),
 		computedIconColor() {
 			if (this.getMode) {
-				return "#ffffff #ffffff"
+				return '#ffffff #ffffff'
 			}
-			return "#000000 #000000"
+			return '#000000 #000000'
 		},
 		startItem() {
 			if (this.pagination.currentPage === 1) {
@@ -124,7 +139,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			getAuctions: "auctions/getAuctions",
+			getAuctions: 'auctions/getAuctions',
 		}),
 		getPeriodValue(row) {
 			const dateStart = new Date(row.startDate)
@@ -132,15 +147,13 @@ export default {
 			const dateNow = new Date()
 
 			const fullPeriod = Math.ceil(Math.abs(dateEnd - dateStart) / (60 * 1000))
-			const periodForNow = Math.ceil(
-				Math.abs(dateNow - dateStart) / (60 * 1000)
-			)
+			const periodForNow = Math.ceil(Math.abs(dateNow - dateStart) / (60 * 1000))
 
 			const res = (periodForNow * 100) / fullPeriod
 
-			if (row.status === "finished") {
+			if (row.status === 'finished') {
 				return 100
-			} else if (row.status === "not started") {
+			} else if (row.status === 'not started') {
 				return 0
 			} else {
 				return res
@@ -160,7 +173,7 @@ export default {
 	div {
 		position: relative;
 		&::after {
-			content: "";
+			content: '';
 			position: absolute;
 			display: inline-block;
 			width: 100%;
@@ -169,7 +182,7 @@ export default {
 			height: 3px;
 		}
 		p::after {
-			content: "";
+			content: '';
 			position: absolute;
 			display: inline-block;
 			width: 100%;

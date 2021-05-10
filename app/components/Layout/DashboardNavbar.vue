@@ -28,11 +28,7 @@
 				MISO v1.0.1.3
 			</span>
 		</div>
-		<div
-			v-if="notDesktopSize"
-			slot="logo"
-			class="d-flex justify-content-center"
-		>
+		<div v-if="notDesktopSize" slot="logo" class="d-flex justify-content-center">
 			<zoom-x-transition :duration="500">
 				<svg-icon
 					v-show="!showSideBar"
@@ -71,7 +67,14 @@
 			</div>
 			<client-only>
 				<div
-					class="d-inline-flex align-items-center justify-content-center px-4 my-3 my-lg-0 py-lg-0"
+					class="
+						d-inline-flex
+						align-items-center
+						justify-content-center
+						px-4
+						my-3 my-lg-0
+						py-lg-0
+					"
 					:class="{ 'py-4': !notDesktopSize }"
 				>
 					<span v-if="!coinbase" class="text-white">Wallet not detected</span>
@@ -131,9 +134,7 @@
 					</div>
 				</div>
 				<template slot="footer">
-					<base-button type="secondary" @click="disconnect()">
-						Disconnect
-					</base-button>
+					<base-button type="secondary" @click="disconnect()">Disconnect</base-button>
 					<base-button type="secondary" @click="change()">Change</base-button>
 				</template>
 			</modal>
@@ -141,13 +142,13 @@
 	</base-nav>
 </template>
 <script>
-import { mapGetters, mapActions, mapMutations } from "vuex"
-import { BaseNav, BaseSwitch, Modal } from "@/components"
-import { ZoomXTransition } from "vue2-transitions"
-import EthImage from "@/components/Miso/EthIdentication/EthImage.vue"
+import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { BaseNav, BaseSwitch, Modal } from '@/components'
+import { ZoomXTransition } from 'vue2-transitions'
+import EthImage from '@/components/Miso/EthIdentication/EthImage.vue'
 
 export default {
-	name: "DishboardNavbar",
+	name: 'DishboardNavbar',
 	components: {
 		BaseNav,
 		BaseSwitch,
@@ -159,7 +160,7 @@ export default {
 		slideBar: {
 			type: Boolean,
 			required: false,
-			discriptioin: "navbar side with slidebar min/max condition",
+			discriptioin: 'navbar side with slidebar min/max condition',
 		},
 	},
 	data() {
@@ -167,8 +168,8 @@ export default {
 			activeNotifications: false,
 			showMenu: false,
 			searchModalVisible: false,
-			searchQuery: "",
-			darkMode: "",
+			searchQuery: '',
+			darkMode: '',
 			breackpoint: null,
 			showSideBar: false,
 			showModal: false,
@@ -176,27 +177,27 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			mode: "theme/getMode",
+			coinbase: 'ethereum/coinbase',
+			mode: 'theme/getMode',
 		}),
 		isRTL() {
 			return this.$rtl.isRTL
 		},
 		notDesktopSize() {
 			if (
-				this.breackpoint === "md" ||
-				this.breackpoint === "sm" ||
-				this.breackpoint === "xs"
+				this.breackpoint === 'md' ||
+				this.breackpoint === 'sm' ||
+				this.breackpoint === 'xs'
 			) {
 				return true
 			}
 			return false
 		},
 		logoHeight() {
-			if (this.breackpoint === "xs") {
-				return "10"
+			if (this.breackpoint === 'xs') {
+				return '10'
 			}
-			return "15"
+			return '15'
 		},
 	},
 
@@ -205,13 +206,13 @@ export default {
 			this.SET_THEME(type)
 			this.initTheme(type)
 		},
-		"$screen.breakpoint"(val) {
+		'$screen.breakpoint'(val) {
 			this.breackpoint = val
 		},
 	},
 	created() {
 		if (process.browser) {
-			const pageThem = JSON.parse(localStorage.getItem("miso-theme"))
+			const pageThem = JSON.parse(localStorage.getItem('miso-theme'))
 			if (pageThem !== null) {
 				this.SET_THEME(pageThem)
 				this.darkMode = this.mode
@@ -222,11 +223,11 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			enableAccount: "ethereum/enableAccount",
-			disconnectAccount: "ethereum/disconnectAccount",
-			changeWallet: "ethereum/changeWallet",
+			enableAccount: 'ethereum/enableAccount',
+			disconnectAccount: 'ethereum/disconnectAccount',
+			changeWallet: 'ethereum/changeWallet',
 		}),
-		...mapMutations("theme", ["SET_THEME"]),
+		...mapMutations('theme', ['SET_THEME']),
 		async connectAccount() {
 			await this.enableAccount()
 			// if (!connected) {
@@ -244,9 +245,9 @@ export default {
 		initTheme(val) {
 			const body = document.body
 			if (val) {
-				body.classList.remove("white-content")
+				body.classList.remove('white-content')
 			} else {
-				body.classList.add("white-content")
+				body.classList.add('white-content')
 			}
 		},
 		async disconnect() {
@@ -258,17 +259,17 @@ export default {
 			await this.changeWallet()
 		},
 		toggleMode(type) {
-			this.$emit("darkMode", type)
+			this.$emit('darkMode', type)
 			const docClasses = document.body.classList
 			if (type) {
-				docClasses.remove("white-content")
+				docClasses.remove('white-content')
 			} else {
-				docClasses.add("white-content")
+				docClasses.add('white-content')
 			}
 		},
 		capitalizeFirstLetter(string) {
-			if (!string || typeof string !== "string") {
-				return ""
+			if (!string || typeof string !== 'string') {
+				return ''
 			}
 			return string.charAt(0).toUpperCase() + string.slice(1)
 		},
@@ -291,7 +292,7 @@ export default {
 	background: transparent !important;
 	&.divider {
 		&::after {
-			content: "";
+			content: '';
 			position: absolute;
 			bottom: 0;
 			left: 0;
@@ -354,7 +355,7 @@ export default {
 	}
 }
 .nav_bg {
-	background: url("/s3/img/backgrounds/nav_bg-2.png") no-repeat left bottom !important;
+	background: url('/s3/img/backgrounds/nav_bg-2.png') no-repeat left bottom !important;
 	background-size: cover !important;
 }
 

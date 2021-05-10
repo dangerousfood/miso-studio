@@ -8,194 +8,191 @@
 		</el-steps>
 		<div class="mt-5">
 			<validation-observer v-if="activeStep === 0" v-slot="{ handleSubmit }">
-				<form
-					class="needs-validation"
-					@submit.prevent="handleSubmit(createRecipe02)"
-				>
+				<form class="needs-validation" @submit.prevent="handleSubmit(createRecipe02)">
 					<div class="form-row justify-content-md-center">
 						<div class="col-lg-6 mr-1">
 							<base-input
+								v-model="recipe02FromDetails.name"
 								label="Name"
 								name="name"
 								placeholder="name"
 								type="text"
 								:rules="`required`"
-								v-model="recipe02FromDetails.name"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.symbol"
 								label="Symbols"
 								name="symbol"
 								placeholder="symbol"
 								type="text"
 								:rules="`required`"
-								v-model="recipe02FromDetails.symbol"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.accessControl"
 								label="Access Control"
 								name="accessControl"
 								placeholder="accessControl"
 								type="text"
 								:rules="`required`"
-								v-model="recipe02FromDetails.accessControl"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.tokensToMint"
 								label="Tokens To Mint"
 								name="tokensToMint"
 								placeholder="tokensToMint"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.tokensToMint"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.tokensToMarket"
 								label="Tokens To Market"
 								name="tokensToMarket"
 								placeholder="tokensToMarket"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.tokensToMarket"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.paymentCurrency"
 								label="Payment Currency"
 								name="paymentCurrency"
 								placeholder="paymentCurrency"
 								type="text"
 								:rules="`required`"
-								v-model="recipe02FromDetails.paymentCurrency"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.startTime"
 								label="Start Time"
 								name="startTime"
 								placeholder="startTime"
 								type="text"
 								:rules="`required`"
-								v-model="recipe02FromDetails.startTime"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.endTime"
 								label="End Time"
 								name="EndTime"
 								placeholder="EndTime"
 								type="text"
 								:rules="`required`"
-								v-model="recipe02FromDetails.endTime"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.marketRate"
 								label="Market Rate"
 								name="marketRate"
 								placeholder="marketRate"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.marketRate"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.marketGoal"
 								label="Market Goal"
 								name="marketGoal"
 								placeholder="marketGoal"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.marketGoal"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.wallet"
 								label="Wallet"
 								name="wallet"
 								placeholder="wallet"
 								type="text"
 								:rules="`required`"
-								v-model="recipe02FromDetails.wallet"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.operator"
 								label="Operator"
 								name="operator"
 								placeholder="operator"
 								type="text"
 								:rules="`required`"
-								v-model="recipe02FromDetails.operator"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.deadline"
 								label="Deadline"
 								name="deadline"
 								placeholder="deadline"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.deadline"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.launchwindow"
 								label="Launch Window"
 								name="launchwindow"
 								placeholder="launchwindow"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.launchwindow"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.locktime"
 								label="Locktime"
 								name="locktime"
 								placeholder="locktime"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.locktime"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.tokensToLiquidity"
 								label="Tokens To Liquidity"
 								name="tokensToLiquidity"
 								placeholder="tokensToLiquidity"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.tokensToLiquidity"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.rewardsPerBlock"
 								label="Rewards Per Block"
 								name="rewardsPerBlock"
 								placeholder="rewardsPerBlock"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.rewardsPerBlock"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.startBlock"
 								label="Start Block"
 								name="startBlock"
 								placeholder="startBlock"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.startBlock"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.devAddr"
 								label="Dev Addr"
 								name="devAddr"
 								placeholder="devAddr"
 								type="text"
 								:rules="`required`"
-								v-model="recipe02FromDetails.devAddr"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.tokensToFarm"
 								label="Tokens To Farm"
 								name="tokensToFarm"
 								placeholder="tokensToFarm"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.tokensToFarm"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.allocPoint"
 								label="Alloc Point"
 								name="allocPoint"
 								placeholder="allocPoint"
 								type="number"
 								:rules="`required`"
-								v-model="recipe02FromDetails.allocPoint"
 							></base-input>
 							<base-input
+								v-model="recipe02FromDetails.integratorFeeAccount"
 								label="Integrator Fee Account"
 								name="integratorFeeAccount"
 								placeholder="integratorFeeAccount"
 								type="text"
 								:rules="`required`"
-								v-model="recipe02FromDetails.integratorFeeAccount"
 							></base-input>
 						</div>
 					</div>
 					<hr />
 					<base-button
-						class="float-right"
 						v-if="!hideNextBtn"
+						class="float-right"
 						:loading="waitingForConfirmation"
 						type="primary"
 						native-type="submit"
@@ -210,9 +207,7 @@
 						<card>
 							<div slot="header" class="row">
 								<div class="col">
-									<h6 class="text-uppercase text-muted ls-1 mb-1">
-										Miso Market
-									</h6>
+									<h6 class="text-uppercase text-muted ls-1 mb-1">Miso Market</h6>
 								</div>
 							</div>
 							<div class="col-sm-12 col-md-12">
@@ -271,9 +266,7 @@
 						<card>
 							<div slot="header" class="row">
 								<div class="col">
-									<h6 class="text-uppercase text-muted ls-1 mb-1">
-										Transaction
-									</h6>
+									<h6 class="text-uppercase text-muted ls-1 mb-1">Transaction</h6>
 								</div>
 							</div>
 							<div class="col-sm-12 col-md-12">
@@ -343,14 +336,14 @@
 </template>
 
 <script>
-import { Step, Steps } from "element-ui"
-import { mapGetters } from "vuex"
-import { ValidationObserver } from "vee-validate"
-import { sendTransaction as createRecipe02 } from "@/services/web3/recipes/recipe02"
-import * as _moment from "moment"
+import { Step, Steps } from 'element-ui'
+import { mapGetters } from 'vuex'
+import { ValidationObserver } from 'vee-validate'
+import { sendTransaction as createRecipe02 } from '@/services/web3/recipes/recipe02'
+import * as _moment from 'moment'
 const moment = _moment
 export default {
-	name: "Recipe02",
+	name: 'Recipe02',
 	components: {
 		[Steps.name]: Steps,
 		[Step.name]: Step,
@@ -362,37 +355,35 @@ export default {
 			activeStep: 0,
 			transactionHash: null,
 			recipe02FromDetails: {
-				name: "Token",
-				symbol: "TKN",
-				accessControl: "0x385fA2EF73433c6A4F4A5aF62700184390a6E232",
+				name: 'Token',
+				symbol: 'TKN',
+				accessControl: '0x385fA2EF73433c6A4F4A5aF62700184390a6E232',
 				tokensToMint: 1000000000000000,
 				tokensToMarket: 2000000000000000,
-				paymentCurrency: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-				startTime: moment().format("YYYY-MM-DD HH:mm"),
-				endTime: moment(this.startTime)
-					.add(1, "days")
-					.format("YYYY-MM-DD HH:mm"),
+				paymentCurrency: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+				startTime: moment().format('YYYY-MM-DD HH:mm'),
+				endTime: moment(this.startTime).add(1, 'days').format('YYYY-MM-DD HH:mm'),
 				marketRate: 100,
 				marketGoal: 200,
-				wallet: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
-				operator: "0x2A40019ABd4A61d71aBB73968BaB068ab389a636",
+				wallet: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
+				operator: '0x2A40019ABd4A61d71aBB73968BaB068ab389a636',
 				deadline: 200,
 				launchwindow: 259200,
 				locktime: 100,
 				tokensToLiquidity: 1000000000000000,
 				rewardsPerBlock: 1000000000000000,
 				startBlock: 1,
-				devAddr: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
+				devAddr: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
 				tokensToFarm: 1000000000000000,
 				allocPoint: 10,
-				integratorFeeAccount: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
+				integratorFeeAccount: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
 			},
 		}
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
 		}),
 		hideNextBtn() {
 			return this.activeStep === 1
@@ -400,10 +391,8 @@ export default {
 	},
 	methods: {
 		async createRecipe02() {
-			const startDate =
-				new Date(this.recipe02FromDetails.startTime).getTime() / 1000
-			const endDate =
-				new Date(this.recipe02FromDetails.endTime).getTime() / 1000
+			const startDate = new Date(this.recipe02FromDetails.startTime).getTime() / 1000
+			const endDate = new Date(this.recipe02FromDetails.endTime).getTime() / 1000
 			const args = [
 				this.recipe02FromDetails.name,
 				this.recipe02FromDetails.symbol,
@@ -429,7 +418,7 @@ export default {
 				this.recipe02FromDetails.integratorFeeAccount,
 			]
 			console.log(args)
-			const txHash = await createRecipe02("prepareMiso", args, {
+			const txHash = await createRecipe02('prepareMiso', args, {
 				from: this.coinbase,
 			})
 			console.log(txHash)
