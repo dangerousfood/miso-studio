@@ -2,10 +2,28 @@
 	<div class="position-relative h-100">
 		<card class="p1-2 project-status h-100">
 			<div v-if="!finalize.author">
-				<div class="d-flex justify-content-between mt-2 project-status_text">
+				<div
+					class="
+						d-flex
+						flex-sm-row flex-column
+						justify-content-between
+						mt-2
+						project-status_text
+					"
+				>
 					<div class="d-flex flex-column">
-						<span class="fs-1 mb-1 text-uppercase font-weight-bold">Tokens:</span>
-						<div class="d-flex align-items-baseline">
+						<span
+							class="
+								fs-1
+								mb-1
+								text-uppercase
+								font-weight-bold
+								text-center text-sm-left
+							"
+						>
+							Initial supply:
+						</span>
+						<div class="d-flex justify-content-center justify-content-sm-start">
 							<p class="fs-3 text-white font-weight-bold text-capitalize live">
 								{{ marketInfo.totalTokens }}
 							</p>
@@ -13,33 +31,51 @@
 					</div>
 					<div class="d-flex flex-column">
 						<span class="fs-1 mb-1 text-center text-uppercase font-weight-bold">
-							Commitments:
+							amount raised:
 						</span>
 						<p class="fs-3 text-white font-weight-bold text-center">
-							{{ totalCommitments }} {{ textCheck(marketInfo.paymentCurrency.symbol) }}
+							{{ totalCommitments }}
+							{{ textCheck(marketInfo.paymentCurrency.symbol) }}
 						</p>
 					</div>
 					<div class="d-flex flex-column">
-						<span v-if="status.type === 'batch'">
+						<template v-if="status.type === 'batch'">
 							<span class="fs-1 mb-1 text-uppercase font-weight-bold text-center">
-								Total Tokens:
-							</span>
-							<p class="fs-3 text-white font-weight-bold text-center">
-								{{ marketInfo.totalTokens }}
-							</p>
-						</span>
-						<span v-else>
-							<span class="fs-1 mb-1 text-center text-uppercase font-weight-bold">
 								Remaining:
 							</span>
 							<p class="fs-3 text-white font-weight-bold text-center">
-								{{percentRemaining}} %
+								{{ parseFloat(maxTokenAmount) - parseFloat(marketInfo.totalTokens) }}
 							</p>
-						</span>
+						</template>
+						<template v-else>
+							<span
+								class="
+									fs-1
+									mb-1
+									text-center text-uppercase
+									font-weight-bold
+									text-center
+								"
+							>
+								Remaining:
+							</span>
+							<p class="fs-3 text-white font-weight-bold text-center">
+								{{ percentRemaining }} %
+							</p>
+						</template>
 					</div>
 					<div class="d-flex flex-column">
-						<span class="fs-1 mb-1 text-right text-uppercase  font-weight-bold">Participants:</span>
-						<p class="fs-3 text-white font-weight-bold text-right">
+						<span
+							class="
+								fs-1
+								mb-1
+								text-sm-right text-center text-uppercase
+								font-weight-bold
+							"
+						>
+							Participants:
+						</span>
+						<p class="fs-3 text-white font-weight-bold text-sm-right text-center">
 							{{ totalParticipants }}
 						</p>
 					</div>
@@ -80,10 +116,7 @@
 					/>
 					<!-- BatchProgress -->
 				</div>
-				<div
-					v-else-if="!isUpcoming && status.auction === 'finished'"
-					class="d-flex"
-				>
+				<div v-else-if="!isUpcoming && status.auction === 'finished'" class="d-flex">
 					<div
 						v-if="status.auctionSuccessful && marketInfo.finalized"
 						class="finalized-box"
@@ -115,7 +148,7 @@
 					</div>
 				</div>
 				<!-- DutchProgress -->
-				<base-divider class="mb-5 pb-2" />
+				<base-divider v-if="getStatus" class="mb-5 pb-2" />
 				<!-- active auction -->
 				<div v-if="getStatus" class="row no-gutters">
 					<div class="col-xl-6 col-md-6 col-12">
@@ -185,7 +218,16 @@
 					</div>
 					<div class="col-xl-6 col-md-6 col-12">
 						<div
-							class="ml-xl-4 ml-0 pl-0 pl-xl-3 invest mt-xl-2 mt-5 pt-4 pt-md-0 mt-md-0 pl-md-3 pt-xl-0"
+							class="
+								ml-xl-4 ml-0
+								pl-0 pl-xl-3
+								invest
+								mt-xl-2 mt-5
+								pt-4 pt-md-0
+								mt-md-0
+								pl-md-3
+								pt-xl-0
+							"
 						>
 							<base-input
 								v-model="selectedTokenQuantity"
@@ -247,7 +289,14 @@
 										class="withdraw d-flex justify-content-center"
 									>
 										<base-button
-											class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+											class="
+												btn
+												finalize
+												bg-orange
+												text-uppercase text-white
+												font-weight-bold
+												cursor-pointer
+											"
 											:loading="loading"
 											@click="finalizeAuction"
 										>
@@ -280,7 +329,14 @@
 									class="withdraw d-flex justify-content-center"
 								>
 									<base-button
-										class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+										class="
+											btn
+											finalize
+											bg-orange
+											text-uppercase text-white
+											font-weight-bold
+											cursor-pointer
+										"
 										:disabled="!canClaim"
 										:loading="loading"
 										@click="withdraw"
@@ -315,7 +371,7 @@
 							</div>
 						</div>
 						<!-- withdraw -->
-						<div v-else>
+						<div v-else class="center-status">
 							<div class="font-weight-bold text-white fs-4 text-center mb-2">
 								Auction Failed to Reach a Target
 							</div>
@@ -326,7 +382,14 @@
 								</div>
 								<div class="withdraw d-flex justify-content-center">
 									<base-button
-										class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+										class="
+											btn
+											finalize
+											bg-orange
+											text-uppercase text-white
+											font-weight-bold
+											cursor-pointer
+										"
 										:loading="loading"
 										:disabled="parseFloat(userInfo.commitments) === 0"
 										@click="withdraw"
@@ -342,7 +405,14 @@
 										class="withdraw d-flex justify-content-center"
 									>
 										<base-button
-											class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+											class="
+												btn
+												finalize
+												bg-orange
+												text-uppercase text-white
+												font-weight-bold
+												cursor-pointer
+											"
 											:loading="loading"
 											@click="finalizeAuction"
 										>
@@ -365,29 +435,29 @@
 
 <script>
 // import BigNumber from "bignumber.js"
-import { mapGetters } from "vuex"
+import { mapGetters } from 'vuex'
 import {
 	sendTransaction,
 	sendTransactionAndWait,
 	makeBatchCall,
-} from "@/services/web3/base"
-import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
-import { getContractInstance as getAuctionContract } from "@/services/web3/auctions/auction"
-import { getContractInstance as erc20TokenContract } from "@/services/web3/erc20Token"
+} from '@/services/web3/base'
+import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
+import { getContractInstance as getAuctionContract } from '@/services/web3/auctions/auction'
+import { getContractInstance as erc20TokenContract } from '@/services/web3/erc20Token'
 import {
 	to18Decimals,
 	toDecimals,
 	divNumbers,
 	multiplyNumbers,
 	toPrecision,
-} from "@/util"
-import CrowdProgress from "~/components/Miso/Auctions/Details/CrowdProgress"
-import DutchProgress from "~/components/Miso/Auctions/Details/DutchProgress"
-import BatchProgress from "~/components/Miso/Auctions/Details/BatchProgress"
-import BaseDivider from "~/components/BaseDivider.vue"
+} from '@/util'
+import CrowdProgress from '~/components/Miso/Auctions/Details/CrowdProgress'
+import DutchProgress from '~/components/Miso/Auctions/Details/DutchProgress'
+import BatchProgress from '~/components/Miso/Auctions/Details/BatchProgress'
+import BaseDivider from '~/components/BaseDivider.vue'
 
 export default {
-	name: "LiveStatus",
+	name: 'LiveStatus',
 	components: {
 		BaseDivider,
 		CrowdProgress,
@@ -414,10 +484,10 @@ export default {
 	},
 	data() {
 		return {
-			displaySeconds: "00",
-			displayMinutes: "00",
-			displayHours: "00",
-			displayDays: "00",
+			displaySeconds: '00',
+			displayMinutes: '00',
+			displayHours: '00',
+			displayDays: '00',
 			userTokens: 0,
 			accountBalance: 0,
 			// TODO A.K. this need to be updated with connected wallet's bance in marketInfo.paymentCurrency currency
@@ -433,12 +503,12 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({ mode: "theme/getMode" }),
+		...mapGetters({ mode: 'theme/getMode' }),
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
+			coinbase: 'ethereum/coinbase',
 			// TODO: add user's balance
 			// accountBalance: "ethereum/accountBalance",
-			totalParticipants: "commitments/totalParticipants",
+			totalParticipants: 'commitments/totalParticipants',
 		}),
 		// TODO needs to be set if user is author of auction or not
 		isAuthor() {
@@ -465,9 +535,9 @@ export default {
 		},
 		computedIconColor() {
 			if (this.mode) {
-				return "#ffffff"
+				return '#ffffff'
 			}
-			return "rgba(255, 255, 255, 0.2)"
+			return 'rgba(255, 255, 255, 0.2)'
 		},
 		getFullTime() {
 			return `${this.displayDays}d : ${this.displayHours}h : ${this.displayMinutes}m : ${this.displaySeconds}s`
@@ -489,10 +559,10 @@ export default {
 		},
 		getStatus() {
 			if (
-				this.displayDays === "00" &&
-				this.displayHours === "00" &&
-				this.displayMinutes === "00" &&
-				this.displaySeconds === "00"
+				this.displayDays === '00' &&
+				this.displayHours === '00' &&
+				this.displayMinutes === '00' &&
+				this.displaySeconds === '00'
 			) {
 				return false
 			}
@@ -500,14 +570,14 @@ export default {
 		},
 		responsiveClass() {
 			if (this.$screen.width > 992 && this.$screen.width < 1250) {
-				return "fs-2"
+				return 'fs-2'
 			}
-			return "fs-3"
+			return 'fs-3'
 		},
 		finishedStatusText() {
 			return this.status.auctionSuccessful
-				? "Auction Finished Successfully"
-				: "Auction Failed to Reach a Target"
+				? 'Auction Finished Successfully'
+				: 'Auction Failed to Reach a Target'
 		},
 		isUpcoming() {
 			const currentTimestamp = Date.parse(new Date()) / 1000
@@ -527,7 +597,7 @@ export default {
 			)
 		},
 		maxInvestAmount() {
-			if (this.status.type === "batch") {
+			if (this.status.type === 'batch') {
 				return this.accountBalance
 			}
 
@@ -536,25 +606,21 @@ export default {
 			)
 		},
 		percentRemaining() {
-			return parseFloat(toPrecision(
+			return parseFloat(
+				toPrecision(
 					divNumbers(this.maxTokenAmount, this.marketInfo.totalTokens) * 100,
-				4
-			))
-		},
-		totalCommitments() {
-			return toPrecision(
-				this.marketInfo.commitmentsTotal,
-				3
+					4
+				)
 			)
 		},
+		totalCommitments() {
+			return toPrecision(this.marketInfo.commitmentsTotal, 3)
+		},
 		tokenAmount() {
-			if (this.status.type === "batch") {
+			if (this.status.type === 'batch') {
 				if (parseFloat(this.marketInfo.currentPrice) === 0)
 					return this.marketInfo.totalTokens
-				return divNumbers(
-					this.selectedTokenQuantity,
-					this.marketInfo.currentPrice
-				)
+				return divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice)
 			}
 			return toPrecision(
 				divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice),
@@ -564,13 +630,12 @@ export default {
 		isApproved() {
 			if (
 				this.marketInfo.paymentCurrency.addr ===
-				"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+				'0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
 			) {
 				return true
 			}
 			return (
-				parseInt(this.allowance) >=
-				parseInt(to18Decimals(this.selectedTokenQuantity))
+				parseInt(this.allowance) >= parseInt(to18Decimals(this.selectedTokenQuantity))
 			)
 		},
 		dutchProgress() {
@@ -626,7 +691,7 @@ export default {
 		mode: {
 			deep: true,
 			handler() {
-				const video = document.querySelector(".finalized-video")
+				const video = document.querySelector('.finalized-video')
 				if (video) {
 					video.load()
 					video.play()
@@ -648,10 +713,8 @@ export default {
 		if (this.coinbase) {
 			const paymentTokenAddress = this.marketInfo.paymentCurrency.addr
 			let balance = 0
-			if (
-				paymentTokenAddress !== "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
-			) {
-				const methods = [{ methodName: "balanceOf", args: [this.coinbase] }]
+			if (paymentTokenAddress !== '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE') {
+				const methods = [{ methodName: 'balanceOf', args: [this.coinbase] }]
 				balance = await makeBatchCall(
 					erc20TokenContract(paymentTokenAddress),
 					methods
@@ -689,16 +752,12 @@ export default {
 			const contract = getAuctionContract(this.$route.params.address)
 			const method = contract.methods.withdrawTokens(this.coinbase)
 
-			await sendTransactionAndWait(
-				method,
-				{ from: this.coinbase },
-				(receipt) => {
-					if (receipt.status) {
-						this.$emit("updateUserInfo")
-					}
-					this.loading = false
+			await sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+				if (receipt.status) {
+					this.$emit('updateUserInfo')
 				}
-			)
+				this.loading = false
+			})
 
 			// Bob logic
 			this.finalize.user = true
@@ -709,21 +768,17 @@ export default {
 			const contract = getAuctionContract(this.$route.params.address)
 			const method = contract.methods.finalize()
 
-			await sendTransactionAndWait(
-				method,
-				{ from: this.coinbase },
-				(receipt) => {
-					if (receipt.status) {
-						this.$emit("auctionFinalized")
-					}
-					this.loading = false
+			await sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+				if (receipt.status) {
+					this.$emit('auctionFinalized')
 				}
-			)
+				this.loading = false
+			})
 
 			this.finalize.user = true
 		},
 		showCountDown() {
-			if (this.status.auction === "finished") return
+			if (this.status.auction === 'finished') return
 			const timer = setInterval(() => {
 				// Get today's date
 				const now = new Date().getTime()
@@ -744,10 +799,10 @@ export default {
 				const seconds = Math.floor((distance % this.minutes) / this.seconds)
 
 				// Update display days, hours, minutes and seconds
-				this.displaySeconds = seconds < 10 ? "0" + seconds : seconds
-				this.displayMinutes = minutes < 10 ? "0" + minutes : minutes
-				this.displayHours = hours < 10 ? "0" + hours : hours
-				this.displayDays = days < 10 ? "0" + days : days
+				this.displaySeconds = seconds < 10 ? '0' + seconds : seconds
+				this.displayMinutes = minutes < 10 ? '0' + minutes : minutes
+				this.displayHours = hours < 10 ? '0' + hours : hours
+				this.displayDays = days < 10 ? '0' + days : days
 			}, 1000)
 		},
 		async invest() {
@@ -757,7 +812,7 @@ export default {
 			let value = 0
 			if (
 				this.marketInfo.paymentCurrency.addr ===
-				"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
+				'0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
 			) {
 				method = contract.methods.commitEth(this.coinbase, true)
 				value = to18Decimals(this.selectedTokenQuantity)
@@ -794,12 +849,8 @@ export default {
 			const auctionAddress = this.$route.params.address
 			const methods = [
 				{
-					methodName: "allowance",
-					args: [
-						this.marketInfo.paymentCurrency.addr,
-						this.coinbase,
-						auctionAddress,
-					],
+					methodName: 'allowance',
+					args: [this.marketInfo.paymentCurrency.addr, this.coinbase, auctionAddress],
 				},
 			]
 
@@ -824,6 +875,13 @@ export default {
 		width: 100%;
 		height: 100%;
 	}
+}
+.center-status {
+	position: absolute;
+	left: 50%;
+	top: 65%;
+	width: 100%;
+	transform: translate(-50%, -65%);
 }
 .status {
 	height: 10px;

@@ -1,29 +1,70 @@
 <template>
 	<card class="pt-2 pb-4 mb-1 h-100 about-project">
 		<div class="d-flex flex-column">
-			<div class="d-flex justify-content-between align-items-start">
-				<div class="d-flex">
-					<div v-if="checkImage" class="token-img">
-						<img :src="info.icon" class="img-fluid" />
+			<div
+				class="
+					d-flex
+					flex-column flex-sm-row
+					justify-content-between
+					align-items-start
+				"
+			>
+				<div class="d-flex align-items-center">
+					<div class="token-img mr-2">
+						<img :src="computedTokenImg" class="img-fluid" />
 					</div>
 					<div class="d-flex flex-column" :class="{ 'pl-4': checkImage }">
 						<div class="d-flex align-items-center">
 							<h4 class="card-title font-weight-bold text-capitalize fs-5 mb-1">
-								{{ textCheck(info.title, "title") }}
+								{{ textCheck(info.title, 'title') }}
 							</h4>
 							<span
-								class="fs-1 status-text font-weight-bold text-capitalize text-white radius-sm px-2 ml-2"
+								v-if="status.auction !== 'upcoming' && status.auction !== 'finished'"
+								class="
+									fs-2
+									font-weight-bold
+									text-capitalize text-white
+									d-flex
+									align-items-center
+									pl-2
+								"
 							>
-								{{ status.auction }} sale
+								<span
+									class="radius-full status-indicator mr-2"
+									:class="computedStatusColor"
+								></span>
+								{{ status.auction }}
 							</span>
 						</div>
 						<p class="font-weight-bold text-uppercase fs-2">
-							{{ textCheck(info.tokenPair, "token") }}:
+							{{ textCheck(info.tokenPair, 'token') }}:
 							<span class="text-white">{{ tokenPrice }}</span>
 						</p>
 					</div>
 				</div>
-				<div v-if="status.auction !== 'upcoming'" class="duration">
+				<div>
+					<span
+						v-if="status.auction === 'upcoming' && status.auction === 'finished'"
+						class="
+							fs-3
+							font-weight-bold
+							text-capitalize text-white
+							d-flex
+							align-items-center
+							pl-2
+						"
+					>
+						<span
+							class="radius-full status-indicator mr-2"
+							:class="computedStatusColor"
+						></span>
+						{{ status.auction }}
+					</span>
+				</div>
+				<div
+					v-if="status.auction !== 'upcoming' && status.auction !== 'finished'"
+					class="duration mt-sm-0 mt-3"
+				>
 					<div class="bg-primary radius-md">
 						<div class="d-flex justify-content-around text-white">
 							<div class="d-flex flex-column align-items-center text-uppercase">
@@ -93,20 +134,57 @@
 					</a>
 				</div>
 				<div v-if="Object.keys(info.icons.social).length" class="pt-3">
-					<h5 class="fs-1 font-weight-bold mb-2">SOCIAL:</h5>
-					<div class="d-block">
-						<a
-							v-for="(item, index) in info.icons.social"
-							:key="index"
-							:href="item"
-							class="socials-icon svg-color"
-							target="_blank"
-						>
-							<i
-								:class="icons[index]"
-								style="font-size: 26px; margin-right: 8px"
-							/>
-						</a>
+					<div class="d-flex justify-content-between flex-wrap">
+						<div class="d-flex flex-column mb-3">
+							<h5 class="fs-1 font-weight-bold mb-2">SOCIAL:</h5>
+							<div class="d-block">
+								<a
+									v-for="(item, index) in info.icons.social"
+									:key="index"
+									:href="item"
+									class="socials-icon svg-color"
+									target="_blank"
+								>
+									<el-tooltip
+										v-if="index !== 'whitepaper' && index !== 'doc'"
+										:open-delay="300"
+										placement="top"
+										:effect="computedTooltipEffect"
+										:content="getIconTooltip(index)"
+									>
+										<i
+											:class="icons[index]"
+											style="font-size: 26px; margin-right: 8px"
+										/>
+									</el-tooltip>
+								</a>
+							</div>
+						</div>
+						<div class="d-flex flex-column">
+							<h5 class="fs-1 font-weight-bold text-uppercase mb-2">
+								Technical Information:
+							</h5>
+							<div class="d-block">
+								<a
+									v-for="(item, index) in info.icons.social"
+									:key="index"
+									:href="item"
+									class="socials-icon svg-color"
+									target="_blank"
+								>
+									<span
+										v-if="index === 'whitepaper' || index === 'doc'"
+										class="d-flex align-items-center"
+									>
+										<i
+											:class="icons[index]"
+											style="font-size: 26px; margin-right: 8px"
+										/>
+										<span class="font-weight-bold fs-1">{{ index }}</span>
+									</span>
+								</a>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -146,9 +224,9 @@
 </template>
 
 <script>
-import { Card, BaseDivider } from "@/components"
+import { Card, BaseDivider } from '@/components'
 // import { Popover } from "element-ui"
-import { theme } from "@/mixins/theme"
+import { theme } from '@/mixins/theme'
 
 export default {
 	components: {
@@ -160,43 +238,43 @@ export default {
 		status: {
 			type: [Object, Array],
 			required: true,
-			description: "full data for status card",
+			description: 'full data for status card',
 		},
 		info: {
 			type: [Object, Array],
 			required: true,
-			description: "full data for about card",
+			description: 'full data for about card',
 		},
 		price: {
 			type: [String, Number],
 			required: true,
-			description: "current price of the auction",
+			description: 'current price of the auction',
 		},
 		type: {
 			type: String,
 			required: true,
-			description: "full data for status card",
+			description: 'full data for status card',
 		},
 	},
 	data() {
 		return {
-			displaySeconds: "00",
-			displayMinutes: "00",
-			displayHours: "00",
-			displayDays: "00",
+			displaySeconds: '00',
+			displayMinutes: '00',
+			displayHours: '00',
+			displayDays: '00',
 			theme: false,
 			auctionAddress: this.$route.params.address,
 			hoverIcon: {},
 			icons: {
-				whitepaper: "fa fa-file",
-				github: "fab fa-github",
-				telegram: "fab fa-telegram",
-				wechat: "fab fa-weixin",
-				discord: "fab fa-discord",
-				medium: "fab fa-medium",
-				reddit: "fab fa-reddit",
-				twitter: "fab fa-twitter",
-				docs: "fa fa-book",
+				whitepaper: 'fa fa-file',
+				github: 'fab fa-github',
+				telegram: 'fab fa-telegram',
+				wechat: 'fab fa-weixin',
+				discord: 'fab fa-discord',
+				medium: 'fab fa-medium',
+				reddit: 'fab fa-reddit',
+				twitter: 'fab fa-twitter',
+				docs: 'fa fa-book',
 			},
 		}
 	},
@@ -208,7 +286,19 @@ export default {
 		hours() {
 			return this.minutes * 60
 		},
-
+		computedStatusColor() {
+			if (this.status.auction === 'live') {
+				return 'bg-success'
+			} else if (this.status.auction === 'upcoming') {
+				return 'bg-info'
+			}
+			return this.status.auction === 'finished' && this.status.auctionSuccessful
+				? 'bg-link'
+				: 'bg-danger'
+		},
+		computedTooltipEffect() {
+			return this.mode ? 'light' : 'dark'
+		},
 		days() {
 			return this.hours * 24
 		},
@@ -216,18 +306,18 @@ export default {
 			return `${this.displayDays} : ${this.displayHours} : ${this.displayMinutes} : ${this.displaySeconds}`
 		},
 		auctionType() {
-			if (this.type === "crowdsale") {
-				return "Crowd Sale"
+			if (this.type === 'crowdsale') {
+				return 'Crowd Sale'
 			}
 			return `${this.type} Auction`
 		},
 		tooltip() {
-			if (this.type.toLowerCase() === "dutch") {
-				return "Dutch Auction"
-			} else if (this.type.toLowerCase() === "batch") {
-				return "Batch Auction"
+			if (this.type.toLowerCase() === 'dutch') {
+				return 'Dutch Auction'
+			} else if (this.type.toLowerCase() === 'batch') {
+				return 'Batch Auction'
 			}
-			return "Crowdsale"
+			return 'Crowdsale'
 		},
 		checkImage() {
 			if (this.info.icon) {
@@ -237,21 +327,29 @@ export default {
 		},
 		urlCheck() {
 			const pattern = new RegExp(
-				"^(https?:\\/\\/)?" + // protocol
-					"((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" + // domain name
-					"((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-					"(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-					"(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-					"(\\#[-a-z\\d_]*)?$",
-				"i"
+				'^(https?:\\/\\/)?' + // protocol
+					'((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+					'((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+					'(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+					'(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+					'(\\#[-a-z\\d_]*)?$',
+				'i'
 			) // fragment locator
 
 			return !!pattern.test(this.info.website)
 		},
 		tokenPrice() {
-			if (this.type === "batch" && parseFloat(this.price) === 0)
-				return "Price not determined"
+			if (this.type === 'batch' && parseFloat(this.price) === 0)
+				return 'Price not determined'
 			return this.price
+		},
+		computedTokenImg() {
+			if (this.info.icon) {
+				return this.info.icon
+			}
+			return this.mode
+				? 'https://via.placeholder.com/300.png/f2f2f4/f46e41?text=MISO'
+				: 'https://via.placeholder.com/300.png/000a35/f46e41?text=MISO'
 		},
 	},
 	mounted() {
@@ -262,23 +360,23 @@ export default {
 		copyToClipboard(value) {
 			navigator.clipboard.writeText(value).then(() => {
 				this.$notify({
-					type: "success",
-					verticalAlign: "bottom",
-					horizontalAlign: "right",
-					message: "successfully copied to clipboard!",
+					type: 'success',
+					verticalAlign: 'bottom',
+					horizontalAlign: 'right',
+					message: 'successfully copied to clipboard!',
 				})
 			})
 		},
 		textCheck(str, val) {
-			const pattern = /^[()\s0-9a-zA-Z.,$#:&_]+$/
+			const pattern = /^[()\s0-9a-zA-Z.,/$#:&_]+$/
 			if (str.match(pattern)) {
 				return str
 			} else {
-				return `No ${val}`
+				return `${val} price`
 			}
 		},
 		showCountDown() {
-			if (this.status.auction === "finished") return
+			if (this.status.auction === 'finished') return
 			const timer = setInterval(() => {
 				// Get today's date
 				const now = new Date().getTime()
@@ -299,11 +397,16 @@ export default {
 				const seconds = Math.floor((distance % this.minutes) / this.seconds)
 
 				// Update display days, hours, minutes and seconds
-				this.displaySeconds = seconds < 10 ? "0" + seconds : seconds
-				this.displayMinutes = minutes < 10 ? "0" + minutes : minutes
-				this.displayHours = hours < 10 ? "0" + hours : hours
-				this.displayDays = days < 10 ? "0" + days : days
+				this.displaySeconds = seconds < 10 ? '0' + seconds : seconds
+				this.displayMinutes = minutes < 10 ? '0' + minutes : minutes
+				this.displayHours = hours < 10 ? '0' + hours : hours
+				this.displayDays = days < 10 ? '0' + days : days
 			}, 1000)
+		},
+		getIconTooltip(val) {
+			const name = `${val} Page`
+			const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1)
+			return val === 'whitepaper' ? 'Documentation' : nameCapitalized
 		},
 	},
 }
@@ -312,11 +415,16 @@ export default {
 <style lang="scss" scoped>
 // remove when icon
 .token-img {
-	height: 60px;
-	width: 60px;
+	height: 45px;
+	width: 45px;
+	@media screen and (min-width: 1200px) and (max-width: 1300px) {
+		width: 40px;
+	}
 }
-.status-text {
-	background: #5b323b;
+.status-indicator {
+	height: 8px;
+	width: 8px;
+	display: block;
 }
 .duration {
 	min-height: 50px;
@@ -349,7 +457,7 @@ export default {
 	&_icon::after {
 		position: absolute;
 		border-radius: 2px;
-		content: "";
+		content: '';
 		transition: all 0.3s ease-in;
 		left: 0;
 		top: 0;
@@ -363,7 +471,7 @@ export default {
 			transition: all 0.3s ease-in;
 		}
 		&:after {
-			content: "";
+			content: '';
 			opacity: 1;
 			background: #111b47;
 			transition: all 0.3s ease-in;
@@ -383,6 +491,16 @@ export default {
 		h4 {
 			font-size: 15px;
 		}
+	}
+}
+@media screen and (min-width: 1200px) and (max-width: 1300px) {
+	.card-title {
+		font-size: 16px !important;
+	}
+}
+@media screen and (min-width: 976px) and (max-width: 1050px) {
+	.card-title {
+		font-size: 16px !important;
 	}
 }
 </style>

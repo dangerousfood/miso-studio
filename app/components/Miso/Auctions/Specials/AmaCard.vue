@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { theme } from "@/mixins/theme"
+import { theme } from '@/mixins/theme'
 
 export default {
 	components: {},

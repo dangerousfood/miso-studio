@@ -5,7 +5,15 @@
 			<div class="d-flex align-items-center">
 				<div
 					v-if="status.auction !== 'live' && status.auction !== 'upcoming'"
-					class="special_status px-2 py-2 mr-2 text-white font-weight-bold text-uppercase"
+					class="
+						special_status
+						px-2
+						py-2
+						mr-2
+						text-white
+						font-weight-bold
+						text-uppercase
+					"
 					:class="'border-' + computedStatusColor"
 				>
 					<svg-icon
@@ -98,8 +106,8 @@
 					{{ auctionType }}
 				</span>
 				<div
-					class="font-weight-bold text-white text-uppercase buy-sake"
 					v-if="buybuttonflag"
+					class="font-weight-bold text-white text-uppercase buy-sake"
 				>
 					buy sake
 				</div>
@@ -109,22 +117,22 @@
 </template>
 
 <script>
-import { Card, BaseDivider } from "@/components"
-import { theme } from "@/mixins/theme"
+import { Card, BaseDivider } from '@/components'
+import { theme } from '@/mixins/theme'
 
-import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
+import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 import {
 	getContractInstance as dutchAuctionContract,
 	clearingPrice,
-} from "@/services/web3/auctions/dutch"
-import { getContractInstance as crowdsaleContract } from "@/services/web3/auctions/crowdsale"
-import { getContractInstance as batchAuctionContract } from "@/services/web3/auctions/batch"
-import { makeBatchCall } from "@/services/web3/base"
-import { toDecimals, toPrecision, to18Decimals } from "@/util/index"
+} from '@/services/web3/auctions/dutch'
+import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
+import { getContractInstance as batchAuctionContract } from '@/services/web3/auctions/batch'
+import { makeBatchCall } from '@/services/web3/base'
+import { toDecimals, toPrecision, to18Decimals } from '@/util/index'
 
-import CrowdProgress from "~/components/Miso/Auctions/Specials/CrowdProgress"
-import DutchProgress from "~/components/Miso/Auctions/Specials/DutchIndicator"
-import BatchProgress from "~/components/Miso/Auctions/Specials/BatchIndicator "
+import CrowdProgress from '~/components/Miso/Auctions/Specials/CrowdProgress'
+import DutchProgress from '~/components/Miso/Auctions/Specials/DutchIndicator'
+import BatchProgress from '~/components/Miso/Auctions/Specials/BatchIndicator '
 
 export default {
 	components: {
@@ -154,12 +162,12 @@ export default {
 		return {
 			// can be Object or Array
 			about: {
-				title: "",
-				tokenPair: "",
-				recipe: "Classic Miso",
+				title: '',
+				tokenPair: '',
+				recipe: 'Classic Miso',
 			},
 			status: {
-				date: "",
+				date: '',
 				participants: 0,
 				finished: false,
 				auctionSuccessful: false,
@@ -169,23 +177,23 @@ export default {
 				endTime: 0,
 				currentPrice: 0,
 				totalTokensCommitted: 0,
-				paymentCurrency: "ETH",
+				paymentCurrency: 'ETH',
 				hasPointList: false,
 				totalTokens: 0,
 				commitmentsTotal: 0,
 			},
 			tokenInfo: {
-				address: "",
-				name: "",
-				symbol: "",
+				address: '',
+				name: '',
+				symbol: '',
 			},
 			contractInstance: null,
 			loading: true,
 			now: new Date(),
-			displaySeconds: "00",
-			displayMinutes: "00",
-			displayHours: "00",
-			displayDays: "00",
+			displaySeconds: '00',
+			displayMinutes: '00',
+			displayHours: '00',
+			displayDays: '00',
 		}
 	},
 	computed: {
@@ -200,27 +208,27 @@ export default {
 			return this.hours * 24
 		},
 		auctionType() {
-			if (this.status.type === "crowdsale") {
-				return "Crowd Auction"
+			if (this.status.type === 'crowdsale') {
+				return 'Crowd Auction'
 			}
 			return `${this.status.type} Auction`
 		},
 		computedStatusColor() {
-			if (this.status.auction === "upcoming") {
-				return "info"
+			if (this.status.auction === 'upcoming') {
+				return 'info'
 			} else if (
-				this.status.auction === "finished" &&
+				this.status.auction === 'finished' &&
 				this.status.auctionSuccessful
 			) {
-				return "link"
+				return 'link'
 			} else if (
-				this.status.auction === "finished" &&
+				this.status.auction === 'finished' &&
 				!this.status.auctionSuccessful
 			) {
-				return "danger"
+				return 'danger'
 			}
 
-			return "success"
+			return 'success'
 		},
 		isUpcoming() {
 			const currentTimestamp = Date.parse(new Date()) / 1000
@@ -275,22 +283,22 @@ export default {
 		let type
 		switch (parseInt(this.marketTemplateId)) {
 			case 1:
-				type = "crowdsale"
+				type = 'crowdsale'
 				this.contractInstance = crowdsaleContract(this.auction)
 				await this.setCrowdsaleData()
 				break
 			case 2:
-				type = "dutch"
+				type = 'dutch'
 				this.contractInstance = dutchAuctionContract(this.auction)
 				await this.setDutchAuctionData()
 				break
 			case 3:
-				type = "batch"
+				type = 'batch'
 				this.contractInstance = batchAuctionContract(this.auction)
 				await this.setBatchData()
 				break
 			case 4:
-				type = "hyperbolic"
+				type = 'hyperbolic'
 				break
 			default:
 				break
@@ -298,13 +306,13 @@ export default {
 		const currentTimestamp = Date.parse(new Date()) / 1000
 		let auction
 		if (this.marketInfo.startTime > currentTimestamp) {
-			auction = "upcoming"
+			auction = 'upcoming'
 			this.status.date = new Date(this.marketInfo.startTime * 1000)
 		} else if (currentTimestamp < this.marketInfo.endTime) {
-			auction = "live"
+			auction = 'live'
 			this.status.date = new Date(this.marketInfo.endTime * 1000)
 		} else {
-			auction = "finished"
+			auction = 'finished'
 		}
 		Object.assign(this.status, { type, auction })
 		this.loading = false
@@ -314,21 +322,20 @@ export default {
 	},
 	methods: {
 		checkTitle(value) {
-			const specialReg =
-				'^(?=.*[!@#$%^&*"\\[\\]\\{\\}<>/\\=\\\\\\_´+`~\\:;,\\.€\\|])'
+			const specialReg = '^(?=.*[!@#$%^&*"\\[\\]\\{\\}<>/\\=\\\\\\_´+`~\\:;,\\.€\\|])'
 
 			if (!value.match(specialReg)) {
 				return value
 			} else {
 				return (
 					this.tokenInfo.addr.substring(0, 6) +
-					"..." +
+					'...' +
 					this.tokenInfo.addr.substring(this.tokenInfo.addr.length - 10)
 				)
 			}
 		},
 		showCountDown() {
-			if (this.status.auction === "finished") return
+			if (this.status.auction === 'finished') return
 			const timer = setInterval(() => {
 				// Get today's date
 				const now = new Date().getTime()
@@ -349,17 +356,15 @@ export default {
 				const seconds = Math.floor((distance % this.minutes) / this.seconds)
 
 				// Update display days, hours, minutes and seconds
-				this.displaySeconds = seconds < 10 ? "0" + seconds : seconds
-				this.displayMinutes = minutes < 10 ? "0" + minutes : minutes
-				this.displayHours = hours < 10 ? "0" + hours : hours
-				this.displayDays = days < 10 ? "0" + days : days
+				this.displaySeconds = seconds < 10 ? '0' + seconds : seconds
+				this.displayMinutes = minutes < 10 ? '0' + minutes : minutes
+				this.displayHours = hours < 10 ? '0' + hours : hours
+				this.displayDays = days < 10 ? '0' + days : days
 			}, 1000)
 		},
 
 		async setDutchAuctionData() {
-			const methods = [
-				{ methodName: "getDutchAuctionInfo", args: [this.auction] },
-			]
+			const methods = [{ methodName: 'getDutchAuctionInfo', args: [this.auction] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			const tokenInfo = data.tokenInfo
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
@@ -400,7 +405,7 @@ export default {
 		},
 
 		async setCrowdsaleData() {
-			const methods = [{ methodName: "getCrowdsaleInfo", args: [this.auction] }]
+			const methods = [{ methodName: 'getCrowdsaleInfo', args: [this.auction] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			const tokenInfo = data.tokenInfo
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
@@ -422,15 +427,12 @@ export default {
 				data.rate / this.status.totalTokens,
 				2
 			)
-			const tokensCommitted =
-				this.marketInfo.commitmentsTotal * this.marketInfo.rate
+			const tokensCommitted = this.marketInfo.commitmentsTotal * this.marketInfo.rate
 			this.marketInfo.totalTokensCommitted = tokensCommitted
 		},
 
 		async setBatchData() {
-			const methods = [
-				{ methodName: "getBatchAuctionInfo", args: [this.auction] },
-			]
+			const methods = [{ methodName: 'getBatchAuctionInfo', args: [this.auction] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			const tokenInfo = data.tokenInfo
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
@@ -456,7 +458,7 @@ export default {
 		},
 
 		async getTemplateId() {
-			const methods = [{ methodName: "marketTemplate" }]
+			const methods = [{ methodName: 'marketTemplate' }]
 			const [marketTemplate] = await makeBatchCall(
 				dutchAuctionContract(this.auction),
 				methods

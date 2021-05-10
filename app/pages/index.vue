@@ -1,7 +1,9 @@
 <template>
 	<div class="container-fluid container-padding">
 		<div class="my-4 gradient-background">
-			<div class="top-50 text-white">Let us celebrate with a sip of SAKE.</div>
+			<div class="top-50 text-white title">
+				Let us celebrate with a sip of SAKE.
+			</div>
 			<img class="sake-img" src="@/assets/svg/sake.svg" />
 		</div>
 		<div v-if="!loading" class="row">
@@ -78,7 +80,7 @@
 				</div>
 				<div class="miso-ama-description">
 					Follow interviews and articles on Medium and Youtube to find out more
-					about MISO. 
+					about MISO.
 				</div>
 			</div>
 		</div>
@@ -144,6 +146,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title {
+	@media screen and (max-width: 768px) {
+		font-size: 18px;
+	}
+	@media screen and (max-width: 400px) {
+		font-size: 15px;
+	}
+}
 .specialCard {
 	transition: all 0.4s ease-in-out;
 	transform: scale(1);
@@ -188,12 +198,11 @@ export default {
 
 .miso-ama {
 	background-image: url("@/assets/images/misoama.png");
-	margin-left: -30px;
-	margin-right: -75px;
 	height: 361px;
 	background-size: 100% 100%;
 	text-align: center;
-	width: 106%;
+	left: 0;
+	right: 0;
 	z-index: 1;
 	position: absolute;
 	transform: translateY(-60%);
@@ -211,7 +220,6 @@ export default {
 }
 
 .ama-cards {
-	position: relative;
 	top: 45%;
 	margin-top: 250px;
 }
