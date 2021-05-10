@@ -5,33 +5,43 @@
 			<img class="sake-img" src="@/assets/svg/sake.svg" />
 		</div>
 		<div v-if="!loading" class="row">
-			<div
-				v-for="(auction, id) in auctionsList.slice(0, 1)"
-				:key="id"
-				class="col-lg-4 col-md-6 col-12 mb-3"
-			>
+			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">SAKE Sale</div>
+				<div class="text-white card-description pb-2">
+					Participate in the Sake Sale, the first sale to launch on MISO.
+				</div>
 				<nuxt-link
-					:to="`/auctions/${auction}`"
+					:to="`/auctions/${saketokenauction}`"
 					tag="div"
 					class="cursor-pointer specialCard"
 				>
 					<special-card
-						:auction="auction"
+						:auction="saketokenauction"
 						:ingredients="ingredients"
 						:buybuttonflag="true"
 					/>
 				</nuxt-link>
 			</div>
 			<div class="col-lg-8 col-md-6 col-12 mb-3">
-				<div class="text-white card-title">Gallery</div>
-				<card v-if="!loading" class="gallery-card p-2 card-hight">
-					<img src="@/assets/images/gallery01.png" />
-					<p class="sake-com">sake.com</p>
-					<a href="https://www.youtube.com/watch?v=IV0V7vjakKg" target="_blank">
-						<img src="@/assets/images/playbutton.png" class="gal-play" />
-					</a>
-				</card>
+				<div class="text-white card-title">About SAKE</div>
+				<div class="text-white card-description pb-2">
+					Learn more about the Sake project in this video documenatary.
+				</div>
+				<vue-plyr :options="options">
+					<video
+						controls
+						crossorigin
+						playsinline
+						data-poster="/_nuxt/app/assets/images/gallery01.png"
+					>
+						<source
+							size="576"
+							src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+							type="video/mp4"
+						/>
+					</video>
+				</vue-plyr>
+				<div class="text-white sake-com pt-2 pb-2">sake.com</div>
 			</div>
 		</div>
 		<loader v-else width="80" height="80" y="250" />
@@ -114,6 +124,8 @@ export default {
 					text: 'Crowdsale',
 				},
 			],
+			options: { quality: { default: "1080p" } },
+			saketokenauction: "0xa8F1CBb80b44eDfb5fb71b0c193d75d27d02a532",
 		}
 	},
 	computed: {
@@ -254,5 +266,10 @@ export default {
 	position: absolute;
 	left: 45%;
 	top: 35%;
+}
+
+.card-description {
+	font-size: 12px;
+	min-height: 52px;
 }
 </style>
