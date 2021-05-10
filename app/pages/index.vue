@@ -212,6 +212,9 @@ export default {
 	background-size: 100% 100%;
 	text-align: center;
 	left: 0;
+	@media (min-width: 1200px) {
+		left: 265px;
+	}
 	right: 0;
 	z-index: 1;
 	position: absolute;
