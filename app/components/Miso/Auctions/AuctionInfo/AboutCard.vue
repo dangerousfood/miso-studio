@@ -44,7 +44,7 @@
 				</div>
 				<div>
 					<span
-						v-if="status.auction === 'upcoming' && status.auction === 'finished'"
+						v-if="status.auction === 'upcoming' || status.auction === 'finished'"
 						class="
 							fs-3
 							font-weight-bold
