@@ -1,183 +1,89 @@
 <template>
 	<validation-observer ref="observer">
 		<div>
-			<div class="row">
-				<div class="col-12 bottom-45">
-					<div class="row">
-						<div class="col-12 bottom-45">
-							<payment-currency
-								:tokens-approved="tokensApproved"
-								@currency-updated="updateCurrency($event)"
-							/>
-						</div>
-
-						<!-- input line 3 -->
-						<div class="col-12 bottom-45">
-							<div class="row mt-4">
-								<base-input
-									v-model="model.fundWallet"
-									:disabled="!tokensApproved"
-									class="col"
-									name="address"
-									placeholder="Enter the wallet address where funds raised will be sent"
-									rules="required|isAddress"
-									@focus="focusInput('walletAddress')"
-								>
-									<template #label>
-										<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Fund Wallet</span>*
-									</template>
-								</base-input>
-							</div>
-							<svg-icon
-								class="svg-icon-left"
+			<div class="row mb-4 bottom-100">
+				<div class="col-md-6">
+                    <div class="col-12 mb-5">
+                        <div class="mb-3 fs-2">
+                            <span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">TOKEN FOR SALE</span>
+                        </div>
+                        <div class="d-flex justify-content-space align-items-center">
+                            <svg-icon
+								class="mr-1"
 								icon="ethereum"
-								height="24"
-								width="20"
+								height="50"
+								width="50"
 							/>
-							<p
-								class="font-weight-bold cursor-pointer text-underline"
-								@click="selectCurrentAccount"
-							>
-								Use my account
-							</p>
-						</div>
-						
-
-						<!-- input line 1 -->
-						<div class="col-12">
-							<div class="mt-3 mb-2 fs-2">
-								<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Dutch Auction Settings*</span>
-							</div>
-							<div class="row">
-								
-								<div class="col-md-6 form-group">
-									<span class="font-weight-bold fs-4">STARTING PRICE</span>
-									<br><i>Dutch auctions start high, and lowers over time</i><br>
-
-									<currency-input
-										v-model="model.startPrice"
-										:disabled="!tokensApproved"
-										@focus="focusInput('dutchSettings')"
-										name="starting price"
-										class="form-control font-weight-bold text-bg-white mt-2"
-										placeholder="0"
-										:currency="model.paymentCurrency.symbol || 'ETH'"
-										locale="de"
-									/>
-								</div>
-
-								<div class="col-md-6 form-group">
-									<span class="font-weight-bold fs-4">ENDING PRICE</span>
-									<br><i>Auction ends at this price</i><br>
-
-									<currency-input
-										v-model="model.minPrice"
-										:disabled="!tokensApproved"
-										@focus="focusInput('dutchSettings')"
-										name="minimum price"
-										class="form-control font-weight-bold text-bg-white mt-2"
-										placeholder="0"
-										:currency="model.paymentCurrency.symbol || 'ETH'"
-										locale="de"
-									/>
-								</div>
-								
-							</div>
-						</div>
-
-						<!-- input line 2 -->
-						<div class="col-12">
-							<div class="row mt-4">
-								<div class="col-md-6 form-group">
-									<i class="el-icon-bottom-right"></i>
-									<span class="font-weight-bold fs-4">MAXIMUM RAISED</span>
-									<br><i>Maximum amount raised if all tokens are<br> sold at highest price possible</i><br>
-									<div class="mt-2 max_raise text-center">
-										{{ maxRaise }}
-									</div>
-								</div>
-
-								<div class="col-md-6 form-group">
-									<i class="el-icon-bottom-right"></i>
-									<span class="font-weight-bold fs-4">MINIMUM RAISED</span>
-									<br><i>Minimum amount raised in order to have<br> a successful auction</i><br>
-									<div class="mt-2 max_raise text-center">
-										{{ minRaise }}
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- input line 3 -->
-						<div class="col-12">
-							<div class="mt-3 mb-2 fs-2 mt-5">
-								<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Auction Start & End*</span>
-							</div>
-							<div class="row">
-								<base-input
-									:disabled="!tokensApproved"
-									class="col-md-6 right-icon position-relative"
-									name="start date"
-									type="text"
-									:rules="`required|afterNow:${
-										(model.startDate, 'start date')
-									}`"
-								>
-									<el-date-picker
-										v-model="model.startDate"
-										:disabled="!tokensApproved"
-										type="datetime"
-										@focus="focusInput('startend')"
-										format="MMMM dd, yyyy HH:mm:ss"
-										placeholder="Select a start date for your auction"
-										:picker-options="{
-											start: '00:00',
-											step: '00:15',
-											end: '23:59',
-										}"
-									></el-date-picker>
-									<template #timestemp>
-										<span class="position-absolute timeZone">
-											{{ getStartTimeAbbr }}
-										</span>
-									</template>
-								</base-input>
-								<base-input
-									:disabled="!tokensApproved"
-									class="col-md-6 right-icon position-relative"
-									name="end date"
-									type="text"
-									:rules="`required|afterNow:${
-										(model.endDate, 'end date')
-									}`"
-								>
-									<el-date-picker
-										v-model="model.endDate"
-										:disabled="!tokensApproved"
-										type="datetime"
-										format="MMMM dd, yyyy HH:mm:ss"
-										@focus="focusInput('startend')"
-										placeholder="Select a end date for your auction"
-										:picker-options="{
-											start: '00:00',
-											step: '00:15',
-											end: '23:59',
-										}"
-									></el-date-picker>
-									<template #timestemp>
-										<span class="position-absolute timeZone">
-											{{ getStartTimeAbbr }}
-										</span>
-									</template>
-								</base-input>
-							</div>
-						</div>
-					</div>
+                            <span class="font-weight-bold text-secondary white-txt fs-7 text-uppercase mr-2">{{ model.token.symbol }}</span>
+                            <div class="p-2 fund-wallet mr-2">
+                                <span class="text-secondary fs-2">{{ model.token.address }}</span>
+                            </div>
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-5">
+                        <div class="mb-3 fs-2">
+                            <span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">FUND WALLET</span>
+                        </div>
+                        <div class="p-2 fund-wallet d-flex justify-content-between align-items-center">
+                            <span class="text-secondary fs-2">{{ model.fundWallet }}</span>
+                            <i class="fas fa-pencil-alt"></i>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-5">
+                        <div class="mb-3 fs-2">
+                            <span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">SALE SETTINGS</span>
+                        </div>
+                        <div class="align-items-center">
+                            <div class="item row align-items-center mb-3">
+                                <span class="text-secondary fs-4 col-lg-3">Start Date</span>
+                                <div class="p-2 fund-wallet justify-content-between align-items-center">
+                                    <span class="text-secondary fs-2 mr-5">{{ getStartTimeFormatted }}</span>
+                                    <i class="fas fa-pencil-alt"></i>
+                                </div>
+                            </div>
+                            <div class="item row align-items-center">
+                                <span class="text-secondary fs-4 col-lg-3">End Date</span>
+                                <div class="p-2 fund-wallet justify-content-between align-items-center">
+                                    <span class="text-secondary fs-2 mr-5">{{ getEndTimeFormatted }}</span>
+                                    <i class="fas fa-pencil-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 				</div>
-				<div class="col-12">
-					<div class="line-divider"></div>
+				<div class="col-md-6">
+                    <div class="col-12 mb-4">
+                        <div class="mb-3 fs-2">
+                            <span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">LIQUIDITY PROVISION</span>
+                        </div>
+                        <div class="mb-3 d-flex justify-content-space align-items-center">
+                            <svg-icon
+								class="mr-1"
+								icon="ethereum"
+								height="50"
+								width="50"
+							/>
+                            <span class="font-weight-bold text-secondary white-txt fs-7 text-uppercase mr-3">{{ model.token.symbol }}</span>
+                            <span class="text-secondary white-txt fs-7 text-uppercase">+</span>
+                            <svg-icon
+								class="mr-1"
+								icon="ethereum"
+								height="50"
+								width="50"
+							/>
+                            <span class="font-weight-bold text-secondary white-txt fs-7 text-uppercase mr-5">{{ model.paymentCurrency.symbol }}</span>
+                            <span class="font-weight-bold text-secondary white-txt fs-7 text-uppercase">50% / 50%</span>
+                        </div>
+                        <div class="p-4 fund-wallet justify-content-between align-items-center liquidity_provision">
+                            <span class="text-secondary fs-2 mr-5 opacity">{{ liquidity_provision }}</span>
+                        </div>
+                    </div>
 				</div>
 			</div>
+            <div class="col-12 mt-6">
+                <div class="line-divider"></div>
+            </div>
 		</div>
 	</validation-observer>
 </template>
@@ -191,20 +97,15 @@ import { misoMarket as misoMarketConfig } from "@/constants/contractConfig"
 import { makeBatchCall, sendTransactionAndWait } from "@/services/web3/base"
 import { toDecimals, to18Decimals } from "@/util"
 import { duration } from "@/mixins/duration.js"
-import Autocomplete from "@/components/Inputs/Autocomplete"
-import PaymentCurrency from "../PaymentCurrency.vue"
-import VueCurrencyInput from 'vue-currency-input'
+
 
 export default {
 	components: {
 		EthImage,
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
-		Autocomplete,
 		BaseDivider,
-		BaseAlert,
-		PaymentCurrency,
-		VueCurrencyInput
+		BaseAlert
 	},
 	mixins: [duration],
 	data() {
@@ -218,16 +119,7 @@ export default {
 			tokensLoading: false,
 			userLoading: false,
 			approveLoading: false,
-			items: {
-				auctionType: false,
-                tokenAddress: false,
-                tokenAllowance: false,
-                tokenAmount: false,
-				payment_currency: false,
-				walletAddress: false,
-				dutchSettings: false,
-				startend: false
-			},
+            liquidity_provision: "25% of amount raised from auction in ETH, pairing with 200,000 LCRX, will be launched on SushiSwap as a 50/50 weighting liquidity pool."
 		}
 	},
 	props: {
@@ -254,11 +146,11 @@ export default {
 		isETH() {
 			return (
 				this.model.paymentCurrency.address ===
-				'0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+				"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
 			)
 		},
 		paymentType() {
-			return this.isETH ? 'ETH' : 'ERC20'
+			return this.isETH ? "ETH" : "ERC20"
 		},
 		...mapGetters({
 			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
@@ -283,6 +175,12 @@ export default {
 				parseFloat(this.model.tokenSupply) !== 0 &&
 				parseFloat(this.formatedAllowance) >= parseFloat(this.model.tokenSupply)
 			)
+		},
+        getStartTimeFormatted() {
+			return new Date(this.model.startDate).toDateString()
+		},
+        getEndTimeFormatted() {
+			return new Date(this.model.endDate).toDateString()
 		},
 		getStartTimeAbbr() {
 			return new Date(this.model.startDate)
@@ -375,24 +273,15 @@ export default {
 		},
 		updateCurrency(currency) {
 			this.model.paymentCurrency = currency
-			this.items['payment_currency'] = true
-            this.$emit("active-focus", this.items, this.model.chosenAuctionType)
 		},
-		focusInput(val) {
-			for (const key in this.items) {
-				if (val === key) {
-					this.items[key] = true
-				} else {
-					this.items[key] = false
-				}
-			}
-			this.$emit("active-focus", this.items, this.model.chosenAuctionType)
-		}
 	},
 }
 </script>
 
 <style lang="scss">
+    .white-txt {
+		color: #ffffff;
+	}
 	.right-icon {
 		.el-input__prefix {
 			font-size: 20px;
@@ -516,4 +405,16 @@ export default {
 		border-radius: 10px;
 		background: rgba(246, 102, 69, 0.4);
 	}
+    .bottom-100 {
+        padding-bottom: 10%;
+    }
+    .fund-wallet {
+        background-color: #0D163F;
+    }
+    .opacity {
+        opacity: 0.84;
+    }
+    .liquidity_provision {
+        width: 70%;
+    }
 </style>
