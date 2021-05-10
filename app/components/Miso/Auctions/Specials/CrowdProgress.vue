@@ -60,11 +60,9 @@
 							:class="[getMode ? 'bg-dark' : 'bg-light']"
 						></span>
 						<span class="pl-2">
-							<span class="text-white">
-								{{ marketInfo.commitmentsTotal.toLocaleString('en-US') }}
+							<span class="pl-2">
+								<span class="text-white">{{ marketCommitPercent }} %</span>
 							</span>
-							/
-							<span>{{ hard.toLocaleString('en-US') }}</span>
 						</span>
 					</span>
 				</span>
@@ -150,6 +148,12 @@ export default {
 		},
 		hard() {
 			return this.marketInfo.totalTokens / this.marketInfo.rate
+		},
+		marketCommitPercent() {
+			return (
+				(this.marketInfo.commitmentsTotal * 100 * this.marketInfo.rate) /
+				this.marketInfo.totalTokens
+			).toFixed(2)
 		},
 		computedProgess() {
 			if (this.progress > 99 && this.$route.name.includes('auctions-address')) {

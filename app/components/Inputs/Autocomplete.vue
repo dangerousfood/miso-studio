@@ -9,12 +9,13 @@
 				:placeholder="placeholder"
 				:rules="rules"
 				@input="updateValue($event)"
+				@focus="onfocus"
 				@keydown.enter="enter"
 				@keydown.down="down"
 				@keydown.up="up"
 			></base-input>
 		</validation-provider>
-		<ul style="min-width: 100%" class="dropdown-menu" :class="{ show: open }">
+		<ul class="dropdown-menu" :class="{ show: open }">
 			<spinner v-if="loading" size="medium" />
 			<li
 				v-for="(suggestion, index) in matches"
@@ -117,6 +118,9 @@ export default {
 			}
 			this.$emit('input', value)
 		},
+		onfocus() {
+			this.$emit("focus")
+		},
 		enter(value) {
 			const matched = this.matches[this.current]
 			if (matched) {
@@ -154,7 +158,11 @@ export default {
 </script>
 
 <style scoped>
-.dropdown-item.active {
-	background-color: #f6f9fc;
-}
+	.dropdown-item.active {
+		background-color: #f6f9fc;
+	}
+	.dropdown-menu.show {
+		min-width: calc(100% - 30px);
+    	margin-left: 15px;
+	}
 </style>

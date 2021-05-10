@@ -18,22 +18,23 @@ import StatsCard from './Cards/StatsCard.vue'
 import BaseNav from './Navbar/BaseNav'
 import NavbarToggleButton from './Navbar/NavbarToggleButton'
 
-import Breadcrumb from './Breadcrumb/Breadcrumb.vue'
-import BreadcrumbItem from './Breadcrumb/BreadcrumbItem.vue'
-import RouteBreadCrumb from './Breadcrumb/RouteBreadcrumb.vue'
-import ImageUpload from './ImageUpload'
-import TimeLine from './Timeline/TimeLine.vue'
-import TimeLineItem from './Timeline/TimeLineItem.vue'
-import TabPane from './Tabs/Tab.vue'
-import Tabs from './Tabs/Tabs.vue'
-import Collapse from './Collapse/Collapse.vue'
-import CollapseItem from './Collapse/CollapseItem.vue'
-import Modal from './Modal.vue'
-import Slider from './Slider.vue'
-import SimpleWizard from './Wizard/Wizard.vue'
-import LiquidWizard from './Wizard/LiquidWizard.vue'
-import WizardTab from './Wizard/WizardTab.vue'
-import LoadingPanel from './LoadingPanel.vue'
+import Breadcrumb from "./Breadcrumb/Breadcrumb.vue"
+import BreadcrumbItem from "./Breadcrumb/BreadcrumbItem.vue"
+import RouteBreadCrumb from "./Breadcrumb/RouteBreadcrumb.vue"
+import ImageUpload from "./ImageUpload"
+import TimeLine from "./Timeline/TimeLine.vue"
+import TimeLineItem from "./Timeline/TimeLineItem.vue"
+import TabPane from "./Tabs/Tab.vue"
+import Tabs from "./Tabs/Tabs.vue"
+import Collapse from "./Collapse/Collapse.vue"
+import CollapseItem from "./Collapse/CollapseItem.vue"
+import Modal from "./Modal.vue"
+import Slider from "./Slider.vue"
+import SimpleWizard from "./Wizard/Wizard.vue"
+import SimpleauctionWizard from "./Wizard/Wizardauction.vue"
+import LiquidWizard from "./Wizard/LiquidWizard.vue"
+import WizardTab from "./Wizard/WizardTab.vue"
+import LoadingPanel from "./LoadingPanel.vue"
 
 import BasePagination from './BasePagination.vue'
 
@@ -72,6 +73,7 @@ export {
 	Modal,
 	Slider,
 	SimpleWizard,
+	SimpleauctionWizard,
 	LiquidWizard,
 	WizardTab,
 	AnimatedNumber,
