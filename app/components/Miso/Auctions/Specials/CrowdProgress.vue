@@ -32,17 +32,21 @@
 				<span
 					v-if="progress !== 0"
 					class="text-box d-flex align-items-end"
-					:style="{
-						left: computedProgess + '%',
-						transform: `translateX(${computedProctessStyle})`,
-					}"
+					:style="getStyle(progress)"
 				>
-					<span v-if="progress > 80" class="font-weight-bold price-left text-right">
-						<span class="pr-2 d-flex flex-column">
-							<span class="text-white">{{ marketCommitPercent }} %</span>
-							<span class="font-weight-bold fs-2 text-uppercase text-white">
-								{{ salePrice }}
-							</span>
+					<span v-if="progress > 50" class="font-weight-bold price-left">
+						<span class="row mr-0">
+							<div class="col-6">
+								<span class="text text-uppercase font-weight-bold whitespace">Sale Price</span>
+								<span class="font-weight-bold fs-2 text-uppercase text-white whitespace">
+									{{ salePrice }}
+								</span>
+							</div>
+
+							<div class="col-6 text-right">
+								<span class="text text-uppercase font-weight-bold whitespace">Token Committed</span>
+								<span class="text-white whitespace">{{ marketCommitPercent }} %</span>
+							</div>
 						</span>
 						<span
 							class="line-left"
@@ -50,16 +54,23 @@
 						></span>
 					</span>
 
-					<span v-if="progress <= 80" class="font-weight-bold price-right">
+					<span v-if="progress <= 50" class="font-weight-bold price-right">
 						<span
 							class="line-right mr-2"
 							:class="[getMode ? 'bg-dark' : 'bg-light']"
 						></span>
-						<span class="pl-2 d-flex flex-column">
-							<span class="text-white">{{ marketCommitPercent }} %</span>
-							<span class="font-weight-bold fs-2 text-uppercase text-white">
-								{{ salePrice }}
-							</span>
+						<span class="row ml-0">
+							<div class="col-6">
+								<span class="text text-uppercase font-weight-bold whitespace">Sale Price</span><br>
+								<span class="font-weight-bold fs-2 text-uppercase text-white whitespace">
+									{{ salePrice }}
+								</span>
+							</div>
+
+							<div class="col-6 text-right">
+								<span class="text text-uppercase font-weight-bold whitespace">Token Committed</span><br>
+								<span class="text-white whitespace">{{ marketCommitPercent }} %</span>
+							</div>
 						</span>
 					</span>
 				</span>
@@ -151,9 +162,9 @@ export default {
 		},
 		salePrice() {
 			console.log(this.marketInfo)
-			return `${this.textCheck(this.tokenInfo.symbol)}/${this.textCheck(
+			return `1 ${this.textCheck(this.tokenInfo.symbol)} = ${toPrecision(1 / this.marketInfo.rate, 2)} ${this.textCheck(
 				this.marketInfo.paymentCurrency.symbol
-			)}: ${toPrecision(1 / this.marketInfo.rate, 2)}`
+			)}`
 		},
 		soft() {
 			return this.marketInfo.goal
@@ -194,6 +205,19 @@ export default {
 				return `${val} price`
 			}
 		},
+		getStyle(progress) {
+			if(progress < 50) {
+				return {
+						left: this.computedProgess + '%',
+						transform: `translateX(${this.computedProctessStyle})`,
+					}
+			}else {
+				return {
+						right: this.computedProgess + '%',
+						transform: `translateX(${this.computedProctessStyle})`,
+					}
+			}
+		}
 	},
 }
 </script>
