@@ -87,6 +87,7 @@
 						v-if="status.type === 'crowdsale'"
 						class="pt-5"
 						:status="status"
+						:token-info="tokenInfo"
 						:market-info="marketInfo"
 						:user-info="userInfo"
 						:progress="crowdProgress"

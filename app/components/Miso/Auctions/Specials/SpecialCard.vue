@@ -53,6 +53,7 @@
 			<crowd-progress
 				v-if="status.type === 'crowdsale'"
 				:status="status"
+				:token-info="tokenInfo"
 				:market-info="marketInfo"
 				:progress="crowdProgress"
 			/>
