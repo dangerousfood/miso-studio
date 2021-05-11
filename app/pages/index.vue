@@ -25,14 +25,16 @@
 			<div class="col-lg-8 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">About SAKE</div>
 				<div class="text-white card-description pb-2">
-					Learn more about the Sake project in this video documenatary.
+					Learn more about the Sake project in this video documenatary. Visit
+					<a href="https://sake.com" target="_blank" class="sake-com">sake.com</a>
+					for more.
 				</div>
 				<vue-plyr :options="options">
 					<video
 						controls
 						crossorigin
 						playsinline
-						data-poster="/_nuxt/app/assets/images/gallery01.png"
+						:data-poster="require('~/assets/images/gallery01.png')"
 					>
 						<source
 							size="576"
@@ -41,7 +43,6 @@
 						/>
 					</video>
 				</vue-plyr>
-				<div class="text-white sake-com pt-2 pb-2">sake.com</div>
 			</div>
 		</div>
 		<loader v-else width="80" height="80" y="250" />
@@ -92,12 +93,17 @@
 				</div>
 			</div>
 		</div>
+		<auction-modal
+			v-if="showModal && coinbase && !isRightNetwork"
+			@close="showModal = false"
+		></auction-modal>
 	</div>
 </template>
 
 <script>
 import SpecialCard from '@/components/Miso/Auctions/Specials/SpecialCard'
 import AmaCard from '@/components/Miso/Auctions/Specials/AmaCard'
+import AuctionModal from '@/components/web3-core/navbar/AuctionModal'
 import { mapGetters, mapActions } from 'vuex'
 
 export default {
@@ -105,6 +111,7 @@ export default {
 	components: {
 		SpecialCard,
 		AmaCard,
+		AuctionModal,
 	},
 	data() {
 		return {
@@ -124,12 +131,17 @@ export default {
 					text: 'Crowdsale',
 				},
 			],
-			options: { quality: { default: "1080p" } },
-			saketokenauction: "0xa8F1CBb80b44eDfb5fb71b0c193d75d27d02a532",
+			options: { quality: { default: '1080p' } },
+			saketokenauction: '0xa8F1CBb80b44eDfb5fb71b0c193d75d27d02a532',
+			showModal: true,
 		}
 	},
 	computed: {
-		...mapGetters({ auctions: 'auctions/list' }),
+		...mapGetters({
+			auctions: 'auctions/list',
+			coinbase: 'ethereum/coinbase',
+			isRightNetwork: 'ethereum/isRightNetwork',
+		}),
 	},
 	mounted() {
 		this.initAuctions()
@@ -171,10 +183,6 @@ export default {
 	@media screen and (max-width: 768px) {
 		max-width: 100%;
 	}
-	&:hover {
-		transition: all 0.4s ease-in-out;
-		transform: scale(1.025);
-	}
 }
 
 .gradient-background {
@@ -189,6 +197,7 @@ export default {
 	height: 100px;
 	min-height: 100px;
 	width: 100%;
+	border-radius: 6px;
 }
 
 .top-50 {
@@ -260,8 +269,7 @@ export default {
 }
 
 .sake-com {
-	text-align: right;
-	padding-top: 20px;
+	color: white;
 	text-decoration: underline;
 }
 

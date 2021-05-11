@@ -60,6 +60,13 @@
 	border-radius: 8px !important;
 }
 
+@media (min-width: 768px) {
+  .plyr--video {
+    max-height: 440px !important;
+    border-radius: 8px !important;
+  }
+}
+
 .plyr__control {
   background-color: #020202 !important;
   opacity: 0.6 !important;
