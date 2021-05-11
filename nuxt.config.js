@@ -88,7 +88,7 @@ module.exports = {
 	/*
 	 ** Nuxt.js modules
 	 */
-	modules: ['@nuxtjs/pwa', 'vue-screen/nuxt'],
+	modules: ["@nuxtjs/pwa", "vue-screen/nuxt", 'vue-currency-input/nuxt'],
 	screen: {
 		extend: 'bootstrap',
 	},
