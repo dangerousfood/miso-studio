@@ -232,7 +232,6 @@
 								:model="model"
 								@on-validated="onStepValidated"
 							></dutch-third-step>
-							<!-- <third-step ref="step3" :market="deployedMarket"></third-step> -->
 						</wizard-tab>
 						<wizard-tab>
 							<final-step
@@ -505,6 +504,7 @@ export default {
 
 				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 					this.nextBtnLoading = false
+					this.$router.push({path: "/auctions/upcoming"});
 					if (receipt) {
 						this.deployedMarket.txHash = receipt.transactionHash
 						this.deployedMarket.address = receipt.events.MarketCreated.returnValues[1]
