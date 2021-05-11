@@ -160,7 +160,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="pt-4 pr-5">
+			<div v-if="user.isAdmin" class="pt-4 pr-5">
 				<!-- <h5 class="fs-1 mb-1 font-weight-bold text-uppercase">admin:</h5> -->
 				<nuxt-link :to="`/auction-admin/${auctionAddress}`">Edit</nuxt-link>
 			</div>
@@ -207,6 +207,10 @@ export default {
 	},
 	mixins: [theme],
 	props: {
+		user: {
+			type: [Object],
+			required: true,
+		},
 		status: {
 			type: [Object, Array],
 			required: true,

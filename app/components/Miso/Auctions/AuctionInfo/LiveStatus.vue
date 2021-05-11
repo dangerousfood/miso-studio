@@ -439,7 +439,7 @@
 
 <script>
 // import BigNumber from "bignumber.js"
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import {
 	sendTransaction,
 	sendTransactionAndWait,
@@ -743,6 +743,7 @@ export default {
 		clearInterval(this.interval)
 	},
 	methods: {
+		...mapActions({ enableAccount: 'ethereum/enableAccount' }),
 		textCheck(str, val) {
 			const pattern = /^[()\s0-9a-zA-Z]+$/
 			if (str.match(pattern)) {
