@@ -125,7 +125,7 @@
 							v-if="mode"
 							class="finalized-video"
 							autoplay
-							poster="~/assets/video/covers/dark_mode_finalize.jpg"
+							poster="~/assets/video/covers/dark_mode_bg.jpg"
 						>
 							<source src="~/assets/video/dark_mode.webm" type="video/webm" />
 							<source src="~/assets/video/dark_mode.mp4" type="video/mp4" />
@@ -134,10 +134,10 @@
 							v-else
 							class="finalized-video"
 							autoplay
-							poster="~/assets/video/covers/light_mode_finalize.jpg"
+							poster="~/assets/video/covers/light_mode_bg.jpg"
 						>
 							<source src="~/assets/video/light_mode.webm" type="video/webm" />
-							<source src="~/assets/video/dark_mode.mp4" type="video/mp4" />
+							<source src="~/assets/video/light_mode.mp4" type="video/mp4" />
 						</video>
 					</div>
 				</div>
