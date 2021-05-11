@@ -21,11 +21,12 @@
 								text-center text-sm-left
 							"
 						>
-							Initial supply:
+							Amount For Sale:
 						</span>
 						<div class="d-flex justify-content-center justify-content-sm-start">
 							<p class="fs-3 text-white font-weight-bold text-capitalize live">
 								{{ marketInfo.totalTokens }}
+								<span class="fs-2">{{ tokenInfo[2] }}</span>
 							</p>
 						</div>
 					</div>
