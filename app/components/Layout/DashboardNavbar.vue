@@ -264,10 +264,10 @@ export default {
 			const plyrposter = document.getElementsByClassName('plyr__poster')[0]
 			if (type) {
 				docClasses.remove('white-content')
-				plyrposter.classList.remove('plyr__poster__white')
+				if (plyrposter) plyrposter.classList.remove('plyr__poster__white')
 			} else {
 				docClasses.add('white-content')
-				plyrposter.classList.add('plyr__poster__white')
+				if (plyrposter) plyrposter.classList.add('plyr__poster__white')
 			}
 		},
 		capitalizeFirstLetter(string) {

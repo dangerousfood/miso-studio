@@ -21,11 +21,12 @@
 								text-center text-sm-left
 							"
 						>
-							Initial supply:
+							Amount For Sale:
 						</span>
 						<div class="d-flex justify-content-center justify-content-sm-start">
 							<p class="fs-3 text-white font-weight-bold text-capitalize live">
 								{{ marketInfo.totalTokens }}
+								<span class="fs-2">{{ tokenInfo[2] }}</span>
 							</p>
 						</div>
 					</div>
@@ -126,7 +127,7 @@
 							v-if="mode"
 							class="finalized-video"
 							autoplay
-							poster="~/assets/video/covers/dark_mode_finalize.jpg"
+							poster="~/assets/video/covers/dark_mode_bg.jpg"
 						>
 							<source src="~/assets/video/dark_mode.webm" type="video/webm" />
 							<source src="~/assets/video/dark_mode.mp4" type="video/mp4" />
@@ -135,10 +136,10 @@
 							v-else
 							class="finalized-video"
 							autoplay
-							poster="~/assets/video/covers/light_mode_finalize.jpg"
+							poster="~/assets/video/covers/light_mode_bg.jpg"
 						>
 							<source src="~/assets/video/light_mode.webm" type="video/webm" />
-							<source src="~/assets/video/dark_mode.mp4" type="video/mp4" />
+							<source src="~/assets/video/light_mode.mp4" type="video/mp4" />
 						</video>
 					</div>
 				</div>
@@ -439,7 +440,7 @@
 
 <script>
 // import BigNumber from "bignumber.js"
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import {
 	sendTransaction,
 	sendTransactionAndWait,
@@ -743,6 +744,7 @@ export default {
 		clearInterval(this.interval)
 	},
 	methods: {
+		...mapActions({ enableAccount: 'ethereum/enableAccount' }),
 		textCheck(str, val) {
 			const pattern = /^[()\s0-9a-zA-Z]+$/
 			if (str.match(pattern)) {

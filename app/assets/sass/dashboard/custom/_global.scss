@@ -1,5 +1,7 @@
 // Nucleo icons
-
+.jYxAGf {
+	z-index: 999 !important;
+}
 .section-nucleo-icons .icons-container {
 	position: relative;
 	max-width: 100%;
@@ -71,7 +73,7 @@
 
 			&:nth-child(1) {
 				font-size: 42px;
-				color: theme-color("warning");
+				color: theme-color('warning');
 				z-index: 2;
 			}
 		}
@@ -96,7 +98,7 @@
 					left: 50%;
 					top: 50%;
 					font-size: 42px;
-					color: theme-color("warning");
+					color: theme-color('warning');
 				}
 
 				&:nth-child(2) {
@@ -336,7 +338,7 @@ input::-webkit-inner-spin-button {
 }
 
 /* Firefox */
-input[type="number"] {
+input[type='number'] {
 	-moz-appearance: textfield;
 }
 
