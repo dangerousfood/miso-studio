@@ -1,115 +1,121 @@
 <template>
 	<card v-if="!loading" class="special p-2 card-hight">
-		<div class="d-flex justify-content-end align-items-center">
-			<!-- <svg-icon icon="morth" height="52" width="52" /> -->
-			<div class="d-flex align-items-center">
-				<div
-					v-if="status.auction !== 'live' && status.auction !== 'upcoming'"
-					class="
-						special_status
-						px-2
-						py-2
-						mr-2
-						text-white
-						font-weight-bold
-						text-uppercase
-					"
-					:class="'border-' + computedStatusColor"
-				>
-					<svg-icon
-						v-if="status.auctionSuccessful"
-						icon="check"
-						height="20"
-						width="20"
-						:color="computedIconColor"
-					/>
-					<svg-icon
-						v-else
-						icon="cancel"
-						height="20"
-						width="20"
-						:color="computedIconColor"
-					/>
-				</div>
-				<div
-					class="special_status px-3 py-2 text-white font-weight-bold text-uppercase"
-					:class="'border-' + computedStatusColor"
-				>
-					<span class="mr-2" :class="'bg-' + computedStatusColor"></span>
-					{{ status.auction }}
+		<div @mouseover="cardhover" @mouseout="cardout">
+			<div class="d-flex justify-content-end align-items-center">
+				<!-- <svg-icon icon="morth" height="52" width="52" /> -->
+				<div class="d-flex align-items-center">
+					<div
+						v-if="status.auction !== 'live' && status.auction !== 'upcoming'"
+						class="special_status px-2 py-2 mr-2 text-white font-weight-bold text-uppercase"
+						:class="'border-' + computedStatusColor"
+					>
+						<svg-icon
+							v-if="status.auctionSuccessful"
+							icon="check"
+							height="20"
+							width="20"
+							:color="computedIconColor"
+						/>
+						<svg-icon
+							v-else
+							icon="cancel"
+							height="20"
+							width="20"
+							:color="computedIconColor"
+						/>
+					</div>
+					<div
+						class="special_status px-3 py-2 text-white font-weight-bold text-uppercase"
+						:class="'border-' + computedStatusColor"
+					>
+						<span class="mr-2" :class="'bg-' + computedStatusColor"></span>
+						{{ status.auction }}
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="d-flex flex-column mt-3">
-			<div class="text-capitalize fs-5 font-weight-bold text-white">
-				{{ checkTitle(about.title) }}
+			<div class="d-flex flex-column mt-3">
+				<div class="text-capitalize fs-5 font-weight-bold text-white">
+					{{ checkTitle(about.title) }}
+				</div>
+				<!-- <div class="fs-2 text-white">This is a first line of a Subtitle</div>
+				<div class="fs-2 text-white">Second line of subtitle goes here</div> -->
 			</div>
-			<!-- <div class="fs-2 text-white">This is a first line of a Subtitle</div>
-			<div class="fs-2 text-white">Second line of subtitle goes here</div> -->
-		</div>
-		<base-divider class="mb-4 mt-2 py-1" />
-		<div v-if="!isUpcoming">
-			<!-- CrowedProgress -->
-			<crowd-progress
-				v-if="status.type === 'crowdsale'"
-				:status="status"
-				:market-info="marketInfo"
-				:progress="crowdProgress"
-			/>
-			<!-- CrowedProgress -->
+			<base-divider class="mb-4 mt-2 py-1" />
+			<div v-if="!isUpcoming">
+				<!-- CrowedProgress -->
+				<crowd-progress
+					v-if="status.type === 'crowdsale'"
+					:status="status"
+					:market-info="marketInfo"
+					:progress="crowdProgress"
+				/>
+				<!-- CrowedProgress -->
 
-			<!-- DutchProgress -->
-			<dutch-progress
-				v-if="status.type === 'dutch'"
-				class="mt-4 mb-3"
-				:status="status"
-				:progress="dutchProgress"
-				:market-info="marketInfo"
-			/>
-			<!-- DutchProgress -->
+				<!-- DutchProgress -->
+				<dutch-progress
+					v-if="status.type === 'dutch'"
+					class="mt-4 mb-3"
+					:status="status"
+					:progress="dutchProgress"
+					:market-info="marketInfo"
+				/>
+				<!-- DutchProgress -->
 
-			<!-- BatchProgress -->
-			<batch-progress
-				v-if="status.type === 'batch'"
-				class="mt-4"
-				:status="status"
-				:progress="timeProgress"
-				:market-info="marketInfo"
-			/>
-			<!-- BatchProgress -->
-		</div>
-		<div v-else class="d-flex flex-column flex-grow-1">
-			<div class="text-white text-center">COUNTDOWN</div>
-			<div class="text-white font-weight-bold text-center fs-16">
-				<span class="counter-line">{{ getFullTime }}</span>
+				<!-- BatchProgress -->
+				<batch-progress
+					v-if="status.type === 'batch'"
+					class="mt-4"
+					:status="status"
+					:progress="timeProgress"
+					:market-info="marketInfo"
+				/>
+				<!-- BatchProgress -->
 			</div>
-		</div>
-		<base-divider class="mb-4 mt-2 py-1" />
-		<!-- <div class="d-flex flex-column">
-			<div class="font-weight-bold text-white text-uppercase fs-1">recipe:</div>
-			<div class="fs-3 font-weight-bold text-white mt-1">
-				{{ about.recipe }}
+			<div v-else class="d-flex flex-column flex-grow-1">
+				<div class="text-white text-center">COUNTDOWN</div>
+				<div class="text-white font-weight-bold text-center fs-16">
+					<span class="counter-line">{{ getFullTime }}</span>
+				</div>
 			</div>
-		</div> -->
-		<div class="d-flex flex-column mt-3 pt-3">
-			<div class="font-weight-bold text-white text-uppercase fs-1"></div>
-			<div class="d-flex align-items-center mt-3">
-				<span class="mr-3">
-					<svg-icon
-						:icon="status.type"
-						height="50"
-						width="48"
-						:color="computedIconColor"
-					/>
-				</span>
-				<span class="text-capitalize font-weight-bold text-white">
-					{{ auctionType }}
-				</span>
-				<div
-					v-if="buybuttonflag"
-					class="font-weight-bold text-white text-uppercase buy-sake"
-				>
-					buy sake
+			<base-divider class="mb-4 mt-2 py-1" />
+			<!-- <div class="d-flex flex-column">
+				<div class="font-weight-bold text-white text-uppercase fs-1">recipe:</div>
+				<div class="fs-3 font-weight-bold text-white mt-1">
+					{{ about.recipe }}
+				</div>
+			</div> -->
+			<div class="text-white text-uppercase font-weight-bold ingredients mt-5">
+				ingredients:
+			</div>
+			<div
+				v-if="buybuttonflag && buyhoverflag"
+				class="font-weight-bold text-white text-uppercase buy-sake-full py-4"
+			>
+				buy sake
+			</div>
+			<div class="d-flex flex-column">
+				<div class="font-weight-bold text-white text-uppercase fs-1"></div>
+				<div class="d-flex align-items-center mt-3">
+					<span class="mr-1">
+						<svg-icon
+							:icon="status.type"
+							height="50"
+							width="48"
+							:color="computedIconColor"
+						/>
+					</span>
+					<span
+						v-if="!buybuttonflag"
+						class="text-capitalize font-weight-bold text-white"
+					>
+						{{ auctionType }}
+					</span>
+					<div
+						v-if="buybuttonflag && !buyhoverflag"
+						class="font-weight-bold text-white text-uppercase buy-sake"
+					>
+						buy sake
+					</div>
 				</div>
 			</div>
 		</div>
@@ -194,6 +200,7 @@ export default {
 			displayMinutes: '00',
 			displayHours: '00',
 			displayDays: '00',
+			buyhoverflag: false,
 		}
 	},
 	computed: {
@@ -321,6 +328,12 @@ export default {
 		clearInterval(this.interval)
 	},
 	methods: {
+		cardhover() {
+			this.buyhoverflag = true
+		},
+		cardout() {
+			this.buyhoverflag = false
+		},
 		checkTitle(value) {
 			const specialReg = '^(?=.*[!@#$%^&*"\\[\\]\\{\\}<>/\\=\\\\\\_´+`~\\:;,\\.€\\|])'
 
@@ -500,15 +513,33 @@ export default {
 }
 .buy-sake {
 	position: absolute;
-	right: 10px;
+	right: 24px;
 	bottom: 30px;
 	background-image: linear-gradient(
 		135deg,
-		rgba(246, 102, 69, 0.6) 36.52%,
-		rgba(123, 97, 255, 0.6) 72.9%
+		rgba(245, 62, 46, 1) 36.52%,
+		rgba(209, 54, 158, 1) 72.9%
 	);
 	text-align: center;
 	padding: 8px 20px;
 	border-radius: 6px;
+	font-size: 14px;
+}
+.buy-sake-full {
+	background-image: linear-gradient(
+		135deg,
+		rgba(245, 62, 46, 1) 36.52%,
+		rgba(209, 54, 158, 1) 72.9%
+	);
+	text-align: center;
+	font-size: 14px;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	border-radius: 0 0 8px 8px;
+}
+.ingredients {
+	font-size: 10px;
 }
 </style>
