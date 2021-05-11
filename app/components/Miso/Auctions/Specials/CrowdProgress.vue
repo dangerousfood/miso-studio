@@ -37,13 +37,12 @@
 						transform: `translateX(${computedProctessStyle})`,
 					}"
 				>
-					<span v-if="progress > 80" class="font-weight-bold price-left text-center">
-						<span class="pr-2">
-							<span class="text-white">
-								{{ marketInfo.commitmentsTotal.toLocaleString('en-US') }}
+					<span v-if="progress > 80" class="font-weight-bold price-left text-right">
+						<span class="pr-2 d-flex flex-column">
+							<span class="text-white">{{ marketCommitPercent }} %</span>
+							<span class="font-weight-bold fs-2 text-uppercase text-white">
+								{{ salePrice }}
 							</span>
-							/
-							<span>{{ hard.toLocaleString('en-US') }}</span>
 						</span>
 						<span
 							class="line-left"
@@ -51,17 +50,15 @@
 						></span>
 					</span>
 
-					<span
-						v-if="progress <= 80"
-						class="font-weight-bold price-right text-center"
-					>
+					<span v-if="progress <= 80" class="font-weight-bold price-right">
 						<span
 							class="line-right mr-2"
 							:class="[getMode ? 'bg-dark' : 'bg-light']"
 						></span>
-						<span class="pl-2">
-							<span class="pl-2">
-								<span class="text-white">{{ marketCommitPercent }} %</span>
+						<span class="pl-2 d-flex flex-column">
+							<span class="text-white">{{ marketCommitPercent }} %</span>
+							<span class="font-weight-bold fs-2 text-uppercase text-white">
+								{{ salePrice }}
 							</span>
 						</span>
 					</span>
@@ -90,6 +87,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { toPrecision } from '@/util/index'
 export default {
 	props: {
 		progress: {
@@ -97,7 +95,14 @@ export default {
 			default: 0,
 			description: 'progress in percentage',
 		},
-		status: [Object],
+		status: {
+			type: [Object],
+			required: true,
+		},
+		tokenInfo: {
+			type: [Object, Array],
+			required: true,
+		},
 		marketInfo: {
 			type: [Object],
 			currentPrice: {
@@ -116,6 +121,7 @@ export default {
 				type: [String],
 				required: true,
 			},
+			required: true,
 		},
 	},
 	computed: {
@@ -142,6 +148,12 @@ export default {
 				'bg-danger-light': !this.activeAuction && !this.status.auctionSuccessful,
 				'bg-link': !this.activeAuction && this.status.auctionSuccessful,
 			}
+		},
+		salePrice() {
+			console.log(this.marketInfo)
+			return `${this.textCheck(this.tokenInfo.symbol)}/${this.textCheck(
+				this.marketInfo.paymentCurrency.symbol
+			)}: ${toPrecision(1 / this.marketInfo.rate, 2)}`
 		},
 		soft() {
 			return this.marketInfo.goal
@@ -173,12 +185,22 @@ export default {
 			return 0
 		},
 	},
+	methods: {
+		textCheck(str, val) {
+			const pattern = /^[()\s0-9a-zA-Z.,/$#:&_]+$/
+			if (str.match(pattern)) {
+				return str
+			} else {
+				return `${val} price`
+			}
+		},
+	},
 }
 </script>
 
 <style lang="scss" scoped>
 .progress-status {
-	padding: 60px 0 60px 0;
+	padding: 60px 0 52px 0;
 	.text {
 		font-size: 11px;
 		@media screen and (max-width: 450px) {
@@ -213,8 +235,12 @@ export default {
 				left: 0;
 			}
 			.price-left {
+				margin-top: 8px;
 				transform: translateX(-100%);
 				white-space: nowrap;
+			}
+			.price-right {
+				margin-top: 8px;
 			}
 		}
 	}
@@ -284,5 +310,8 @@ export default {
 	.price {
 		font-size: 10px;
 	}
+}
+.fs-1 {
+	font-size: 10px !important;
 }
 </style>
