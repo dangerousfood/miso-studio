@@ -40,16 +40,20 @@
 				<!-- <div class="fs-2 text-white">This is a first line of a Subtitle</div>
 				<div class="fs-2 text-white">Second line of subtitle goes here</div> -->
 			</div>
-			<base-divider class="mb-4 mt-2 py-1" />
-			<div v-if="!isUpcoming">
-				<!-- CrowedProgress -->
-				<crowd-progress
-					v-if="status.type === 'crowdsale'"
-					:status="status"
-					:market-info="marketInfo"
-					:progress="crowdProgress"
-				/>
-				<!-- CrowedProgress -->
+			<!-- <div class="fs-2 text-white">This is a first line of a Subtitle</div>
+			<div class="fs-2 text-white">Second line of subtitle goes here</div> -->
+		</div>
+		<base-divider class="mb-4 mt-2 py-1" />
+		<div v-if="!isUpcoming">
+			<!-- CrowedProgress -->
+			<crowd-progress
+				v-if="status.type === 'crowdsale'"
+				:status="status"
+				:token-info="tokenInfo"
+				:market-info="marketInfo"
+				:progress="crowdProgress"
+			/>
+			<!-- CrowedProgress -->
 
 				<!-- DutchProgress -->
 				<dutch-progress

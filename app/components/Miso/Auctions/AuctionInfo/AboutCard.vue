@@ -37,7 +37,7 @@
 							</span>
 						</div>
 						<p class="font-weight-bold text-uppercase fs-2">
-							{{ textCheck(info.tokenPair, 'token') }}:
+							Token Price:
 							<span class="text-white">{{ tokenPrice }}</span>
 						</p>
 					</div>
@@ -137,58 +137,30 @@
 					<div class="d-flex justify-content-between flex-wrap">
 						<div class="d-flex flex-column mb-3">
 							<h5 class="fs-1 font-weight-bold mb-2">SOCIAL:</h5>
-							<div class="d-block">
+							<div class="social-sections d-flex flex-wrap">
 								<a
 									v-for="(item, index) in info.icons.social"
 									:key="index"
 									:href="item"
-									class="socials-icon svg-color"
+									class="
+										socials-icon
+										svg-color
+										pr-4
+										fs-3
+										font-weight-bold
+										text-capitalize
+									"
 									target="_blank"
 								>
-									<el-tooltip
-										v-if="index !== 'whitepaper' && index !== 'doc'"
-										:open-delay="300"
-										placement="top"
-										:effect="computedTooltipEffect"
-										:content="getIconTooltip(index)"
-									>
-										<i
-											:class="icons[index]"
-											style="font-size: 26px; margin-right: 8px"
-										/>
-									</el-tooltip>
-								</a>
-							</div>
-						</div>
-						<div class="d-flex flex-column">
-							<h5 class="fs-1 font-weight-bold text-uppercase mb-2">
-								Technical Information:
-							</h5>
-							<div class="d-block">
-								<a
-									v-for="(item, index) in info.icons.social"
-									:key="index"
-									:href="item"
-									class="socials-icon svg-color"
-									target="_blank"
-								>
-									<span
-										v-if="index === 'whitepaper' || index === 'doc'"
-										class="d-flex align-items-center"
-									>
-										<i
-											:class="icons[index]"
-											style="font-size: 26px; margin-right: 8px"
-										/>
-										<span class="font-weight-bold fs-1">{{ index }}</span>
-									</span>
+									<i :class="icons[index]" class="fs-4" />
+									<span>{{ index }}</span>
 								</a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="pt-4 pr-5">
+			<div v-if="user.isAdmin" class="pt-4 pr-5">
 				<!-- <h5 class="fs-1 mb-1 font-weight-bold text-uppercase">admin:</h5> -->
 				<nuxt-link :to="`/auction-admin/${auctionAddress}`">Edit</nuxt-link>
 			</div>
@@ -235,6 +207,10 @@ export default {
 	},
 	mixins: [theme],
 	props: {
+		user: {
+			type: [Object],
+			required: true,
+		},
 		status: {
 			type: [Object, Array],
 			required: true,
@@ -347,9 +323,7 @@ export default {
 			if (this.info.icon) {
 				return this.info.icon
 			}
-			return this.mode
-				? 'https://via.placeholder.com/300.png/f2f2f4/f46e41?text=MISO'
-				: 'https://via.placeholder.com/300.png/000a35/f46e41?text=MISO'
+			return require('static/s3/img/token_placeholder.png')
 		},
 	},
 	mounted() {
@@ -414,6 +388,13 @@ export default {
 
 <style lang="scss" scoped>
 // remove when icon
+.social-sections a {
+	min-width: 140px;
+	margin-bottom: 1rem;
+	span {
+		text-decoration: underline;
+	}
+}
 .token-img {
 	height: 45px;
 	width: 45px;

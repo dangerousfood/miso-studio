@@ -624,6 +624,7 @@ export default {
 
 			if (name === 'icon') {
 				const img = new Image()
+				console.log(img)
 				img.onload = async () => {
 					if (img.width === 256 && img.height === 256) {
 						await sendTransaction(method, { from: this.coinbase })

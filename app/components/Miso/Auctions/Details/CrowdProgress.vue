@@ -39,11 +39,7 @@
 				>
 					<span v-if="progress > 80" class="font-weight-bold price-left text-center">
 						<span class="pr-2">
-							<span class="text-white">
-								{{ marketInfo.commitmentsTotal.toLocaleString('en-US') }}
-							</span>
-							/
-							<span>{{ hard.toLocaleString('en-US') }}</span>
+							<span class="text-white">{{ marketCommitPercent }} %</span>
 						</span>
 						<span
 							class="line-left"

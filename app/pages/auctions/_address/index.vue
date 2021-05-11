@@ -4,6 +4,7 @@
 			<div class="col-12 col-lg-6">
 				<about-card
 					:info="about"
+					:user="userInfo"
 					:price="marketInfo.currentPrice"
 					:type="status.type"
 					:status="status"
