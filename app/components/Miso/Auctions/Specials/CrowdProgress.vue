@@ -37,12 +37,22 @@
 						transform: `translateX(${computedProctessStyle})`,
 					}"
 				>
-					<span v-if="progress > 80" class="font-weight-bold price-left text-right">
-						<span class="pr-2 d-flex flex-column">
-							<span class="text-white">{{ marketCommitPercent }} %</span>
-							<span class="font-weight-bold fs-2 text-uppercase text-white">
-								{{ salePrice }}
-							</span>
+					<span v-if="progress > 51" class="font-weight-bold price-left">
+						<span class="pr-2 d-flex">
+							<div class="d-flex flex-column">
+								<span class="text pr-2 text-uppercase fs-1">Sale Price:</span>
+								<span class="text-white pr-2 text-uppercase fs-1">
+									{{ salePrice }}
+								</span>
+							</div>
+							<div class="d-flex flex-column">
+								<span class="text pl-2 text-right text-uppercase fs-1">
+									Tokens Committed:
+								</span>
+								<span class="pl-2 fs-1 text-white text-right">
+									{{ marketCommitPercent }} %
+								</span>
+							</div>
 						</span>
 						<span
 							class="line-left"
@@ -50,16 +60,26 @@
 						></span>
 					</span>
 
-					<span v-if="progress <= 80" class="font-weight-bold price-right">
+					<span v-else class="font-weight-bold price-right">
 						<span
 							class="line-right mr-2"
 							:class="[getMode ? 'bg-dark' : 'bg-light']"
 						></span>
-						<span class="pl-2 d-flex flex-column">
-							<span class="text-white">{{ marketCommitPercent }} %</span>
-							<span class="font-weight-bold fs-2 text-uppercase text-white">
-								{{ salePrice }}
-							</span>
+						<span class="pl-2 d-flex">
+							<div class="d-flex flex-column">
+								<span class="text pr-2 text-uppercase fs-1">Sale Price:</span>
+								<span class="text-white text-uppercase pr-2 fs-1">
+									{{ salePrice }}
+								</span>
+							</div>
+							<div class="d-flex flex-column">
+								<span class="text pl-2 text-right text-uppercase fs-1">
+									Tokens Committed:
+								</span>
+								<span class="pl-2 fs-1 text-white text-right">
+									{{ marketCommitPercent }} %
+								</span>
+							</div>
 						</span>
 					</span>
 				</span>
@@ -150,10 +170,10 @@ export default {
 			}
 		},
 		salePrice() {
-			console.log(this.marketInfo)
-			return `${this.textCheck(this.tokenInfo.symbol)}/${this.textCheck(
-				this.marketInfo.paymentCurrency.symbol
-			)}: ${toPrecision(1 / this.marketInfo.rate, 2)}`
+			return `1 ${this.textCheck(this.tokenInfo.symbol)} = ${toPrecision(
+				1 / this.marketInfo.rate,
+				2
+			)} ${this.textCheck(this.marketInfo.paymentCurrency.symbol)}`
 		},
 		soft() {
 			return this.marketInfo.goal
