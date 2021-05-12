@@ -29,7 +29,7 @@
 								@submit.prevent="handleSubmit(createFarm)"
 							>
 								<div class="form-row justify-content-md-center">
-									<div class="col-lg-6 mr-1">
+									<div class="col-lg-12 mr-1">
 										<div class="form-row mb-4">
 											<div class="col-md-6">
 												<label
@@ -40,7 +40,7 @@
 												<div class="row">
 													<div class="col-12">
 														<div class="d-flex justify-content-between">
-															<div class="d-flex flex-column align-items-center">
+															<div class="d-flex flex-column align-items-center" @click="focuseColor('farmType')">
 																<svg-icon
 																	icon="masterchif"
 																	width="60"
@@ -70,6 +70,7 @@
 											:loading="tokensLoading"
 											@input="fetchTokens"
 											@complete="handleTokenComplete"
+											@focus="focuseColor('rewardsTokenaddress')"
 										></autocomplete>
 										<base-input
 											v-model="farmFactoryDetailsForm.rewardsAmountPerBlock"
@@ -78,6 +79,7 @@
 											placeholder="Rewards Amount Per Block"
 											type="number"
 											:rules="`required|min_value:0`"
+											@focus="focuseColor('rewardsAmount')"
 										></base-input>
 										<base-input
 											v-model="farmFactoryDetailsForm.startBlock"
@@ -85,6 +87,7 @@
 											name="start block"
 											placeholder="Start Block"
 											type="number"
+											@focus="focuseColor('startBlock')"
 											:rules="`required|min_value:${farmFactoryDetailsForm.lowerBlock}|max_value:${farmFactoryDetailsForm.upperBlock}`"
 										></base-input>
 										<base-input
@@ -94,6 +97,7 @@
 											placeholder="Wallet"
 											type="text"
 											rules="required|isAddress"
+											@focus="focuseColor('wallet')"
 										></base-input>
 										<base-input
 											v-model="farmFactoryDetailsForm.accessControls"
@@ -102,6 +106,7 @@
 											placeholder="Owner"
 											type="text"
 											rules="required|isAddress"
+											@focus="focuseColor('owner')"
 										></base-input>
 										<div class="row">
 											<base-input
@@ -110,6 +115,7 @@
 												name="address"
 												placeholder="Ethereum Address"
 												rules="required|isAddress"
+												@focus="focuseColor('fundwalletAddress')"
 											>
 												<template #prepend>
 													<svg-icon
@@ -335,6 +341,15 @@ export default {
 			},
 			farmCreatedEventSubscribtion: null,
 			tokensLoading: false,
+			items: {
+				farmType: false,
+				rewardsTokenaddress: false,
+				rewardsAmount: false,
+				startBlock: false,
+				wallet: false,
+				owner: false,
+				fundwalletAddress: false
+			}
 		}
 	},
 	computed: {
@@ -438,6 +453,8 @@ export default {
 			} else {
 				this.activeStep++
 			}
+
+			this.$emit('active-step', this.activeStep)
 		},
 		subscribeToFarmCreatedEvent() {
 			this.farmCreatedEventSubscribtion = subscribeToFarmCreatedEvent()
@@ -462,6 +479,16 @@ export default {
 		redirect(url) {
 			this.$router.push(url)
 		},
+		focuseColor(val) {
+			for (const key in this.items) {
+				if (val === key) {
+					this.items[key] = true
+				} else {
+					this.items[key] = false
+				}
+			}
+			this.$emit('active-focus', this.items)
+		}
 	},
 }
 </script>
