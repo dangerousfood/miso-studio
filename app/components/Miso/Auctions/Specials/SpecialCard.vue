@@ -6,7 +6,15 @@
 				<div class="d-flex align-items-center">
 					<div
 						v-if="status.auction !== 'live' && status.auction !== 'upcoming'"
-						class="special_status px-2 py-2 mr-2 text-white font-weight-bold text-uppercase"
+						class="
+							special_status
+							px-2
+							py-2
+							mr-2
+							text-white
+							font-weight-bold
+							text-uppercase
+						"
 						:class="'border-' + computedStatusColor"
 					>
 						<svg-icon
@@ -25,7 +33,14 @@
 						/>
 					</div>
 					<div
-						class="special_status px-3 py-2 text-white font-weight-bold text-uppercase"
+						class="
+							special_status
+							px-3
+							py-2
+							text-white
+							font-weight-bold
+							text-uppercase
+						"
 						:class="'border-' + computedStatusColor"
 					>
 						<span class="mr-2" :class="'bg-' + computedStatusColor"></span>
@@ -40,20 +55,17 @@
 				<!-- <div class="fs-2 text-white">This is a first line of a Subtitle</div>
 				<div class="fs-2 text-white">Second line of subtitle goes here</div> -->
 			</div>
-			<!-- <div class="fs-2 text-white">This is a first line of a Subtitle</div>
-			<div class="fs-2 text-white">Second line of subtitle goes here</div> -->
-		</div>
-		<base-divider class="mb-4 mt-2 py-1" />
-		<div v-if="!isUpcoming">
-			<!-- CrowedProgress -->
-			<crowd-progress
-				v-if="status.type === 'crowdsale'"
-				:status="status"
-				:token-info="tokenInfo"
-				:market-info="marketInfo"
-				:progress="crowdProgress"
-			/>
-			<!-- CrowedProgress -->
+			<base-divider class="mb-4 mt-2 py-1" />
+			<div v-if="!isUpcoming">
+				<!-- CrowedProgress -->
+				<crowd-progress
+					v-if="status.type === 'crowdsale'"
+					:status="status"
+					:token-info="tokenInfo"
+					:market-info="marketInfo"
+					:progress="crowdProgress"
+				/>
+				<!-- CrowedProgress -->
 
 				<!-- DutchProgress -->
 				<dutch-progress
