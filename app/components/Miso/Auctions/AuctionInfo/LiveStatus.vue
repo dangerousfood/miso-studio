@@ -119,10 +119,7 @@
 					<!-- BatchProgress -->
 				</div>
 				<div v-else-if="!isUpcoming && status.auction === 'finished'" class="d-flex">
-					<div
-						v-if="status.auctionSuccessful && marketInfo.finalized"
-						class="finalized-box"
-					>
+					<div v-if="status.auctionSuccessful" class="finalized-box">
 						<video
 							v-if="mode"
 							class="finalized-video"
@@ -156,7 +153,7 @@
 				/>
 				<!-- active auction -->
 				<div v-if="getStatus && status.auction !== 'upcoming'" class="row no-gutters">
-					<div class="col-xl-6 col-md-6 col-12">
+					<div class="col-12">
 						<div class="d-flex justify-content-between mb-2">
 							<template v-if="status.type === 'batch'">
 								<div class="font-weight-bold text-uppercase d-flex flex-column">
@@ -221,19 +218,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-xl-6 col-md-6 col-12">
-						<div
-							class="
-								ml-xl-4 ml-0
-								pl-0 pl-xl-3
-								invest
-								mt-xl-2 mt-5
-								pt-4 pt-md-0
-								mt-md-0
-								pl-md-3
-								pt-xl-0
-							"
-						>
+					<div class="col-12 mt-5">
+						<div class="invest">
 							<base-input
 								v-model="selectedTokenQuantity"
 								rounded
@@ -241,11 +227,11 @@
 								step="0.1"
 								name="input"
 								:bg-color="['#20284E', '#D5D6DC']"
-								input-classes="is-large invest-input font-weight-bolder"
+								input-classes="is-small invest-input font-weight-bolder"
 								:class="responsiveClass"
 							>
 								<template #sub-button>
-									<div class="h-100 invest-bg">
+									<div class="h-100 invest-bg d-sm-block d-none">
 										<base-button
 											v-if="isApproved"
 											:round="true"
@@ -272,6 +258,30 @@
 						</div>
 						<div v-if="isUpcoming" class="font-weight-bold text-center fs-1">
 							You can participate as soon as the auction is LIVE.
+						</div>
+					</div>
+					<div class="col-12 mt-4">
+						<div class="h-100 invest d-sm-none d-block">
+							<base-button
+								v-if="isApproved"
+								:round="true"
+								class="btn w-100 font-weight-bold text-uppercase fs-2 px-5"
+								:disabled="selectedTokenQuantity <= 0 || isUpcoming"
+								:loading="loading"
+								@click="invest"
+							>
+								commit {{ marketInfo.paymentCurrency.symbol }}
+							</base-button>
+							<base-button
+								v-else
+								:round="true"
+								class="btn w-100 font-weight-bold text-uppercase fs-2 px-5"
+								:disabled="selectedTokenQuantity <= 0 || isUpcoming"
+								:loading="loading"
+								@click="approve"
+							>
+								approve {{ marketInfo.paymentCurrency.symbol }}
+							</base-button>
 						</div>
 					</div>
 				</div>
@@ -921,7 +931,6 @@ export default {
 .invest {
 	@media screen and (min-width: 1200px) and (max-width: 1600px) {
 		justify-content: space-around;
-		margin-left: 1rem !important;
 		padding-left: 0 !important;
 	}
 

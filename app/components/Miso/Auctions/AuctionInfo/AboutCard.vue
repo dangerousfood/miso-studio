@@ -39,6 +39,7 @@
 						<p class="font-weight-bold text-uppercase fs-2">
 							Token Price:
 							<span class="text-white">{{ tokenPrice }}</span>
+							{{ info.tokenPair }}
 						</p>
 					</div>
 				</div>
@@ -136,7 +137,7 @@
 				<div v-if="Object.keys(info.icons.social).length" class="pt-3">
 					<div class="d-flex justify-content-between flex-wrap">
 						<div class="d-flex flex-column mb-3">
-							<h5 class="fs-1 font-weight-bold mb-2">SOCIAL:</h5>
+							<h5 class="fs-1 font-weight-bold text-uppercase mb-2">About:</h5>
 							<div class="social-sections d-flex flex-wrap">
 								<a
 									v-for="(item, index) in info.icons.social"
