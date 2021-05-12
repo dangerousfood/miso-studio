@@ -2,7 +2,10 @@
 	<div>
 		<div class="row d-flex justify-content-center">
 			<div class="col-12 col-lg-9 col-xl-8 order-1 order-lg-0">
-				<farm-factory-form @active-focus="allStepInputs($event)" @active-step="onTabChanged($event)"></farm-factory-form>
+				<farm-factory-form
+					@active-focus="allStepInputs($event)"
+					@active-step="onTabChanged($event)"
+				></farm-factory-form>
 			</div>
 			<div
 				class="
@@ -35,9 +38,7 @@
 						Step {{ tabIndex + 1 }} of 3
 					</p>
 				</div>
-				<div class="pl-3">
-					* indicates required step
-				</div>
+				<div class="pl-3">* indicates required step</div>
 
 				<div v-if="tabIndex === 0">
 					<template v-for="(item, index) in allSteps">
@@ -126,7 +127,7 @@ export default {
 					title: 'FUND WALLET*',
 					desctiption:
 						'This will be the number of tokens ever minted. This number is fixed.',
-				}
+				},
 			],
 
 			sidebarTitles: ['FARM DETAILS', 'DEPLOYMENT', 'RESULT'],
@@ -153,7 +154,7 @@ export default {
 		},
 		onTabChanged(newValue) {
 			this.tabIndex = newValue
-		}
+		},
 	},
 }
 </script>

@@ -40,7 +40,10 @@
 												<div class="row">
 													<div class="col-12">
 														<div class="d-flex justify-content-between">
-															<div class="d-flex flex-column align-items-center" @click="focuseColor('farmType')">
+															<div
+																class="d-flex flex-column align-items-center"
+																@click="focuseColor('farmType')"
+															>
 																<svg-icon
 																	icon="masterchif"
 																	width="60"
@@ -264,30 +267,30 @@
 												{{ transactionHash }}
 											</a>
 										</div>
-										<!--              <div class="col-sm-12 col-md-12">-->
-										<!--                <span class="h6 surtitle text-muted">Factory</span>-->
-										<!--                <span class="d-block h4">-->
-										<!--                <nuxt-link :to="`/tokens/${tokenAddress}`">{{tokenAddress}}</nuxt-link>-->
-										<!--              </span>-->
-										<!--                <n-link :to="'/factory/auction?token='+tokenAddress">-->
-										<!--                  <base-button outline type="primary">Create Auction</base-button>-->
-										<!--                </n-link>-->
-										<!--              </div>-->
+										<div class="col-sm-12 col-md-12">
+											<span class="h6 surtitle text-muted">Farm</span>
+											<a
+												class="d-block h4 text-primary"
+												:href="`${explorer.root}${explorer.address}${farmAddress}`"
+												target="blank"
+											>
+												{{ farmAddress }}
+											</a>
+										</div>
 									</card>
 								</div>
 							</div>
 							<hr />
 
-							<!--        @click="redirect(`/tokens/${tokenAddress}`)"-->
 							<base-button
 								tag="nuxt-link"
 								:to="{
-									path: `/farms/${farmFactoryDetailsForm.rewardsAddress}`,
+									path: `/farms/${farmAddress}`,
 								}"
 								class="float-right"
 								type="primary"
 							>
-								View FarmFactory Info
+								View Farm
 							</base-button>
 						</div>
 					</wizard-tab>
@@ -348,8 +351,8 @@ export default {
 				startBlock: false,
 				wallet: false,
 				owner: false,
-				fundwalletAddress: false
-			}
+				fundwalletAddress: false,
+			},
 		}
 	},
 	computed: {
@@ -461,8 +464,7 @@ export default {
 				.on('data', (event) => {
 					if (this.transactionHash) {
 						if (this.transactionHash.toLowerCase() === event.transactionHash) {
-							// console.log(event.returnValues, 'token');
-							// this.farmAddress = event.returnValues.token;
+							this.farmAddress = event.returnValues.addr
 							this.changeStep()
 						}
 					}
@@ -488,7 +490,7 @@ export default {
 				}
 			}
 			this.$emit('active-focus', this.items)
-		}
+		},
 	},
 }
 </script>
