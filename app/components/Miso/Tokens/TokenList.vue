@@ -1,6 +1,25 @@
 <template>
 	<div>
-		<div class="hero-section mt-5 pt-2 mb-3 pb-1 text-white">
+		<div class="d-flex align-items-center py-3">
+			<p class="fs-5 py-0 font-weight-bold d-flex">Tokens Deployed on MISO</p>
+			<span
+				class="
+					tokenNumber
+					ml-2
+					d-flex
+					justify-content-center
+					align-items-center
+					font-weight-bold
+					px-3
+					fs-1
+					py-0
+					radius-md
+				"
+			>
+				{{ total }}
+			</span>
+		</div>
+		<div class="hero-section pt-2 mb-3 pb-1 text-white">
 			<div class="d-flex justify-content-between">
 				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">LIST OF TOKENS</p>
 				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">
@@ -66,21 +85,35 @@
 				<div class="table-section">
 					<!-- <loading-main-panel /> -->
 					<el-table v-loading="loading" :data="queriedData">
-						<el-table-column min-width="180" label="TOKEN">
-							<div slot-scope="{ row }" class="py-2">
-								<span>{{ row.addr | truncate(6) }}</span>
+						<el-table-column min-width="50">
+							<div slot-scope="{ row }" class="token-img mr-2">
+								<img :src="computedTokenImg(row.icon)" class="img-fluid" />
 							</div>
 						</el-table-column>
-						<el-table-column
-							min-width="130"
-							prop="name"
-							label="NAME"
-						></el-table-column>
-						<el-table-column
-							min-width="140"
-							prop="symbol"
-							label="SYMBOL"
-						></el-table-column>
+						<el-table-column min-width="130" label="NAME">
+							<div slot-scope="{ row }">
+								<span class="text-white font-weight-bold">{{ row.name }}</span>
+							</div>
+						</el-table-column>
+						<el-table-column min-width="140" label="SYMBOL">
+							<div slot-scope="{ row }">
+								<span class="text-white font-weight-bold">{{ row.symbol }}</span>
+							</div>
+						</el-table-column>
+						<el-table-column min-width="370" label="Address">
+							<div slot-scope="{ row }" class="py-2">
+								<span>{{ row.addr }}</span>
+								<svg-icon
+									class="cursor-pointer"
+									icon="copy"
+									height="20"
+									width="20"
+									color="#F46E41"
+									:fill="false"
+									@click="copyToClipboard(row.addr)"
+								/>
+							</div>
+						</el-table-column>
 						<el-table-column min-width="180" label="TOKEN INFO" header-align="center">
 							<div slot-scope="{ row }" class="d-flex justify-content-center">
 								<button class="btn info-button" @click="ethLink(row.addr)">
@@ -166,6 +199,23 @@ export default {
 		...mapActions({
 			getTokens: 'tokens/getTokens',
 		}),
+		computedTokenImg(link) {
+			if (link) {
+				return link
+			}
+			return require('static/s3/img/token_placeholder.png')
+		},
+		// copy data to clipboard on click & display message
+		copyToClipboard(value) {
+			navigator.clipboard.writeText(value).then(() => {
+				this.$notify({
+					type: 'success',
+					verticalAlign: 'bottom',
+					horizontalAlign: 'right',
+					message: 'successfully copied to clipboard!',
+				})
+			})
+		},
 		ethLink(addr) {
 			const url = networkConfig[this.networkId].explorer.root + 'token/' + addr
 			window.open(url, '_blank').focus()
@@ -198,6 +248,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tokenNumber {
+	background: rgba(246, 102, 69, 0.4);
+	color: white;
+}
+.token-img {
+	height: 45px;
+	width: 45px;
+}
 .hero-section {
 	div {
 		position: relative;

@@ -3,7 +3,7 @@
 		:is="tag"
 		:type="tag === 'button' ? nativeType : ''"
 		:disabled="disabled || loading"
-		class="btn py-3"
+		class="btn"
 		:to="to"
 		:style="{ 'min-width': minWidth + 'px' }"
 		:class="[
@@ -13,6 +13,7 @@
 			{ 'btn-icon btn-fab': icon },
 			{ [`btn-${type}`]: type },
 			{ [`btn-${size}`]: size },
+			{ 'py-3': !size },
 			{ 'btn-simple': simple },
 			{ 'btn-link': link },
 			{ disabled: disabled && tag !== 'button' },
@@ -61,7 +62,7 @@ export default {
 		},
 		size: {
 			type: String,
-			default: '',
+			default: undefined,
 			description: 'Button size (sm|lg)',
 		},
 		simple: {

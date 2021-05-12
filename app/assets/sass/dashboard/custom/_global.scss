@@ -299,7 +299,7 @@ body::-webkit-scrollbar-thumb {
 
 .vue-slider {
 	padding: 0 !important;
-	height: 1px !important;
+	height: 4px !important;
 	&-rail {
 		background: rgba(255, 255, 255, 0.2) !important;
 	}
@@ -323,6 +323,12 @@ body::-webkit-scrollbar-thumb {
 
 .is-large {
 	height: 76px;
+}
+.is-medium {
+	height: 62px;
+}
+.is-small {
+	height: 52px;
 }
 .el-popover {
 	padding: 7px !important;
