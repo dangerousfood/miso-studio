@@ -61,8 +61,9 @@
 										name="starting price"
 										class="form-control font-weight-bold text-bg-white mt-2"
 										placeholder="0"
-										:currency="model.paymentCurrency.symbol || 'ETH'"
-										locale="de"
+										:currency="{suffix: ' ' + model.paymentCurrency.symbol || 'ETH'}"
+										locale="en"
+										:precision=8
 									/>
 								</div>
 
@@ -77,8 +78,9 @@
 										name="minimum price"
 										class="form-control font-weight-bold text-bg-white mt-2"
 										placeholder="0"
-										:currency="model.paymentCurrency.symbol || 'ETH'"
-										locale="de"
+										:currency="{suffix: ' ' + model.paymentCurrency.symbol || 'ETH'}"
+										locale="en"
+										:precision=8
 									/>
 								</div>
 								

@@ -74,7 +74,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="item">
                                 <span class="font-weight-bold text-secondary white_txt fs-2 mb-4">ENDING PRICE</span><br>
-                                <span class="font-weight-bold text-secondary white_txt fs-2 mb-4">{{ model.endPrice }} {{ model.paymentCurrency.symbol }}</span>
+                                <span class="font-weight-bold text-secondary white_txt fs-2 mb-4">{{ model.minPrice }} {{ model.paymentCurrency.symbol }}</span>
                             </div>
                             <div class="item">
                                 <i class="el-icon-bottom-right"></i>

@@ -59,7 +59,7 @@
 					<slot name="footer" :next-tab="nextTab" :prev-tab="prevTab">
 						<div class="d-flex justify-content-between step">
 							<base-button
-								v-if="activeTabIndex < tabCount"
+								v-if="activeTabIndex < tabCount && activeTabIndex != 4"
 								wide
 								:type="computedButtonType"
 								:disabled="activeTabIndex === 0 || nextBtnLoading"
