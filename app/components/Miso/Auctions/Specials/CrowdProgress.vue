@@ -32,10 +32,7 @@
 				<span
 					v-if="progress !== 0"
 					class="text-box d-flex align-items-end"
-					:style="{
-						left: computedProgess + '%',
-						transform: `translateX(${computedProctessStyle})`,
-					}"
+					:style="getStyle(progress)"
 				>
 					<span v-if="progress > 51" class="font-weight-bold price-left">
 						<span class="pr-2 d-flex">
@@ -214,6 +211,19 @@ export default {
 				return `${val} price`
 			}
 		},
+		getStyle(progress) {
+			if(progress < 50) {
+				return {
+						left: this.computedProgess + '%',
+						transform: `translateX(${this.computedProctessStyle})`,
+					}
+			}else {
+				return {
+						right: this.computedProgess + '%',
+						transform: `translateX(${this.computedProctessStyle})`,
+					}
+			}
+		}
 	},
 }
 </script>
