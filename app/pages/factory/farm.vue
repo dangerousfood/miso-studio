@@ -4,7 +4,6 @@
 			<div class="col-12 col-lg-9 col-xl-8 order-1 order-lg-0">
 				<farm-factory-form @active-focus="allStepInputs($event)" @active-step="onTabChanged($event)"></farm-factory-form>
 			</div>
-
 			<div
 				class="
 					col-12 col-lg-3 col-xl-4
