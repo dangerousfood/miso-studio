@@ -126,9 +126,14 @@
 </template>
 
 <script>
+import { Tooltip } from 'element-ui'
+
 import { inpidatorTheme } from '@/mixins/auctionIndicator'
 export default {
 	mixins: [inpidatorTheme],
+	components: {
+		[Tooltip.name]: Tooltip,
+	},
 	props: {
 		progress: {
 			type: [Number, String],
@@ -168,6 +173,12 @@ export default {
 		},
 	},
 	computed: {
+		getTooltipEffect() {
+			if (this.getMode) {
+				return 'light'
+			}
+			return 'dark'
+		},
 		computedProgress() {
 			if (this.progress <= 70) {
 				return `calc(${this.progress}% + ${6}px)`
