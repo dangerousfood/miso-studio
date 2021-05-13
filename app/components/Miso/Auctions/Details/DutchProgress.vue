@@ -156,9 +156,14 @@
 </template>
 
 <script>
+
+import { Tooltip } from 'element-ui'
 import { inpidatorTheme } from '@/mixins/auctionIndicator'
 export default {
 	mixins: [inpidatorTheme],
+	components: {
+		[Tooltip.name]: Tooltip,
+	},
 	props: {
 		progress: {
 			type: [Number, String],
@@ -199,6 +204,12 @@ export default {
 		},
 	},
 	computed: {
+		getTooltipEffect() {
+			if (this.getMode) {
+				return 'light'
+			}
+			return 'dark'
+		},
 		computedProgess() {
 			if (this.progress > 99 && this.$route.name.includes('auctions-address')) {
 				if (this.$route.name.includes('auctions-address')) {
