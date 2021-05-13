@@ -718,7 +718,12 @@ export default {
 		mode: {
 			deep: true,
 			handler() {
-				this.videoPlayer()
+				if (!this.upcomingVideo) {
+					this.upcomingVideo = true
+				}
+				const video = document.querySelector('.finalized-video')
+				video.load()
+				video.play()
 			},
 		},
 	},
@@ -751,7 +756,12 @@ export default {
 		const auctionAddress = this.$route.params.address
 		this.contractInstance = getAuctionContract(auctionAddress)
 
-		this.videoPlayer()
+		const video = document.querySelector('.finalized-video')
+		if (video) {
+			video.onended = () => {
+				this.upcomingVideo = false
+			}
+		}
 
 		setInterval(() => {
 			this.now = new Date()
@@ -768,17 +778,6 @@ export default {
 				return str
 			} else {
 				return `-`
-			}
-		},
-		videoPlayer() {
-			const video = document.querySelector('.finalized-video')
-			this.upcomingVideo = true
-			if (video && this.upcomingVideo) {
-				video.load()
-				video.play()
-				video.onended = () => {
-					this.upcomingVideo = false
-				}
 			}
 		},
 		async withdraw() {
