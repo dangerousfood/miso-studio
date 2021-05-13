@@ -14,6 +14,7 @@
 					tag="div"
 					class="cursor-pointer specialCard"
 				>
+					<!-- iconlink: [String] props for icon links -->
 					<special-card :auction="auction" :ingredients="ingredients" />
 				</nuxt-link>
 			</div>

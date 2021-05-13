@@ -2,7 +2,13 @@
 	<card v-if="!loading" class="special p-2 card-hight">
 		<div @mouseover="cardhover" @mouseout="cardout">
 			<div class="d-flex justify-content-end align-items-center">
-				<!-- <svg-icon icon="morth" height="52" width="52" /> -->
+				<!-- 
+					// uncomment then web3 link for img are ready.
+					// wrapper to justify-content-between
+					<div class="token-img mr-2">
+					<img :src="computedTokenImg" class="img-fluid" />
+				</div> 
+				-->
 				<div class="d-flex align-items-center">
 					<div
 						v-if="status.auction !== 'live' && status.auction !== 'upcoming'"
@@ -157,6 +163,7 @@ import DutchProgress from '~/components/Miso/Auctions/Specials/DutchIndicator'
 import BatchProgress from '~/components/Miso/Auctions/Specials/BatchIndicator '
 
 export default {
+	name: 'SpecialCard',
 	components: {
 		Card,
 		BaseDivider,
@@ -166,6 +173,10 @@ export default {
 	},
 	mixins: [theme],
 	props: {
+		iconLink: {
+			type: String,
+			default: undefined,
+		},
 		auction: {
 			type: String,
 			required: true,
@@ -298,6 +309,12 @@ export default {
 
 		getFullTime() {
 			return `${this.displayDays}d : ${this.displayHours}h : ${this.displayMinutes}m : ${this.displaySeconds}s`
+		},
+		computedTokenImg() {
+			if (this.iconLink) {
+				return this.iconLink
+			}
+			return require('static/s3/img/token_placeholder.png')
 		},
 	},
 	async mounted() {
@@ -507,6 +524,10 @@ export default {
 <style lang="scss" scoped>
 .card-hight {
 	min-height: 440px;
+}
+.token-img {
+	height: 40px;
+	width: 40px;
 }
 .special {
 	&_status {
