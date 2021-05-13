@@ -29,7 +29,7 @@
 						<span class="font-weight-bold fs-1 no-whitespace text-uppercase">
 							CURRENT PRICE
 						</span>
-						<el-tooltip>
+						</el-tooltip>
 						<span class="font-weight-bold fs-3 text-white no-whitespace">
 							{{ marketInfo.currentPrice }}
 						</span>
@@ -50,7 +50,7 @@
 						<span class="font-weight-bold fs-1 no-whitespace text-uppercase">
 							CURRENT PRICE
 						</span>
-						<el-tooltip>
+						</el-tooltip>
 						<span class="font-weight-bold fs-3 text-white no-whitespace">
 							{{ marketInfo.currentPrice }}
 						</span>
