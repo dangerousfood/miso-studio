@@ -56,7 +56,7 @@
 }
 
 .plyr--video {
-	max-height: 360px !important;
+	max-height: 340px !important;
 	border-radius: 8px !important;
   margin-bottom: 20px !important;
 }
@@ -76,6 +76,7 @@
 
 .plyr__poster {
   background-color: #000000 !important;
+  background-size: cover !important;
 }
 
 .plyr--video .plyr__controls {

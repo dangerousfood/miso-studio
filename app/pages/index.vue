@@ -1,28 +1,54 @@
 <template>
 	<div class="container-fluid container-padding">
-		<!-- <div class="my-4 gradient-background">
-			<div class="top-50 text-white title">Let us celebrate with a sip of SAKE.</div>
-			<img class="sake-img" src="@/assets/svg/sake.svg" />
-		</div> -->
-		<div class="my-4 row pl-2">
-			<img src="@/assets/svg/sake.svg" class="float-left image-rem-size" />
-			<div class="text-white font-weight-bold text-uppercase title">
-				Let us
-				<br />
-				celebrate
-				<br />
-				with a
-				<br />
-				sip of
-			</div>
-			<div class="text-white sake-text pr-3 image-rem-size">
-				<img src="@/assets/images/sake_s.png" />
-				<img src="@/assets/images/sake_a.png" />
-				<img src="@/assets/images/sake_k.png" />
-				<img src="@/assets/images/sake_e.png" />
+		<div class="my-4 row">
+			<div class="col-12 d-flex">
+				<img src="@/assets/svg/sake.svg" class="float-left image-rem-size pr-3" />
+				<div class="text-white font-weight-bold text-uppercase title">
+					Let us
+					<br />
+					celebrate
+					<br />
+					with a
+					<br />
+					sip of
+				</div>
+				<div class="text-white sake-text pr-5 image-rem-size">
+					<img src="@/assets/images/sake_white.png" class="sake-logo-image" />
+				</div>
 			</div>
 		</div>
-		<div v-if="!loading" class="row pt-5">
+		<div class="my-4 row pt-3 video-mobile">
+			<div class="col-12">
+				<div class="text-white card-title">About SAKE</div>
+				<div class="text-white card-description pb-2">
+					Learn more about the Sake project in this video documenatary. Visit&nbsp;
+					<a
+						href="https://sake.sushi.com"
+						target="_blank"
+						class="sake-com text-white"
+					>
+						sake.sushi.com
+					</a>
+					&nbsp;for more.
+				</div>
+				<vue-plyr :options="options">
+					<video
+						controls
+						crossorigin
+						playsinline
+						:data-poster="require('~/assets/images/gallery01.png')"
+						class="video-poster"
+					>
+						<source
+							size="576"
+							src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+							type="video/mp4"
+						/>
+					</video>
+				</vue-plyr>
+			</div>
+		</div>
+		<div v-if="!loading" class="row">
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">SAKE Sale</div>
 				<div class="text-white card-description pb-2">
@@ -40,12 +66,18 @@
 					/>
 				</nuxt-link>
 			</div>
-			<div class="col-lg-8 col-md-6 col-12 mb-3">
+			<div class="col-lg-8 col-md-6 col-12 mb-3 video-normal">
 				<div class="text-white card-title">About SAKE</div>
 				<div class="text-white card-description pb-2">
-					Learn more about the Sake project in this video documenatary. Visit
-					<a href="https://sake.com" target="_blank" class="sake-com">sake.com</a>
-					for more.
+					Learn more about the Sake project in this video documenatary. Visit&nbsp;
+					<a
+						href="https://sake.sushi.com"
+						target="_blank"
+						class="sake-com text-white"
+					>
+						sake.sushi.com
+					</a>
+					&nbsp;for more.
 				</div>
 				<vue-plyr :options="options">
 					<video
@@ -53,6 +85,7 @@
 						crossorigin
 						playsinline
 						:data-poster="require('~/assets/images/gallery01.png')"
+						class="video-poster"
 					>
 						<source
 							size="576"
@@ -65,10 +98,10 @@
 		</div>
 		<loader v-else width="80" height="80" y="250" />
 		<div class="miso-ama">
-			<div class="miso-ama-logo">
+			<div class="miso-ama-logo px-2">
 				<img src="@/assets/svg/misoamalog.svg" />
 			</div>
-			<div class="miso-ama-description">
+			<div class="miso-ama-description px-2">
 				Follow interviews and articles on Medium and Youtube to find out more about
 				MISO.
 			</div>
@@ -272,7 +305,7 @@ export default {
 }
 
 .container-padding {
-	padding-top: 60px;
+	padding-top: 20px;
 }
 
 .miso-ama {
@@ -280,7 +313,7 @@ export default {
 		180deg,
 		rgba(59, 20, 99, 0.8) 5%,
 		rgba(59, 20, 99, 1) 20%,
-		rgba(59, 20, 99, 0.2) 55%
+		rgba(59, 20, 99, 0) 55%
 	);
 	background-size: 100% 100%;
 	text-align: center;
@@ -328,7 +361,7 @@ export default {
 }
 
 .sake-com {
-	color: white;
+	// color: white;
 	text-decoration: underline;
 }
 
@@ -347,5 +380,23 @@ export default {
 	display: flex;
 	justify-content: space-between;
 	flex: 1;
+}
+
+.video-poster {
+	object-fit: cover;
+}
+
+.video-mobile {
+	display: none;
+	@media screen and (max-width: 767px) {
+		display: block;
+	}
+}
+
+.video-normal {
+	display: none;
+	@media screen and (min-width: 768px) {
+		display: block;
+	}
 }
 </style>
