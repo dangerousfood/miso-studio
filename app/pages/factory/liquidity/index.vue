@@ -167,21 +167,21 @@ export default {
 			firstSteps: [
 				{
 					active: false,
-					top: 24.5,
+					top: 22.5,
 					title: 'ADMIN ADDRESS*',
 					desctiption:
 						'Enter the wallet address used to create this token on MISO. This enables you to proceed with launching liquidity on SUSHI, and is needed for administrative actions like defining access/permission lists and setting token distribution percentages and lockup timelines.',
 				},
 				{
 					active: false,
-					top: 46.5,
+					top: 42.5,
 					title: 'AUCTION ADDRESS (optional)',
 					desctiption:
 						'Enter the address of the auction held for this token. This enables us to import data from the auction to facilitate the launching process. This is not required, if you did not have an auction, leave this field blank.',
 				},
 				{
 					active: false,
-					top: 64.5,
+					top: 59.5,
 					title: 'YOUR TOKEN ADDRESS',
 					desctiption:
 						'Search by token name or token symbol. Or, Enter the contract address of your MISO-created token.',
@@ -197,7 +197,7 @@ export default {
 				},
 				{
 					active: false,
-					top: 60,
+					top: 55,
 					title: 'SUSHI LIQUIDITY PROVISIONING*',
 					desctiption:
 						'Select the amount of your custom token and it’s pair token to be allocated for it’s upcoming liquidity pool on SushiSwap.',
@@ -206,21 +206,21 @@ export default {
 			ThirdStep: [
 				{
 					active: false,
-					top: 24.5,
+					top: 22.5,
 					title: 'VAULT ADDRESS*',
 					desctiption:
 						'Enter the wallet address that will hold the created SLP tokens as well as any remaining base pair tokens.  Can be the admin address, or any other wallet address you have access to.',
 				},
 				{
 					active: false,
-					top: 45.5,
+					top: 40.5,
 					title: 'LAUNCH DATE*',
 					desctiption:
 						'Select the date to launch your liquidity pool on SushiSwap.  You must have put your funds in the launcher by this date - if you do not, the community can then launch a pool for your token themselves.',
 				},
 				{
 					active: false,
-					top: 67.5,
+					top: 60.5,
 					title: 'LIQUIDITY LOCKUP TIMELINE*',
 					desctiption:
 						'Set a timeline during which SLP tokens cannot be withdrawn from your liquidity pool on SushiSwap.  Industry standard lockup times are from 90 to 180 days to prevent rugpulling, but you can set a custom timeline as you see fit.',
