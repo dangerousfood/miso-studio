@@ -65,9 +65,16 @@
 			<!-- hard cap section -->
 			<span class="progress-status_end" :class="[statusColor]">
 				<span class="d-flex flex-column progress-status_text-box right">
-					<span class="text pr-2 text-right text-uppercase font-weight-bold">
-						max raise
-					</span>
+					<el-tooltip
+						content="This is the most the auction will raise"
+						:open-delay="300"
+						placement="top-end"
+						:effect="getTooltipEffect"
+					>
+						<span class="text pr-2 text-right text-uppercase font-weight-bold">
+							max raise
+						</span>
+					</el-tooltip>
 					<span class="fs-2 pr-2 text-white font-weight-bold text-right">
 						{{ hard }} {{ marketInfo.paymentCurrency.symbol }}
 					</span>
@@ -98,9 +105,13 @@
 </template>
 
 <script>
+import { Tooltip } from 'element-ui'
 import { mapGetters } from 'vuex'
 
 export default {
+	components: {
+		[Tooltip.name]: Tooltip,
+	},
 	props: {
 		progress: {
 			type: [Number, String],
@@ -134,6 +145,12 @@ export default {
 				return true
 			}
 			return false
+		},
+		getTooltipEffect() {
+			if (this.getMode) {
+				return 'light'
+			}
+			return 'dark'
 		},
 		computedMargin() {
 			if (
