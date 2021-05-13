@@ -13,7 +13,7 @@
 						:effect="getTooltipEffect"
 				>
 				<span class="font-weight-bold fs-1 text-uppercase">starting price</span>
-				<el-tooltip>
+				</el-tooltip>
 				<span class="font-weight-bold text-white fs-3 text-uppercase">
 					{{ marketInfo.startPrice }} {{ marketInfo.paymentCurrency.symbol }}
 					<!-- 0.0005897 ETH -->
@@ -33,7 +33,7 @@
 						:effect="getTooltipEffect"
 					>
 				<span class="font-weight-bold fs-1 text-uppercase">RESERVE PRICE</span>
-				<el-tooltip>
+				</el-tooltip>
 				<span class="font-weight-bold text-white fs-3 text-uppercase">
 					{{ marketInfo.minimumPrice }} {{ marketInfo.paymentCurrency.symbol }}
 				</span>
@@ -115,7 +115,7 @@
 								:effect="getTooltipEffect"
 							>
 								<span class="font-weight-bold fs-1">AUCTION PRICE</span>
-							<el-tooltip>
+							</el-tooltip>
 							<span class="font-weight-bold fs-3 text-white">
 								{{ marketInfo.currentPrice }}
 								{{ marketInfo.paymentCurrency.symbol }}
