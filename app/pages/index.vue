@@ -1,10 +1,28 @@
 <template>
 	<div class="container-fluid container-padding">
-		<div class="my-4 gradient-background">
+		<!-- <div class="my-4 gradient-background">
 			<div class="top-50 text-white title">Let us celebrate with a sip of SAKE.</div>
 			<img class="sake-img" src="@/assets/svg/sake.svg" />
+		</div> -->
+		<div class="my-4 row pl-2">
+			<img src="@/assets/svg/sake.svg" class="float-left image-rem-size" />
+			<div class="text-white font-weight-bold text-uppercase title">
+				Let us
+				<br />
+				celebrate
+				<br />
+				with a
+				<br />
+				sip of
+			</div>
+			<div class="text-white sake-text pr-3 image-rem-size">
+				<img src="@/assets/images/sake_s.png" />
+				<img src="@/assets/images/sake_a.png" />
+				<img src="@/assets/images/sake_k.png" />
+				<img src="@/assets/images/sake_e.png" />
+			</div>
 		</div>
-		<div v-if="!loading" class="row">
+		<div v-if="!loading" class="row pt-5">
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">SAKE Sale</div>
 				<div class="text-white card-description pb-2">
@@ -46,50 +64,50 @@
 			</div>
 		</div>
 		<loader v-else width="80" height="80" y="250" />
-		<div class="ama-cards row">
-			<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-				<ama-card
-					headerimage="amaheader01.png"
-					:youtubeflag="true"
-					title="What is MISO?"
-					pubdate="Feb 2, 2021"
-					linkurl="https://www.youtube.com/watch?v=IV0V7vjakKg"
-				/>
+		<div class="miso-ama">
+			<div class="miso-ama-logo">
+				<img src="@/assets/svg/misoamalog.svg" />
 			</div>
-			<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-				<ama-card
-					headerimage="amaheader02.png"
-					:youtubeflag="false"
-					title="SAKE NFT"
-					pubdate="Feb 2, 2021"
-					linkurl="https://sakeswap.medium.com/introducing-sakeswap-irreversible-nft-a-new-way-of-sake-burn-449cd65c75f6"
-				/>
+			<div class="miso-ama-description">
+				Follow interviews and articles on Medium and Youtube to find out more about
+				MISO.
 			</div>
-			<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-				<ama-card
-					headerimage="amaheader03.png"
-					:youtubeflag="false"
-					title="MISO Fermenter"
-					pubdate="Feb 2, 2021"
-					linkurl="https://medium.com/@LumpyBatter/what-is-miso-86f3bc117ea4"
-				/>
-			</div>
-			<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-				<ama-card
-					headerimage="amaheader04.png"
-					:youtubeflag="false"
-					title="MISO Factory"
-					pubdate="Feb 2, 2021"
-					linkurl="https://medium.com/@LumpyBatter/what-is-miso-86f3bc117ea4"
-				/>
-			</div>
-			<div class="miso-ama">
-				<div class="miso-ama-logo">
-					<img src="@/assets/svg/misoamalog.svg" />
+			<div class="ama-cards row">
+				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
+					<ama-card
+						headerimage="amaheader01.png"
+						:youtubeflag="true"
+						title="What is MISO?"
+						pubdate="Feb 2, 2021"
+						linkurl="https://www.youtube.com/watch?v=IV0V7vjakKg"
+					/>
 				</div>
-				<div class="miso-ama-description">
-					Follow interviews and articles on Medium and Youtube to find out more about
-					MISO.
+				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
+					<ama-card
+						headerimage="amaheader02.png"
+						:youtubeflag="false"
+						title="SAKE NFT"
+						pubdate="Feb 2, 2021"
+						linkurl="https://sakeswap.medium.com/introducing-sakeswap-irreversible-nft-a-new-way-of-sake-burn-449cd65c75f6"
+					/>
+				</div>
+				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
+					<ama-card
+						headerimage="amaheader03.png"
+						:youtubeflag="false"
+						title="MISO Fermenter"
+						pubdate="Feb 2, 2021"
+						linkurl="https://medium.com/@LumpyBatter/what-is-miso-86f3bc117ea4"
+					/>
+				</div>
+				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
+					<ama-card
+						headerimage="amaheader04.png"
+						:youtubeflag="false"
+						title="MISO Factory"
+						pubdate="Feb 2, 2021"
+						linkurl="https://medium.com/@LumpyBatter/what-is-miso-86f3bc117ea4"
+					/>
 				</div>
 			</div>
 		</div>
@@ -132,7 +150,7 @@ export default {
 				},
 			],
 			options: { quality: { default: '1080p' } },
-			saketokenauction: '0xa8F1CBb80b44eDfb5fb71b0c193d75d27d02a532',
+			saketokenauction: '0x602C17faD84E012604A92B757A192FdaDa7C8016',
 			showModal: true,
 		}
 	},
@@ -169,13 +187,55 @@ export default {
 
 <style lang="scss" scoped>
 .title {
-	@media screen and (max-width: 768px) {
-		font-size: 18px;
+	font-size: 1rem;
+	letter-spacing: 0.25rem;
+	padding-left: 3rem;
+	padding-right: 3rem;
+	@media screen and (max-width: 800px) {
+		padding-left: 2rem;
+		padding-right: 2rem;
 	}
-	@media screen and (max-width: 400px) {
-		font-size: 15px;
+	@media screen and (max-width: 750px) {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+	@media screen and (max-width: 700px) {
+		font-size: 0.7rem;
+		letter-spacing: 0.1rem;
+		padding-left: 0.7rem;
+		padding-right: 0.7rem;
+	}
+	@media screen and (max-width: 500px) {
+		font-size: 0.5rem;
+		letter-spacing: 0.08rem;
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+	}
+	@media screen and (max-width: 360px) {
+		font-size: 0.4rem;
+		letter-spacing: 0.04rem;
+		padding-left: 0.4rem;
+		padding-right: 0.4rem;
 	}
 }
+
+.image-rem-size {
+	width: 6rem;
+	height: 6rem;
+	@media screen and (max-width: 700px) {
+		width: 4rem;
+		height: 4rem;
+	}
+	@media screen and (max-width: 500px) {
+		width: 3rem;
+		height: 3rem;
+	}
+	@media screen and (max-width: 360px) {
+		width: 2rem;
+		height: 2rem;
+	}
+}
+
 .specialCard {
 	transition: all 0.4s ease-in-out;
 	transform: scale(1);
@@ -216,38 +276,37 @@ export default {
 }
 
 .miso-ama {
-	background-image: url('@/assets/images/misoama.png');
-	height: 361px;
+	background-image: linear-gradient(
+		180deg,
+		rgba(59, 20, 99, 0.8) 5%,
+		rgba(59, 20, 99, 1) 20%,
+		rgba(59, 20, 99, 0.2) 55%
+	);
 	background-size: 100% 100%;
 	text-align: center;
-	left: 0;
-	@media (min-width: 1200px) {
-		left: 265px;
-	}
-	right: 0;
-	z-index: 1;
-	position: absolute;
-	transform: translateY(-60%);
+	border-radius: 8px;
 }
 
 .miso-ama-description {
-	position: relative;
-	top: 36%;
 	color: white;
+	padding-top: 50px;
 }
 
 .miso-ama-logo {
-	position: relative;
-	top: 25%;
+	padding-top: 75px;
 }
 
 .ama-cards {
-	top: 45%;
-	margin-top: 250px;
+	padding-top: 50px;
+	padding-bottom: 30px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .ama-card-single {
 	z-index: 2;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 .footer-link {
@@ -282,5 +341,11 @@ export default {
 .card-description {
 	font-size: 12px;
 	min-height: 52px;
+}
+
+.sake-text {
+	display: flex;
+	justify-content: space-between;
+	flex: 1;
 }
 </style>
