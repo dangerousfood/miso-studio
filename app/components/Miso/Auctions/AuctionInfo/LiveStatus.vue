@@ -722,8 +722,10 @@ export default {
 					this.upcomingVideo = true
 				}
 				const video = document.querySelector('.finalized-video')
-				video.load()
-				video.play()
+				if (video) {
+					video.load()
+					video.play()
+				}
 			},
 		},
 	},
