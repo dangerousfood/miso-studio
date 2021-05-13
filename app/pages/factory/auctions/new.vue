@@ -1,25 +1,46 @@
 <template>
 	<div class="row">
 		<div
-			class="col-12 col-lg-9 col-xl-8 order-1 order-lg-0"
 			v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
+			class="col-12 col-lg-9 col-xl-8 order-1 order-lg-0"
 		>
 			<div class="hero-section mt-4 border-bottom-after position-relative px-5">
 				<span
-					class="text-uppercase text-secondary white-txt font-weight-bold pb-2 fs-10 h-100"
 					v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
+					class="
+						text-uppercase text-secondary
+						white-txt
+						font-weight-bold
+						pb-2
+						fs-10
+						h-100
+					"
 				>
 					Create Auction
 				</span>
 				<span
-					class="text-uppercase text-secondary white-txt font-weight-bold pb-2 fs-10 h-100"
 					v-else-if="tabIndex === 3"
+					class="
+						text-uppercase text-secondary
+						white-txt
+						font-weight-bold
+						pb-2
+						fs-10
+						h-100
+					"
 				>
 					Confirm Your Auction Setup
 				</span>
 				<span
-					class="text-uppercase text-secondary white-txt font-weight-bold pb-2 fs-10 h-100"
 					v-else
+					class="
+						text-uppercase text-secondary
+						white-txt
+						font-weight-bold
+						pb-2
+						fs-10
+						h-100
+					"
 				>
 					Your Auction Result
 				</span>
@@ -33,8 +54,8 @@
 					>
 						<wizard-tab>
 							<template
-								slot="label"
 								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
+								slot="label"
 							>
 								<span class="fs-5">1</span>
 								<p>Auction Type</p>
@@ -43,13 +64,19 @@
 							<div class="row mb-5">
 								<div class="col-12 bottom-45">
 									<span
-										class="font-weight-bold fs-4 text-secondary white-txt border-bottom"
+										class="
+											font-weight-bold
+											fs-4
+											text-secondary
+											white-txt
+											border-bottom
+										"
 									>
 										Auction Type*
 									</span>
 								</div>
 								<auction-type-form
-									:auctionTypes="auctionTypes"
+									:auction-types="auctionTypes"
 									@active-focus="allStepInputs"
 								></auction-type-form>
 							</div>
@@ -57,8 +84,8 @@
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step1')">
 							<template
-								slot="label"
 								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
+								slot="label"
 							>
 								<span class="fs-5">2</span>
 								<p>AUCTION SETUP</p>
@@ -87,8 +114,8 @@
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step2')">
 							<template
-								slot="label"
 								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
+								slot="label"
 							>
 								<span class="fs-5">3</span>
 								<p>SALE SETTINGS</p>
@@ -140,23 +167,44 @@
 				</client-only>
 			</div>
 		</div>
-		<div class="col-12 col-lg-9 col-xl-12 order-1 order-lg-0" v-else>
+		<div v-else class="col-12 col-lg-9 col-xl-12 order-1 order-lg-0">
 			<div class="hero-section mt-4 border-bottom-after position-relative px-5">
 				<span
-					class="text-uppercase text-secondary white-txt font-weight-bold pb-2 fs-10 h-100"
 					v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
+					class="
+						text-uppercase text-secondary
+						white-txt
+						font-weight-bold
+						pb-2
+						fs-10
+						h-100
+					"
 				>
 					Create Auction
 				</span>
 				<span
-					class="text-uppercase text-secondary white-txt font-weight-bold pb-2 fs-10 h-100"
 					v-else-if="tabIndex === 3"
+					class="
+						text-uppercase text-secondary
+						white-txt
+						font-weight-bold
+						pb-2
+						fs-10
+						h-100
+					"
 				>
 					Confirm Your Auction Setup
 				</span>
 				<span
-					class="text-uppercase text-secondary white-txt font-weight-bold pb-2 fs-10 h-100"
 					v-else
+					class="
+						text-uppercase text-secondary
+						white-txt
+						font-weight-bold
+						pb-2
+						fs-10
+						h-100
+					"
 				>
 					Your Auction Result
 				</span>
@@ -170,8 +218,8 @@
 					>
 						<wizard-tab>
 							<template
-								slot="label"
 								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
+								slot="label"
 							>
 								<span class="fs-5">1</span>
 								<p>Auction Type</p>
@@ -180,13 +228,19 @@
 							<div class="row mb-5">
 								<div class="col-12 bottom-45">
 									<span
-										class="font-weight-bold fs-4 text-secondary white-txt border-bottom"
+										class="
+											font-weight-bold
+											fs-4
+											text-secondary
+											white-txt
+											border-bottom
+										"
 									>
 										Auction Type*
 									</span>
 								</div>
 								<auction-type-form
-									:auctionTypes="auctionTypes"
+									:auction-types="auctionTypes"
 									@active-focus="allStepInputs"
 								></auction-type-form>
 							</div>
@@ -194,8 +248,8 @@
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step1')">
 							<template
-								slot="label"
 								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
+								slot="label"
 							>
 								<span class="fs-5">2</span>
 								<p>AUCTION SETUP</p>
@@ -224,8 +278,8 @@
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step2')">
 							<template
-								slot="label"
 								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
+								slot="label"
 							>
 								<span class="fs-5">3</span>
 								<p>SALE SETTINGS</p>
@@ -278,15 +332,26 @@
 			</div>
 		</div>
 		<div
-			class="col-12 col-lg-3 col-xl-4 bg-dark mb-sm-5 mb-md-0 darker-side order-0"
 			v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
+			class="col-12 col-lg-3 col-xl-4 bg-dark mb-sm-5 mb-md-0 darker-side order-0"
 		>
 			<div class="d-flex align-items-center mt-5 mb-2 pl-3">
 				<div class="text-white fs-7 text-capitalize font-weight-bold pr-3">
 					{{ sidebarTitles[tabIndex] }}
 				</div>
 				<p
-					class="bg-brown fs-3 py-1 px-3 mb-0 d-flex align-items-center radius-lg text-white font-weight-bold"
+					class="
+						bg-brown
+						fs-3
+						py-1
+						px-3
+						mb-0
+						d-flex
+						align-items-center
+						radius-lg
+						text-white
+						font-weight-bold
+					"
 				>
 					Step {{ tabIndex + 1 }} of 3
 				</p>
@@ -327,12 +392,11 @@ import CrowdsaleSecondStep from '@/components/Miso/Auctions/Factories/CrowdsaleF
 import BatchFirstStep from '@/components/Miso/Auctions/Factories/BatchFactoryForm/BatchFirstStep'
 import BatchSecondStep from '@/components/Miso/Auctions/Factories/BatchFactoryForm/BatchSecondStep'
 
-import AuctionTypeForm from './AuctionTypeForm.vue'
-import ThirdStep from '~/components/Miso/Auctions/Factories/ThirdStep.vue'
-import FinalStep from '~/components/Miso/Auctions/Factories/FinalStep.vue'
 import { Vue } from 'vue-property-decorator'
 import { ZoomYTransition } from 'vue2-transitions'
 import Notificatoin from '@/components/Miso/Factory/Liquidity/sidebarNotification'
+import AuctionTypeForm from './AuctionTypeForm.vue'
+import ThirdStep from '~/components/Miso/Auctions/Factories/ThirdStep.vue'
 
 export default {
 	name: 'WizardForm',
@@ -348,7 +412,6 @@ export default {
 		BatchFirstStep,
 		BatchSecondStep,
 		ThirdStep,
-		FinalStep,
 		AuctionTypeForm,
 		Notificatoin,
 		ZoomYTransition,

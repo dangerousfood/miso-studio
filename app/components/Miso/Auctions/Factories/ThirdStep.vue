@@ -5,13 +5,12 @@
 				<card>
 					<div slot="header" class="row">
 						<div class="col">
-							<h6 class="text-uppercase text-muted ls-1 mb-1">
-								Auction Confirmed
-							</h6>
+							<h6 class="text-uppercase text-muted ls-1 mb-1">Auction Confirmed</h6>
 						</div>
 					</div>
 					<div class="col-sm-12 col-md-12 mb-3">
-						<span class="h6 surtitle text-muted">Transaction Hash</span><br>
+						<span class="h6 surtitle text-muted">Transaction Hash</span>
+						<br />
 						<a
 							class="d-block"
 							:href="`${explorer.root}${explorer.tx}${market.txHash}`"
@@ -21,10 +20,15 @@
 						</a>
 					</div>
 					<div class="col-sm-12 col-md-12">
-						<span class="h6 surtitle text-muted">Contract</span><br>
-						<n-link :to="`/auctions/${market.address}`">
+						<span class="h6 surtitle text-muted">Auction</span>
+						<br />
+						<a
+							class="d-block"
+							:href="`${explorer.root}${explorer.address}${market.address}`"
+							target="blank"
+						>
 							{{ market.address }}
-						</n-link>
+						</a>
 					</div>
 				</card>
 
