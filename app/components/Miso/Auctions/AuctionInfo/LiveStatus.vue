@@ -141,9 +141,30 @@
 					</div>
 				</div>
 				<div v-else class="d-flex flex-column flex-grow-1 my-5 py-4 upcoming-counter">
-					<div class="text-white text-center">COUNTDOWN</div>
-					<div class="text-white font-weight-bold text-center fs-16">
-						<span class="counter-line">{{ getFullTime }}</span>
+					<div v-show="upcomingVideo" :class="{ 'd-flex': upcomingVideo }">
+						<video v-if="mode" autoplay class="finalized-video">
+							<source
+								src="~/assets/video/dark_mode-upcoming.webm"
+								type="video/webm"
+							/>
+							<source src="~/assets/video/dark_mode-upcoming.mp4" type="video/mp4" />
+						</video>
+						<video v-else class="finalized-video" autoplay>
+							<source
+								src="~/assets/video/light_mode_upcoming.webm"
+								type="video/webm"
+							/>
+							<source src="~/assets/video/light_mode_upcoming.mp4" type="video/mp4" />
+						</video>
+					</div>
+					<div
+						v-show="!upcomingVideo"
+						:class="{ 'd-flex flex-column': !upcomingVideo }"
+					>
+						<div class="text-white text-center">COUNTDOWN</div>
+						<div class="text-white font-weight-bold text-center fs-16">
+							<span class="counter-line">{{ getFullTime }}</span>
+						</div>
 					</div>
 				</div>
 				<!-- DutchProgress -->
@@ -370,18 +391,6 @@
 									<div class="text-white font-weight-bold fs-5 text-center">
 										Your participation was successful
 									</div>
-									<!-- <div class="font-weight-bold text-center">
-										You can view your balance on
-										<a href="#" class="font-weight-bold">etherscan</a>
-									</div>
-									<div class="d-flex justify-content-center mt-4">
-										<div
-											class="twitt bg-default text-uppercase font-weight-bold text-white"
-										>
-											<svg-icon icon="twitte-default" width="30" height="30" />
-											<span class="ml-3">tweet this!</span>
-										</div>
-									</div> -->
 								</div>
 							</div>
 						</div>
@@ -515,6 +524,7 @@ export default {
 			},
 			allowance: 0,
 			loading: false,
+			upcomingVideo: true,
 		}
 	},
 	computed: {
@@ -706,11 +716,7 @@ export default {
 		mode: {
 			deep: true,
 			handler() {
-				const video = document.querySelector('.finalized-video')
-				if (video) {
-					video.load()
-					video.play()
-				}
+				this.videoPlayer()
 			},
 		},
 	},
@@ -743,8 +749,7 @@ export default {
 		const auctionAddress = this.$route.params.address
 		this.contractInstance = getAuctionContract(auctionAddress)
 
-		// I DONT WANT THIS
-		// this.userTokens = this.maxInvestAmount
+		this.videoPlayer()
 
 		setInterval(() => {
 			this.now = new Date()
@@ -761,6 +766,17 @@ export default {
 				return str
 			} else {
 				return `-`
+			}
+		},
+		videoPlayer() {
+			const video = document.querySelector('.finalized-video')
+			this.upcomingVideo = true
+			if (video && this.upcomingVideo) {
+				video.load()
+				video.play()
+				video.onended = () => {
+					this.upcomingVideo = false
+				}
 			}
 		},
 		async withdraw() {
