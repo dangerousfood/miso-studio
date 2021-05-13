@@ -214,6 +214,8 @@
 										:max="maxInvestAmount"
 										:min="0"
 										:interval="0.00000000001"
+										:clickable="maxInvestAmount > 0"
+										:disabled="maxInvestAmount <= 0"
 										:dot-style="{
 											background: '#f46e41',
 										}"
