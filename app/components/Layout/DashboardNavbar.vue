@@ -169,7 +169,7 @@ export default {
 			showMenu: false,
 			searchModalVisible: false,
 			searchQuery: '',
-			darkMode: '',
+			darkMode: true,
 			breackpoint: null,
 			showSideBar: false,
 			showModal: false,
