@@ -198,6 +198,7 @@ export default {
 				fundWallet: '',
 				tokenSupply: 0,
 				allowance: "",
+				allowanceformatted: '',
 			},
 			user: {
 				tokenBalance: 0,
@@ -333,6 +334,7 @@ export default {
 			if (data) {
 				;[this.user.allowance, this.user.tokenBalance] = data
 				this.model.allowance = this.user.allowance;
+				this.model.allowanceformatted = toDecimals(this.user.allowance)
 			}
 			this.userLoading = false
 		},

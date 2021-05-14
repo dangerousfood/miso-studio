@@ -81,16 +81,22 @@ export default {
 	border-radius: 0 0 12px 12px;
 	text-align: left;
 	position: relative;
+	padding-bottom: 0.5rem;
 }
 
 .ama-title {
 	color: #e3e3e3;
 	font-size: 14px;
+	height: 3.5rem;
+	padding-top: 0.5rem;
+	padding-right: 0.5rem;
 }
 
 .ama-watch {
 	color: #7f7f7f;
 	font-size: 8px;
+	height: 25px;
+	margin-top: 0.5rem !important;
 }
 
 .ama-header {

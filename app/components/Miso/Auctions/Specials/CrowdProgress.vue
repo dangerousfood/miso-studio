@@ -207,7 +207,7 @@ export default {
 	},
 	methods: {
 		textCheck(str, val) {
-			const pattern = /^[()\s0-9a-zA-Z.,/$#:&_]+$/
+			const pattern = /^[()\s0-9a-zA-Z.,/$#:&_-]+$/
 			if (str.match(pattern)) {
 				return str
 			} else {

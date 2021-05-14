@@ -29,6 +29,7 @@ import Tabs from "./Tabs/Tabs.vue"
 import Collapse from "./Collapse/Collapse.vue"
 import CollapseItem from "./Collapse/CollapseItem.vue"
 import Modal from "./Modal.vue"
+import NetworkModal from "./NetworkModal.vue"
 import Slider from "./Slider.vue"
 import SimpleWizard from "./Wizard/Wizard.vue"
 import SimpleauctionWizard from "./Wizard/Wizardauction.vue"
@@ -71,6 +72,7 @@ export {
 	TabPane,
 	Tabs,
 	Modal,
+	NetworkModal,
 	Slider,
 	SimpleWizard,
 	SimpleauctionWizard,

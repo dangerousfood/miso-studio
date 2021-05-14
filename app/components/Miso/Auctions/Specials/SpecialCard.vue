@@ -243,7 +243,7 @@ export default {
 		},
 		auctionType() {
 			if (this.status.type === 'crowdsale') {
-				return 'Crowd Auction'
+				return 'Crowdsale'
 			}
 			return `${this.status.type} Auction`
 		},
