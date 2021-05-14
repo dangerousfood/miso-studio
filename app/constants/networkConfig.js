@@ -51,7 +51,7 @@ module.exports = {
 	},
 	5: {
 		name: "Görli test network",
-		unit: "ETH",
+		unit: "GoETH",
 		isTest: true,
 		hasExplorer: true,
 		explorer: {

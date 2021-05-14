@@ -15,7 +15,14 @@
 						class="progress-status_text-line left"
 						:class="[getMode ? 'bg-dark' : 'bg-light']"
 					></span>
+					<el-tooltip
+						content="The sale needs to raise this much or more to be successful"
+						:open-delay="200"
+						placement="top-end"
+						:effect="getTooltipEffect"
+					>
 					<span class="text pl-2 text-uppercase font-weight-bold">min raise</span>
+					</el-tooltip>
 					<span class="fs-2 pl-2 text-white font-weight-bold no-whitespace">
 						{{ soft }} {{ marketInfo.paymentCurrency.symbol }}
 					</span>
@@ -67,7 +74,7 @@
 				<span class="d-flex flex-column progress-status_text-box right">
 					<el-tooltip
 						content="This is the most the auction will raise"
-						:open-delay="300"
+						:open-delay="200"
 						placement="top-end"
 						:effect="getTooltipEffect"
 					>
