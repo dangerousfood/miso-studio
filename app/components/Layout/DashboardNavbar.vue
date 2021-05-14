@@ -25,7 +25,7 @@
 				class="text-white"
 				:class="[slideBar ? 'pl-4 ml-1' : 'pl-2']"
 			>
-				MISO v1.0.1.3
+				MISO v1.0.3.4
 			</span>
 		</div>
 		<div v-if="notDesktopSize" slot="logo" class="d-flex justify-content-center">
@@ -66,7 +66,9 @@
 				</div>
 			</div>
 
-			<client-only>
+			<!-- 
+				USE THE NETWORK CONFIG IN /config/networkConfig.sj
+				<client-only>
 				<div class="d-flex justify-content-center pb-5 mb-0 pb-lg-0">
 					<button
 						class="text-uppercase rounded-pill connect-btn text-white"
@@ -76,7 +78,7 @@
 						Network
 					</button>
 				</div>
-			</client-only>
+			</client-only> -->
 
 			<client-only>
 				<div
