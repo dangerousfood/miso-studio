@@ -169,7 +169,7 @@ export default {
 			showMenu: false,
 			searchModalVisible: false,
 			searchQuery: '',
-			darkMode: '',
+			darkMode: true,
 			breackpoint: null,
 			showSideBar: false,
 			showModal: false,
@@ -261,13 +261,10 @@ export default {
 		toggleMode(type) {
 			this.$emit('darkMode', type)
 			const docClasses = document.body.classList
-			const plyrposter = document.getElementsByClassName('plyr__poster')[0]
 			if (type) {
 				docClasses.remove('white-content')
-				if (plyrposter) plyrposter.classList.remove('plyr__poster__white')
 			} else {
 				docClasses.add('white-content')
-				if (plyrposter) plyrposter.classList.add('plyr__poster__white')
 			}
 		},
 		capitalizeFirstLetter(string) {

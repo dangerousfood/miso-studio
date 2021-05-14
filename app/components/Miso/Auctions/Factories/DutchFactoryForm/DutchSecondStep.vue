@@ -24,7 +24,18 @@
 									@focus="focusInput('walletAddress')"
 								>
 									<template #label>
-										<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Fund Wallet</span>*
+										<span
+											class="
+												font-weight-bold
+												fs-4
+												text-secondary
+												white-txt
+												border-bottom
+											"
+										>
+											Fund Wallet
+										</span>
+										*
 									</template>
 								</base-input>
 							</div>
@@ -41,49 +52,58 @@
 								Use my account
 							</p>
 						</div>
-						
 
 						<!-- input line 1 -->
 						<div class="col-12">
 							<div class="mt-3 mb-2 fs-2">
-								<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Dutch Auction Settings*</span>
+								<span
+									class="font-weight-bold fs-4 text-secondary white-txt border-bottom"
+								>
+									Dutch Auction Settings*
+								</span>
 							</div>
 							<div class="row">
-								
 								<div class="col-md-6 form-group">
 									<span class="font-weight-bold fs-4">STARTING PRICE</span>
-									<br><i>Dutch auctions start high, and lowers over time</i><br>
+									<br />
+									<i>Dutch auctions start high, and lowers over time</i>
+									<br />
 
 									<currency-input
 										v-model="model.startPrice"
 										:disabled="!tokensApproved"
-										@focus="focusInput('dutchSettings')"
 										name="starting price"
 										class="form-control font-weight-bold text-bg-white mt-2"
 										placeholder="0"
-										:currency="{suffix: ' ' + model.paymentCurrency.symbol || 'ETH'}"
+										@focus="focusInput('dutchSettings')"
+										:currency="{
+											suffix: ' ' + model.paymentCurrency.symbol || 'ETH',
+										}"
 										locale="en"
-										:precision=8
+										:precision="8"
 									/>
 								</div>
 
 								<div class="col-md-6 form-group">
 									<span class="font-weight-bold fs-4">ENDING PRICE</span>
-									<br><i>Auction ends at this price</i><br>
+									<br />
+									<i>Auction ends at this price</i>
+									<br />
 
 									<currency-input
 										v-model="model.minPrice"
 										:disabled="!tokensApproved"
-										@focus="focusInput('dutchSettings')"
 										name="minimum price"
 										class="form-control font-weight-bold text-bg-white mt-2"
 										placeholder="0"
-										:currency="{suffix: ' ' + model.paymentCurrency.symbol || 'ETH'}"
+										@focus="focusInput('dutchSettings')"
+										:currency="{
+											suffix: ' ' + model.paymentCurrency.symbol || 'ETH',
+										}"
 										locale="en"
-										:precision=8
+										:precision="8"
 									/>
 								</div>
-								
 							</div>
 						</div>
 
@@ -93,7 +113,13 @@
 								<div class="col-md-6 form-group">
 									<i class="el-icon-bottom-right"></i>
 									<span class="font-weight-bold fs-4">MAXIMUM RAISED</span>
-									<br><i>Maximum amount raised if all tokens are<br> sold at highest price possible</i><br>
+									<br />
+									<i>
+										Maximum amount raised if all tokens are
+										<br />
+										sold at highest price possible
+									</i>
+									<br />
 									<div class="mt-2 max_raise text-center">
 										{{ maxRaise }}
 									</div>
@@ -102,7 +128,13 @@
 								<div class="col-md-6 form-group">
 									<i class="el-icon-bottom-right"></i>
 									<span class="font-weight-bold fs-4">MINIMUM RAISED</span>
-									<br><i>Minimum amount raised in order to have<br> a successful auction</i><br>
+									<br />
+									<i>
+										Minimum amount raised in order to have
+										<br />
+										a successful auction
+									</i>
+									<br />
 									<div class="mt-2 max_raise text-center">
 										{{ minRaise }}
 									</div>
@@ -113,7 +145,11 @@
 						<!-- input line 3 -->
 						<div class="col-12">
 							<div class="mt-3 mb-2 fs-2 mt-5">
-								<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Auction Start & End*</span>
+								<span
+									class="font-weight-bold fs-4 text-secondary white-txt border-bottom"
+								>
+									Auction Start & End*
+								</span>
 							</div>
 							<div class="row">
 								<base-input
@@ -121,15 +157,12 @@
 									class="col-md-6 right-icon position-relative"
 									name="start date"
 									type="text"
-									:rules="`required|afterNow:${
-										(model.startDate, 'start date')
-									}`"
+									:rules="`required|afterNow:${(model.startDate, 'start date')}`"
 								>
 									<el-date-picker
 										v-model="model.startDate"
 										:disabled="!tokensApproved"
 										type="datetime"
-										@focus="focusInput('startend')"
 										format="MMMM dd, yyyy HH:mm:ss"
 										placeholder="Select a start date for your auction"
 										:picker-options="{
@@ -137,6 +170,7 @@
 											step: '00:15',
 											end: '23:59',
 										}"
+										@focus="focusInput('startend')"
 									></el-date-picker>
 									<template #timestemp>
 										<span class="position-absolute timeZone">
@@ -149,22 +183,20 @@
 									class="col-md-6 right-icon position-relative"
 									name="end date"
 									type="text"
-									:rules="`required|afterNow:${
-										(model.endDate, 'end date')
-									}`"
+									:rules="`required|afterNow:${(model.endDate, 'end date')}`"
 								>
 									<el-date-picker
 										v-model="model.endDate"
 										:disabled="!tokensApproved"
 										type="datetime"
 										format="MMMM dd, yyyy HH:mm:ss"
-										@focus="focusInput('startend')"
 										placeholder="Select a end date for your auction"
 										:picker-options="{
 											start: '00:00',
 											step: '00:15',
 											end: '23:59',
 										}"
+										@focus="focusInput('startend')"
 									></el-date-picker>
 									<template #timestemp>
 										<span class="position-absolute timeZone">
@@ -184,18 +216,18 @@
 	</validation-observer>
 </template>
 <script>
-import EthImage from "@/components/web3-core/eth-identication/EthImage"
-import { mapGetters, mapActions } from "vuex"
-import { BaseDivider, BaseAlert } from "@/components"
-import { DatePicker, TimeSelect } from "element-ui"
-import { getContractInstance as erc20Contract } from "@/services/web3/erc20Token"
-import { misoMarket as misoMarketConfig } from "@/constants/contractConfig"
-import { makeBatchCall, sendTransactionAndWait } from "@/services/web3/base"
-import { toDecimals, to18Decimals } from "@/util"
-import { duration } from "@/mixins/duration.js"
-import Autocomplete from "@/components/Inputs/Autocomplete"
-import PaymentCurrency from "../PaymentCurrency.vue"
+import EthImage from '@/components/web3-core/eth-identication/EthImage'
+import { mapGetters, mapActions } from 'vuex'
+import { BaseDivider, BaseAlert } from '@/components'
+import { DatePicker, TimeSelect } from 'element-ui'
+import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
+import { misoMarket as misoMarketConfig } from '@/constants/contractConfig'
+import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
+import { toDecimals, to18Decimals } from '@/util'
+import { duration } from '@/mixins/duration.js'
+import Autocomplete from '@/components/Inputs/Autocomplete'
 import VueCurrencyInput from 'vue-currency-input'
+import PaymentCurrency from '../PaymentCurrency.vue'
 
 export default {
 	components: {
@@ -206,43 +238,42 @@ export default {
 		BaseDivider,
 		BaseAlert,
 		PaymentCurrency,
-		VueCurrencyInput
+		VueCurrencyInput,
 	},
 	mixins: [duration],
-	data() {
-		return {
-			misoMarketAddress: "",
-			
-			user: {
-				tokenBalance: 0,
-				allowance: "",
-			},
-			tokensLoading: false,
-			userLoading: false,
-			approveLoading: false,
-			items: {
-				auctionType: false,
-                tokenAddress: false,
-                tokenAllowance: false,
-                tokenAmount: false,
-				payment_currency: false,
-				walletAddress: false,
-				dutchSettings: false,
-				startend: false
-			},
-		}
-	},
 	props: {
 		model: {
 			type: Object,
 			required: true,
 		},
 	},
+	data() {
+		return {
+			misoMarketAddress: '',
+
+			user: {
+				tokenBalance: 0,
+				allowance: '',
+			},
+			tokensLoading: false,
+			userLoading: false,
+			approveLoading: false,
+			items: {
+				auctionType: false,
+				tokenAddress: false,
+				tokenAllowance: false,
+				tokenAmount: false,
+				payment_currency: false,
+				walletAddress: false,
+				dutchSettings: false,
+				startend: false,
+			},
+		}
+	},
 	async mounted() {
-		this.misoMarketAddress =
-			misoMarketConfig.address[this.currentProvidersNetworkId]
+		this.misoMarketAddress = misoMarketConfig.address[this.currentProvidersNetworkId]
 		const tokenAddress = this.model.token.address
-		if ((tokenAddress || "").length > 0) {
+		if ((tokenAddress || '').length > 0) {
 			await this.fetchTokens()
 			const matches = this.tokens.filter(
 				(token) => token.addr.toLowerCase() === tokenAddress.toLowerCase()
@@ -263,11 +294,11 @@ export default {
 			return this.isETH ? 'ETH' : 'ERC20'
 		},
 		...mapGetters({
-			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
-			coinbase: "ethereum/coinbase",
-			walletFound: "ethereum/walletFound",
-			explorer: "ethereum/explorer",
-			tokens: "tokens/list",
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
+			coinbase: 'ethereum/coinbase',
+			walletFound: 'ethereum/walletFound',
+			explorer: 'ethereum/explorer',
+			tokens: 'tokens/list',
 		}),
 		formatedTokenBalance() {
 			if (!this.user.tokenBalance) return 0
@@ -288,26 +319,30 @@ export default {
 		},
 		getStartTimeAbbr() {
 			return new Date(this.model.startDate)
-				.toLocaleTimeString("en-us", { timeZoneName: "short" })
-				.split(" ")[2]
+				.toLocaleTimeString('en-us', { timeZoneName: 'short' })
+				.split(' ')[2]
 		},
 		getEndTimeAbbr() {
 			return new Date(this.model.endDate)
-				.toLocaleTimeString("en-us", { timeZoneName: "short" })
-				.split(" ")[2]
+				.toLocaleTimeString('en-us', { timeZoneName: 'short' })
+				.split(' ')[2]
 		},
 		maxRaise() {
-			if (this.model.startPrice !== "") {
+			if (this.model.startPrice !== '') {
 				return (
-					parseFloat(this.model.tokenSupply) * parseFloat(this.model.startPrice) + " " + this.model.paymentCurrency.symbol
+					parseFloat(this.model.tokenSupply) * parseFloat(this.model.startPrice) +
+					' ' +
+					this.model.paymentCurrency.symbol
 				)
 			}
 			return 0
 		},
 		minRaise() {
-			if (this.model.minPrice !== "") {
+			if (this.model.minPrice !== '') {
 				return (
-					parseFloat(this.model.tokenSupply) * parseFloat(this.model.minPrice) + " " + this.model.paymentCurrency.symbol
+					parseFloat(this.model.tokenSupply) * parseFloat(this.model.minPrice) +
+					' ' +
+					this.model.paymentCurrency.symbol
 				)
 			}
 			return 0
@@ -315,11 +350,11 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			getTokens: "tokens/getTokens",
+			getTokens: 'tokens/getTokens',
 		}),
 		validate() {
 			return this.$refs.observer.validate().then((res) => {
-				this.$emit("on-validated", res, this.model)
+				this.$emit('on-validated', res, this.model)
 				return res && this.model.paymentCurrency.address
 			})
 		},
@@ -327,9 +362,9 @@ export default {
 			// Clear Tokens
 			this.user.allowance = 0
 			this.user.tokenBalance = 0
-			this.model.token.name = ""
-			this.model.token.symbol = ""
-			this.model.token.decimals = ""
+			this.model.token.name = ''
+			this.model.token.symbol = ''
+			this.model.token.decimals = ''
 
 			// Get Tokens
 			if (!this.tokensLoading) {
@@ -344,11 +379,11 @@ export default {
 			this.userLoading = true
 			const methods = [
 				{
-					methodName: "allowance",
+					methodName: 'allowance',
 					args: [this.coinbase, this.misoMarketAddress],
 				},
 				{
-					methodName: "balanceOf",
+					methodName: 'balanceOf',
 					args: [this.coinbase],
 				},
 			]
@@ -362,7 +397,7 @@ export default {
 			}
 			this.userLoading = false
 		},
-		
+
 		handleTokenComplete(token) {
 			this.model.token = {
 				address: token.addr,
@@ -377,8 +412,8 @@ export default {
 		},
 		updateCurrency(currency) {
 			this.model.paymentCurrency = currency
-			this.items['payment_currency'] = true
-            this.$emit("active-focus", this.items, this.model.chosenAuctionType)
+			this.items.payment_currency = true
+			this.$emit('active-focus', this.items, this.model.chosenAuctionType)
 		},
 		focusInput(val) {
 			for (const key in this.items) {
@@ -388,134 +423,137 @@ export default {
 					this.items[key] = false
 				}
 			}
-			this.$emit("active-focus", this.items, this.model.chosenAuctionType)
-		}
+			this.$emit('active-focus', this.items, this.model.chosenAuctionType)
+		},
 	},
 }
 </script>
 
+<style lang="scss" scoped>
+.position-absolute {
+	top: 45px;
+	right: 30px;
+}
+</style>
 <style lang="scss">
-	.right-icon {
-		.el-input__prefix {
-			font-size: 20px;
-			margin-right: 10px;
-		}
-		.el-input__inner {
-			padding-left: 40px;
-		}
+.right-icon {
+	.el-input__prefix {
+		font-size: 20px;
+		margin-right: 10px;
 	}
-	.svg-icon-left {
-		position: absolute;
-		z-index: 10;
-		right: 25px !important;
-		top: 65px;
-		left: auto !important;
+	.el-input__inner {
+		padding-left: 40px;
 	}
-	.label-underline {
-		padding-left: 0;
+}
+.svg-icon-left {
+	position: absolute;
+	z-index: 10;
+	right: 25px !important;
+	top: 65px;
+	left: auto !important;
+}
+.label-underline {
+	padding-left: 0;
+}
+.label-underline label {
+	border-bottom: 1px solid #ffffff;
+	font-weight: bold;
+	font-size: 18px;
+	color: #ffffff;
+}
+
+.el-date-picker .el-picker-panel__footer .el-button:first-child {
+	display: none;
+}
+.custom {
+	input {
+		padding-right: 80px !important;
+		border: 0.0625rem solid #23306b !important;
+		background: #000a35 !important;
 	}
-	.label-underline label {
-		border-bottom: 1px solid #ffffff;
-		font-weight: bold;
-		font-size: 18px;
-		color: #ffffff;
-	}
-	
-	.el-date-picker .el-picker-panel__footer .el-button:first-child {
-		display: none;
-	}
-	.custom {
-		input {
-			padding-right: 80px !important;
-			border: 0.0625rem solid #23306b !important;
-			background: #000a35 !important;
-		}
-		&-token {
-			top: 35%;
-			transform: translateY(-35%);
-			right: 30px;
-		}
-	}
-	.input {
-		&_days {
-			margin-top: 0.5rem;
-			.form-group {
-				margin-bottom: 0;
-			}
-			input {
-				&:disabled::placeholder {
-					color: #6c757c;
-				}
-				&::placeholder {
-					color: #fff;
-				}
-			}
-		}
-		&_hours {
-			margin-top: 0.5rem;
-			input {
-				&:disabled::placeholder {
-					color: #6c757c;
-				}
-				&::placeholder {
-					color: #fff;
-				}
-			}
-		}
-	}
-	.endDate {
-		input::placeholder {
-			color: #cad1d7;
-			font-weight: normal;
-		}
-		.input-group-text {
-			padding: 6px 0 6px 6px !important;
-			color: #cad1d7 !important;
-		}
-	}
-	.alert_left {
-		padding: 0px;
-	}
-	.ma-30 {
-		margin-bottom: 30px;
-	}
-	.position-absolute {
-		top: 45px;
+	&-token {
+		top: 35%;
+		transform: translateY(-35%);
 		right: 30px;
 	}
-	.padding-left-15 {
-		padding-left: 15px;
-	}
-	.position-auction-token-absolute {
-		top: 50px;
-		right: 210px;
-		position: absolute;
-	}
-	.btn-custom {
-		padding: 12px 40px;
-		background: rgb(240, 74, 39);
-		background: linear-gradient(
-			90deg,
-			rgba(240, 74, 39, 1) 0%,
-			rgba(246, 116, 64, 1) 50%,
-			rgba(236, 68, 34, 1) 100%
-		);
-		box-shadow: none;
-		border-width: 1px;
-		border: none;
-		&_white {
-			border: 1px solid #ffffff;
+}
+.input {
+	&_days {
+		margin-top: 0.5rem;
+		.form-group {
+			margin-bottom: 0;
+		}
+		input {
+			&:disabled::placeholder {
+				color: #6c757c;
+			}
+			&::placeholder {
+				color: #fff;
+			}
 		}
 	}
-	.bottom-45 {
-		padding-bottom: 45px;
+	&_hours {
+		margin-top: 0.5rem;
+		input {
+			&:disabled::placeholder {
+				color: #6c757c;
+			}
+			&::placeholder {
+				color: #fff;
+			}
+		}
 	}
-	.el-icon-bottom-right {
-		font-size: 16px;
+}
+.endDate {
+	input::placeholder {
+		color: #cad1d7;
+		font-weight: normal;
 	}
-	.max_raise {
-		width: 128px;
-		border-radius: 10px;
-		background: rgba(246, 102, 69, 0.4);
+	.input-group-text {
+		padding: 6px 0 6px 6px !important;
+		color: #cad1d7 !important;
 	}
+}
+.alert_left {
+	padding: 0px;
+}
+.ma-30 {
+	margin-bottom: 30px;
+}
+
+.padding-left-15 {
+	padding-left: 15px;
+}
+.position-auction-token-absolute {
+	top: 50px;
+	right: 210px;
+	position: absolute;
+}
+.btn-custom {
+	padding: 12px 40px;
+	background: rgb(240, 74, 39);
+	background: linear-gradient(
+		90deg,
+		rgba(240, 74, 39, 1) 0%,
+		rgba(246, 116, 64, 1) 50%,
+		rgba(236, 68, 34, 1) 100%
+	);
+	box-shadow: none;
+	border-width: 1px;
+	border: none;
+	&_white {
+		border: 1px solid #ffffff;
+	}
+}
+.bottom-45 {
+	padding-bottom: 45px;
+}
+.el-icon-bottom-right {
+	font-size: 16px;
+}
+.max_raise {
+	width: 128px;
+	border-radius: 10px;
+	background: rgba(246, 102, 69, 0.4);
+}
 </style>
