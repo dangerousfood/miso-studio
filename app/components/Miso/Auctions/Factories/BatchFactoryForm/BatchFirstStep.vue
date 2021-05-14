@@ -2,35 +2,67 @@
 	<div>
 		<validation-observer ref="observer">
 			<div class="row">
-				<div class="col-12">
-					<!-- Token input -->
-					<autocomplete
-						v-model="model.token.address"
-						label="Token"
-						name="token"
-						placeholder="Type to search (name, symbol, address)"
-						rules="required|isAddress"
-						:suggestions="tokens"
-						:loading="tokensLoading"
-						:no-data="'No Tokens'"
-						@input="fetchTokens"
-						@complete="handleTokenComplete"
-					></autocomplete>
+				<div class="col-12 ma-30">
+					<div class="justify-content-between row align-items-center">
+						<!-- Token input -->
+						<autocomplete
+							v-if="model.token.name"
+							class="label-underline col-lg-10 padding-left-15"
+							v-model="model.token.address"
+							label="Token"
+							name="token"
+							placeholder="Type to search (name, symbol, address)"
+							rules="required|isAddress"
+							:suggestions="tokens"
+							:loading="tokensLoading"
+							:no-data="'No Tokens'"
+							@input="fetchTokens"
+							@focus="focusInputBatch('tokenAddress')"
+							@complete="handleTokenComplete"
+						></autocomplete>
 
-					<div class="fs-2">
-						Don't have a token?
-						<nuxt-link
-							v-slot="{ navigate }"
-							custom
-							to="/factory/token"
-							class="font-weight-bold text-white underline"
-						>
-							<span class="cursor-pointer" role="link" @click="navigate">
-								<u>Create it now!</u>
-							</span>
-						</nuxt-link>
+						<autocomplete
+							v-else
+							class="label-underline col-lg-12 padding-left-15"
+							v-model="model.token.address"
+							label="Token"
+							name="token"
+							placeholder="Type to search (name, symbol, address)"
+							rules="required|isAddress"
+							:suggestions="tokens"
+							:loading="tokensLoading"
+							:no-data="'No Tokens'"
+							@focus="focusInputBatch('tokenAddress')"
+							@input="fetchTokens"
+							@complete="handleTokenComplete"
+						></autocomplete>
+
+						<div class="position-auction-token-absolute" v-if="model.token.name">
+							{{ this.model.token.name }}
+						</div>
+
+						<div class="col-lg-2 text-right mt-4" v-if="model.token.symbol">
+							<base-button
+								class="btn btn-custom btn-default"
+							>
+								{{ this.model.token.symbol }}
+							</base-button>
+						</div>
+
+						<div class="fs-2 pl-3">
+							Don't have a token?
+							<nuxt-link
+								v-slot="{ navigate }"
+								custom
+								to="/factory/token"
+								class="font-weight-bold text-white underline"
+							>
+								<span class="cursor-pointer" role="link" @click="navigate">
+									<u>Create it now!</u>
+								</span>
+							</nuxt-link>
+						</div>
 					</div>
-					<base-divider class="my-5" />
 				</div>
 
 				<!-- Alert -->
@@ -97,6 +129,7 @@
 							placeholder="Token amount"
 							type="number"
 							:rules="`required|decimal|max_value:${formatedTokenBalance}`"
+							@focus="focusInputBatch('tokenAmount')"
 						>
 							<template #label>
 								<span class="font-weight-bold">TOKEN AMOUNT</span>
@@ -108,216 +141,6 @@
 							Approve
 						</base-button>
 					</div>
-				</div>
-
-				<div class="col-12">
-					<base-divider class="my-5" />
-					<div class="row">
-						<div class="col-12">
-							<payment-currency
-								:tokens-approved="tokensApproved"
-								@currency-updated="updateCurrency($event)"
-							/>
-						</div>
-
-						<!-- input line 1 -->
-						<div class="col-12">
-							<div class="row mt-4">
-								<base-input
-									v-model="model.minimumCommitmentAmount"
-									:disabled="!tokensApproved"
-									name="minimum amount"
-									class="col-md-6"
-									type="text"
-									placeholder="0"
-									:rules="`required`"
-								>
-									<template #label>
-										<span class="font-weight-bold">MIN PRICE</span>
-										- The lowest successful price
-									</template>
-								</base-input>
-								<base-input
-									:disabled="true"
-									name="minimum amount"
-									class="col-md-6"
-									type="number"
-									:placeholder="minRaise"
-									:rules="`required`"
-								>
-									<template #label>
-										<span class="font-weight-bold">MIN RAISED</span>
-										- Amount needed to be successful
-									</template>
-								</base-input>
-							</div>
-						</div>
-
-						<!-- input line 2 -->
-						<div class="col-12">
-							<div class="row">
-								<div class="col-12">
-									<base-input
-										:disabled="!tokensApproved"
-										class="col-md-6 right-icon position-relative"
-										name="start date"
-										type="text"
-										:rules="`required|afterNow:${(model.startDate, 'start date')}`"
-									>
-										<el-date-picker
-											v-model="model.startDate"
-											:disabled="!tokensApproved"
-											type="datetime"
-											:picker-options="{
-												start: '00:00',
-												step: '00:15',
-												end: '23:59',
-											}"
-										></el-date-picker>
-										<template #timestemp>
-											<span class="position-absolute timeZone">
-												{{ getStartTimeAbbr }}
-											</span>
-										</template>
-										<template #label>
-											<span class="font-weight-bold">START DATE</span>
-											- Must be a future date
-										</template>
-									</base-input>
-								</div>
-								<div class="col-md-6 col-sm-12">
-									<base-input :placeholder="getDuration" disabled class="endDate">
-										<template #prepend>
-											<svg-icon icon="clock" width="20" height="21" :fill="false" />
-										</template>
-										<template #label>
-											<span class="font-weight-bold text-uppercase">duration</span>
-										</template>
-									</base-input>
-								</div>
-								<div class="col-md-6 col-sm-12">
-									<div class="d-flex flex-column">
-										<div class="d-flex justify-content-start">
-											<div>
-												<div class="text-left pl-5 ml-2 text-capitalize">days</div>
-												<div class="d-flex justify-content-start number-input">
-													<p class="number-input_down d-flex align-items-start">
-														<button
-															class="btn btn-primary rounded-circle"
-															:disabled="numberOfDays <= 0 || !tokensApproved"
-															@click="numberOfDays--"
-														>
-															<span>
-																<svg-icon
-																	icon="minus"
-																	height="20"
-																	width="20"
-																	:fill="false"
-																/>
-															</span>
-														</button>
-													</p>
-													<base-input
-														:placeholder="numberOfDays"
-														:disabled="!tokensApproved"
-														class="w-25 input_days"
-													/>
-													<p class="number-input_up d-flex align-items-start">
-														<button
-															class="btn-primary btn rounded-circle"
-															:disabled="!tokensApproved"
-															@click="numberOfDays++"
-														>
-															<span>
-																<svg-icon
-																	icon="plus"
-																	height="20"
-																	width="20"
-																	:fill="false"
-																/>
-															</span>
-														</button>
-													</p>
-												</div>
-											</div>
-											<div>
-												<div class="text-left pl-5 ml-1 text-capitalize">hours</div>
-												<div class="d-flex justify-content-start number-input">
-													<p class="number-input_down d-flex align-items-start">
-														<button
-															class="btn btn-primary rounded-circle"
-															:disabled="numberOfHours <= 0 || !tokensApproved"
-															@click="numberOfHours--"
-														>
-															<span>
-																<svg-icon
-																	icon="minus"
-																	height="20"
-																	width="20"
-																	:fill="false"
-																/>
-															</span>
-														</button>
-													</p>
-													<base-input
-														:placeholder="numberOfHours"
-														:disabled="!tokensApproved"
-														class="w-25 input_hours"
-													/>
-													<p class="number-input_up d-flex align-items-start">
-														<button
-															class="btn btn-primary rounded-circle"
-															:disabled="!tokensApproved"
-															@click="numberOfHours++"
-														>
-															<span>
-																<svg-icon
-																	icon="plus"
-																	height="20"
-																	width="20"
-																	:fill="false"
-																/>
-															</span>
-														</button>
-													</p>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- input line 3 -->
-						<div class="col-12">
-							<div class="row mt-4">
-								<base-input
-									v-model="model.fundWallet"
-									:disabled="!tokensApproved"
-									class="col"
-									name="address"
-									placeholder="Ethereum Address"
-									rules="required|isAddress"
-								>
-									<template #prepend>
-										<svg-icon
-											class="svg-icon-left"
-											icon="ethereum"
-											height="24"
-											width="20"
-										/>
-									</template>
-									<template #label>
-										<span class="font-weight-bold">FUND WALLET</span>
-										- Where the funds will go
-									</template>
-								</base-input>
-							</div>
-						</div>
-					</div>
-					<p class="font-weight-bold cursor-pointer" @click="selectCurrentAccount">
-						Send to my account
-					</p>
 				</div>
 
 				<div class="col-12">
@@ -360,6 +183,8 @@ export default {
 					symbol: '',
 					decimals: 0,
 				},
+				allowance: "",
+				chosenAuctionType: 3,
 				paymentCurrency: {
 					address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
 					name: 'Ethereum',
@@ -370,15 +195,24 @@ export default {
 				endDate: '',
 				tokenSupply: 0,
 				minimumCommitmentAmount: '',
+				allowanceformatted: '',
 				fundWallet: '',
 			},
 			user: {
 				tokenBalance: 0,
-				allowance: 0,
+				allowance: "",
 			},
 			tokensLoading: false,
 			userLoading: false,
 			approveLoading: false,
+			batchitems: {
+                tokenAddress: false,
+                tokenAmount: false,
+				payment_currency: false,
+				walletAddress: false,
+				minPrice: false,
+				startend: false
+			}
 		}
 	},
 	computed: {
@@ -484,6 +318,8 @@ export default {
 			)
 			if (data) {
 				;[this.user.allowance, this.user.tokenBalance] = data
+				this.model.allowance = this.user.allowance;
+				this.model.allowanceformatted = toDecimals(this.user.allowance)
 			}
 			this.userLoading = false
 		},
@@ -518,37 +354,39 @@ export default {
 		updateCurrency(currency) {
 			this.model.paymentCurrency = currency
 		},
+		focusInputBatch(val) {
+			for (const key in this.batchitems) {
+				if (val === key) {
+					this.batchitems[key] = true
+				} else {
+					this.batchitems[key] = false
+				}
+			}
+			this.$emit("active-focus-batch", this.batchitems, this.model.chosenAuctionType)
+		}
 	},
 }
 </script>
 
 <style lang="scss">
-.right-icon {
-	.el-input__prefix {
-		font-size: 20px;
-		margin-right: 10px;
+	.right-icon {
+		.el-input__prefix {
+			font-size: 20px;
+			margin-right: 10px;
+		}
+		.el-input__inner {
+			padding-left: 40px;
+		}
 	}
-	.el-input__inner {
-		padding-left: 40px;
+	.svg-icon-left {
+		position: absolute;
+		z-index: 10;
+		left: 10px;
 	}
-}
-.svg-icon-left {
-	position: absolute;
-	z-index: 10;
-	left: 10px;
-}
-.step {
-	/* .btn {
-		background: transparent !important;
-		border: 2px solid #23306b;
-		border-radius: 0;
-		color: white;
-	} */
-}
-.el-date-picker .el-picker-panel__footer .el-button:first-child {
-	display: none;
-}
-.payment-token {
-	border-color: #ff8d72 !important;
-}
+	.el-date-picker .el-picker-panel__footer .el-button:first-child {
+		display: none;
+	}
+	.payment-token {
+		border-color: #ff8d72 !important;
+	}
 </style>
