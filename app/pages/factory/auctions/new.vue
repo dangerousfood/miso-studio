@@ -101,7 +101,7 @@
 								<crowdsale-first-step
 									ref="step1"
 									@on-validated="onStepValidated"
-									@active-focus="allStepInputs"
+									@active-focus-crowdsale="allCrowdsaleInputs"
 								></crowdsale-first-step>
 							</template>
 							<template v-else-if="chosenAuctionType === 3">
@@ -135,7 +135,7 @@
 									ref="step2"
 									:model="model"
 									@on-validated="onStepValidated"
-									@active-focus="allStepInputs"
+									@active-focus-crowdsale="allCrowdsaleInputs"
 								></crowdsale-second-step>
 							</template>
 							<template v-if="chosenAuctionType === 3">
@@ -149,12 +149,24 @@
 							</template>
 						</wizard-tab>
 						<wizard-tab :before-change="() => validateStep('step3')">
-							<dutch-third-step
-								v-if="model"
-								ref="step3"
-								:model="model"
-								@on-validated="onStepValidated"
-							></dutch-third-step>
+							<template v-if="chosenAuctionType === 1">
+								<dutch-third-step
+									v-if="model"
+									ref="step3"
+									:model="model"
+									@on-validated="onStepValidated"
+								></dutch-third-step>
+							</template>
+							<template v-if="chosenAuctionType === 2">
+								<crowdsale-third-step
+									v-if="model"
+									ref="step3"
+									:model="model"
+									@on-validated="onStepValidated"
+								></crowdsale-third-step>
+							</template>
+							<template v-if="chosenAuctionType === 3">
+							</template>
 						</wizard-tab>
 						<wizard-tab>
 							<third-step
@@ -265,7 +277,7 @@
 								<crowdsale-first-step
 									ref="step1"
 									@on-validated="onStepValidated"
-									@active-focus="allStepInputs"
+									@active-focus-crowdsale="allCrowdsaleInputs"
 								></crowdsale-first-step>
 							</template>
 							<template v-else-if="chosenAuctionType === 3">
@@ -299,7 +311,7 @@
 									ref="step2"
 									:model="model"
 									@on-validated="onStepValidated"
-									@active-focus="allStepInputs"
+									@active-focus-crowdsale="allCrowdsaleInputs"
 								></crowdsale-second-step>
 							</template>
 							<template v-if="chosenAuctionType === 3">
@@ -313,12 +325,24 @@
 							</template>
 						</wizard-tab>
 						<wizard-tab :before-change="() => validateStep('step3')">
-							<dutch-third-step
-								v-if="model"
-								ref="step3"
-								:model="model"
-								@on-validated="onStepValidated"
-							></dutch-third-step>
+							<template v-if="chosenAuctionType === 1">
+								<dutch-third-step
+									v-if="model"
+									ref="step3"
+									:model="model"
+									@on-validated="onStepValidated"
+								></dutch-third-step>
+							</template>
+							<template v-if="chosenAuctionType === 2">
+								<crowdsale-third-step
+									v-if="model"
+									ref="step3"
+									:model="model"
+									@on-validated="onStepValidated"
+								></crowdsale-third-step>
+							</template>
+							<template v-if="chosenAuctionType === 3">
+							</template>
 						</wizard-tab>
 						<wizard-tab>
 							<third-step
@@ -357,8 +381,20 @@
 				</p>
 			</div>
 			<div class="pl-3">* indicates required step</div>
-			<div v-if="tabIndex === 0 || tabIndex === 1 || tabIndex === 2">
+			<div v-if="tabIndex === 0">
 				<template v-for="(item, index) in allSteps">
+					<zoom-y-transition :key="index" :duration="300">
+						<notificatoin
+							:active="item.active"
+							:title="item.title"
+							:description="item.desctiption"
+							:top="item.top"
+						/>
+					</zoom-y-transition>
+				</template>
+			</div>
+			<div v-else-if="tabIndex === 1 || tabIndex === 2">
+				<template v-for="(item, index) in notificationSteps">
 					<zoom-y-transition :key="index" :duration="300">
 						<notificatoin
 							:active="item.active"
@@ -388,6 +424,7 @@ import DutchThirdStep from '@/components/Miso/Auctions/Factories/DutchThirdStep.
 
 import CrowdsaleFirstStep from '@/components/Miso/Auctions/Factories/CrowdsaleFactoryForm/CrowdsaleFirstStep'
 import CrowdsaleSecondStep from '@/components/Miso/Auctions/Factories/CrowdsaleFactoryForm/CrowdsaleSecondStep'
+import CrowdsaleThirdStep from '@/components/Miso/Auctions/Factories/CrowdsaleThirdStep'
 
 import BatchFirstStep from '@/components/Miso/Auctions/Factories/BatchFactoryForm/BatchFirstStep'
 import BatchSecondStep from '@/components/Miso/Auctions/Factories/BatchFactoryForm/BatchSecondStep'
@@ -409,6 +446,7 @@ export default {
 		DutchThirdStep,
 		CrowdsaleFirstStep,
 		CrowdsaleSecondStep,
+		CrowdsaleThirdStep,
 		BatchFirstStep,
 		BatchSecondStep,
 		ThirdStep,
@@ -512,6 +550,50 @@ export default {
 						'Select the dates for when your auction will be hold.  Most common duration is two weeks, but it can be whatever you like.',
 				},
 			],
+			allCrowdsaleSteps: [
+				{
+					active: false,
+					top: 22,
+					title: 'AUCTION TOKEN*',
+					desctiption:
+						'Enter the token you’re looking to create an auction for.  Either search by name or symbol, or paste in the token’s contract address.',
+				},
+				{
+					active: false,
+					top: 57,
+					title: 'AUCTION TOKEN AMOUNT*',
+					desctiption:
+						'Enter the token you’re looking to create an auction for.  Either search by name or symbol, or paste in the token’s contract address. ',
+				},
+				{
+					active: false,
+					top: 22,
+					title: 'PAYMENT CURRENCY*',
+					desctiption:
+						'Select the currency you want to accept as payment during the auction.  ETH is the most common, but some also prefer to use stablecoins like DAI or USDC.  However, you can also accept any ERC-20 you like by providing it’s address in the custom field.',
+				},
+				{
+					active: false,
+					top: 35,
+					title: 'FUND WALLET*',
+					desctiption:
+						'Enter the wallet address where the funds raised from this auction will be deposited. Can be the admin address, or another one for you’ve designated for storing funds.',
+				},
+				{
+					active: false,
+					top: 57,
+					title: 'DUTCH AUCTION SETTINGS*',
+					desctiption:
+						'Set the PRICE PER TOKEN and MINIMUM TARGET for your Dutch Auction.  This will auto-calculate the maximum and minimum amounts you could raise with your selected price range. ',
+				},
+				{
+					active: false,
+					top: 76,
+					title: 'AUCTION START & END*',
+					desctiption:
+						'Select the dates for when your auction will be hold.  Most common duration is two weeks, but it can be whatever you like.',
+				}
+			],
 			nextBtnLoading: false,
 			deployedMarket: {
 				address: '',
@@ -526,6 +608,14 @@ export default {
 		...mapGetters({
 			coinbase: 'ethereum/coinbase',
 		}),
+		notificationSteps () {
+			if (this.chosenAuctionType == 1)
+				return this.allSteps;
+			if (this.chosenAuctionType == 2)
+				return this.allCrowdsaleSteps;
+			if (this.chosenAuctionType == 3)
+				return this.allCrowdsaleSteps;
+		},
 		nextBtnText() {
 			if (this.tabIndex === 2) return 'Review'
 			else if (this.tabIndex === 3) return 'DEPLOY'
@@ -707,6 +797,14 @@ export default {
 				i++
 			}
 			this.chosenAuctionType = val
+		},
+		allCrowdsaleInputs(eventcrowd, valcrowd) {
+			let i = 0
+			for (const key in eventcrowd) {
+				Vue.set(this.allCrowdsaleSteps[i], 'active', eventcrowd[key])
+				i++
+			}
+			this.chosenAuctionType = valcrowd
 		},
 	},
 }
