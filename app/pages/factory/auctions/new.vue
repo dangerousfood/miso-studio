@@ -108,7 +108,7 @@
 								<batch-first-step
 									ref="step1"
 									@on-validated="onStepValidated"
-									@active-focus="allStepInputs"
+									@active-focus-batch="allBatchStepInputs"
 								></batch-first-step>
 							</template>
 						</wizard-tab>
@@ -144,7 +144,7 @@
 									ref="step2"
 									:model="model"
 									@on-validated="onStepValidated"
-									@active-focus="allStepInputs"
+									@active-focus-batch="allBatchStepInputs"
 								></batch-second-step>
 							</template>
 						</wizard-tab>
@@ -166,6 +166,12 @@
 								></crowdsale-third-step>
 							</template>
 							<template v-if="chosenAuctionType === 3">
+								<batch-third-step
+									v-if="model"
+									ref="step3"
+									:model="model"
+									@on-validated="onStepValidated"
+								></batch-third-step>
 							</template>
 						</wizard-tab>
 						<wizard-tab>
@@ -284,7 +290,7 @@
 								<batch-first-step
 									ref="step1"
 									@on-validated="onStepValidated"
-									@active-focus="allStepInputs"
+									@active-focus-batch="allBatchStepInputs"
 								></batch-first-step>
 							</template>
 						</wizard-tab>
@@ -320,7 +326,7 @@
 									ref="step2"
 									:model="model"
 									@on-validated="onStepValidated"
-									@active-focus="allStepInputs"
+									@active-focus-batch="allBatchStepInputs"
 								></batch-second-step>
 							</template>
 						</wizard-tab>
@@ -342,6 +348,12 @@
 								></crowdsale-third-step>
 							</template>
 							<template v-if="chosenAuctionType === 3">
+								<batch-third-step
+									v-if="model"
+									ref="step3"
+									:model="model"
+									@on-validated="onStepValidated"
+								></batch-third-step>
 							</template>
 						</wizard-tab>
 						<wizard-tab>
@@ -428,6 +440,7 @@ import CrowdsaleThirdStep from '@/components/Miso/Auctions/Factories/CrowdsaleTh
 
 import BatchFirstStep from '@/components/Miso/Auctions/Factories/BatchFactoryForm/BatchFirstStep'
 import BatchSecondStep from '@/components/Miso/Auctions/Factories/BatchFactoryForm/BatchSecondStep'
+import BatchThirdStep from '@/components/Miso/Auctions/Factories/BatchThirdStep'
 
 import { Vue } from 'vue-property-decorator'
 import { ZoomYTransition } from 'vue2-transitions'
@@ -449,6 +462,7 @@ export default {
 		CrowdsaleThirdStep,
 		BatchFirstStep,
 		BatchSecondStep,
+		BatchThirdStep,
 		ThirdStep,
 		AuctionTypeForm,
 		Notificatoin,
@@ -594,6 +608,50 @@ export default {
 						'Select the dates for when your auction will be hold.  Most common duration is two weeks, but it can be whatever you like.',
 				}
 			],
+			allBatchSteps: [
+				{
+					active: false,
+					top: 22,
+					title: 'AUCTION TOKEN*',
+					desctiption:
+						'Enter the token you’re looking to create an auction for.  Either search by name or symbol, or paste in the token’s contract address.',
+				},
+				{
+					active: false,
+					top: 57,
+					title: 'AUCTION TOKEN AMOUNT*',
+					desctiption:
+						'Enter the token you’re looking to create an auction for.  Either search by name or symbol, or paste in the token’s contract address. ',
+				},
+				{
+					active: false,
+					top: 22,
+					title: 'PAYMENT CURRENCY*',
+					desctiption:
+						'Select the currency you want to accept as payment during the auction.  ETH is the most common, but some also prefer to use stablecoins like DAI or USDC.  However, you can also accept any ERC-20 you like by providing it’s address in the custom field.',
+				},
+				{
+					active: false,
+					top: 39,
+					title: 'FUND WALLET*',
+					desctiption:
+						'Enter the wallet address where the funds raised from this auction will be deposited. Can be the admin address, or another one for you’ve designated for storing funds.',
+				},
+				{
+					active: false,
+					top: 57,
+					title: 'DUTCH AUCTION SETTINGS*',
+					desctiption:
+						'Set the PRICE PER TOKEN and MINIMUM TARGET for your Dutch Auction.  This will auto-calculate the maximum and minimum amounts you could raise with your selected price range. ',
+				},
+				{
+					active: false,
+					top: 76,
+					title: 'AUCTION START & END*',
+					desctiption:
+						'Select the dates for when your auction will be hold.  Most common duration is two weeks, but it can be whatever you like.',
+				}
+			],
 			nextBtnLoading: false,
 			deployedMarket: {
 				address: '',
@@ -614,7 +672,7 @@ export default {
 			if (this.chosenAuctionType == 2)
 				return this.allCrowdsaleSteps;
 			if (this.chosenAuctionType == 3)
-				return this.allCrowdsaleSteps;
+				return this.allBatchSteps;
 		},
 		nextBtnText() {
 			if (this.tabIndex === 2) return 'Review'
@@ -805,6 +863,14 @@ export default {
 				i++
 			}
 			this.chosenAuctionType = valcrowd
+		},
+		allBatchStepInputs(eventbatch, valbatch) {
+			let i = 0
+			for (const key in eventbatch) {
+				Vue.set(this.allBatchSteps[i], 'active', eventbatch[key])
+				i++
+			}
+			this.chosenAuctionType = valbatch
 		},
 	},
 }
