@@ -2,17 +2,22 @@
 	<div class="container-fluid container-padding">
 		<div class="my-4 row">
 			<div class="col-12 d-flex">
-				<img src="@/assets/svg/sake.svg" class="float-left image-rem-size pr-3" />
-				<div class="text-white font-weight-bold text-uppercase title">
-					Let us
-					<br />
-					celebrate
-					<br />
-					with a
-					<br />
-					sip of
+				<div class="header-left">
+					<img
+						src="@/assets/svg/sake.svg"
+						class="float-left image-rem-size pr-3 mr-1"
+					/>
+					<div class="text-white font-weight-bold text-uppercase title">
+						Let us
+						<br />
+						celebrate
+						<br />
+						with a
+						<br />
+						sip of
+					</div>
 				</div>
-				<div class="text-white sake-text pr-5 image-rem-size">
+				<div class="text-white sake-text pr-5 image-rem-size header-right">
 					<img :src="computedSakeImage" class="sake-logo-image" />
 				</div>
 			</div>
@@ -110,16 +115,16 @@
 					<ama-card
 						headerimage="amaheader01.png"
 						:youtubeflag="true"
-						title="What is MISO?"
+						title="MISO Token Launchpad Intro"
 						pubdate="Feb 2, 2021"
-						linkurl="https://www.youtube.com/watch?v=IV0V7vjakKg"
+						linkurl="https://www.youtube.com/watch?v=DthRoorpw60"
 					/>
 				</div>
 				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
 					<ama-card
 						headerimage="amaheader02.png"
 						:youtubeflag="false"
-						title="SAKE NFT"
+						title="How To Participate in MISO Auctions"
 						pubdate="Feb 2, 2021"
 						linkurl="https://sakeswap.medium.com/introducing-sakeswap-irreversible-nft-a-new-way-of-sake-burn-449cd65c75f6"
 					/>
@@ -128,18 +133,18 @@
 					<ama-card
 						headerimage="amaheader03.png"
 						:youtubeflag="false"
-						title="MISO Fermenter"
+						title="SUSHI + MISO: The Perfect Combo"
 						pubdate="Feb 2, 2021"
-						linkurl="https://medium.com/@LumpyBatter/what-is-miso-86f3bc117ea4"
+						linkurl="https://medium.com/sushiswap-org/sushi-miso-the-perfect-combo-9883548706b1"
 					/>
 				</div>
 				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
 					<ama-card
 						headerimage="amaheader04.png"
 						:youtubeflag="false"
-						title="MISO Factory"
+						title="MISO: Cooking New Tokens From Scratch"
 						pubdate="Feb 2, 2021"
-						linkurl="https://medium.com/@LumpyBatter/what-is-miso-86f3bc117ea4"
+						linkurl="https://medium.com/sushiswap-org/miso-cooking-new-tokens-from-scratch-c6be6aad64a"
 					/>
 				</div>
 			</div>
@@ -249,10 +254,10 @@ export default {
 	font-size: 1rem;
 	letter-spacing: 0.25rem;
 	padding-left: 3rem;
-	padding-right: 3rem;
+	// padding-right: 3rem;
 	@media screen and (max-width: 800px) {
 		padding-left: 2rem;
-		padding-right: 2rem;
+		// padding-right: 2rem;
 	}
 	@media screen and (max-width: 750px) {
 		padding-left: 1rem;
@@ -423,6 +428,29 @@ export default {
 	display: none;
 	@media screen and (min-width: 768px) {
 		display: block;
+	}
+}
+
+.header-left {
+	flex: 1;
+}
+
+.header-right {
+	flex: 2;
+	@media screen and (min-width: 768px) and (max-width: 991px) {
+		flex: 1;
+	}
+	@media screen and (max-width: 767px) {
+		flex: 1;
+	}
+}
+
+.sake-logo-image {
+	@media screen and (min-width: 992px) {
+		padding-left: 0.5rem;
+	}
+	@media screen and (min-width: 768px) and (max-width: 991px) {
+		padding-left: 2rem;
 	}
 }
 </style>
