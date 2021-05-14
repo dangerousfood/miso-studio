@@ -173,8 +173,6 @@ export default {
 			breackpoint: null,
 			showSideBar: false,
 			showModal: false,
-			sakelogowhite: require('~/assets/images/sake_white.png'),
-			sakelogoblack: require('~/assets/images/sake_black.png'),
 		}
 	},
 	computed: {
@@ -263,16 +261,10 @@ export default {
 		toggleMode(type) {
 			this.$emit('darkMode', type)
 			const docClasses = document.body.classList
-			const plyrposter = document.getElementsByClassName('plyr__poster')[0]
-			const sakelogo = document.getElementsByClassName('sake-logo-image')[0]
 			if (type) {
 				docClasses.remove('white-content')
-				if (plyrposter) plyrposter.classList.remove('plyr__poster__white')
-				sakelogo.src = this.sakelogowhite
 			} else {
 				docClasses.add('white-content')
-				if (plyrposter) plyrposter.classList.add('plyr__poster__white')
-				sakelogo.src = this.sakelogoblack
 			}
 		},
 		capitalizeFirstLetter(string) {

@@ -13,7 +13,7 @@
 					sip of
 				</div>
 				<div class="text-white sake-text pr-5 image-rem-size">
-					<img src="@/assets/images/sake_white.png" class="sake-logo-image" />
+					<img :src="computedSakeImage" class="sake-logo-image" />
 				</div>
 			</div>
 		</div>
@@ -185,6 +185,8 @@ export default {
 			options: { quality: { default: '1080p' } },
 			saketokenauction: '0x602C17faD84E012604A92B757A192FdaDa7C8016',
 			showModal: true,
+			sakelogowhite: require('~/assets/images/sake_white.png'),
+			sakelogoblack: require('~/assets/images/sake_black.png'),
 		}
 	},
 	computed: {
@@ -192,15 +194,39 @@ export default {
 			auctions: 'auctions/list',
 			coinbase: 'ethereum/coinbase',
 			isRightNetwork: 'ethereum/isRightNetwork',
+			mode: 'theme/getMode',
 		}),
+		computedSakeImage() {
+			if (this.mode) {
+				return require('~/assets/images/sake_white.png')
+			}
+			return require('~/assets/images/sake_black.png')
+		},
+	},
+	watch: {
+		mode: {
+			deep: true,
+			handler(val) {
+				this.colorSwitch(val)
+			},
+		},
 	},
 	mounted() {
 		this.initAuctions()
+		this.colorSwitch(this.mode)
 	},
 	methods: {
 		...mapActions({
 			getAuctions: 'auctions/getAuctions',
 		}),
+		colorSwitch(val) {
+			const plyrposter = document.getElementsByClassName('plyr__poster')[0]
+			if (val) {
+				plyrposter.classList.remove('plyr__poster__white')
+			} else {
+				plyrposter.classList.add('plyr__poster__white')
+			}
+		},
 		async initAuctions() {
 			await this.getAuctions()
 			this.auctionsList = this.auctions
