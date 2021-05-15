@@ -27,7 +27,7 @@
 			<div v-if="!darkModeBg" class="dark-mode_bg">
 				<ul v-if="!slidebar" ref="links" class="nav">
 					<!-- nav item section -->
-					<li v-for="(navItem, i) in navItems" :key="i" class="nav-items">
+					<li v-for="(navItem, i) in computedNetworkNav" :key="i" class="nav-items">
 						<p
 							class="d-flex mt-0 justify-content-between align-items-center"
 							@mouseenter="navItem.hover = true"
@@ -128,7 +128,7 @@
 				<fade-transition>
 					<ul v-show="showSidebar" class="nav">
 						<!-- nav item section -->
-						<li v-for="(navItem, i) in navItems" :key="i" class="nav-items">
+						<li v-for="(navItem, i) in computedNetworkNav" :key="i" class="nav-items">
 							<p
 								class="d-flex mt-0 justify-content-between align-items-center"
 								@mouseenter="navItem.hover = true"
@@ -234,6 +234,8 @@
 
 <script>
 import { FadeTransition } from 'vue2-transitions'
+import { mapGetters } from 'vuex'
+
 export default {
 	name: 'Sidebar',
 	components: {
@@ -377,6 +379,7 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters({ networkID: 'ethereum/networkId' }),
 		svgColor() {
 			return !this.darkModeBg ? '#F25462 #F25462' : '#000000 #000000'
 		},
@@ -385,6 +388,16 @@ export default {
 				return !!this.showBar
 			}
 			return true
+		},
+		computedNetworkNav() {
+			let networkList = this.navItems
+			if (this.networkID === 1) {
+				networkList = networkList.filter((item) => {
+					return item.name !== 'Farms' && item.name !== 'Factory'
+				})
+			}
+			// in future we can add new filters
+			return networkList
 		},
 	},
 	watch: {
