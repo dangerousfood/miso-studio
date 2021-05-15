@@ -69,7 +69,7 @@
 				<p class="fs-4 font-weight-bold">{{ info.recipe }}</p>
 			</div>
 			<div v-if="info.icons.ingredient.length" class="pt-4 mt-3 pr-5">
-				<h5 class="fs-1 font-weight-bold text-uppercase">ingredients:</h5>
+				<h5 class="fs-1 font-weight-bold text-uppercase">auction type:</h5>
 				<div class="d-flex">
 					<el-popover
 						v-for="(item, i) in info.icons.ingredient"
