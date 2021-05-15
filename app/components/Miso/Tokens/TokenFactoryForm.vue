@@ -111,14 +111,13 @@
 								</div>
 								<hr />
 								<base-alert v-if="!coinbase" type="danger">
-									<strong>Error</strong>
 									<span class="alert-inner--text">
 										Account is not connected. Please connect wallet to be able
 										to proceed
 									</span>
 								</base-alert>
 								<base-button
-									v-if="!hideNextBtn & coinbase "
+									v-if="!hideNextBtn && coinbase"
 									:loading="waitingForConfirmation"
 									class="float-right"
 									type="primary"
