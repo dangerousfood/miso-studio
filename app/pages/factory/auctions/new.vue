@@ -90,14 +90,14 @@
 								<span class="fs-5">2</span>
 								<p>AUCTION SETUP</p>
 							</template>
-							<template v-if="chosenAuctionType === 1">
+							<template v-if="chosenAuctionType === 2">
 								<dutch-first-step
 									ref="step1"
 									@on-validated="onStepValidated"
 									@active-focus="allStepInputs"
 								></dutch-first-step>
 							</template>
-							<template v-else-if="chosenAuctionType === 2">
+							<template v-else-if="chosenAuctionType === 1">
 								<crowdsale-first-step
 									ref="step1"
 									@on-validated="onStepValidated"
@@ -120,7 +120,7 @@
 								<span class="fs-5">3</span>
 								<p>SALE SETTINGS</p>
 							</template>
-							<template v-if="chosenAuctionType === 1">
+							<template v-if="chosenAuctionType === 2">
 								<dutch-second-step
 									v-if="model"
 									ref="step2"
@@ -129,7 +129,7 @@
 									@active-focus="allStepInputs"
 								></dutch-second-step>
 							</template>
-							<template v-if="chosenAuctionType === 2">
+							<template v-if="chosenAuctionType === 1">
 								<crowdsale-second-step
 									v-if="model"
 									ref="step2"
@@ -149,7 +149,7 @@
 							</template>
 						</wizard-tab>
 						<wizard-tab :before-change="() => validateStep('step3')">
-							<template v-if="chosenAuctionType === 1">
+							<template v-if="chosenAuctionType === 2">
 								<dutch-third-step
 									v-if="model"
 									ref="step3"
@@ -157,7 +157,7 @@
 									@on-validated="onStepValidated"
 								></dutch-third-step>
 							</template>
-							<template v-if="chosenAuctionType === 2">
+							<template v-if="chosenAuctionType === 1">
 								<crowdsale-third-step
 									v-if="model"
 									ref="step3"
@@ -272,14 +272,14 @@
 								<span class="fs-5">2</span>
 								<p>AUCTION SETUP</p>
 							</template>
-							<template v-if="chosenAuctionType === 1">
+							<template v-if="chosenAuctionType === 2">
 								<dutch-first-step
 									ref="step1"
 									@on-validated="onStepValidated"
 									@active-focus="allStepInputs"
 								></dutch-first-step>
 							</template>
-							<template v-else-if="chosenAuctionType === 2">
+							<template v-else-if="chosenAuctionType === 1">
 								<crowdsale-first-step
 									ref="step1"
 									@on-validated="onStepValidated"
@@ -302,7 +302,7 @@
 								<span class="fs-5">3</span>
 								<p>SALE SETTINGS</p>
 							</template>
-							<template v-if="chosenAuctionType === 1">
+							<template v-if="chosenAuctionType === 2">
 								<dutch-second-step
 									v-if="model"
 									ref="step2"
@@ -311,7 +311,7 @@
 									@active-focus="allStepInputs"
 								></dutch-second-step>
 							</template>
-							<template v-if="chosenAuctionType === 2">
+							<template v-if="chosenAuctionType === 1">
 								<crowdsale-second-step
 									v-if="model"
 									ref="step2"
@@ -331,7 +331,7 @@
 							</template>
 						</wizard-tab>
 						<wizard-tab :before-change="() => validateStep('step3')">
-							<template v-if="chosenAuctionType === 1">
+							<template v-if="chosenAuctionType === 2">
 								<dutch-third-step
 									v-if="model"
 									ref="step3"
@@ -339,7 +339,7 @@
 									@on-validated="onStepValidated"
 								></dutch-third-step>
 							</template>
-							<template v-if="chosenAuctionType === 2">
+							<template v-if="chosenAuctionType === 1">
 								<crowdsale-third-step
 									v-if="model"
 									ref="step3"
@@ -474,11 +474,11 @@ export default {
 			model: null,
 			marketFactoryAddress: null,
 			tabIndex: 0,
-			chosenAuctionType: 1,
+			chosenAuctionType: 2,
 			auctionTypes: [
 				{
 					title: 'Dutch Auction',
-					id: 1,
+					id: 2,
 					disabled: false,
 					icon: 'dutch',
 					content:
@@ -488,7 +488,7 @@ export default {
 				},
 				{
 					title: 'Crowdsale',
-					id: 2,
+					id: 1,
 					disabled: false,
 					icon: 'crowdsale',
 					content:
@@ -667,9 +667,9 @@ export default {
 			coinbase: 'ethereum/coinbase',
 		}),
 		notificationSteps () {
-			if (this.chosenAuctionType == 1)
-				return this.allSteps;
 			if (this.chosenAuctionType == 2)
+				return this.allSteps;
+			if (this.chosenAuctionType == 1)
 				return this.allCrowdsaleSteps;
 			if (this.chosenAuctionType == 3)
 				return this.allBatchSteps;
@@ -704,10 +704,10 @@ export default {
 				const model = this.model
 				let data
 				switch (this.chosenAuctionType) {
-					case 1:
+					case 2:
 						data = this.getDutchData()
 						break
-					case 2:
+					case 1:
 						data = this.getCrowdsaleData()
 						break
 					case 3:
