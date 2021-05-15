@@ -26,7 +26,7 @@
 						<div class="d-flex justify-content-center justify-content-sm-start">
 							<p class="fs-3 text-white font-weight-bold text-capitalize live">
 								{{ marketInfo.totalTokens }}
-								<span class="fs-2">{{ tokenInfo[2] }}</span>
+								<span class="fs-2">{{ textCheck(tokenInfo.symbol) }}</span>
 							</p>
 						</div>
 					</div>
