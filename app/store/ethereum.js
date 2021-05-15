@@ -60,6 +60,7 @@ export const actions = {
 			} else {
 				data.account = provider.accounts[0]
 				data.networkId = provider.chainId
+				commit('SET_METAMASK', false)
 			}
 
 			provider.on('accountsChanged', (accounts) => {
