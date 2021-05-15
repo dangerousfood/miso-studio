@@ -44,8 +44,6 @@ export const NETWORK_ICON = {
 	[ChainId.OKEX_TESTNET]: OKEx,
 }
 
-console.log('process.env.ALCHEMY_KEY_GOERLI:', process.env.ALCHEMY_KEY_GOERLI)
-
 export const NETWORK_LABEL = {
 	[ChainId.MAINNET]: 'Ethereum',
 	[ChainId.RINKEBY]: 'Rinkeby',
