@@ -189,7 +189,7 @@ const getConnectionBody = () => {
 		if (!isRightNetwork) {
 			return `You are on ${EXPLORERS[networkId].name} . Please change your network to ${defaultNetworkName}.`
 		} else {
-			return `Please connect to Ethereum wallet to be able to proceed.`
+			return `Please connect wallet to continue.`
 		}
 	} catch (error) {
 		return 'An unexpected error occurred. Please try loading the page'
