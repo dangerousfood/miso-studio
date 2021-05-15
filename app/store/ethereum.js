@@ -70,7 +70,7 @@ export const actions = {
 			})
 
 			provider.on('chainChanged', (chainId) => {
-				dispatch('setNetwork', chainId)
+				dispatch('setNetwork', parseInt(chainId))
 			})
 
 			commit('SET_COINBASE', data.account)
