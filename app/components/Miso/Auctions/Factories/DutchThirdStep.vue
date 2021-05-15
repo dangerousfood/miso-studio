@@ -9,13 +9,13 @@
 						</div>
 						<div class="">
 							<span
-								v-if="model.chosenAuctionType === 1"
+								v-if="model.chosenAuctionType === 2"
 								class="font-weight-bold text-secondary white_txt fs-2"
 							>
 								Dutch Auction
 							</span>
 							<span
-								v-else-if="model.chosenAuctionType === 2"
+								v-else-if="model.chosenAuctionType === 1"
 								class="font-weight-bold text-secondary white_txt fs-2"
 							>
 								Crowdsale

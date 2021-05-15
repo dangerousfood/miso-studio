@@ -3,7 +3,7 @@ const infuraKey = "d3076417cfaf4ecbb9028ea909de7356"
 const alchemyKey = "Tf4PvJTEiSItmINABzwspg-7bgRDPnfS"
 
 module.exports = {
-	rightNetworks: [5, 97],
+	rightNetworks: [5, 3, 4, 42, 97],
 	defaultNetwork: 5,
 	1: {
 		name: "Ethereum Mainnet",

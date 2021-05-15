@@ -130,9 +130,9 @@
 import { Step, Steps } from 'element-ui'
 import { mapGetters } from 'vuex'
 import {
-	sendTransaction as liquidityLauncherCreate,
-	subscribeToLiquidityLauncherCreatedEvent,
-} from '@/services/web3/liquidityLauncher'
+	sendTransaction as misoLauncherCreate,
+	subscribeToMisoLauncherCreatedEvent,
+} from '@/services/web3/misoLauncher'
 import { ValidationObserver } from 'vee-validate'
 export default {
 	name: 'BaseLiquidityLauncherValidation',
@@ -149,7 +149,7 @@ export default {
 			liquidityDetailsForm: {
 				templateId: 1,
 			},
-			liquidityLauncherCreatedEventSubscription: null,
+			misoLauncherCreatedEventSubscription: null,
 		}
 	},
 	computed: {
@@ -162,7 +162,7 @@ export default {
 		},
 	},
 	mounted() {
-		this.subscribeToLiquidityLauncherCreatedEvent()
+		this.subscribeToMisoLauncherCreatedEvent()
 	},
 	beforeDestroy() {
 		this.unsubscribeFromLiquidityLauncherCreatedEvent()
@@ -172,14 +172,14 @@ export default {
 			this.waitingForConfirmation = true
 			const args = [this.liquidityDetailsForm.templateId]
 			console.log(this.liquidityDetailsForm.templateId)
-			const txHash = await liquidityLauncherCreate('createLiquidityLauncher', args, {
+			const txHash = await misoLauncherCreate('createLiquidityLauncher', args, {
 				from: this.coinbase,
 			})
 			console.log(txHash)
 		},
-		subscribeToLiquidityLauncherCreatedEvent() {
-			this.liquidityLauncherCreatedEventSubscription =
-				subscribeToLiquidityLauncherCreatedEvent()
+		subscribeToMisoLauncherCreatedEvent() {
+			this.misoLauncherCreatedEventSubscription =
+				subscribeToMisoLauncherCreatedEvent()
 					.on('data', async (event) => {
 						if (this.transactionHash) {
 							if (this.transactionHash.toLowerCase() === event.transactionHash) {
@@ -195,8 +195,8 @@ export default {
 					})
 		},
 		unsubscribeFromLiquidityLauncherCreatedEvent() {
-			if (this.liquidityLauncherCreatedEventSubscription) {
-				this.liquidityLauncherCreatedEventSubscription.unsubscribe()
+			if (this.misoLauncherCreatedEventSubscription) {
+				this.misoLauncherCreatedEventSubscription.unsubscribe()
 			}
 		},
 	},

@@ -198,7 +198,7 @@ export default {
 					symbol: '',
 					decimals: 0,
 				},
-				chosenAuctionType: 1,
+				chosenAuctionType: 2,
 				paymentCurrency: {
 					address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
 					name: 'Ethereum',

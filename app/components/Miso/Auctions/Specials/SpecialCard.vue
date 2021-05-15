@@ -107,7 +107,7 @@
 				</div>
 			</div> -->
 			<div class="text-white text-uppercase font-weight-bold ingredients mt-5">
-				ingredients:
+				auction type:
 			</div>
 			<div
 				v-if="buybuttonflag && buyhoverflag"

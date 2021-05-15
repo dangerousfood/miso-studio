@@ -52,7 +52,7 @@ export default {
 				dutchSettings: false,
 				startend: false
 			},
-            chosenAuctionType: 1,
+            chosenAuctionType: 2,
 		}
 	},
 	props: {
