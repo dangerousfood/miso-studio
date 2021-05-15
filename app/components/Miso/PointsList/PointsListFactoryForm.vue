@@ -226,7 +226,7 @@ import { Steps, Step } from 'element-ui'
 import {
 	subscribeToPointListDeployedEvent,
 	getContractInstance,
-} from '@/services/web3/pointListFactory'
+} from '@/services/web3/listFactory'
 import { sendTransaction, toWei } from '@/services/web3/base'
 import SimpleWizard from '@/components/Miso/PointsList/PointsListFactoryForm/Wizard'
 import WizardTab from '@/components/Miso/PointsList/PointsListFactoryForm/WizardTab'
@@ -295,7 +295,7 @@ export default {
 	},
 	mounted() {
 		this.subscribeToPointListDeployedEvent()
-		this.pointListFactoryContract = getContractInstance()
+		this.listFactoryContract = getContractInstance()
 	},
 	beforeDestroy() {
 		this.unsubscribeFromPointListDeployedEvent()
@@ -339,7 +339,7 @@ export default {
 			if (!isValid) return
 
 			// Deploy PointsList
-			const methodToSend = this.pointListFactoryContract.methods.deployPointList(
+			const methodToSend = this.listFactoryContract.methods.deployPointList(
 				this.pointsListModel.listOwner,
 				this.pointsListModel.points.map((point) => point.account),
 				this.pointsListModel.points.map((point) => toWei(point.amount))

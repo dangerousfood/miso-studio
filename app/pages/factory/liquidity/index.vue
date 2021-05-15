@@ -163,7 +163,7 @@ export default {
 			nextBtnLoading: false,
 			tabIndex: 0,
 			model: null,
-			chosenAuctionType: 1,
+			chosenLauncherType: 1,
 			firstSteps: [
 				{
 					active: false,
