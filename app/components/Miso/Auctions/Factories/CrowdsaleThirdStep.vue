@@ -97,7 +97,7 @@
 									font-weight-bold
 									text-secondary
 									white_txt
-									fs-2~/constants/contracts
+									fs-2
 									mb-4
 									text-uppercase
 								"

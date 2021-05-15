@@ -7,8 +7,8 @@
 						<!-- Token input -->
 						<autocomplete
 							v-if="model.token.name"
-							class="label-underline col-lg-10 padding-left-15"
 							v-model="model.token.address"
+							class="label-underline col-lg-10 padding-left-15"
 							label="Token"
 							name="token"
 							placeholder="Type to search (name, symbol, address)"
@@ -23,8 +23,8 @@
 
 						<autocomplete
 							v-else
-							class="label-underline col-lg-12 padding-left-15"
 							v-model="model.token.address"
+							class="label-underline col-lg-12 padding-left-15"
 							label="Token"
 							name="token"
 							placeholder="Type to search (name, symbol, address)"
@@ -37,14 +37,12 @@
 							@complete="handleTokenComplete"
 						></autocomplete>
 
-						<div class="position-auction-token-absolute" v-if="model.token.name">
+						<div v-if="model.token.name" class="position-auction-token-absolute">
 							{{ this.model.token.name }}
 						</div>
 
-						<div class="col-lg-2 text-right mt-4" v-if="model.token.symbol">
-							<base-button
-								class="btn btn-custom btn-default"
-							>
+						<div v-if="model.token.symbol" class="col-lg-2 text-right mt-4">
+							<base-button class="btn btn-custom btn-default">
 								{{ this.model.token.symbol }}
 							</base-button>
 						</div>
@@ -156,7 +154,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { BaseDivider, BaseAlert } from '@/components'
 import { DatePicker, TimeSelect } from 'element-ui'
 import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
-import { misoMarket as misoMarketConfig } from '~/constants/contracts'
+import { misoMarket as misoMarketConfig } from '@/constants/contracts'
 import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
 import { toDecimals, to18Decimals } from '@/util'
 import { duration } from '@/mixins/duration.js'
@@ -197,24 +195,24 @@ export default {
 				endDate: '',
 				fundWallet: '',
 				tokenSupply: '',
-				allowance: "",
+				allowance: '',
 				allowanceformatted: '',
 			},
 			user: {
 				tokenBalance: 0,
-				allowance: "",
+				allowance: '',
 			},
 			tokensLoading: false,
 			userLoading: false,
 			approveLoading: false,
 			crowdsaleitems: {
-                tokenAddress: false,
-                tokenAmount: false,
+				tokenAddress: false,
+				tokenAmount: false,
 				payment_currency: false,
 				walletAddress: false,
 				tokenPrice: false,
-				startend: false
-			}
+				startend: false,
+			},
 		}
 	},
 	computed: {
@@ -258,16 +256,20 @@ export default {
 			return 0
 		},
 		minRaise() {
-			if(this.maxRaise) {
-				var med = this.maxRaise.split(' ');
+			if (this.maxRaise) {
+				const med = this.maxRaise.split(' ')
 
-					if (this.model.goal > 0 && med[0] > 0) {
-					return (parseFloat(med[0]) * parseFloat(this.model.goal)) / 100 + " " + this.model.paymentCurrency.symbol
+				if (this.model.goal > 0 && med[0] > 0) {
+					return (
+						(parseFloat(med[0]) * parseFloat(this.model.goal)) / 100 +
+						' ' +
+						this.model.paymentCurrency.symbol
+					)
 				}
 			}
-			
+
 			return 0
-		}
+		},
 	},
 	watch: {
 		goalPercentage() {
@@ -333,7 +335,7 @@ export default {
 			)
 			if (data) {
 				;[this.user.allowance, this.user.tokenBalance] = data
-				this.model.allowance = this.user.allowance;
+				this.model.allowance = this.user.allowance
 				this.model.allowanceformatted = toDecimals(this.user.allowance)
 			}
 			this.userLoading = false
@@ -377,28 +379,32 @@ export default {
 					this.crowdsaleitems[key] = false
 				}
 			}
-			this.$emit("active-focus-crowdsale", this.crowdsaleitems, this.model.chosenAuctionType)
-		}
+			this.$emit(
+				'active-focus-crowdsale',
+				this.crowdsaleitems,
+				this.model.chosenAuctionType
+			)
+		},
 	},
 }
 </script>
 
 <style lang="scss">
-	.right-icon {
-		.el-input__prefix {
-			font-size: 20px;
-			margin-right: 10px;
-		}
-		.el-input__inner {
-			padding-left: 40px;
-		}
+.right-icon {
+	.el-input__prefix {
+		font-size: 20px;
+		margin-right: 10px;
 	}
-	.svg-icon-left {
-		position: absolute;
-		z-index: 10;
-		left: 10px;
+	.el-input__inner {
+		padding-left: 40px;
 	}
-	.el-date-picker .el-picker-panel__footer .el-button:first-child {
-		display: none;
-	}
+}
+.svg-icon-left {
+	position: absolute;
+	z-index: 10;
+	left: 10px;
+}
+.el-date-picker .el-picker-panel__footer .el-button:first-child {
+	display: none;
+}
 </style>

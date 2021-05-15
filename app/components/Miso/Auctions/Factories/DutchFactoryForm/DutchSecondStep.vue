@@ -216,29 +216,18 @@
 	</validation-observer>
 </template>
 <script>
-import EthImage from '@/components/web3-core/eth-identication/EthImage'
 import { mapGetters, mapActions } from 'vuex'
-import { BaseDivider, BaseAlert } from '@/components'
 import { DatePicker, TimeSelect } from 'element-ui'
 import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
-import { misoMarket as misoMarketConfig } from '~/constants/contracts'
-import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
-import { toDecimals, to18Decimals } from '@/util'
+import { misoMarket as misoMarketConfig } from '@/constants/contracts'
+import { makeBatchCall } from '@/services/web3/base'
+import { toDecimals } from '@/util'
 import { duration } from '@/mixins/duration.js'
-import Autocomplete from '@/components/Inputs/Autocomplete'
-import VueCurrencyInput from 'vue-currency-input'
-import PaymentCurrency from '../PaymentCurrency.vue'
 
 export default {
 	components: {
-		EthImage,
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
-		Autocomplete,
-		BaseDivider,
-		BaseAlert,
-		PaymentCurrency,
-		VueCurrencyInput,
 	},
 	mixins: [duration],
 	props: {
@@ -270,20 +259,7 @@ export default {
 			},
 		}
 	},
-	async mounted() {
-		this.misoMarketAddress = misoMarketConfig.address[this.currentProvidersNetworkId]
-		const tokenAddress = this.model.token.address
-		if ((tokenAddress || '').length > 0) {
-			await this.fetchTokens()
-			const matches = this.tokens.filter(
-				(token) => token.addr.toLowerCase() === tokenAddress.toLowerCase()
-			)
-			if (matches.length > 0) {
-				this.handleTokenComplete(matches[0])
-			}
-		}
-	},
-	computed: {
+		computed: {
 		isETH() {
 			return (
 				this.model.paymentCurrency.address ===
@@ -347,6 +323,19 @@ export default {
 			}
 			return 0
 		},
+	},
+	async mounted() {
+		this.misoMarketAddress = misoMarketConfig.address[this.currentProvidersNetworkId]
+		const tokenAddress = this.model.token.address
+		if ((tokenAddress || '').length > 0) {
+			await this.fetchTokens()
+			const matches = this.tokens.filter(
+				(token) => token.addr.toLowerCase() === tokenAddress.toLowerCase()
+			)
+			if (matches.length > 0) {
+				this.handleTokenComplete(matches[0])
+			}
+		}
 	},
 	methods: {
 		...mapActions({
