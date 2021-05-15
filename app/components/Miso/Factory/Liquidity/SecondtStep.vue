@@ -70,7 +70,7 @@
 										class="text-white font-weight-bold mr-3 mb-2"
 										:class="computedFontSize"
 									>
-										USDCOIN
+										USDC
 									</base-radio>
 									<div class="tokenImage">
 										<img src="@/assets/svg/USD.svg" alt="USD" />
