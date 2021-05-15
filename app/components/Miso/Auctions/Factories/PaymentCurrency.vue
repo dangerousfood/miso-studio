@@ -76,7 +76,7 @@
 					>
 						<i v-if="paymentCurrency.symbol == 'USDCOIN'" class="far fa-circle fa-white-circle text-white"></i>
 						<i v-else class="far fa-circle text-transparent"></i>
-						USDCOIN
+						USDC
 					</span>
 				</div>
 			</div>
