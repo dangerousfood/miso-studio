@@ -19,7 +19,10 @@
 				]"
 			>
 				<div v-if="prependIcon || $slots.prepend" class="input-group-prepend">
-					<span class="input-group-text">
+					<span
+						class="input-group-text px-2"
+						:class="{ 'prepend-rounded-icon': rounded }"
+					>
 						<slot name="prepend"></slot>
 					</span>
 				</div>
@@ -35,7 +38,8 @@
 						:class="[
 							{ 'is-valid': valid && validated && successMessage },
 							{ 'is-invalid': invalid && validated },
-							{ 'is-rounded': rounded },
+							{ 'is-rounded': rounded && (!prependIcon || !$slots.prepend) },
+							{ 'prepend-rounded-input': rounded && (prependIcon || $slots.prepend) },
 							inputClasses,
 						]"
 						v-on="listeners"
@@ -226,7 +230,7 @@ export default {
 	},
 }
 </script>
-<style>
+<style lang="scss">
 .invalid-feedback {
 	width: 100%;
 	margin-top: 0.25rem;
@@ -234,6 +238,18 @@ export default {
 	color: #cc0044;
 }
 .is-rounded {
-	border-radius: 345123px;
+	border-radius: 345123px !important;
+}
+.prepend-rounded {
+	&-input {
+		border-radius: 345123px !important;
+		border-top-left-radius: 0 !important;
+		border-bottom-left-radius: 0 !important;
+	}
+	&-icon {
+		border-radius: 345123px !important;
+		border-top-right-radius: 0 !important;
+		border-bottom-right-radius: 0 !important;
+	}
 }
 </style>
