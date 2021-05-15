@@ -346,12 +346,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.position-absolute {
-	top: 45px;
-	right: 30px;
-}
-</style>
-<style lang="scss" scoped>
 .white-txt {
 	color: #ffffff;
 }

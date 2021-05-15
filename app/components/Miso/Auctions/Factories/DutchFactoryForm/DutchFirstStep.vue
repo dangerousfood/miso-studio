@@ -97,7 +97,7 @@
 									</span>
 								</div>
 							</base-alert>
-							<div class="position-absolute">
+							<div class="position-absolute custom-position">
 								Your Token Balance : {{ formatedTokenBalance }}
 								{{ model.token.symbol }}
 							</div>
@@ -151,7 +151,7 @@
 								</div>
 							</base-alert>
 
-							<div class="position-absolute">
+							<div class="position-absolute custom-position">
 								Your Token Allowance: {{ formatedAllowance }}
 							</div>
 						</div>
@@ -385,12 +385,6 @@ export default {
 	},
 }
 </script>
-<style lang="scss" scoped>
-.position-absolute {
-	top: 45px;
-	right: 30px;
-}
-</style>
 <style lang="scss">
 .right-icon {
 	.el-input__prefix {
@@ -457,6 +451,10 @@ export default {
 			}
 		}
 	}
+}
+.custom-position {
+	top: 45px;
+	right: 30px;
 }
 .endDate {
 	input::placeholder {
