@@ -174,7 +174,7 @@
         .input-group-prepend .input-group-text,
         .input-group-append .input-group-text{
             background-color: rgba($background-black, 0.3);
-            border-color: $color3;
+            border-color: $primary !important;
             color: $color3;
         }
     }
@@ -227,6 +227,7 @@
             .input-group-append .input-group-text{
                 background-color: rgba($background-black, 0.3);
                 color: $color3;
+                border-color: $primary;
             }
         }
     }

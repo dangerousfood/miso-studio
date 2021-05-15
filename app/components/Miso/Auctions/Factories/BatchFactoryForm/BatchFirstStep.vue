@@ -193,7 +193,7 @@ export default {
 				},
 				startDate: '',
 				endDate: '',
-				tokenSupply: 0,
+				tokenSupply: '',
 				minimumCommitmentAmount: '',
 				allowanceformatted: '',
 				fundWallet: '',

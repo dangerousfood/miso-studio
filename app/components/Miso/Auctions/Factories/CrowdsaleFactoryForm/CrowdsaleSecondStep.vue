@@ -46,7 +46,7 @@
 						<!-- input line 1 -->
 						<div class="col-12">
 							<div class="mt-3 mb-2 fs-2">
-								<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Dutch Auction Settings*</span>
+								<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Crowdsale Settings*</span>
 							</div>
 							<div class="row">
 								

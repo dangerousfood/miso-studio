@@ -75,11 +75,11 @@
 										name="starting price"
 										class="form-control font-weight-bold text-bg-white mt-2"
 										placeholder="0"
-										@focus="focusInput('dutchSettings')"
 										:currency="{
 											suffix: ' ' + model.paymentCurrency.symbol || 'ETH',
 										}"
 										locale="en"
+										@focus="focusInput('dutchSettings')"
 										:precision="8"
 									/>
 								</div>
@@ -96,11 +96,11 @@
 										name="minimum price"
 										class="form-control font-weight-bold text-bg-white mt-2"
 										placeholder="0"
-										@focus="focusInput('dutchSettings')"
 										:currency="{
 											suffix: ' ' + model.paymentCurrency.symbol || 'ETH',
 										}"
 										locale="en"
+										@focus="focusInput('dutchSettings')"
 										:precision="8"
 									/>
 								</div>
@@ -429,13 +429,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-.position-absolute {
+<style lang="scss">
+.timeZone {
 	top: 45px;
 	right: 30px;
 }
-</style>
-<style lang="scss">
 .right-icon {
 	.el-input__prefix {
 		font-size: 20px;

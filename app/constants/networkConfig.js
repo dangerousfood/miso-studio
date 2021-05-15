@@ -1,7 +1,3 @@
-// const infuraKey = "06c80c13728d4878a465b5a097a158e7"
-const infuraKey = 'd3076417cfaf4ecbb9028ea909de7356'
-const alchemyKey = 'Tf4PvJTEiSItmINABzwspg-7bgRDPnfS'
-
 module.exports = {
 	rightNetworks: [5, 3, 4, 42, 97],
 	defaultNetwork: 5,
@@ -15,8 +11,8 @@ module.exports = {
 			address: 'address/',
 			tx: 'tx/',
 		},
-		httpProvider: `https://mainnet.infura.io/v3/${infuraKey}`,
-		wssProvider: `wss://mainnet.infura.io/ws/v3/${infuraKey}`,
+		httpProvider: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
+		wssProvider: `wss://eth-mainnet.ws.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
 	},
 	2: {
 		name: 'Deprecated Morden test network',
@@ -33,8 +29,8 @@ module.exports = {
 			address: 'address/',
 			tx: 'tx/',
 		},
-		httpProvider: `https://ropsten.infura.io/v3/${infuraKey}`,
-		wssProvider: `wss://ropsten.infura.io/ws/v3/${infuraKey}`,
+		httpProvider: `https://eth-ropsten.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
+		wssProvider: `wss://eth-ropsten.ws.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
 	},
 	4: {
 		name: 'Rinkeby test network',
@@ -46,8 +42,8 @@ module.exports = {
 			address: 'address/',
 			tx: 'tx/',
 		},
-		httpProvider: `https://rinkeby.infura.io/v3/${infuraKey}`,
-		wssProvider: `wss://rinkeby.infura.io/ws/v3/${infuraKey}`,
+		httpProvider: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
+		wssProvider: `wss://eth-rinkeby.ws.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
 	},
 	5: {
 		name: 'Görli test network',
@@ -59,10 +55,9 @@ module.exports = {
 			address: 'address/',
 			tx: 'tx/',
 		},
-		// httpProvider: `https://goerli.infura.io/v3/${infuraKey}`,
-		// wssProvider: `wss://goerli.infura.io/ws/v3/${infuraKey}`,
-		httpProvider: `https://eth-goerli.alchemyapi.io/v2/${alchemyKey}`,
-		wssProvider: `wss://eth-goerli.ws.alchemyapi.io/v2/${alchemyKey}`,
+
+		httpProvider: `https://eth-goerli.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
+		wssProvider: `wss://eth-goerli.ws.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
 	},
 	42: {
 		name: ' Kovan test network',
@@ -74,8 +69,8 @@ module.exports = {
 			address: 'address/',
 			tx: 'tx/',
 		},
-		httpProvider: `https://goerli.infura.io/v3/${infuraKey}`,
-		wssProvider: `wss://mainnet.infura.io/ws/v3/${infuraKey}`,
+		httpProvider: `https://eth-kovan.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
+		wssProvider: `wss://eth-kovan.ws.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
 	},
 	66: {
 		name: 'Aldwych network',
@@ -87,6 +82,20 @@ module.exports = {
 			address: 'account/',
 			tx: 'tx/',
 		},
+	},
+	80001: {
+		name: 'Matic Testnet',
+		unit: 'MATIC',
+		isTest: false,
+		hasExplorer: false,
+		httpProvider: 'https://rpc-mumbai.matic.today',
+	},
+	137: {
+		name: 'Matic',
+		unit: 'MATIC',
+		isTest: true,
+		hasExplorer: false,
+		httpProvider: 'https://rpc-mainnet.maticvigil.com',
 	},
 	56: {
 		name: 'BSC Mainnet',
@@ -111,6 +120,90 @@ module.exports = {
 			tx: 'tx/',
 		},
 		httpProvider: 'https://data-seed-prebsc-1-s1.binance.org:8545',
+	},
+	250: {
+		name: 'Fantom',
+		unit: 'FTM',
+		isTest: false,
+		hasExplorer: false,
+		httpProvider: 'https://rpcapi.fantom.network',
+	},
+	4002: {
+		name: 'Fantom Testnet',
+		unit: 'FTM',
+		isTest: true,
+		hasExplorer: false,
+		httpProvider: 'https://rpc.testnet.fantom.network',
+	},
+	100: {
+		name: 'xDai',
+		unit: 'FTM',
+		isTest: false,
+		hasExplorer: false,
+		httpProvider: 'https://rpc.xdaichain.com',
+	},
+	1287: {
+		name: 'Moonbase',
+		unit: 'MOON',
+		isTest: false,
+		hasExplorer: false,
+		httpProvider: 'https://rpc.testnet.moonbeam.network',
+	},
+	43114: {
+		name: 'Avalanche',
+		unit: 'AVA',
+		isTest: false,
+		hasExplorer: false,
+		httpProvider: 'https://api.avax.network/ext/bc/C/rpc',
+	},
+	43114: {
+		name: 'Fuji',
+		unit: 'FUJI',
+		isTest: true,
+		hasExplorer: false,
+		httpProvider: 'https://api.avax-test.network/ext/bc/C/rpc',
+	},
+	128: {
+		name: 'Heco',
+		unit: 'HECO',
+		isTest: false,
+		hasExplorer: false,
+		httpProvider: 'https://http-mainnet.hecochain.com',
+	},
+	256: {
+		name: 'Heco Testnet',
+		unit: 'HECO',
+		isTest: true,
+		hasExplorer: false,
+		httpProvider: 'https://http-testnet.hecochain.com',
+	},
+	1666600000: {
+		name: 'Harmony',
+		unit: 'HARMONY',
+		isTest: false,
+		hasExplorer: false,
+		httpProvider: 'https://explorer.harmony.one',
+	},
+	1666700000: {
+		name: 'Harmony Testnet',
+		unit: 'HARMONY',
+		isTest: true,
+		hasExplorer: false,
+		httpProvider: 'https://explorer.pops.one',
+	},
+	65: {
+		name: 'Okex',
+		unit: 'OKEX',
+		isTest: false,
+		hasExplorer: false,
+		httpProvider: 'https://exchaintestrpc.okex.org',
+	},
+	66: {
+		name: 'Okex Testnet',
+		unit: 'OKEX',
+		isTest: true,
+		hasExplorer: false,
+		httpProvider: 'https://exchainrpc.okex.org',
 	},
 	4447: {
 		name: 'Truffle Develop Network',

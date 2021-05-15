@@ -196,7 +196,7 @@ export default {
 				startDate: '',
 				endDate: '',
 				fundWallet: '',
-				tokenSupply: 0,
+				tokenSupply: '',
 				allowance: "",
 				allowanceformatted: '',
 			},
