@@ -97,7 +97,7 @@
 									font-weight-bold
 									text-secondary
 									white_txt
-									fs-2
+									fs-2~/constants/contracts
 									mb-4
 									text-uppercase
 								"
@@ -168,27 +168,18 @@
 	</validation-observer>
 </template>
 <script>
-import EthImage from '@/components/web3-core/eth-identication/EthImage'
 import { mapGetters, mapActions } from 'vuex'
-import { BaseDivider, BaseAlert } from '@/components'
 import { DatePicker, TimeSelect } from 'element-ui'
 import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
-import { misoMarket as misoMarketConfig } from '@/constants/contractConfig'
-import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
-import { toDecimals, to18Decimals } from '@/util'
+import { misoMarket as misoMarketConfig } from '@/constants/contracts'
+import { makeBatchCall } from '@/services/web3/base'
+import { toDecimals } from '@/util'
 import { duration } from '@/mixins/duration.js'
-import Autocomplete from '@/components/Inputs/Autocomplete'
-import PaymentCurrency from './PaymentCurrency.vue'
 
 export default {
 	components: {
-		EthImage,
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
-		Autocomplete,
-		BaseDivider,
-		BaseAlert,
-		PaymentCurrency,
 	},
 	mixins: [duration],
 	props: {
@@ -307,6 +298,7 @@ export default {
 			// Clear Tokens
 			this.user.allowance = 0
 			this.user.tokenBalance = 0
+			// TODO: prop values can't be mutated in child components
 			this.model.token.name = ''
 			this.model.token.symbol = ''
 			this.model.token.decimals = ''
@@ -344,6 +336,7 @@ export default {
 		},
 
 		handleTokenComplete(token) {
+			// TODO: prop values can't be mutated in child components
 			this.model.token = {
 				address: token.addr,
 				name: token.name,

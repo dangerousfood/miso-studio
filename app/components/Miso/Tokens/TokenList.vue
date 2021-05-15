@@ -151,7 +151,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import { Table, TableColumn } from 'element-ui'
 import { BaseInput, BasePagination } from '@/components'
-import networkConfig from '@/constants/networkConfig'
+import { EXPLORERS } from '@/constants/networks'
 // import LoadingMainPanel from "~/components/Layout/LoadingMainPanel"
 import { theme } from '@/mixins/theme'
 import clientPaginationMixin from '~/components/Tables/PaginatedTables/clientPaginationMixin'
@@ -217,7 +217,7 @@ export default {
 			})
 		},
 		ethLink(addr) {
-			const url = networkConfig[this.networkId].explorer.root + 'token/' + addr
+			const url = EXPLORERS[this.networkId].explorer.root + 'token/' + addr
 			window.open(url, '_blank').focus()
 		},
 		getPeriodValue(row) {

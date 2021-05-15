@@ -416,6 +416,7 @@
 						/>
 					</zoom-y-transition>
 				</template>
+				~/constants/contracts
 			</div>
 		</div>
 	</div>
@@ -427,7 +428,7 @@ import { BaseDivider, SimpleauctionWizard, WizardTab } from '@/components'
 import { theme } from '@/mixins/theme'
 import { sendTransactionAndWait } from '@/services/web3/base'
 import { to18Decimals } from '@/util'
-import { dai } from '@/constants/contractConfig'
+import { dai } from '@/constants/contracts'
 import { getContractInstance as misoMarketContract } from '@/services/web3/misoMarket'
 
 import DutchFirstStep from '@/components/Miso/Auctions/Factories/DutchFactoryForm/DutchFirstStep'
@@ -606,7 +607,7 @@ export default {
 					title: 'AUCTION START & END*',
 					desctiption:
 						'Select the dates for when your auction will be hold.  Most common duration is two weeks, but it can be whatever you like.',
-				}
+				},
 			],
 			allBatchSteps: [
 				{
@@ -650,7 +651,7 @@ export default {
 					title: 'AUCTION START & END*',
 					desctiption:
 						'Select the dates for when your auction will be hold.  Most common duration is two weeks, but it can be whatever you like.',
-				}
+				},
 			],
 			nextBtnLoading: false,
 			deployedMarket: {
@@ -666,13 +667,10 @@ export default {
 		...mapGetters({
 			coinbase: 'ethereum/coinbase',
 		}),
-		notificationSteps () {
-			if (this.chosenAuctionType == 2)
-				return this.allSteps;
-			if (this.chosenAuctionType == 1)
-				return this.allCrowdsaleSteps;
-			if (this.chosenAuctionType == 3)
-				return this.allBatchSteps;
+		notificationSteps() {
+			if (this.chosenAuctionType === 2) return this.allSteps
+			if (this.chosenAuctionType === 1) return this.allCrowdsaleSteps
+			return this.allBatchSteps
 		},
 		nextBtnText() {
 			if (this.tabIndex === 2) return 'Review'

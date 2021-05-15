@@ -10,7 +10,7 @@
     "generate-icons": "vsvg -s ./app/assets/svg -t ./app/assets/icons",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
-    "dev": "cross-env NODE_ENV=development nuxt",
+    "dev": "cross-env NODE_ENV=development nuxt ",
     "build": "NODE_ENV=production nuxt build",
     "postbuild": "webpack",
     "start": "NODE_ENV=production node ./.nuxt/dist/server.js",

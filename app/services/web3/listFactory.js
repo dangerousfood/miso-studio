@@ -1,4 +1,4 @@
-import { listFactory } from "@/constants/contractConfig"
+import { listFactory } from "~/constants/contracts"
 import { getNetworkId } from "./base"
 
 const listFactoryAbi = listFactory.abi

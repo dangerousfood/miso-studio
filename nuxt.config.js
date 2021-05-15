@@ -88,9 +88,12 @@ module.exports = {
 	/*
 	 ** Nuxt.js modules
 	 */
-	modules: ["@nuxtjs/pwa", "vue-screen/nuxt", 'vue-currency-input/nuxt'],
+	modules: ['@nuxtjs/pwa', 'vue-screen/nuxt', 'vue-currency-input/nuxt'],
 	screen: {
 		extend: 'bootstrap',
+	},
+	env: {
+		ALCHEMY_KEY_GOERLI: process.env.ALCHEMY_KEY_GOERLI,
 	},
 	// server: {
 	// 	port: 8080,

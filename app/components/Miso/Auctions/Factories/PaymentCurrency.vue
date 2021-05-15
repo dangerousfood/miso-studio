@@ -144,7 +144,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { isErc20Token } from '@/services/web3/erc20Token'
-import { dai } from '@/constants/contractConfig'
+import { dai } from '~/constants/contracts'
 
 export default {
 	props: {

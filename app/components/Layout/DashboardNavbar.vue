@@ -64,7 +64,7 @@
 						:fill="false"
 					/>
 				</div>
-				<div v-if="coinbase" class="d-flex align-items-center pr-2">
+				<div v-if="coinbase && isMetamask" class="d-flex align-items-center pr-2">
 					<button
 						type="primary"
 						class="btn toggle-network-btn text-white btn-primary py-3 btn-simple"
@@ -73,12 +73,12 @@
 						@click="showNetworkModal = true"
 					>
 						<img
-							:src="networkIcons[parseInt(networkId)]"
+							:src="networkIcons[networkId]"
 							alt="Network icon"
 							class="rounded-md mr-2"
 							style="width: 22px; height: 22px"
 						/>
-						{{ networkLables[parseInt(networkId)] }}
+						{{ networkLables[networkId] }}
 					</button>
 				</div>
 			</div>
@@ -188,14 +188,16 @@
 						<span class="font-bold text-pink">MISO</span>
 						<br />
 						on the
-						<span class="font-bold text-blue">Görli</span>
+						<span class="font-bold text-blue">
+							{{ networkLables[networkId] }}
+						</span>
 						network
 					</div>
 					<div class="d-flex flex-col space-y-5 overflow-y-auto">
 						<button
 							v-for="(item, index) in ChainIDs"
 							:key="index"
-							:disabled="parseInt(item.chainId) === parseInt(networkId)"
+							:disabled="parseInt(item.chainId) === networkId"
 							class="
 								flex
 								w-100
@@ -227,7 +229,7 @@
 </template>
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
-import { NETWORK_ICON, NETWORK_LABEL } from '@/constants/networkIcons'
+import { NETWORK_ICON, NETWORK_LABEL } from '@/constants/networks'
 import { BaseNav, BaseSwitch, Modal, NetworkModal } from '@/components'
 import { ZoomXTransition } from 'vue2-transitions'
 import EthImage from '@/components/Miso/EthIdentication/EthImage.vue'
@@ -369,6 +371,7 @@ export default {
 		...mapGetters({
 			coinbase: 'ethereum/coinbase',
 			networkId: 'ethereum/networkId',
+			isMetamask: 'ethereum/isMetamask',
 			mode: 'theme/getMode',
 		}),
 		isRTL() {

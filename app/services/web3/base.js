@@ -1,9 +1,6 @@
 /* eslint-disable no-async-promise-executor */
 import Swal from 'sweetalert2'
-import networkConfig from '@/constants/networkConfig'
-
-const rightNetworks = networkConfig.rightNetworks
-const defaultNetwork = networkConfig.defaultNetwork
+import { EXPLORERS, RIGHT_NETWORKS, DEFAULT_NETWORK } from '~/constants/networks'
 
 let store
 
@@ -39,8 +36,8 @@ export const sendTransaction = (method, options) => {
 				return resolve(false)
 			}
 		} else {
-			store.dispatch('ethereum/enableAccount')
-			// showConnectionModal()
+			// store.dispatch('ethereum/enableAccount')
+			showConnectionModal()
 			resolve(false)
 		}
 	})
@@ -173,7 +170,7 @@ const getConnectionTitle = () => {
 	const networkId = store.getters['ethereum/networkId']
 	const isRightNetwork = store.getters['ethereum/isRightNetwork']
 	if (store.getters['ethereum/isOk']) {
-		return networkConfig[networkId].name
+		return EXPLORERS[networkId].name
 	} else if (!isRightNetwork && networkId === 1) {
 		return 'Testnet only, Mainnet upgrade'
 	} else if (!isRightNetwork) {
@@ -187,10 +184,10 @@ const getConnectionBody = () => {
 	const networkId = store.state.ethereum.networkId
 	const isRightNetwork = store.getters['ethereum/isRightNetwork']
 	const defaultNetworkName =
-		networkConfig[store.getters['ethereum/defaultNetworkId']].name
+		EXPLORERS[store.getters['ethereum/defaultNetworkId']].name
 	try {
 		if (!isRightNetwork) {
-			return `You are on ${networkConfig[networkId].name} . Please change your network to ${defaultNetworkName}.`
+			return `You are on ${EXPLORERS[networkId].name} . Please change your network to ${defaultNetworkName}.`
 		} else {
 			return `Please connect to Ethereum wallet to be able to proceed.`
 		}
@@ -260,12 +257,12 @@ export const getNetworkId = () => {
 		const currentProvidersNetwork = parseInt(
 			web3.givenProvider.chainId || web3.givenProvider.networkVersion
 		)
-		const isRightNetwork = rightNetworks.includes(currentProvidersNetwork)
+		const isRightNetwork = RIGHT_NETWORKS.includes(currentProvidersNetwork)
 		if (isRightNetwork) {
 			return currentProvidersNetwork
 		}
 	}
-	return defaultNetwork
+	return DEFAULT_NETWORK
 }
 
 export const isContractExists = async (contractAddress) => {

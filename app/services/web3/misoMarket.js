@@ -1,4 +1,4 @@
-import { misoMarket } from "@/constants/contractConfig"
+import { misoMarket } from "~/constants/contracts"
 import {
 	sendTransaction as _sendTransaction,
 	getNetworkId,

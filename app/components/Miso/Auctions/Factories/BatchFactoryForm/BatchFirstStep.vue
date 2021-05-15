@@ -7,8 +7,8 @@
 						<!-- Token input -->
 						<autocomplete
 							v-if="model.token.name"
-							class="label-underline col-lg-10 padding-left-15"
 							v-model="model.token.address"
+							class="label-underline col-lg-10 padding-left-15"
 							label="Token"
 							name="token"
 							placeholder="Type to search (name, symbol, address)"
@@ -23,8 +23,8 @@
 
 						<autocomplete
 							v-else
-							class="label-underline col-lg-12 padding-left-15"
 							v-model="model.token.address"
+							class="label-underline col-lg-12 padding-left-15"
 							label="Token"
 							name="token"
 							placeholder="Type to search (name, symbol, address)"
@@ -37,14 +37,12 @@
 							@complete="handleTokenComplete"
 						></autocomplete>
 
-						<div class="position-auction-token-absolute" v-if="model.token.name">
+						<div v-if="model.token.name" class="position-auction-token-absolute">
 							{{ this.model.token.name }}
 						</div>
 
-						<div class="col-lg-2 text-right mt-4" v-if="model.token.symbol">
-							<base-button
-								class="btn btn-custom btn-default"
-							>
+						<div v-if="model.token.symbol" class="col-lg-2 text-right mt-4">
+							<base-button class="btn btn-custom btn-default">
 								{{ this.model.token.symbol }}
 							</base-button>
 						</div>
@@ -156,21 +154,18 @@ import { mapGetters, mapActions } from 'vuex'
 import { BaseDivider, BaseAlert } from '@/components'
 import { DatePicker, TimeSelect } from 'element-ui'
 import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
-import { misoMarket as misoMarketConfig } from '@/constants/contractConfig'
+import { misoMarket as misoMarketConfig } from '@/constants/contracts'
 import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
 import { toDecimals, to18Decimals } from '@/util'
 import { duration } from '@/mixins/duration.js'
 import Autocomplete from '@/components/Inputs/Autocomplete'
-import PaymentCurrency from '../PaymentCurrency.vue'
 
 export default {
 	components: {
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
 		Autocomplete,
-		BaseDivider,
 		BaseAlert,
-		PaymentCurrency,
 	},
 	mixins: [duration],
 	data() {
@@ -183,7 +178,7 @@ export default {
 					symbol: '',
 					decimals: 0,
 				},
-				allowance: "",
+				allowance: '',
 				chosenAuctionType: 3,
 				paymentCurrency: {
 					address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
@@ -200,19 +195,19 @@ export default {
 			},
 			user: {
 				tokenBalance: 0,
-				allowance: "",
+				allowance: '',
 			},
 			tokensLoading: false,
 			userLoading: false,
 			approveLoading: false,
 			batchitems: {
-                tokenAddress: false,
-                tokenAmount: false,
+				tokenAddress: false,
+				tokenAmount: false,
 				payment_currency: false,
 				walletAddress: false,
 				minPrice: false,
-				startend: false
-			}
+				startend: false,
+			},
 		}
 	},
 	computed: {
@@ -318,7 +313,7 @@ export default {
 			)
 			if (data) {
 				;[this.user.allowance, this.user.tokenBalance] = data
-				this.model.allowance = this.user.allowance;
+				this.model.allowance = this.user.allowance
 				this.model.allowanceformatted = toDecimals(this.user.allowance)
 			}
 			this.userLoading = false
@@ -362,31 +357,31 @@ export default {
 					this.batchitems[key] = false
 				}
 			}
-			this.$emit("active-focus-batch", this.batchitems, this.model.chosenAuctionType)
-		}
+			this.$emit('active-focus-batch', this.batchitems, this.model.chosenAuctionType)
+		},
 	},
 }
 </script>
 
 <style lang="scss">
-	.right-icon {
-		.el-input__prefix {
-			font-size: 20px;
-			margin-right: 10px;
-		}
-		.el-input__inner {
-			padding-left: 40px;
-		}
+.right-icon {
+	.el-input__prefix {
+		font-size: 20px;
+		margin-right: 10px;
 	}
-	.svg-icon-left {
-		position: absolute;
-		z-index: 10;
-		left: 10px;
+	.el-input__inner {
+		padding-left: 40px;
 	}
-	.el-date-picker .el-picker-panel__footer .el-button:first-child {
-		display: none;
-	}
-	.payment-token {
-		border-color: #ff8d72 !important;
-	}
+}
+.svg-icon-left {
+	position: absolute;
+	z-index: 10;
+	left: 10px;
+}
+.el-date-picker .el-picker-panel__footer .el-button:first-child {
+	display: none;
+}
+.payment-token {
+	border-color: #ff8d72 !important;
+}
 </style>

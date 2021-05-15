@@ -1,5 +1,76 @@
-module.exports = {
-	rightNetworks: [5, 3, 4, 42, 97],
+import { ChainId } from '@sushiswap/sdk'
+import Arbitrum from '@/assets/networks/arbitrum-network.jpg'
+import Avalanche from '@/assets/networks/avalanche-network.jpg'
+import Bsc from '@/assets/networks/bsc-network.jpg'
+import Fantom from '@/assets/networks/fantom-network.jpg'
+import Goerli from '@/assets/networks/goerli-network.jpg'
+import Harmony from '@/assets/networks/harmonyone-network.jpg'
+import Heco from '@/assets/networks/heco-network.jpg'
+import Kovan from '@/assets/networks/kovan-network.jpg'
+import Mainnet from '@/assets/networks/mainnet-network.jpg'
+import Matic from '@/assets/networks/matic-network.jpg'
+import Moonbeam from '@/assets/networks/moonbeam-network.jpg'
+import OKEx from '@/assets/networks/okex-network.jpg'
+import Polygon from '@/assets/networks/polygon-network.jpg'
+import Rinkeby from '@/assets/networks/rinkeby-network.jpg'
+import Ropsten from '@/assets/networks/ropsten-network.jpg'
+import xDai from '@/assets/networks/xdai-network.jpg'
+
+export const RIGHT_NETWORKS = [5, 3, 4, 42, 97]
+export const DEFAULT_NETWORK = 5
+
+export const NETWORK_ICON = {
+	[ChainId.MAINNET]: Mainnet,
+	[ChainId.ROPSTEN]: Ropsten,
+	[ChainId.RINKEBY]: Rinkeby,
+	[ChainId.GÖRLI]: Goerli,
+	[ChainId.KOVAN]: Kovan,
+	[ChainId.FANTOM]: Fantom,
+	[ChainId.FANTOM_TESTNET]: Fantom,
+	[ChainId.BSC]: Bsc,
+	[ChainId.BSC_TESTNET]: Bsc,
+	[ChainId.MATIC]: Polygon,
+	[ChainId.MATIC_TESTNET]: Matic,
+	[ChainId.XDAI]: xDai,
+	[ChainId.ARBITRUM]: Arbitrum,
+	[ChainId.MOONBASE]: Moonbeam,
+	[ChainId.AVALANCHE]: Avalanche,
+	[ChainId.FUJI]: Avalanche,
+	[ChainId.HECO]: Heco,
+	[ChainId.HECO_TESTNET]: Heco,
+	[ChainId.HARMONY]: Harmony,
+	[ChainId.HARMONY_TESTNET]: Harmony,
+	[ChainId.OKEX]: OKEx,
+	[ChainId.OKEX_TESTNET]: OKEx,
+}
+
+console.log('process.env.ALCHEMY_KEY_GOERLI:', process.env.ALCHEMY_KEY_GOERLI)
+
+export const NETWORK_LABEL = {
+	[ChainId.MAINNET]: 'Ethereum',
+	[ChainId.RINKEBY]: 'Rinkeby',
+	[ChainId.ROPSTEN]: 'Ropsten',
+	[ChainId.GÖRLI]: 'Görli',
+	[ChainId.KOVAN]: 'Kovan',
+	[ChainId.FANTOM]: 'Fantom',
+	[ChainId.FANTOM_TESTNET]: 'Fantom Testnet',
+	[ChainId.MATIC]: 'Polygon (Matic)',
+	[ChainId.MATIC_TESTNET]: 'Matic Testnet',
+	[ChainId.XDAI]: 'xDai',
+	[ChainId.BSC]: 'BSC',
+	[ChainId.BSC_TESTNET]: 'BSC Testnet',
+	[ChainId.MOONBASE]: 'Moonbase',
+	[ChainId.AVALANCHE]: 'Avalanche',
+	[ChainId.FUJI]: 'Fuji',
+	[ChainId.HECO]: 'HECO',
+	[ChainId.HECO_TESTNET]: 'HECO Testnet',
+	[ChainId.HARMONY]: 'Harmony',
+	[ChainId.HARMONY_TESTNET]: 'Harmony Testnet',
+	[ChainId.OKEX]: 'OKExChain',
+	[ChainId.OKEX_TESTNET]: 'OKExChain',
+}
+
+export const EXPLORERS = {
 	defaultNetwork: 5,
 	1: {
 		name: 'Ethereum Mainnet',
@@ -72,17 +143,17 @@ module.exports = {
 		httpProvider: `https://eth-kovan.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
 		wssProvider: `wss://eth-kovan.ws.alchemyapi.io/v2/${process.env.ALCHEMY_KEY_GOERLI}`,
 	},
-	66: {
-		name: 'Aldwych network',
-		unit: 'ETH',
-		isTest: true,
-		hasExplorer: true,
-		explorer: {
-			root: 'https://explorer.aldwych.blaquetec.org/',
-			address: 'account/',
-			tx: 'tx/',
-		},
-	},
+	// 66: {
+	// 	name: 'Aldwych network',
+	// 	unit: 'ETH',
+	// 	isTest: true,
+	// 	hasExplorer: true,
+	// 	explorer: {
+	// 		root: 'https://explorer.aldwych.blaquetec.org/',
+	// 		address: 'account/',
+	// 		tx: 'tx/',
+	// 	},
+	// },
 	80001: {
 		name: 'Matic Testnet',
 		unit: 'MATIC',
@@ -156,13 +227,13 @@ module.exports = {
 		hasExplorer: false,
 		httpProvider: 'https://api.avax.network/ext/bc/C/rpc',
 	},
-	43114: {
-		name: 'Fuji',
-		unit: 'FUJI',
-		isTest: true,
-		hasExplorer: false,
-		httpProvider: 'https://api.avax-test.network/ext/bc/C/rpc',
-	},
+	// 43114: {
+	// 	name: 'Fuji',
+	// 	unit: 'FUJI',
+	// 	isTest: true,
+	// 	hasExplorer: false,
+	// 	httpProvider: 'https://api.avax-test.network/ext/bc/C/rpc',
+	// },
 	128: {
 		name: 'Heco',
 		unit: 'HECO',

@@ -44,7 +44,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { recipe02 } from '@/constants/contractConfig'
+import { recipe02 } from '~/constants/contracts'
 import Recipe02 from '@/components/Miso/Recipes/Recipe02'
 
 const contractAddress = recipe02.address

@@ -1,4 +1,4 @@
-import { misoLauncher } from "@/constants/contractConfig";
+import { misoLauncher } from "~/constants/contracts";
 import { sendTransaction as _sendTransaction, makeBatchCall as _makeBatchCall, getNetworkId } from "./base";
 
 const misoLauncherAbi = misoLauncher.abi;
