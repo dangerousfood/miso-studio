@@ -1,14 +1,14 @@
-import { liquidityLauncher } from "@/constants/contractConfig";
+import { misoLauncher } from "@/constants/contractConfig";
 import { sendTransaction as _sendTransaction, makeBatchCall as _makeBatchCall, getNetworkId } from "./base";
 
-const liquidityLauncherAbi = liquidityLauncher.abi;
-const liquidityLauncherAddress = liquidityLauncher.address;
+const misoLauncherAbi = misoLauncher.abi;
+const misoLauncherAddress = misoLauncher.address;
 let contractInstance;
 
 const initContractInstance = () => {
   if (!contractInstance || web3.currentProvider.isMetaMask !== contractInstance.currentProvider.isMetaMask) {
-    const address = liquidityLauncherAddress[getNetworkId()];
-    contractInstance = new web3.eth.Contract(liquidityLauncherAbi, address);
+    const address = misoLauncherAddress[getNetworkId()];
+    contractInstance = new web3.eth.Contract(misoLauncherAbi, address);
   }
 }
 
@@ -23,9 +23,9 @@ export const makeBatchCall = async (methods) => {
   return await _makeBatchCall(contractInstance, methods)
 }
 
-export const subscribeToLiquidityLauncherCreatedEvent = (fromBlock = 0, store) => {
+export const subscribeToMisoLauncherCreatedEvent = (fromBlock = 0, store) => {
   initContractInstance();
-  return contractInstance.events.LiquidityLauncherCreated({
+  return contractInstance.events.LauncherCreated({
     fromBlock: fromBlock
   });
 }
