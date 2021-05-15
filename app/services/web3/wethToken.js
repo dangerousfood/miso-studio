@@ -1,4 +1,4 @@
-import { wethToken } from "../../constants/contractConfig"
+import { wethToken } from "../../constants/contracts"
 import { sendTransaction, callMany, toWei, unix2datetime } from "./base";
 
 const wethTokenAbi = wethToken.abi;

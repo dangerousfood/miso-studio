@@ -6,21 +6,12 @@
 			@mouseenter="showBar = true"
 			@mouseleave="showBar = false"
 		>
-			<div
-				class="logo pl-4"
-				:class="[darkModeBg ? 'sidebar-divider' : 'dark_bg']"
-			>
-				<div
-					class="pt-2 d-flex justify-content-between align-items-center w-100"
-				>
+			<div class="logo pl-4" :class="[darkModeBg ? 'sidebar-divider' : 'dark_bg']">
+				<div class="pt-2 d-flex justify-content-between align-items-center w-100">
 					<nuxt-link to="/">
 						<svg-icon icon="miso" height="15" width="150" color="#ffffff" />
 					</nuxt-link>
-					<div
-						v-if="breackpoint === 'xl'"
-						class="navbar-wrapper"
-						@click="toggleBar"
-					>
+					<div v-if="breackpoint === 'xl'" class="navbar-wrapper" @click="toggleBar">
 						<div class="burger d-inline" :class="{ toggled: slidebar }">
 							<div type="button" class="toggler">
 								<span class="bar line1"></span>
@@ -36,7 +27,7 @@
 			<div v-if="!darkModeBg" class="dark-mode_bg">
 				<ul v-if="!slidebar" ref="links" class="nav">
 					<!-- nav item section -->
-					<li v-for="(navItem, i) in navItems" :key="i" class="nav-items">
+					<li v-for="(navItem, i) in computedNetworkNav" :key="i" class="nav-items">
 						<p
 							class="d-flex mt-0 justify-content-between align-items-center"
 							@mouseenter="navItem.hover = true"
@@ -137,7 +128,7 @@
 				<fade-transition>
 					<ul v-show="showSidebar" class="nav">
 						<!-- nav item section -->
-						<li v-for="(navItem, i) in navItems" :key="i" class="nav-items">
+						<li v-for="(navItem, i) in computedNetworkNav" :key="i" class="nav-items">
 							<p
 								class="d-flex mt-0 justify-content-between align-items-center"
 								@mouseenter="navItem.hover = true"
@@ -242,9 +233,11 @@
 </template>
 
 <script>
-import { FadeTransition } from "vue2-transitions"
+import { FadeTransition } from 'vue2-transitions'
+import { mapGetters } from 'vuex'
+
 export default {
-	name: "Sidebar",
+	name: 'Sidebar',
 	components: {
 		FadeTransition,
 	},
@@ -256,24 +249,24 @@ export default {
 	props: {
 		title: {
 			type: String,
-			default: "Instant MISO",
-			description: "Sidebar title",
+			default: 'Instant MISO',
+			description: 'Sidebar title',
 		},
 		shortTitle: {
 			type: String,
-			default: "CT",
-			description: "Sidebar short title",
+			default: 'CT',
+			description: 'Sidebar short title',
 		},
 		logo: {
 			type: String,
 			default:
-				"http://demos.creative-tim.com/nuxt-black-dashboard-pro/img/icon-nuxt.svg",
-			description: "Sidebar app logo",
+				'http://demos.creative-tim.com/nuxt-black-dashboard-pro/img/icon-nuxt.svg',
+			description: 'Sidebar app logo',
 		},
 		darkModeBg: {
 			type: Boolean,
 			required: true,
-			description: "rander background image with them mode condion",
+			description: 'rander background image with them mode condion',
 		},
 		sidebarLinks: {
 			type: Array,
@@ -284,8 +277,7 @@ export default {
 		autoClose: {
 			type: Boolean,
 			default: true,
-			description:
-				"Whether sidebar should autoclose on mobile when clicking an item",
+			description: 'Whether sidebar should autoclose on mobile when clicking an item',
 		},
 	},
 	data() {
@@ -294,21 +286,21 @@ export default {
 			initHeight: 0,
 			navItems: [
 				{
-					name: "Marketplace",
+					name: 'Marketplace',
 					active: false,
 					hover: false,
 					childLinks: [
 						{
-							name: "Live Sales",
-							path: "/auctions/live",
+							name: 'Live Sales',
+							path: '/auctions/live',
 						},
 						{
-							name: "Upcoming Sales",
-							path: "/auctions/upcoming",
+							name: 'Upcoming Sales',
+							path: '/auctions/upcoming',
 						},
 						{
-							name: "Past Sales",
-							path: "/auctions/finished",
+							name: 'Past Sales',
+							path: '/auctions/finished',
 						},
 						// {
 						// 	name: "Manage Lists",
@@ -317,24 +309,24 @@ export default {
 					],
 				},
 				{
-					name: "Farms",
+					name: 'Farms',
 					active: false,
 					hover: false,
 					childLinks: [
 						{
-							name: "Active Farms",
-							path: "/farms",
+							name: 'Active Farms',
+							path: '/farms',
 						},
 					],
 				},
 				{
-					name: "Tokens",
+					name: 'Tokens',
 					active: false,
 					hover: false,
 					childLinks: [
 						{
-							name: "Deployed Tokens",
-							path: "/tokens",
+							name: 'Deployed Tokens',
+							path: '/tokens',
 						},
 					],
 				},
@@ -355,25 +347,25 @@ export default {
 				// 	],
 				// },
 				{
-					name: "Factory",
+					name: 'Factory',
 					active: false,
 					hover: false,
 					childLinks: [
 						{
-							name: "New Token",
-							path: "/factory/token",
+							name: 'New Token',
+							path: '/factory/token',
 						},
 						{
-							name: "New Sale",
-							path: "/factory/auctions/new",
+							name: 'New Sale',
+							path: '/factory/auctions/new',
 						},
 						{
-							name: "New List",
-							path: "/factory/points-list",
+							name: 'New List',
+							path: '/factory/points-list',
 						},
 						{
-							name: "New Launcher",
-							path: "/factory/liquidity",
+							name: 'New Launcher',
+							path: '/factory/liquidity',
 						},
 						// {
 						// 	name: "New Farm",
@@ -387,8 +379,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters({ networkID: 'ethereum/networkId' }),
 		svgColor() {
-			return !this.darkModeBg ? "#F25462 #F25462" : "#000000 #000000"
+			return !this.darkModeBg ? '#F25462 #F25462' : '#000000 #000000'
 		},
 		showSidebar() {
 			if (this.slidebar) {
@@ -396,9 +389,19 @@ export default {
 			}
 			return true
 		},
+		computedNetworkNav() {
+			let networkList = this.navItems
+			if (this.networkID === 1) {
+				networkList = networkList.filter((item) => {
+					return item.name !== 'Farms' && item.name !== 'Factory'
+				})
+			}
+			// in future we can add new filters
+			return networkList
+		},
 	},
 	watch: {
-		"$screen.breakpoint"(val) {
+		'$screen.breakpoint'(val) {
 			this.breackpoint = val
 		},
 	},
@@ -431,7 +434,7 @@ export default {
 			this.$sidebar.toggleMinimize()
 			this.slidebar = !this.slidebar
 			// console.log(this.$sidebar.isMinimized);
-			this.$emit("minBar", this.$sidebar.isMinimized)
+			this.$emit('minBar', this.$sidebar.isMinimized)
 		},
 	},
 }
@@ -459,12 +462,12 @@ export default {
 .sidebar {
 	overflow: hidden;
 	&-bg {
-		background: url("/s3/img/backgrounds/miso_bg.png") no-repeat center;
+		background: url('/s3/img/backgrounds/miso_bg.png') no-repeat center;
 		background-size: cover;
 	}
 	&-divider {
 		&:after {
-			content: "";
+			content: '';
 			position: absolute;
 			bottom: 0;
 			left: 0;
@@ -478,7 +481,7 @@ export default {
 	height: 5.2rem;
 }
 .dark_bg {
-	background: url("/s3/img/backgrounds/nav_bg-1.png") no-repeat right bottom !important;
+	background: url('/s3/img/backgrounds/nav_bg-1.png') no-repeat right bottom !important;
 	background-size: cover !important;
 }
 .dark-mode_bg {
@@ -516,7 +519,7 @@ export default {
 	cursor: pointer;
 	position: relative;
 	&::after {
-		content: "";
+		content: '';
 		position: absolute;
 		bottom: 0;
 		left: 50%;

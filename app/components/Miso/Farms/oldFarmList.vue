@@ -2,9 +2,7 @@
 	<div>
 		<div class="hero-section mt-5 pt-2 mb-3 pb-1 text-white">
 			<div class="d-flex justify-content-between">
-				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">
-					LIST OF FARMS
-				</p>
+				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">LIST OF FARMS</p>
 				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">
 					DISPLAYING {{ total }} of {{ total }}
 				</p>
@@ -21,7 +19,16 @@
 			<div class="col-md-8 col-sm-5 col-12">
 				<div class="row no-gutters">
 					<div
-						class="col-xl-3 offset-xl-9 col-lg-4 offset-lg-8 col-md-4 offset-md-8 col-sm-10 offset-sm-7"
+						class="
+							col-xl-3
+							offset-xl-9
+							col-lg-4
+							offset-lg-8
+							col-md-4
+							offset-md-8
+							col-sm-10
+							offset-sm-7
+						"
 					>
 						<!-- number of item to display in table -->
 						<base-input class="select-input position-relative">
@@ -32,11 +39,7 @@
 								width="11"
 								:fill="false"
 							/>
-							<select
-								id="select1"
-								v-model.number="perPage"
-								class="form-control"
-							>
+							<select id="select1" v-model.number="perPage" class="form-control">
 								<option
 									v-for="item in pagination.perPageOptions"
 									:key="item"
@@ -85,11 +88,15 @@
 					</el-table>
 				</div>
 				<div
-					class="padination-wrapper d-flex align-items-center justify-content-between pt-4"
+					class="
+						padination-wrapper
+						d-flex
+						align-items-center
+						justify-content-between
+						pt-4
+					"
 				>
-					<span class="fs-2">
-						Showing 1 to {{ perPage }} of {{ total }} entries
-					</span>
+					<span class="fs-2">Showing 1 to {{ perPage }} of {{ total }} entries</span>
 					<base-pagination
 						v-model="currentPage"
 						class="mb-0"
@@ -103,11 +110,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { Table, TableColumn } from "element-ui"
-import { BaseInput, BasePagination } from "@/components"
+import { mapGetters, mapActions } from 'vuex'
+import { Table, TableColumn } from 'element-ui'
+import { BaseInput, BasePagination } from '@/components'
 // import LoadingMainPanel from "~/components/Layout/LoadingMainPanel"
-import clientPaginationMixin from "~/components/Tables/PaginatedTables/clientPaginationMixin"
+import clientPaginationMixin from '~/components/Tables/PaginatedTables/clientPaginationMixin'
 export default {
 	components: {
 		[Table.name]: Table,
@@ -120,8 +127,8 @@ export default {
 	data() {
 		return {
 			loading: true,
-			searchQuery: "",
-			propsToSearch: ["address", "owner", "farmTemplate"],
+			searchQuery: '',
+			propsToSearch: ['address', 'owner', 'farmTemplate'],
 			perPage: 5,
 			currentPage: 1,
 			tableData: [],
@@ -129,7 +136,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			farms: "farms/list",
+			farms: 'farms/list',
 		}),
 		total() {
 			return this.tableData.length
@@ -140,7 +147,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			setFarms: "farms/setFarms",
+			setFarms: 'farms/setFarms',
 		}),
 		async getFarms() {
 			await this.setFarms()
@@ -156,7 +163,7 @@ export default {
 	div {
 		position: relative;
 		&::after {
-			content: "";
+			content: '';
 			position: absolute;
 			display: inline-block;
 			width: 100%;
@@ -165,7 +172,7 @@ export default {
 			height: 3px;
 		}
 		p::after {
-			content: "";
+			content: '';
 			position: absolute;
 			display: inline-block;
 			width: 100%;

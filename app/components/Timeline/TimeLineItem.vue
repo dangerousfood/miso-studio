@@ -1,10 +1,23 @@
 <template>
 	<div
-		class="rounded-circle step-circle d-flex justify-content-center align-items-center step-item"
+		class="
+			rounded-circle
+			step-circle
+			d-flex
+			justify-content-center
+			align-items-center
+			step-item
+		"
 		:style="{ width: badgeWidth + 'px', height: badgeHeight + 'px' }"
 	>
 		<span
-			class="font-weight-bold text-white d-flex justify-content-center align-items-center"
+			class="
+				font-weight-bold
+				text-white
+				d-flex
+				justify-content-center
+				align-items-center
+			"
 		>
 			{{ badgeText }}
 		</span>
@@ -12,11 +25,11 @@
 </template>
 <script>
 export default {
-	name: "TimeLineItem",
+	name: 'TimeLineItem',
 	props: {
 		badgeText: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		badgeHeight: {
 			type: Number,

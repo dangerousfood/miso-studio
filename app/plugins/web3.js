@@ -1,12 +1,10 @@
-import Web3 from "web3"
-import networkConfig from "../constants/networkConfig"
-
-const defaultNetwork = networkConfig.defaultNetwork
+import Web3 from 'web3'
+import { DEFAULT_NETWORK, EXPLORERS } from '../constants/networks'
 
 export default ({ store }) => {
 	if (window.ethereum) {
 		window.ethereum.autoRefreshOnNetworkChange = false
-		store.dispatch("ethereum/setProvider", ethereum)
+		store.dispatch('ethereum/setProvider', ethereum)
 	} else {
 		window.web3 = getHttpWeb3Provider()
 	}
@@ -14,11 +12,11 @@ export default ({ store }) => {
 }
 
 const getHttpWeb3Provider = () => {
-	const httpProvider = networkConfig[defaultNetwork].httpProvider
+	const httpProvider = EXPLORERS[DEFAULT_NETWORK].httpProvider
 	return new Web3(new Web3.providers.HttpProvider(httpProvider))
 }
 
 const getWssWeb3Provider = () => {
-	const wssProvider = networkConfig[defaultNetwork].wssProvider
+	const wssProvider = EXPLORERS[DEFAULT_NETWORK].wssProvider
 	return new Web3(new Web3.providers.WebsocketProvider(wssProvider))
 }

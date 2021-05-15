@@ -15,9 +15,14 @@
 						class="progress-status_text-line left"
 						:class="[getMode ? 'bg-dark' : 'bg-light']"
 					></span>
-					<span class="text pl-2 text-uppercase font-weight-bold">
-						min raise
-					</span>
+					<el-tooltip
+						content="The sale needs to raise this much or more to be successful"
+						:open-delay="200"
+						placement="top-end"
+						:effect="getTooltipEffect"
+					>
+					<span class="text pl-2 text-uppercase font-weight-bold">min raise</span>
+					</el-tooltip>
 					<span class="fs-2 pl-2 text-white font-weight-bold no-whitespace">
 						{{ soft }} {{ marketInfo.paymentCurrency.symbol }}
 					</span>
@@ -39,16 +44,9 @@
 					class="text-box d-flex align-items-end"
 					:style="{ left: computedProgess + '%' }"
 				>
-					<span
-						v-if="progress > 80"
-						class="font-weight-bold price-left text-center"
-					>
+					<span v-if="progress > 80" class="font-weight-bold price-left text-center">
 						<span class="pr-2">
-							<span class="text-white">
-								{{ marketInfo.commitmentsTotal.toLocaleString("en-US") }}
-							</span>
-							/
-							<span>{{ hard.toLocaleString("en-US") }}</span>
+							<span class="text-white">{{ marketCommitPercent }} %</span>
 						</span>
 						<span
 							class="line-left"
@@ -65,11 +63,7 @@
 							:class="[getMode ? 'bg-dark' : 'bg-light']"
 						></span>
 						<span class="pl-2">
-							<span class="text-white">
-								{{ marketInfo.commitmentsTotal.toLocaleString("en-US") }}
-							</span>
-							/
-							<span>{{ hard.toLocaleString("en-US") }}</span>
+							<span class="text-white">{{ marketCommitPercent }} %</span>
 						</span>
 					</span>
 				</span>
@@ -78,9 +72,16 @@
 			<!-- hard cap section -->
 			<span class="progress-status_end" :class="[statusColor]">
 				<span class="d-flex flex-column progress-status_text-box right">
-					<span class="text pr-2 text-right text-uppercase font-weight-bold">
-						max raise
-					</span>
+					<el-tooltip
+						content="This is the most the auction will raise"
+						:open-delay="200"
+						placement="top-end"
+						:effect="getTooltipEffect"
+					>
+						<span class="text pr-2 text-right text-uppercase font-weight-bold">
+							max raise
+						</span>
+					</el-tooltip>
 					<span class="fs-2 pr-2 text-white font-weight-bold text-right">
 						{{ hard }} {{ marketInfo.paymentCurrency.symbol }}
 					</span>
@@ -94,12 +95,16 @@
 		</div>
 		<div
 			v-if="isClaimed"
-			class="position-absolute finalize-box d-flex align-items-center justify-content-center"
+			class="
+				position-absolute
+				finalize-box
+				d-flex
+				align-items-center
+				justify-content-center
+			"
 		>
 			<div class="d-flex flex-column align-items-center">
-				<div class="fs-5 text-white font-weight-bold">
-					Your tokens have been
-				</div>
+				<div class="fs-5 text-white font-weight-bold">Your tokens have been</div>
 				<div class="fs-10 text-white font-weight-bold">CLAIMED</div>
 			</div>
 		</div>
@@ -107,13 +112,18 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { Tooltip } from 'element-ui'
+import { mapGetters } from 'vuex'
+
 export default {
+	components: {
+		[Tooltip.name]: Tooltip,
+	},
 	props: {
 		progress: {
 			type: [Number, String],
 			default: 0,
-			description: "progress in percentage",
+			description: 'progress in percentage',
 		},
 		status: {
 			type: [Object],
@@ -133,42 +143,47 @@ export default {
 		},
 	},
 	computed: {
-		...mapGetters("theme", ["getMode"]),
+		...mapGetters('theme', ['getMode']),
 		startPosition() {
 			return (parseInt(this.soft) * 100) / parseInt(this.hard)
 		},
 		activeAuction() {
-			if (this.status.auction === "live") {
+			if (this.status.auction === 'live') {
 				return true
 			}
 			return false
 		},
+		getTooltipEffect() {
+			if (this.getMode) {
+				return 'light'
+			}
+			return 'dark'
+		},
 		computedMargin() {
 			if (
-				this.$route.name === "auctions-live___en" ||
-				this.$route.name === "auctions-upcoming___en" ||
-				this.$route.name === "auctions-finished___en"
+				this.$route.name === 'auctions-live___en' ||
+				this.$route.name === 'auctions-upcoming___en' ||
+				this.$route.name === 'auctions-finished___en'
 			) {
 				return {
-					margin: "80px 0",
+					margin: '80px 0',
 				}
 			}
 			return {
-				margin: "140px 0",
+				margin: '140px 0',
 			}
 		},
 		statusColor() {
 			return {
-				"bg-success": this.activeAuction,
-				"bg-danger": !this.activeAuction && !this.status.auctionSuccessful,
-				"bg-link": !this.activeAuction && this.status.auctionSuccessful,
+				'bg-success': this.activeAuction,
+				'bg-danger': !this.activeAuction && !this.status.auctionSuccessful,
+				'bg-link': !this.activeAuction && this.status.auctionSuccessful,
 			}
 		},
 		statusLightColor() {
 			return {
-				"bg-success-light": this.activeAuction,
-				"bg-danger-light":
-					!this.activeAuction && !this.status.auctionSuccessful,
+				'bg-success-light': this.activeAuction,
+				'bg-danger-light': !this.activeAuction && !this.status.auctionSuccessful,
 			}
 		},
 		soft() {
@@ -177,9 +192,15 @@ export default {
 		hard() {
 			return this.marketInfo.totalTokens / this.marketInfo.rate
 		},
+		marketCommitPercent() {
+			return (
+				(this.marketInfo.commitmentsTotal * 100 * this.marketInfo.rate) /
+				this.marketInfo.totalTokens
+			).toFixed(2)
+		},
 		computedProgess() {
-			if (this.progress > 99 && this.$route.name.includes("auctions-address")) {
-				if (this.$route.name.includes("auctions-address")) {
+			if (this.progress > 99 && this.$route.name.includes('auctions-address')) {
+				if (this.$route.name.includes('auctions-address')) {
 					return this.progress - 1
 				}
 			} else if (this.progress > 99) {
@@ -244,7 +265,7 @@ export default {
 		top: 50%;
 		z-index: 99;
 		transform: translate(0%, -50%);
-		content: "";
+		content: '';
 		width: 15px;
 		height: 15px;
 		border-radius: 100%;
@@ -256,7 +277,7 @@ export default {
 		right: 0;
 		z-index: 99;
 		transform: translate(0%, -50%);
-		content: "";
+		content: '';
 		width: 15px;
 		height: 15px;
 		border-radius: 100%;
@@ -281,7 +302,7 @@ export default {
 			}
 		}
 		&-line {
-			content: "";
+			content: '';
 			position: absolute;
 			bottom: 0;
 			height: 94%;

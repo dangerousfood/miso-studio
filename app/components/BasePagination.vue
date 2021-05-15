@@ -35,7 +35,7 @@
 </template>
 <script>
 export default {
-	name: "BasePagination",
+	name: 'BasePagination',
 	props: {
 		pageCount: {
 			type: Number,
@@ -107,10 +107,10 @@ export default {
 	},
 	watch: {
 		perPage() {
-			this.$emit("input", 1)
+			this.$emit('input', 1)
 		},
 		total() {
-			this.$emit("input", 1)
+			this.$emit('input', 1)
 		},
 	},
 	methods: {
@@ -122,16 +122,16 @@ export default {
 			return arr
 		},
 		changePage(item) {
-			this.$emit("input", item)
+			this.$emit('input', item)
 		},
 		nextPage() {
 			if (this.value < this.totalPages) {
-				this.$emit("input", this.value + 1)
+				this.$emit('input', this.value + 1)
 			}
 		},
 		prevPage() {
 			if (this.value > 1) {
-				this.$emit("input", this.value - 1)
+				this.$emit('input', this.value - 1)
 			}
 		},
 	},

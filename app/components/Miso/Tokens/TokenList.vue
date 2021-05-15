@@ -1,10 +1,27 @@
 <template>
 	<div>
-		<div class="hero-section mt-5 pt-2 mb-3 pb-1 text-white">
+		<div class="d-flex align-items-center py-3">
+			<p class="fs-5 py-0 font-weight-bold d-flex">Tokens Deployed on MISO</p>
+			<span
+				class="
+					tokenNumber
+					ml-2
+					d-flex
+					justify-content-center
+					align-items-center
+					font-weight-bold
+					px-3
+					fs-1
+					py-0
+					radius-md
+				"
+			>
+				{{ total }}
+			</span>
+		</div>
+		<div class="hero-section pt-2 mb-3 pb-1 text-white">
 			<div class="d-flex justify-content-between">
-				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">
-					LIST OF TOKENS
-				</p>
+				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">LIST OF TOKENS</p>
 				<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative">
 					DISPLAYING {{ startItem }} to {{ endItem }} of {{ total }}
 				</p>
@@ -21,7 +38,16 @@
 			<div class="col-md-8 col-sm-5 col-12">
 				<div class="row no-gutters">
 					<div
-						class="col-xl-3 offset-xl-9 col-lg-4 offset-lg-8 col-md-4 offset-md-8 col-sm-10 offset-sm-7"
+						class="
+							col-xl-3
+							offset-xl-9
+							col-lg-4
+							offset-lg-8
+							col-md-4
+							offset-md-8
+							col-sm-10
+							offset-sm-7
+						"
 					>
 						<!-- number of item to display in table -->
 						<div class="select_wrapper">
@@ -59,26 +85,36 @@
 				<div class="table-section">
 					<!-- <loading-main-panel /> -->
 					<el-table v-loading="loading" :data="queriedData">
-						<el-table-column min-width="180" label="TOKEN">
-							<div slot-scope="{ row }" class="py-2">
-								<span>{{ row.addr | truncate(6) }}</span>
+						<el-table-column min-width="50">
+							<div slot-scope="{ row }" class="token-img mr-2">
+								<img :src="computedTokenImg(row.icon)" class="img-fluid" />
 							</div>
 						</el-table-column>
-						<el-table-column
-							min-width="130"
-							prop="name"
-							label="NAME"
-						></el-table-column>
-						<el-table-column
-							min-width="140"
-							prop="symbol"
-							label="SYMBOL"
-						></el-table-column>
-						<el-table-column
-							min-width="180"
-							label="TOKEN INFO"
-							header-align="center"
-						>
+						<el-table-column min-width="130" label="NAME">
+							<div slot-scope="{ row }">
+								<span class="text-white font-weight-bold">{{ row.name }}</span>
+							</div>
+						</el-table-column>
+						<el-table-column min-width="140" label="SYMBOL">
+							<div slot-scope="{ row }">
+								<span class="text-white font-weight-bold">{{ row.symbol }}</span>
+							</div>
+						</el-table-column>
+						<el-table-column min-width="370" label="Address">
+							<div slot-scope="{ row }" class="py-2">
+								<span>{{ row.addr }}</span>
+								<svg-icon
+									class="cursor-pointer"
+									icon="copy"
+									height="20"
+									width="20"
+									color="#F46E41"
+									:fill="false"
+									@click="copyToClipboard(row.addr)"
+								/>
+							</div>
+						</el-table-column>
+						<el-table-column min-width="180" label="TOKEN INFO" header-align="center">
 							<div slot-scope="{ row }" class="d-flex justify-content-center">
 								<button class="btn info-button" @click="ethLink(row.addr)">
 									<span class="fs-2">View Info</span>
@@ -88,7 +124,13 @@
 					</el-table>
 				</div>
 				<div
-					class="padination-wrapper d-flex align-items-center justify-content-between pt-4"
+					class="
+						padination-wrapper
+						d-flex
+						align-items-center
+						justify-content-between
+						pt-4
+					"
 				>
 					<span class="fs-2">
 						Showing {{ startItem }} to {{ endItem }} of {{ total }} entries
@@ -106,13 +148,13 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { Table, TableColumn } from "element-ui"
-import { BaseInput, BasePagination } from "@/components"
-import networkConfig from "@/constants/networkConfig"
+import { mapGetters, mapActions } from 'vuex'
+import { Table, TableColumn } from 'element-ui'
+import { BaseInput, BasePagination } from '@/components'
+import { EXPLORERS } from '@/constants/networks'
 // import LoadingMainPanel from "~/components/Layout/LoadingMainPanel"
-import { theme } from "@/mixins/theme"
-import clientPaginationMixin from "~/components/Tables/PaginatedTables/clientPaginationMixin"
+import { theme } from '@/mixins/theme'
+import clientPaginationMixin from '~/components/Tables/PaginatedTables/clientPaginationMixin'
 
 export default {
 	components: {
@@ -126,13 +168,13 @@ export default {
 	data() {
 		return {
 			loading: true,
-			searchQuery: "",
-			propsToSearch: ["token", "name", "symbol"],
+			searchQuery: '',
+			propsToSearch: ['token', 'name', 'symbol'],
 			tableData: [],
 		}
 	},
 	computed: {
-		...mapGetters({ tokens: "tokens/list", networkId: "ethereum/networkId" }),
+		...mapGetters({ tokens: 'tokens/list', networkId: 'ethereum/networkId' }),
 		total() {
 			return this.tableData.length
 		},
@@ -155,11 +197,28 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			getTokens: "tokens/getTokens",
+			getTokens: 'tokens/getTokens',
 		}),
+		computedTokenImg(link) {
+			if (link) {
+				return link
+			}
+			return require('static/s3/img/token_placeholder.png')
+		},
+		// copy data to clipboard on click & display message
+		copyToClipboard(value) {
+			navigator.clipboard.writeText(value).then(() => {
+				this.$notify({
+					type: 'success',
+					verticalAlign: 'bottom',
+					horizontalAlign: 'right',
+					message: 'successfully copied to clipboard!',
+				})
+			})
+		},
 		ethLink(addr) {
-			const url = networkConfig[this.networkId].explorer.root + "token/" + addr
-			window.open(url, "_blank").focus()
+			const url = EXPLORERS[this.networkId].explorer.root + 'token/' + addr
+			window.open(url, '_blank').focus()
 		},
 		getPeriodValue(row) {
 			const dateStart = new Date(row.startDate)
@@ -167,15 +226,13 @@ export default {
 			const dateNow = new Date()
 
 			const fullPeriod = Math.ceil(Math.abs(dateEnd - dateStart) / (60 * 1000))
-			const periodForNow = Math.ceil(
-				Math.abs(dateNow - dateStart) / (60 * 1000)
-			)
+			const periodForNow = Math.ceil(Math.abs(dateNow - dateStart) / (60 * 1000))
 
 			const res = (periodForNow * 100) / fullPeriod
 
-			if (row.status === "finished") {
+			if (row.status === 'finished') {
 				return 100
-			} else if (row.status === "not started") {
+			} else if (row.status === 'not started') {
 				return 0
 			} else {
 				return res
@@ -191,11 +248,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.tokenNumber {
+	background: rgba(246, 102, 69, 0.4);
+	color: white;
+}
+.token-img {
+	height: 45px;
+	width: 45px;
+}
 .hero-section {
 	div {
 		position: relative;
 		&::after {
-			content: "";
+			content: '';
 			position: absolute;
 			display: inline-block;
 			width: 100%;
@@ -204,7 +269,7 @@ export default {
 			height: 3px;
 		}
 		p::after {
-			content: "";
+			content: '';
 			position: absolute;
 			display: inline-block;
 			width: 100%;

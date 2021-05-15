@@ -1,4 +1,4 @@
-const { ENV } = require("./configs/env")
+const { ENV } = require('./configs/env')
 
 const routerConfig = {}
 if (ENV.BASE_URL) {
@@ -7,46 +7,44 @@ if (ENV.BASE_URL) {
 
 const generate = {}
 if (ENV.GENERATE_ERROR_PAGE) {
-	generate.routes = ["/403", "/404", "/500"]
+	generate.routes = ['/403', '/404', '/500']
 }
 
 module.exports = {
 	telemetry: false,
-	target: "static",
+	target: 'static',
 	ssr: false,
 	head: {
-		title: "MISO | Minimal Initial SushiSwap Offering",
+		title: 'MISO | Minimal Initial SushiSwap Offering',
 		meta: [
-			{ charset: "utf-8" },
-			{ name: "viewport", content: "width=device-width, initial-scale=1" },
+			{ charset: 'utf-8' },
+			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
 			{
-				name: "og:title",
-				content: "MISO | Minimal Initial SushiSwap Offering",
+				name: 'og:title',
+				content: 'MISO | Minimal Initial SushiSwap Offering',
 			},
-			{ name: "og:image", content: "/s3/img/brand/miso-social.jpg" },
-			{ name: "robots", content: "noindex" },
+			{ name: 'og:image', content: '/s3/img/brand/miso-social.jpg' },
+			{ name: 'robots', content: 'noindex' },
 			{
-				hid: "description",
-				name: "description",
-				content: "MISO: Minimal Initial SushiSwap Offering",
+				hid: 'description',
+				name: 'description',
+				content: 'MISO: Minimal Initial SushiSwap Offering',
 			},
 		],
 		link: [
-			{ rel: "icon", type: "image/x-icon", href: "/s3/miso.ico" },
+			{ rel: 'icon', type: 'image/x-icon', href: '/s3/miso.ico' },
 			{
-				rel: "stylesheet",
-				href:
-					"https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800",
+				rel: 'stylesheet',
+				href: 'https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800',
 			},
 			{
-				rel: "stylesheet",
-				href:
-					"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css",
+				rel: 'stylesheet',
+				href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css',
 			},
 		],
 	},
 	router: {
-		base: "/",
+		base: '/',
 		// linkExactActiveClass: "active",
 	},
 	render: {
@@ -54,7 +52,7 @@ module.exports = {
 		compressor: { threshold: 6 },
 	},
 
-	srcDir: "./app",
+	srcDir: './app',
 	/*
 	 ** Customize the progress-bar color
 	 */
@@ -63,36 +61,39 @@ module.exports = {
 	 ** Global CSS
 	 */
 	css: [
-		"assets/css/demo.css",
-		"assets/css/nucleo-icons.css",
-		"assets/sass/black-dashboard-pro.scss",
+		'assets/css/demo.css',
+		'assets/css/nucleo-icons.css',
+		'assets/sass/black-dashboard-pro.scss',
 	],
 	/*
 	 ** Plugins to load before mounting the App
 	 */
 	plugins: [
 		`~/plugins/dashboard-plugin.js`,
-		"~/plugins/vee-validate",
-		"~/plugins/filters.js",
-		{ src: "~/plugins/vue-slider-component.js", ssr: false },
-		{ src: "~/plugins/web3", ssr: false },
-		{ src: "~/plugins/sweetalert.js", ssr: false },
-		{ src: "~/plugins/full-calendar.js", ssr: false },
-		{ src: "~/plugins/svg-icons.js", ssr: true },
+		'~/plugins/vee-validate',
+		'~/plugins/filters.js',
+		{ src: '~/plugins/vue-slider-component.js', ssr: false },
+		{ src: '~/plugins/web3', ssr: false },
+		{ src: '~/plugins/sweetalert.js', ssr: false },
+		{ src: '~/plugins/full-calendar.js', ssr: false },
+		{ src: '~/plugins/svg-icons.js', ssr: true },
 	],
 	/*
 	 ** Nuxt.js dev-modules
 	 */
 	buildModules: [
 		// https://go.nuxtjs.dev/eslint
-		"@nuxtjs/eslint-module",
+		'@nuxtjs/eslint-module',
 	],
 	/*
 	 ** Nuxt.js modules
 	 */
-	modules: ["@nuxtjs/pwa", "vue-screen/nuxt"],
+	modules: ['@nuxtjs/pwa', 'vue-screen/nuxt', 'vue-currency-input/nuxt'],
 	screen: {
-		extend: "bootstrap",
+		extend: 'bootstrap',
+	},
+	env: {
+		ALCHEMY_KEY_GOERLI: process.env.ALCHEMY_KEY_GOERLI,
 	},
 	// server: {
 	// 	port: 8080,
@@ -101,7 +102,7 @@ module.exports = {
 	 ** Build configuration
 	 */
 	build: {
-		transpile: ["vee-validate/dist/rules", /^element-ui/],
+		transpile: ['vee-validate/dist/rules', /^element-ui/],
 		analyze: false,
 		standalone: true,
 
@@ -109,10 +110,10 @@ module.exports = {
 		babel: {
 			plugins: [
 				[
-					"component",
+					'component',
 					{
-						libraryName: "element-ui",
-						styleLibraryName: "theme-chalk",
+						libraryName: 'element-ui',
+						styleLibraryName: 'theme-chalk',
 					},
 				],
 			],

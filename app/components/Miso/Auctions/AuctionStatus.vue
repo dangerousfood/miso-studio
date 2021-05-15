@@ -7,9 +7,7 @@
 					<span class="h3">Auction has ended.</span>
 				</div>
 				<div v-else-if="isAuctionStarted" class="h3">
-					<h5 class="card-title text-uppercase mb-0 text-muted">
-						Time remaining
-					</h5>
+					<h5 class="card-title text-uppercase mb-0 text-muted">Time remaining</h5>
 					<span>{{ timeRemaining.days }}D</span>
 					<span>{{ timeRemaining.hours }}H :</span>
 					<span>{{ timeRemaining.minutes }}M :</span>
@@ -36,9 +34,7 @@
 				</div>
 
 				<div v-else class="h3">
-					<h5 class="card-title text-uppercase mb-0 text-muted">
-						Auction starts in
-					</h5>
+					<h5 class="card-title text-uppercase mb-0 text-muted">Auction starts in</h5>
 					<span>{{ startsAt.days }}D :</span>
 					<span>{{ startsAt.hours }}H :</span>
 					<span>{{ startsAt.minutes }}M :</span>
@@ -50,7 +46,7 @@
 </template>
 
 <script>
-import { duration } from "moment"
+import { duration } from 'moment'
 
 export default {
 	props: {
@@ -75,7 +71,7 @@ export default {
 		},
 		tokenSymbol: {
 			type: String,
-			default: "",
+			default: '',
 		},
 	},
 	data() {

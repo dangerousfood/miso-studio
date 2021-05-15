@@ -9,15 +9,15 @@
 			{{ message }}
 		</div>
 		<div v-if="showText" class="vue-simple-spinner-text" :style="text_style">
-			Try connecting your wallet, this page requires information from the
-			Ethereum blockchain.
+			Try connecting your wallet, this page requires information from the Ethereum
+			blockchain.
 		</div>
 		{{ connection }}
 	</div>
 </template>
 
 <script>
-import { mapGetters } from "vuex"
+import { mapGetters } from 'vuex'
 const isNumber = function (n) {
 	return !isNaN(parseFloat(n)) && isFinite(n)
 }
@@ -35,11 +35,11 @@ export default {
 		},
 		lineBgColor: {
 			type: String,
-			default: "#eee",
+			default: '#eee',
 		},
 		lineFgColor: {
 			type: String,
-			default: "var(--primary)", // match .blue color to Material Design's 'Blue 500' color
+			default: 'var(--primary)', // match .blue color to Material Design's 'Blue 500' color
 		},
 		speed: {
 			type: Number,
@@ -51,7 +51,7 @@ export default {
 		},
 		message: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		fontSize: {
 			type: Number,
@@ -59,106 +59,105 @@ export default {
 		},
 		textFgColor: {
 			type: String,
-			default: "#555",
+			default: '#555',
 		},
 	},
 	data() {
 		return {
-			timer: "",
+			timer: '',
 			showText: false,
 		}
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
+			coinbase: 'ethereum/coinbase',
 		}),
 		size_px() {
 			switch (this.size) {
-				case "tiny":
+				case 'tiny':
 					return 12
-				case "small":
+				case 'small':
 					return 16
-				case "medium":
+				case 'medium':
 					return 32
-				case "large":
+				case 'large':
 					return 48
-				case "big":
+				case 'big':
 					return 64
-				case "huge":
+				case 'huge':
 					return 96
-				case "massive":
+				case 'massive':
 					return 128
 			}
 			return isNumber(this.size) ? this.size : 32
 		},
 		line_size_px() {
 			switch (this.size) {
-				case "tiny":
+				case 'tiny':
 					return 1
-				case "small":
+				case 'small':
 					return 2
-				case "medium":
+				case 'medium':
 					return 3
-				case "large":
+				case 'large':
 					return 3
-				case "big":
+				case 'big':
 					return 4
-				case "huge":
+				case 'huge':
 					return 4
-				case "massive":
+				case 'massive':
 					return 5
 			}
 			return isNumber(this.lineSize) ? this.lineSize : 4
 		},
 		text_margin_top() {
 			switch (this.size) {
-				case "tiny":
-				case "small":
-				case "medium":
-				case "large":
-				case "big":
-				case "huge":
-				case "massive":
+				case 'tiny':
+				case 'small':
+				case 'medium':
+				case 'large':
+				case 'big':
+				case 'huge':
+				case 'massive':
 					return Math.min(Math.max(Math.ceil(this.size_px / 8), 3), 12)
 			}
 			return isNumber(this.spacing) ? this.spacing : 4
 		},
 		text_font_size() {
 			switch (this.size) {
-				case "tiny":
-				case "small":
-				case "medium":
-				case "large":
-				case "big":
-				case "huge":
-				case "massive":
+				case 'tiny':
+				case 'small':
+				case 'medium':
+				case 'large':
+				case 'big':
+				case 'huge':
+				case 'massive':
 					return Math.min(Math.max(Math.ceil(this.size_px * 0.4), 11), 32)
 			}
 			return isNumber(this.fontSize) ? this.fontSize : 13
 		},
 		spinner_wrapper() {
 			return {
-				margin: "60px 0",
+				margin: '60px 0',
 			}
 		},
 		spinner_style() {
 			return {
-				margin: "0 auto",
-				"border-radius": "100%",
-				border: this.line_size_px + "px solid " + this.lineBgColor,
-				"border-top": this.line_size_px + "px solid " + this.lineFgColor,
-				width: this.size_px + "px",
-				height: this.size_px + "px",
-				animation:
-					"vue-simple-spinner-spin " + this.speed + "s linear infinite",
+				margin: '0 auto',
+				'border-radius': '100%',
+				border: this.line_size_px + 'px solid ' + this.lineBgColor,
+				'border-top': this.line_size_px + 'px solid ' + this.lineFgColor,
+				width: this.size_px + 'px',
+				height: this.size_px + 'px',
+				animation: 'vue-simple-spinner-spin ' + this.speed + 's linear infinite',
 			}
 		},
 		text_style() {
 			return {
-				"margin-top": this.text_margin_top + "px",
+				'margin-top': this.text_margin_top + 'px',
 				color: this.textFgColor,
-				"font-size": this.text_font_size + "px",
-				"text-align": "center",
+				'font-size': this.text_font_size + 'px',
+				'text-align': 'center',
 			}
 		},
 		connection() {

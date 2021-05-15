@@ -74,7 +74,7 @@
 	</div>
 </template>
 <script>
-import { Table, TableColumn } from "element-ui"
+import { Table, TableColumn } from 'element-ui'
 
 export default {
 	components: {
@@ -85,31 +85,34 @@ export default {
 		return {
 			productsTable: [
 				{
-					image: "http://demos.creative-tim.com/nuxt-black-dashboard-pro/img/jacket.png",
-					title: "Suede Biker Jacket ",
-					description: "by Saint Laurent",
-					color: "Black",
-					size: "M",
+					image:
+						'http://demos.creative-tim.com/nuxt-black-dashboard-pro/img/jacket.png',
+					title: 'Suede Biker Jacket ',
+					description: 'by Saint Laurent',
+					color: 'Black',
+					size: 'M',
 					price: 3390,
 					quantity: 1,
 					amount: 3390,
 				},
 				{
-					image: "http://demos.creative-tim.com/nuxt-black-dashboard-pro/img/t-shirt.png",
-					title: "Jersey T-Shirt",
-					description: "by Balmain",
-					color: "Black",
-					size: "M",
+					image:
+						'http://demos.creative-tim.com/nuxt-black-dashboard-pro/img/t-shirt.png',
+					title: 'Jersey T-Shirt',
+					description: 'by Balmain',
+					color: 'Black',
+					size: 'M',
 					price: 499,
 					quantity: 2,
 					amount: 998,
 				},
 				{
-					image: "http://demos.creative-tim.com/nuxt-black-dashboard-pro/img/gucci.png",
-					title: "\tSlim-Fit Swim Short ",
-					description: "by Prada",
-					color: "Red",
-					size: "M",
+					image:
+						'http://demos.creative-tim.com/nuxt-black-dashboard-pro/img/gucci.png',
+					title: '\tSlim-Fit Swim Short ',
+					description: 'by Prada',
+					color: 'Red',
+					size: 'M',
 					price: 200,
 					quantity: 1,
 					amount: 200,

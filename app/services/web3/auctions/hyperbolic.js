@@ -1,4 +1,4 @@
-import { hyperbolicAuction } from "@/constants/contractConfig"
+import { hyperbolicAuction } from "~/constants/contracts"
 
 const abi = hyperbolicAuction.abi
 let contract

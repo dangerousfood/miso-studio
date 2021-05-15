@@ -1,10 +1,15 @@
 <template>
 	<div>
-		<div
-			class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
-		>
+		<div class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative">
 			<span
-				class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+				class="
+					text-uppercase text-secondary
+					font-weight-bold
+					border-bottom
+					pb-2
+					fs-4
+					h-100
+				"
 			>
 				TOKEN FACTORY
 			</span>
@@ -25,9 +30,7 @@
 							>
 								<div class="form-row justify-content-center mb-4">
 									<div class="col-lg-12 col-md-8 m-auto">
-										<label
-											class="form-control-label font-weight-bolder mb-4 fs-3"
-										>
+										<label class="form-control-label font-weight-bolder mb-4 fs-3">
 											Token type
 										</label>
 										<div class="row">
@@ -130,9 +133,7 @@
 								<card>
 									<div slot="header" class="row">
 										<div class="col">
-											<h6 class="text-uppercase text-muted ls-1 mb-1 fs-3">
-												Token
-											</h6>
+											<h6 class="text-uppercase text-muted ls-1 mb-1 fs-3">Token</h6>
 										</div>
 									</div>
 									<div class="col-sm-12 col-md-12">
@@ -148,9 +149,7 @@
 										</span>
 									</div>
 									<div class="col-sm-12 col-md-12">
-										<span class="h6 surtitle text-muted fs-3">
-											Total Supply
-										</span>
+										<span class="h6 surtitle text-muted fs-3">Total Supply</span>
 										<span class="d-block h4 text-white fs-2">
 											{{ tokenModel.totalSupply }}
 										</span>
@@ -167,9 +166,7 @@
 										</div>
 									</div>
 									<div class="col-sm-12 col-md-12">
-										<span class="h6 surtitle text-muted fs-3">
-											Transaction Hash
-										</span>
+										<span class="h6 surtitle text-muted fs-3">Transaction Hash</span>
 										<a
 											class="d-block text-white fs-2"
 											:href="`${explorer.root}${explorer.tx}${transactionHash}`"
@@ -207,9 +204,7 @@
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-12">
-											<span class="h6 surtitle text-muted">
-												Transaction Hash
-											</span>
+											<span class="h6 surtitle text-muted">Transaction Hash</span>
 											<a
 												class="d-block h4 text-primary"
 												:href="`${explorer.root}${explorer.tx}${transactionHash}`"
@@ -238,12 +233,7 @@
 							</div>
 							<hr />
 							<n-link :to="'/factory/auctions/new?token=' + tokenAddress">
-								<base-button
-									outline
-									type="primary"
-									class="float-right"
-									:round="true"
-								>
+								<base-button outline type="primary" class="float-right" :round="true">
 									Create Auction
 								</base-button>
 							</n-link>
@@ -255,18 +245,18 @@
 	</div>
 </template>
 <script>
-import { mapGetters } from "vuex"
-import { Steps, Step } from "element-ui"
+import { mapGetters } from 'vuex'
+import { Steps, Step } from 'element-ui'
 import {
 	// sendTransaction as tokenFactorySend,
 	getContractInstance,
 	subscribeToTokenCreatedEvent,
-} from "@/services/web3/tokenFactory"
-import { sendTransaction, toWei } from "@/services/web3/base"
-import SimpleWizard from "@/components/Miso/Tokens/TokensFactoryForm/Wizard"
-import WizardTab from "@/components/Miso/Tokens/TokensFactoryForm/WizardTab"
+} from '@/services/web3/tokenFactory'
+import { sendTransaction, toWei } from '@/services/web3/base'
+import SimpleWizard from '@/components/Miso/Tokens/TokensFactoryForm/Wizard'
+import WizardTab from '@/components/Miso/Tokens/TokensFactoryForm/WizardTab'
 
-import { theme } from "@/mixins/theme"
+import { theme } from '@/mixins/theme'
 // import { waitForReceipt } from "@/services/web3/base"
 
 export default {
@@ -284,41 +274,41 @@ export default {
 			prevBtnDisabled: true,
 			steps: [
 				{
-					title: "Token Details",
+					title: 'Token Details',
 					needsValidation: true,
-					refName: "tokenDetails",
+					refName: 'tokenDetails',
 				},
 				{
-					title: "Deployment",
+					title: 'Deployment',
 					needsValidation: false,
 				},
 				{
-					title: "Result",
+					title: 'Result',
 					needsValidation: false,
 				},
 			],
 			tokenTypes: [
 				{
-					displayName: "fixed",
-					name: "2",
-					icon: "mintable-boxes",
+					displayName: 'fixed',
+					name: '2',
+					icon: 'mintable-boxes',
 				},
 				{
-					displayName: "mintable",
-					name: "1",
-					icon: "mintable-2",
+					displayName: 'mintable',
+					name: '1',
+					icon: 'mintable-2',
 				},
 				{
-					displayName: "sushi",
-					name: "3",
-					icon: "sushi",
+					displayName: 'sushi',
+					name: '3',
+					icon: 'sushi',
 				},
 			],
 			tokenModel: {
-				name: "",
-				symbol: "",
+				name: '',
+				symbol: '',
 				totalSupply: null,
-				templateId: "1",
+				templateId: '1',
 			},
 			waitingForConfirmation: false,
 			transactionHash: null,
@@ -335,17 +325,17 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
 		}),
 		nextBtnText() {
-			let text = ""
+			let text = ''
 			switch (this.activeStep) {
 				case 0:
-					text = "Deploy"
+					text = 'Deploy'
 					break
 				case 2:
-					text = "Start Over"
+					text = 'Start Over'
 					break
 			}
 			return text
@@ -370,7 +360,7 @@ export default {
 					this.colors[key] = false
 				}
 			}
-			this.$emit("active-focus", this.colors)
+			this.$emit('active-focus', this.colors)
 		},
 		validateStep(ref) {
 			return this.$refs[ref].validate()
@@ -382,17 +372,17 @@ export default {
 		changeStep() {
 			if (this.activeStep === 2) {
 				this.tokenModel = {
-					name: "",
-					symbol: "",
+					name: '',
+					symbol: '',
 					totalSupply: 0,
-					templateId: "1",
+					templateId: '1',
 					deploymentFee: 0.1,
 				}
 				this.activeStep = 0
 			} else {
 				this.activeStep++
 			}
-			this.$emit("active-step", this.activeStep)
+			this.$emit('active-step', this.activeStep)
 		},
 		async createToken() {
 			this.waitingForConfirmation = true
@@ -404,13 +394,13 @@ export default {
 			]
 
 			const data = web3.eth.abi.encodeParameters(
-				["string", "string", "address", "uint256"],
+				['string', 'string', 'address', 'uint256'],
 				tokenData
 			)
 
 			// const args = [this.tokenModel.templateId, this.coinbase, data]
 
-			console.log("this.tokenFactoryContract:", this.tokenFactoryContract)
+			console.log('this.tokenFactoryContract:', this.tokenFactoryContract)
 
 			const methodToSend = this.tokenFactoryContract.methods.createToken(
 				this.tokenModel.templateId,
@@ -422,7 +412,7 @@ export default {
 				from: this.coinbase,
 			})
 
-			console.log("txHash:", txHash)
+			console.log('txHash:', txHash)
 
 			if (txHash) {
 				this.transactionHash = txHash
@@ -432,7 +422,7 @@ export default {
 		},
 		subscribeToTokenCreatedEvent() {
 			this.tokenCreatedEventSubscribtion = subscribeToTokenCreatedEvent()
-				.on("data", (event) => {
+				.on('data', (event) => {
 					if (this.transactionHash) {
 						if (this.transactionHash.toLowerCase() === event.transactionHash) {
 							this.tokenAddress = event.returnValues.addr
@@ -440,8 +430,8 @@ export default {
 						}
 					}
 				})
-				.on("error", (error) => {
-					console.log("event error:", error)
+				.on('error', (error) => {
+					console.log('event error:', error)
 				})
 		},
 		unsubscribeFromTokenCreatedEvent() {

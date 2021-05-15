@@ -6,11 +6,11 @@
 	</div>
 </template>
 <script>
-import { FadeTransition } from "vue2-transitions"
-import SidebarToggleButton from "./SidebarToggleButton"
+import { FadeTransition } from 'vue2-transitions'
+import SidebarToggleButton from './SidebarToggleButton'
 
 export default {
-	name: "SidebarFixedToggleButton",
+	name: 'SidebarFixedToggleButton',
 	components: {
 		SidebarToggleButton,
 		FadeTransition,
@@ -28,7 +28,7 @@ export default {
 		},
 	},
 	mounted() {
-		window.addEventListener("scroll", this.handleScroll)
+		window.addEventListener('scroll', this.handleScroll)
 	},
 	methods: {
 		handleScroll() {

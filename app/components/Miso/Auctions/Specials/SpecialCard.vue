@@ -1,107 +1,143 @@
 <template>
 	<card v-if="!loading" class="special p-2 card-hight">
-		<div class="d-flex justify-content-end align-items-center">
-			<!-- <svg-icon icon="morth" height="52" width="52" /> -->
-			<div class="d-flex align-items-center">
-				<div
-					v-if="status.auction !== 'live' && status.auction !== 'upcoming'"
-					class="special_status px-2 py-2 mr-2 text-white font-weight-bold text-uppercase"
-					:class="'border-' + computedStatusColor"
-				>
-					<svg-icon
-						v-if="status.auctionSuccessful"
-						icon="check"
-						height="20"
-						width="20"
-						:color="computedIconColor"
-					/>
-					<svg-icon
-						v-else
-						icon="cancel"
-						height="20"
-						width="20"
-						:color="computedIconColor"
-					/>
+		<div @mouseover="cardhover" @mouseout="cardout">
+			<div class="d-flex justify-content-end align-items-center">
+				<!-- 
+					// uncomment then web3 link for img are ready.
+					// wrapper to justify-content-between
+					<div class="token-img mr-2">
+					<img :src="computedTokenImg" class="img-fluid" />
+				</div> 
+				-->
+				<div class="d-flex align-items-center">
+					<div
+						v-if="status.auction !== 'live' && status.auction !== 'upcoming'"
+						class="
+							special_status
+							px-2
+							py-2
+							mr-2
+							text-white
+							font-weight-bold
+							text-uppercase
+						"
+						:class="'border-' + computedStatusColor"
+					>
+						<svg-icon
+							v-if="status.auctionSuccessful"
+							icon="check"
+							height="20"
+							width="20"
+							:color="computedIconColor"
+						/>
+						<svg-icon
+							v-else
+							icon="cancel"
+							height="20"
+							width="20"
+							:color="computedIconColor"
+						/>
+					</div>
+					<div
+						class="
+							special_status
+							px-3
+							py-2
+							text-white
+							font-weight-bold
+							text-uppercase
+						"
+						:class="'border-' + computedStatusColor"
+					>
+						<span class="mr-2" :class="'bg-' + computedStatusColor"></span>
+						{{ status.auction }}
+					</div>
 				</div>
-				<div
-					class="special_status px-3 py-2 text-white font-weight-bold text-uppercase"
-					:class="'border-' + computedStatusColor"
-				>
-					<span class="mr-2" :class="'bg-' + computedStatusColor"></span>
-					{{ status.auction }}
+			</div>
+			<div class="d-flex flex-column mt-3">
+				<div class="text-capitalize fs-5 font-weight-bold text-white">
+					{{ checkTitle(about.title) }}
+				</div>
+				<!-- <div class="fs-2 text-white">This is a first line of a Subtitle</div>
+				<div class="fs-2 text-white">Second line of subtitle goes here</div> -->
+			</div>
+			<base-divider class="mb-4 mt-2 py-1" />
+			<div v-if="!isUpcoming">
+				<!-- CrowedProgress -->
+				<crowd-progress
+					v-if="status.type === 'crowdsale'"
+					:status="status"
+					:token-info="tokenInfo"
+					:market-info="marketInfo"
+					:progress="crowdProgress"
+				/>
+				<!-- CrowedProgress -->
+
+				<!-- DutchProgress -->
+				<dutch-progress
+					v-if="status.type === 'dutch'"
+					class="mt-4 mb-3"
+					:status="status"
+					:progress="dutchProgress"
+					:market-info="marketInfo"
+				/>
+				<!-- DutchProgress -->
+
+				<!-- BatchProgress -->
+				<batch-progress
+					v-if="status.type === 'batch'"
+					class="mt-4"
+					:status="status"
+					:progress="timeProgress"
+					:market-info="marketInfo"
+				/>
+				<!-- BatchProgress -->
+			</div>
+			<div v-else class="d-flex flex-column flex-grow-1">
+				<div class="text-white text-center">COUNTDOWN</div>
+				<div class="text-white font-weight-bold text-center fs-16">
+					<span class="counter-line">{{ getFullTime }}</span>
 				</div>
 			</div>
-		</div>
-		<div class="d-flex flex-column mt-3">
-			<div class="text-capitalize fs-5 font-weight-bold text-white">
-				{{ checkTitle(about.title) }}
+			<base-divider class="mb-4 mt-2 py-1" />
+			<!-- <div class="d-flex flex-column">
+				<div class="font-weight-bold text-white text-uppercase fs-1">recipe:</div>
+				<div class="fs-3 font-weight-bold text-white mt-1">
+					{{ about.recipe }}
+				</div>
+			</div> -->
+			<div class="text-white text-uppercase font-weight-bold ingredients mt-5">
+				auction type:
 			</div>
-			<!-- <div class="fs-2 text-white">This is a first line of a Subtitle</div>
-			<div class="fs-2 text-white">Second line of subtitle goes here</div> -->
-		</div>
-		<base-divider class="mb-4 mt-2 py-1" />
-		<div v-if="!isUpcoming">
-			<!-- CrowedProgress -->
-			<crowd-progress
-				v-if="status.type === 'crowdsale'"
-				:status="status"
-				:market-info="marketInfo"
-				:progress="crowdProgress"
-			/>
-			<!-- CrowedProgress -->
-
-			<!-- DutchProgress -->
-			<dutch-progress
-				v-if="status.type === 'dutch'"
-				class="mt-4 mb-3"
-				:status="status"
-				:progress="dutchProgress"
-				:market-info="marketInfo"
-			/>
-			<!-- DutchProgress -->
-
-			<!-- BatchProgress -->
-			<batch-progress
-				v-if="status.type === 'batch'"
-				class="mt-4"
-				:status="status"
-				:progress="timeProgress"
-				:market-info="marketInfo"
-			/>
-			<!-- BatchProgress -->
-		</div>
-		<div v-else class="d-flex flex-column flex-grow-1">
-			<div class="text-white text-center">COUNTDOWN</div>
-			<div class="text-white font-weight-bold text-center fs-16">
-				<span class="counter-line">{{ getFullTime }}</span>
+			<div
+				v-if="buybuttonflag && buyhoverflag"
+				class="font-weight-bold text-white text-uppercase buy-sake-full py-4"
+			>
+				buy sake
 			</div>
-		</div>
-		<base-divider class="mb-4 mt-2 py-1" />
-		<!-- <div class="d-flex flex-column">
-			<div class="font-weight-bold text-white text-uppercase fs-1">recipe:</div>
-			<div class="fs-3 font-weight-bold text-white mt-1">
-				{{ about.recipe }}
-			</div>
-		</div> -->
-		<div class="d-flex flex-column mt-3 pt-3">
-			<div class="font-weight-bold text-white text-uppercase fs-1"></div>
-			<div class="d-flex align-items-center mt-3">
-				<span class="mr-3">
-					<svg-icon
-						:icon="status.type"
-						height="50"
-						width="48"
-						:color="computedIconColor"
-					/>
-				</span>
-				<span class="text-capitalize font-weight-bold text-white">
-					{{ auctionType }}
-				</span>
-				<div
-					class="font-weight-bold text-white text-uppercase buy-sake"
-					v-if="buybuttonflag"
-				>
-					buy sake
+			<div class="d-flex flex-column">
+				<div class="font-weight-bold text-white text-uppercase fs-1"></div>
+				<div class="d-flex align-items-center mt-3">
+					<span class="mr-1">
+						<svg-icon
+							:icon="status.type"
+							height="50"
+							width="48"
+							:color="computedIconColor"
+						/>
+					</span>
+					<span
+						v-if="!buybuttonflag"
+						class="text-capitalize font-weight-bold text-white"
+					>
+						{{ auctionType }}
+					</span>
+					<div
+						v-if="buybuttonflag && !buyhoverflag"
+						class="font-weight-bold text-white text-uppercase buy-sake"
+					>
+						buy sake
+					</div>
 				</div>
 			</div>
 		</div>
@@ -109,24 +145,25 @@
 </template>
 
 <script>
-import { Card, BaseDivider } from "@/components"
-import { theme } from "@/mixins/theme"
+import { Card, BaseDivider } from '@/components'
+import { theme } from '@/mixins/theme'
 
-import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
+import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 import {
 	getContractInstance as dutchAuctionContract,
 	clearingPrice,
-} from "@/services/web3/auctions/dutch"
-import { getContractInstance as crowdsaleContract } from "@/services/web3/auctions/crowdsale"
-import { getContractInstance as batchAuctionContract } from "@/services/web3/auctions/batch"
-import { makeBatchCall } from "@/services/web3/base"
-import { toDecimals, toPrecision, to18Decimals } from "@/util/index"
+} from '@/services/web3/auctions/dutch'
+import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
+import { getContractInstance as batchAuctionContract } from '@/services/web3/auctions/batch'
+import { makeBatchCall } from '@/services/web3/base'
+import { toDecimals, toPrecision, to18Decimals } from '@/util/index'
 
-import CrowdProgress from "~/components/Miso/Auctions/Specials/CrowdProgress"
-import DutchProgress from "~/components/Miso/Auctions/Specials/DutchIndicator"
-import BatchProgress from "~/components/Miso/Auctions/Specials/BatchIndicator "
+import CrowdProgress from '~/components/Miso/Auctions/Specials/CrowdProgress'
+import DutchProgress from '~/components/Miso/Auctions/Specials/DutchIndicator'
+import BatchProgress from '~/components/Miso/Auctions/Specials/BatchIndicator '
 
 export default {
+	name: 'SpecialCard',
 	components: {
 		Card,
 		BaseDivider,
@@ -136,6 +173,10 @@ export default {
 	},
 	mixins: [theme],
 	props: {
+		iconLink: {
+			type: String,
+			default: undefined,
+		},
 		auction: {
 			type: String,
 			required: true,
@@ -154,12 +195,12 @@ export default {
 		return {
 			// can be Object or Array
 			about: {
-				title: "",
-				tokenPair: "",
-				recipe: "Classic Miso",
+				title: '',
+				tokenPair: '',
+				recipe: 'Classic Miso',
 			},
 			status: {
-				date: "",
+				date: '',
 				participants: 0,
 				finished: false,
 				auctionSuccessful: false,
@@ -169,23 +210,24 @@ export default {
 				endTime: 0,
 				currentPrice: 0,
 				totalTokensCommitted: 0,
-				paymentCurrency: "ETH",
+				paymentCurrency: 'ETH',
 				hasPointList: false,
 				totalTokens: 0,
 				commitmentsTotal: 0,
 			},
 			tokenInfo: {
-				address: "",
-				name: "",
-				symbol: "",
+				address: '',
+				name: '',
+				symbol: '',
 			},
 			contractInstance: null,
 			loading: true,
 			now: new Date(),
-			displaySeconds: "00",
-			displayMinutes: "00",
-			displayHours: "00",
-			displayDays: "00",
+			displaySeconds: '00',
+			displayMinutes: '00',
+			displayHours: '00',
+			displayDays: '00',
+			buyhoverflag: false,
 		}
 	},
 	computed: {
@@ -200,27 +242,27 @@ export default {
 			return this.hours * 24
 		},
 		auctionType() {
-			if (this.status.type === "crowdsale") {
-				return "Crowd Auction"
+			if (this.status.type === 'crowdsale') {
+				return 'Crowdsale'
 			}
 			return `${this.status.type} Auction`
 		},
 		computedStatusColor() {
-			if (this.status.auction === "upcoming") {
-				return "info"
+			if (this.status.auction === 'upcoming') {
+				return 'info'
 			} else if (
-				this.status.auction === "finished" &&
+				this.status.auction === 'finished' &&
 				this.status.auctionSuccessful
 			) {
-				return "link"
+				return 'link'
 			} else if (
-				this.status.auction === "finished" &&
+				this.status.auction === 'finished' &&
 				!this.status.auctionSuccessful
 			) {
-				return "danger"
+				return 'danger'
 			}
 
-			return "success"
+			return 'success'
 		},
 		isUpcoming() {
 			const currentTimestamp = Date.parse(new Date()) / 1000
@@ -268,6 +310,12 @@ export default {
 		getFullTime() {
 			return `${this.displayDays}d : ${this.displayHours}h : ${this.displayMinutes}m : ${this.displaySeconds}s`
 		},
+		computedTokenImg() {
+			if (this.iconLink) {
+				return this.iconLink
+			}
+			return require('static/s3/img/token_placeholder.png')
+		},
 	},
 	async mounted() {
 		this.showCountDown()
@@ -275,22 +323,22 @@ export default {
 		let type
 		switch (parseInt(this.marketTemplateId)) {
 			case 1:
-				type = "crowdsale"
+				type = 'crowdsale'
 				this.contractInstance = crowdsaleContract(this.auction)
 				await this.setCrowdsaleData()
 				break
 			case 2:
-				type = "dutch"
+				type = 'dutch'
 				this.contractInstance = dutchAuctionContract(this.auction)
 				await this.setDutchAuctionData()
 				break
 			case 3:
-				type = "batch"
+				type = 'batch'
 				this.contractInstance = batchAuctionContract(this.auction)
 				await this.setBatchData()
 				break
 			case 4:
-				type = "hyperbolic"
+				type = 'hyperbolic'
 				break
 			default:
 				break
@@ -298,13 +346,13 @@ export default {
 		const currentTimestamp = Date.parse(new Date()) / 1000
 		let auction
 		if (this.marketInfo.startTime > currentTimestamp) {
-			auction = "upcoming"
+			auction = 'upcoming'
 			this.status.date = new Date(this.marketInfo.startTime * 1000)
 		} else if (currentTimestamp < this.marketInfo.endTime) {
-			auction = "live"
+			auction = 'live'
 			this.status.date = new Date(this.marketInfo.endTime * 1000)
 		} else {
-			auction = "finished"
+			auction = 'finished'
 		}
 		Object.assign(this.status, { type, auction })
 		this.loading = false
@@ -313,22 +361,27 @@ export default {
 		clearInterval(this.interval)
 	},
 	methods: {
+		cardhover() {
+			this.buyhoverflag = true
+		},
+		cardout() {
+			this.buyhoverflag = false
+		},
 		checkTitle(value) {
-			const specialReg =
-				'^(?=.*[!@#$%^&*"\\[\\]\\{\\}<>/\\=\\\\\\_´+`~\\:;,\\.€\\|])'
+			const specialReg = '^(?=.*[!@#$%^&*"\\[\\]\\{\\}<>/\\=\\\\\\_´+`~\\:;,\\.€\\|])'
 
 			if (!value.match(specialReg)) {
 				return value
 			} else {
 				return (
 					this.tokenInfo.addr.substring(0, 6) +
-					"..." +
+					'...' +
 					this.tokenInfo.addr.substring(this.tokenInfo.addr.length - 10)
 				)
 			}
 		},
 		showCountDown() {
-			if (this.status.auction === "finished") return
+			if (this.status.auction === 'finished') return
 			const timer = setInterval(() => {
 				// Get today's date
 				const now = new Date().getTime()
@@ -349,17 +402,15 @@ export default {
 				const seconds = Math.floor((distance % this.minutes) / this.seconds)
 
 				// Update display days, hours, minutes and seconds
-				this.displaySeconds = seconds < 10 ? "0" + seconds : seconds
-				this.displayMinutes = minutes < 10 ? "0" + minutes : minutes
-				this.displayHours = hours < 10 ? "0" + hours : hours
-				this.displayDays = days < 10 ? "0" + days : days
+				this.displaySeconds = seconds < 10 ? '0' + seconds : seconds
+				this.displayMinutes = minutes < 10 ? '0' + minutes : minutes
+				this.displayHours = hours < 10 ? '0' + hours : hours
+				this.displayDays = days < 10 ? '0' + days : days
 			}, 1000)
 		},
 
 		async setDutchAuctionData() {
-			const methods = [
-				{ methodName: "getDutchAuctionInfo", args: [this.auction] },
-			]
+			const methods = [{ methodName: 'getDutchAuctionInfo', args: [this.auction] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			const tokenInfo = data.tokenInfo
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
@@ -400,7 +451,7 @@ export default {
 		},
 
 		async setCrowdsaleData() {
-			const methods = [{ methodName: "getCrowdsaleInfo", args: [this.auction] }]
+			const methods = [{ methodName: 'getCrowdsaleInfo', args: [this.auction] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			const tokenInfo = data.tokenInfo
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
@@ -422,15 +473,12 @@ export default {
 				data.rate / this.status.totalTokens,
 				2
 			)
-			const tokensCommitted =
-				this.marketInfo.commitmentsTotal * this.marketInfo.rate
+			const tokensCommitted = this.marketInfo.commitmentsTotal * this.marketInfo.rate
 			this.marketInfo.totalTokensCommitted = tokensCommitted
 		},
 
 		async setBatchData() {
-			const methods = [
-				{ methodName: "getBatchAuctionInfo", args: [this.auction] },
-			]
+			const methods = [{ methodName: 'getBatchAuctionInfo', args: [this.auction] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			const tokenInfo = data.tokenInfo
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
@@ -456,7 +504,7 @@ export default {
 		},
 
 		async getTemplateId() {
-			const methods = [{ methodName: "marketTemplate" }]
+			const methods = [{ methodName: 'marketTemplate' }]
 			const [marketTemplate] = await makeBatchCall(
 				dutchAuctionContract(this.auction),
 				methods
@@ -476,6 +524,10 @@ export default {
 <style lang="scss" scoped>
 .card-hight {
 	min-height: 440px;
+}
+.token-img {
+	height: 40px;
+	width: 40px;
 }
 .special {
 	&_status {
@@ -498,15 +550,33 @@ export default {
 }
 .buy-sake {
 	position: absolute;
-	right: 10px;
+	right: 24px;
 	bottom: 30px;
 	background-image: linear-gradient(
 		135deg,
-		rgba(246, 102, 69, 0.6) 36.52%,
-		rgba(123, 97, 255, 0.6) 72.9%
+		rgba(245, 62, 46, 1) 36.52%,
+		rgba(209, 54, 158, 1) 72.9%
 	);
 	text-align: center;
 	padding: 8px 20px;
 	border-radius: 6px;
+	font-size: 14px;
+}
+.buy-sake-full {
+	background-image: linear-gradient(
+		135deg,
+		rgba(245, 62, 46, 1) 36.52%,
+		rgba(209, 54, 158, 1) 72.9%
+	);
+	text-align: center;
+	font-size: 14px;
+	width: 100%;
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	border-radius: 0 0 8px 8px;
+}
+.ingredients {
+	font-size: 10px;
 }
 </style>

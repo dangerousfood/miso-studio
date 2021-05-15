@@ -8,10 +8,7 @@
 		</el-steps>
 		<div class="mt-5">
 			<validation-observer v-if="activeStep === 0" v-slot="{ handleSubmit }">
-				<form
-					class="needs-validation"
-					@submit.prevent="handleSubmit(createRecipe02)"
-				>
+				<form class="needs-validation" @submit.prevent="handleSubmit(createRecipe02)">
 					<div class="form-row justify-content-md-center">
 						<div class="col-lg-6 mr-1">
 							<base-input
@@ -210,9 +207,7 @@
 						<card>
 							<div slot="header" class="row">
 								<div class="col">
-									<h6 class="text-uppercase text-muted ls-1 mb-1">
-										Miso Market
-									</h6>
+									<h6 class="text-uppercase text-muted ls-1 mb-1">Miso Market</h6>
 								</div>
 							</div>
 							<div class="col-sm-12 col-md-12">
@@ -271,9 +266,7 @@
 						<card>
 							<div slot="header" class="row">
 								<div class="col">
-									<h6 class="text-uppercase text-muted ls-1 mb-1">
-										Transaction
-									</h6>
+									<h6 class="text-uppercase text-muted ls-1 mb-1">Transaction</h6>
 								</div>
 							</div>
 							<div class="col-sm-12 col-md-12">
@@ -343,15 +336,15 @@
 </template>
 
 <script>
-import { Step, Steps } from "element-ui"
-import { mapGetters } from "vuex"
-import { ValidationObserver } from "vee-validate"
-import * as _moment from "moment"
-import { sendTransaction as createRecipe02 } from "@/services/web3/recipes/recipe02"
+import { Step, Steps } from 'element-ui'
+import { mapGetters } from 'vuex'
+import { ValidationObserver } from 'vee-validate'
+import * as _moment from 'moment'
+import { sendTransaction as createRecipe02 } from '@/services/web3/recipes/recipe02'
 
 const moment = _moment
 export default {
-	name: "Recipe02",
+	name: 'Recipe02',
 	components: {
 		[Steps.name]: Steps,
 		[Step.name]: Step,
@@ -363,37 +356,35 @@ export default {
 			activeStep: 0,
 			transactionHash: null,
 			recipe02FromDetails: {
-				name: "Token",
-				symbol: "TKN",
-				accessControl: "0x385fA2EF73433c6A4F4A5aF62700184390a6E232",
+				name: 'Token',
+				symbol: 'TKN',
+				accessControl: '0x385fA2EF73433c6A4F4A5aF62700184390a6E232',
 				tokensToMint: 1000000000000000,
 				tokensToMarket: 2000000000000000,
-				paymentCurrency: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-				startTime: moment().format("YYYY-MM-DD HH:mm"),
-				endTime: moment(this.startTime)
-					.add(1, "days")
-					.format("YYYY-MM-DD HH:mm"),
+				paymentCurrency: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+				startTime: moment().format('YYYY-MM-DD HH:mm'),
+				endTime: moment(this.startTime).add(1, 'days').format('YYYY-MM-DD HH:mm'),
 				marketRate: 100,
 				marketGoal: 200,
-				wallet: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
-				operator: "0x2A40019ABd4A61d71aBB73968BaB068ab389a636",
+				wallet: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
+				operator: '0x2A40019ABd4A61d71aBB73968BaB068ab389a636',
 				deadline: 200,
 				launchwindow: 259200,
 				locktime: 100,
 				tokensToLiquidity: 1000000000000000,
 				rewardsPerBlock: 1000000000000000,
 				startBlock: 1,
-				devAddr: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
+				devAddr: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
 				tokensToFarm: 1000000000000000,
 				allocPoint: 10,
-				integratorFeeAccount: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
+				integratorFeeAccount: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
 			},
 		}
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
 		}),
 		hideNextBtn() {
 			return this.activeStep === 1
@@ -401,10 +392,8 @@ export default {
 	},
 	methods: {
 		async createRecipe02() {
-			const startDate =
-				new Date(this.recipe02FromDetails.startTime).getTime() / 1000
-			const endDate =
-				new Date(this.recipe02FromDetails.endTime).getTime() / 1000
+			const startDate = new Date(this.recipe02FromDetails.startTime).getTime() / 1000
+			const endDate = new Date(this.recipe02FromDetails.endTime).getTime() / 1000
 
 			const args = [
 				this.recipe02FromDetails.name,
@@ -433,7 +422,7 @@ export default {
 
 			console.log(args)
 
-			const txHash = await createRecipe02("prepareMiso", args, {
+			const txHash = await createRecipe02('prepareMiso', args, {
 				from: this.coinbase,
 			})
 			console.log(txHash)

@@ -5,7 +5,12 @@
 		</template>
 		<div>
 			<div
-				class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap"
+				class="
+					col-12
+					d-flex
+					justify-content-center justify-content-sm-between
+					flex-wrap
+				"
 			>
 				<el-select
 					v-model="pagination.perPage"
@@ -49,9 +54,7 @@
 								scale: 5,
 							}"
 						/>
-						<nuxt-link
-							:to="{ name: 'farms-farm', params: { farm: row.address } }"
-						>
+						<nuxt-link :to="{ name: 'farms-farm', params: { farm: row.address } }">
 							{{ row.address | shortenAddress(8) }}
 						</nuxt-link>
 					</template>
@@ -67,7 +70,12 @@
 		</div>
 		<div
 			slot="footer"
-			class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap"
+			class="
+				col-12
+				d-flex
+				justify-content-center justify-content-sm-between
+				flex-wrap
+			"
 		>
 			<div class>
 				<p class="card-category">
@@ -85,11 +93,11 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { Table, TableColumn, Select, Option } from "element-ui"
-import EthImage from "@/components/web3-core/eth-identication/EthImage.vue"
-import Spinner from "@/components/web3-core/spinner/Spinner.vue"
-import clientPaginationMixin from "~/components/Tables/PaginatedTables/clientPaginationMixin"
+import { mapGetters, mapActions } from 'vuex'
+import { Table, TableColumn, Select, Option } from 'element-ui'
+import EthImage from '@/components/web3-core/eth-identication/EthImage.vue'
+import Spinner from '@/components/web3-core/spinner/Spinner.vue'
+import clientPaginationMixin from '~/components/Tables/PaginatedTables/clientPaginationMixin'
 export default {
 	components: {
 		[Select.name]: Select,
@@ -102,23 +110,23 @@ export default {
 	mixins: [clientPaginationMixin],
 	data() {
 		return {
-			propsToSearch: ["address", "owner", "farmTemplate"],
+			propsToSearch: ['address', 'owner', 'farmTemplate'],
 			columns: [
 				{
-					prop: "owner",
-					label: "Owner",
+					prop: 'owner',
+					label: 'Owner',
 					minWidth: 135,
 					sortable: false,
 				},
 				{
-					prop: "farmTemplate",
-					label: "FarmTemplate",
+					prop: 'farmTemplate',
+					label: 'FarmTemplate',
 					minWidth: 220,
 					sortable: false,
 				},
 				{
-					prop: "createdAt",
-					label: "Created",
+					prop: 'createdAt',
+					label: 'Created',
 					minWidth: 150,
 					sortable: true,
 				},
@@ -129,7 +137,7 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			farms: "farms/list",
+			farms: 'farms/list',
 		}),
 	},
 	async mounted() {
@@ -137,7 +145,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			setFarms: "farms/setFarms",
+			setFarms: 'farms/setFarms',
 		}),
 		async getFarms() {
 			await this.setFarms()

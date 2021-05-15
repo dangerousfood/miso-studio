@@ -1,6 +1,6 @@
 // import { getFarmCreated } from "@/services/web3/farmFactory"
-import { makeBatchCall } from "@/services/web3/base"
-import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
+import { makeBatchCall } from '@/services/web3/base'
+import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 // import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
 
 const getDefaultState = () => ({
@@ -28,11 +28,11 @@ export const mutations = {
 
 export const actions = {
 	async getFarms({ commit, state }) {
-		commit("SET_LOADING", true)
-		const methods = [{ methodName: "getFarms" }]
+		commit('SET_LOADING', true)
+		const methods = [{ methodName: 'getFarms' }]
 		const [farms] = await makeBatchCall(misoHelperContract(), methods)
-		commit("SET_FARMS", farms)
-		commit("SET_LOADING", false)
+		commit('SET_FARMS', farms)
+		commit('SET_LOADING', false)
 	},
 	// async setFarms({ commit, state }) {
 	// 	commit("SET_LOADING", true)

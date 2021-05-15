@@ -1,13 +1,12 @@
-import Web3 from "web3"
-// import { isRightNetwork } from "@/services/web3Provider"
-import networkConfig from "../constants/networkConfig"
-import walletProvider from "../services/walletProvider"
-const rightNetworks = networkConfig.rightNetworks
+import Web3 from 'web3'
+import { EXPLORERS, RIGHT_NETWORKS, DEFAULT_NETWORK } from '@/constants/networks'
+import walletProvider from '../services/walletProvider'
 
 export const state = () => ({
 	networkId: null,
 	coinbase: null,
-	defaultNetworkId: networkConfig.defaultNetwork,
+	metamask: false,
+	defaultNetworkId: DEFAULT_NETWORK,
 	explorer: {
 		root: null,
 		address: null,
@@ -29,20 +28,23 @@ export const mutations = {
 	SET_EXPLORER: (state, payload) => {
 		state.explorer = payload
 	},
+	SET_METAMASK: (state, payload) => {
+		state.metamask = payload
+	},
 }
 
 export const actions = {
 	async enableAccount({ dispatch }) {
 		const provider = await walletProvider.connectWallet()
-		dispatch("setProvider", provider)
+		dispatch('setProvider', provider)
 	},
 	async disconnectAccount({ commit }) {
 		await walletProvider.disconnectProvider()
-		commit("SET_COINBASE", null)
+		commit('SET_COINBASE', null)
 	},
 	async changeWallet({ dispatch }) {
 		const provider = await walletProvider.changeWallet()
-		dispatch("setProvider", provider)
+		dispatch('setProvider', provider)
 	},
 	setProvider({ commit, state, dispatch }, provider) {
 		const data = {
@@ -54,50 +56,50 @@ export const actions = {
 			if (provider.isMetaMask) {
 				data.account = provider.selectedAddress
 				data.networkId = provider.networkVersion
+				commit('SET_METAMASK', true)
 			} else {
 				data.account = provider.accounts[0]
 				data.networkId = provider.chainId
+				commit('SET_METAMASK', false)
 			}
 
-			// Subscribe to account change
-			provider.on("accountsChanged", (accounts) => {
+			provider.on('accountsChanged', (accounts) => {
 				if (state.coinbase) {
-					commit("SET_COINBASE", accounts[0])
+					commit('SET_COINBASE', accounts[0])
 				}
 			})
 
-			// Subscribe to chainId change
-			provider.on("chainChanged", (chainId) => {
-				window.location.reload()
+			provider.on('chainChanged', (chainId) => {
+				dispatch('setNetwork', parseInt(chainId))
 			})
 
-			commit("SET_COINBASE", data.account)
-			dispatch("setNetwork", data.networkId)
+			commit('SET_COINBASE', data.account)
+			dispatch('setNetwork', data.networkId)
 
 			if (isRightNetwork(data.networkId)) {
 				web3 = new Web3(provider)
 			} else {
-				const httpProvider = networkConfig[state.defaultNetworkId].httpProvider
+				const httpProvider = EXPLORERS[state.defaultNetworkId].httpProvider
 				web3 = new Web3(new Web3.providers.HttpProvider(httpProvider))
 			}
 		}
 	},
 
 	setCoinbase({ commit }, payload) {
-		commit("SET_COINBASE", payload)
+		commit('SET_COINBASE', payload)
 	},
 
 	setNetwork({ commit, state }, networkId) {
-		commit("SET_NETWORK", networkId)
+		commit('SET_NETWORK', networkId)
 		if (isRightNetwork(networkId)) {
-			commit("SET_EXPLORER", networkConfig[networkId].explorer)
+			commit('SET_EXPLORER', EXPLORERS[networkId].explorer)
 		} else {
-			commit("SET_EXPLORER", networkConfig[state.defaultNetworkId].explorer)
+			commit('SET_EXPLORER', EXPLORERS[state.defaultNetworkId].explorer)
 		}
 	},
 
 	setExplorer({ commit }, payload) {
-		commit("SET_EXPLORER", payload)
+		commit('SET_EXPLORER', payload)
 	},
 }
 
@@ -145,8 +147,12 @@ export const getters = {
 	gasPrice: (state) => {
 		return state.gasPrice
 	},
+
+	isMetamask: (state) => {
+		return state.metamask
+	},
 }
 
 const isRightNetwork = (netId) => {
-	return rightNetworks.includes(parseInt(netId))
+	return RIGHT_NETWORKS.includes(parseInt(netId))
 }

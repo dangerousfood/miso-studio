@@ -18,11 +18,7 @@
 
 					<div class="fs-2">
 						Don't have a token?
-						<a
-							href="#"
-							target="_blank"
-							class="font-weight-bold text-white underline"
-						>
+						<a href="#" target="_blank" class="font-weight-bold text-white underline">
 							Create it now!
 						</a>
 					</div>
@@ -50,7 +46,15 @@
 					<div>
 						<div class="d-flex flex-column">
 							<div
-								class="border border-2 d-flex justify-content-between align-items-baseline my-2 px-3 py-2"
+								class="
+									border border-2
+									d-flex
+									justify-content-between
+									align-items-baseline
+									my-2
+									px-3
+									py-2
+								"
 							>
 								<base-radio
 									v-model="model.currency"
@@ -63,7 +67,15 @@
 								<span>Most Common</span>
 							</div>
 							<div
-								class="border border-2 d-flex justify-content-between align-items-baseline my-2 px-3 py-2"
+								class="
+									border border-2
+									d-flex
+									justify-content-between
+									align-items-baseline
+									my-2
+									px-3
+									py-2
+								"
 							>
 								<base-radio
 									v-model="model.currency"
@@ -76,7 +88,15 @@
 								<span>Stable Coin</span>
 							</div>
 							<div
-								class="border border-2 d-flex justify-content-between align-items-baseline my-2 px-3 py-2"
+								class="
+									border border-2
+									d-flex
+									justify-content-between
+									align-items-baseline
+									my-2
+									px-3
+									py-2
+								"
 							>
 								<base-radio
 									v-model="model.currency"
@@ -165,10 +185,7 @@
 								name="end date"
 								:rules="`required|isAfter:${[model.startDate, 'start date']}`"
 							>
-								<el-date-picker
-									v-model="model.endDate"
-									type="date"
-								></el-date-picker>
+								<el-date-picker v-model="model.endDate" type="date"></el-date-picker>
 								<template #label>
 									<span class="font-weight-bold">END DATE</span>
 								</template>
@@ -215,10 +232,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { BaseDivider } from "@/components"
-import { DatePicker, TimeSelect } from "element-ui"
-import Autocomplete from "@/components/Inputs/Autocomplete"
+import { mapGetters, mapActions } from 'vuex'
+import { BaseDivider } from '@/components'
+import { DatePicker, TimeSelect } from 'element-ui'
+import Autocomplete from '@/components/Inputs/Autocomplete'
 
 export default {
 	components: {
@@ -230,14 +247,14 @@ export default {
 	data() {
 		return {
 			model: {
-				token: "",
-				currency: "ETH",
-				startPrice: "",
-				minPrice: "",
-				maxRise: "",
-				minRise: "",
-				startDate: "",
-				endDate: "",
+				token: '',
+				currency: 'ETH',
+				startPrice: '',
+				minPrice: '',
+				maxRise: '',
+				minRise: '',
+				startDate: '',
+				endDate: '',
 			},
 			suggestions: [],
 			tokensLoading: false,
@@ -245,18 +262,18 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
-			tokens: "tokens/list",
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
+			tokens: 'tokens/list',
 		}),
 	},
 	methods: {
 		...mapActions({
-			getTokens: "tokens/getTokens",
+			getTokens: 'tokens/getTokens',
 		}),
 		async validate() {
 			const isValid = await this.$refs.observer.validate()
-			if (isValid) this.$emit("on-validated", this.model)
+			if (isValid) this.$emit('on-validated', this.model)
 		},
 		async fetchTokens() {
 			if (!this.tokensLoading) {

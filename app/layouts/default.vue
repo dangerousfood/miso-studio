@@ -28,16 +28,16 @@
 </template>
 <script>
 /* eslint-disable no-new */
-import { mapGetters } from "vuex"
-import PerfectScrollbar from "perfect-scrollbar"
-import "perfect-scrollbar/css/perfect-scrollbar.css"
+import { mapGetters } from 'vuex'
+import PerfectScrollbar from 'perfect-scrollbar'
+import 'perfect-scrollbar/css/perfect-scrollbar.css'
 // import SidebarShare from "@/components/Layout/SidebarSharePlugin"
 
-import DashboardNavbar from "@/components/Layout/DashboardNavbar.vue"
-import ContentFooter from "@/components/Layout/ContentFooter.vue"
+import DashboardNavbar from '@/components/Layout/DashboardNavbar.vue'
+import ContentFooter from '@/components/Layout/ContentFooter.vue'
 // import DashboardContent from "@/components/Layout/Content.vue"
-import SidebarFixedToggleButton from "@/components/Layout/SidebarFixedToggleButton.vue"
-import { ZoomCenterTransition } from "vue2-transitions"
+import SidebarFixedToggleButton from '@/components/Layout/SidebarFixedToggleButton.vue'
+import { ZoomCenterTransition } from 'vue2-transitions'
 function hasElement(className) {
 	return document.getElementsByClassName(className).length > 0
 }
@@ -63,6 +63,7 @@ export default {
 		ZoomCenterTransition,
 		// SidebarShare,
 	},
+	middleware: 'networkId',
 	data() {
 		return {
 			// darkMode: "",
@@ -70,9 +71,9 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({ darkMode: "theme/getMode" }),
+		...mapGetters({ darkMode: 'theme/getMode' }),
 		isFullScreenRoute() {
-			return this.$route.path === "/maps/full-screen"
+			return this.$route.path === '/maps/full-screen'
 		},
 	},
 	mounted() {
@@ -93,20 +94,20 @@ export default {
 		},
 		initScrollbar() {
 			const docClasses = document.body.classList
-			const isWindows = navigator.platform.startsWith("Win")
+			const isWindows = navigator.platform.startsWith('Win')
 			if (isWindows) {
 				// if we are on windows OS we activate the perfectScrollbar function
-				initScrollbar("sidebar")
-				initScrollbar("main-panel")
-				initScrollbar("sidebar-wrapper")
+				initScrollbar('sidebar')
+				initScrollbar('main-panel')
+				initScrollbar('sidebar-wrapper')
 
-				docClasses.add("perfect-scrollbar-on")
+				docClasses.add('perfect-scrollbar-on')
 			} else {
-				docClasses.add("perfect-scrollbar-off")
+				docClasses.add('perfect-scrollbar-off')
 			}
 		},
 		setThemMode(event) {
-			localStorage.setItem("miso-theme", event)
+			localStorage.setItem('miso-theme', event)
 			// this.darkMode = this.mode
 		},
 	},
@@ -138,7 +139,7 @@ $scaleSize: 0.95;
 	}
 }
 .light-mode_bg {
-	background: url("/s3/img/backgrounds/nav_bg.png") no-repeat left center !important;
+	background: url('/s3/img/backgrounds/nav_bg.png') no-repeat left center !important;
 	background-size: cover !important;
 	position: fixed;
 	left: 0;

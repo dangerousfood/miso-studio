@@ -1,7 +1,7 @@
 // import { getCreatedTokens } from "@/services/web3/tokenFactory"
 // import { getContractInstance } from "@/services/web3/erc20Token"
-import { getContractInstance as getMisoHelperContract } from "@/services/web3/misoHelper"
-import { makeBatchCall } from "@/services/web3/base"
+import { getContractInstance as getMisoHelperContract } from '@/services/web3/misoHelper'
+import { makeBatchCall } from '@/services/web3/base'
 
 const getDefaultState = () => ({
 	tokens: [],
@@ -30,21 +30,21 @@ export const mutations = {
 
 export const actions = {
 	async getTokens({ commit, state }) {
-		commit("SET_LOADING", true)
+		commit('SET_LOADING', true)
 
-		const methods = [{ methodName: "getTokens" }]
+		const methods = [{ methodName: 'getTokens' }]
 		const tokens = await makeBatchCall(getMisoHelperContract(), methods)
 		const filteredTokens = filterArrayToJson(tokens)
-		console.log("filteredTokens:", filteredTokens)
+		console.log('filteredTokens:', filteredTokens)
 		if (filteredTokens.length > 0) {
-			const sortedTokens = sort(filteredTokens, "createdAt", "desc")
+			const sortedTokens = sort(filteredTokens, 'createdAt', 'desc')
 			if (state.lastBlockNumber !== 0) {
-				commit("MERGE_TOKENS", sortedTokens)
+				commit('MERGE_TOKENS', sortedTokens)
 			} else {
-				commit("SET_TOKENS", sortedTokens)
+				commit('SET_TOKENS', sortedTokens)
 			}
 		}
-		commit("SET_LOADING", false)
+		commit('SET_LOADING', false)
 	},
 	// async getTokens({ commit, state }) {
 	// 	// TODO - wait for new version of contracts
@@ -95,7 +95,7 @@ export const getters = {
 }
 
 const sort = (arr, obj, orderBy) => {
-	if (orderBy === "desc") {
+	if (orderBy === 'desc') {
 		return arr.sort((current, next) =>
 			current[obj] < next[obj] ? 1 : current[obj] > next[obj] ? -1 : 0
 		)

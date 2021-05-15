@@ -18,11 +18,11 @@
 </template>
 
 <script>
-import BreadCrumb from "./Breadcrumb"
-import BreadCrumbItem from "./BreadcrumbItem"
+import BreadCrumb from './Breadcrumb'
+import BreadCrumbItem from './BreadcrumbItem'
 
 export default {
-	name: "RouteBreadcrumb",
+	name: 'RouteBreadcrumb',
 	components: {
 		BreadCrumb,
 		BreadCrumbItem,
@@ -30,14 +30,14 @@ export default {
 	computed: {
 		routeName() {
 			const { path } = this.$route
-			const parts = path.split("/")
-			return parts.map((p) => this.capitalizeFirstLetter(p)).join(" ")
+			const parts = path.split('/')
+			return parts.map((p) => this.capitalizeFirstLetter(p)).join(' ')
 		},
 	},
 	methods: {
 		capitalizeFirstLetter(string) {
-			if (!string || typeof string !== "string") {
-				return ""
+			if (!string || typeof string !== 'string') {
+				return ''
 			}
 			return string.charAt(0).toUpperCase() + string.slice(1)
 		},

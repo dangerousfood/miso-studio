@@ -59,9 +59,7 @@
 						<card>
 							<div slot="header" class="row">
 								<div class="col">
-									<h6 class="text-uppercase text-muted ls-1 mb-1">
-										Transaction
-									</h6>
+									<h6 class="text-uppercase text-muted ls-1 mb-1">Transaction</h6>
 								</div>
 							</div>
 							<div class="col-sm-12 col-md-12">
@@ -131,15 +129,15 @@
 </template>
 
 <script>
-import { Step, Steps } from "element-ui"
-import { mapGetters } from "vuex"
+import { Step, Steps } from 'element-ui'
+import { mapGetters } from 'vuex'
 import {
-	sendTransaction as liquidityLauncherCreate,
-	subscribeToLiquidityLauncherCreatedEvent,
-} from "@/services/web3/liquidityLauncher"
-import { ValidationObserver } from "vee-validate"
+	sendTransaction as misoLauncherCreate,
+	subscribeToMisoLauncherCreatedEvent,
+} from '@/services/web3/misoLauncher'
+import { ValidationObserver } from 'vee-validate'
 export default {
-	name: "BaseLiquidityLauncherValidation",
+	name: 'BaseLiquidityLauncherValidation',
 	components: {
 		[Steps.name]: Steps,
 		[Step.name]: Step,
@@ -153,20 +151,20 @@ export default {
 			liquidityDetailsForm: {
 				templateId: 1,
 			},
-			liquidityLauncherCreatedEventSubscribtion: null,
+			misoLauncherCreatedEventSubscribtion: null,
 		}
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
 		}),
 		hideNextBtn() {
 			return this.activeStep === 1
 		},
 	},
 	mounted() {
-		this.subscribeToLiquidityLauncherCreatedEvent()
+		this.subscribeToMisoLauncherCreatedEvent()
 	},
 	beforeDestroy() {
 		this.unsubscribeFromLiquidityLauncherCreatedEvent()
@@ -179,33 +177,32 @@ export default {
 
 			console.log(this.liquidityDetailsForm.templateId)
 
-			const txHash = await liquidityLauncherCreate(
-				"createLiquidityLauncher",
-				args,
-				{ from: this.coinbase }
-			)
+			const txHash = await misoLauncherCreate('createLiquidityLauncher', args, {
+				from: this.coinbase,
+			})
 
 			console.log(txHash)
 		},
-		subscribeToLiquidityLauncherCreatedEvent() {
-			this.liquidityLauncherCreatedEventSubscribtion = subscribeToLiquidityLauncherCreatedEvent()
-				.on("data", async (event) => {
-					if (this.transactionHash) {
-						if (this.transactionHash.toLowerCase() === event.transactionHash) {
-							console.log("from event", event)
-							// console.log(event.returnValues, 'token');
-							// this.farmAddress = event.returnValues.token;
-							// this.changeStep();
+		subscribeToMisoLauncherCreatedEvent() {
+			this.misoLauncherCreatedEventSubscribtion =
+				subscribeToMisoLauncherCreatedEvent()
+					.on('data', async (event) => {
+						if (this.transactionHash) {
+							if (this.transactionHash.toLowerCase() === event.transactionHash) {
+								console.log('from event', event)
+								// console.log(event.returnValues, 'token');
+								// this.farmAddress = event.returnValues.token;
+								// this.changeStep();
+							}
 						}
-					}
-				})
-				.on("error", (error) => {
-					console.log("event error:", error)
-				})
+					})
+					.on('error', (error) => {
+						console.log('event error:', error)
+					})
 		},
 		unsubscribeFromLiquidityLauncherCreatedEvent() {
-			if (this.liquidityLauncherCreatedEventSubscribtion) {
-				this.liquidityLauncherCreatedEventSubscribtion.unsubscribe()
+			if (this.misoLauncherCreatedEventSubscribtion) {
+				this.misoLauncherCreatedEventSubscribtion.unsubscribe()
 			}
 		},
 	},

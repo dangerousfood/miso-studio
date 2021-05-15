@@ -1,4 +1,4 @@
-import Fuse from "fuse.js"
+import Fuse from 'fuse.js'
 export default {
 	computed: {
 		/***
@@ -34,7 +34,7 @@ export default {
 			pagination: {
 				perPage: 10,
 				currentPage: 1,
-				perPageOptions: [5, 10, 25, 50]
+				perPageOptions: [5, 10, 25, 50],
 			},
 			searchedData: [],
 			fuseSearch: null,
@@ -46,7 +46,7 @@ export default {
 				this.tableData.sort((a, b) => {
 					const aVal = a[prop]
 					const bVal = b[prop]
-					if (order === "ascending") {
+					if (order === 'ascending') {
 						return aVal > bVal ? 1 : -1
 					}
 					return bVal - aVal ? 1 : -1
@@ -73,7 +73,7 @@ export default {
 		 */
 		searchQuery(value) {
 			let result = this.tableData
-			if (value !== "") {
+			if (value !== '') {
 				result = this.fuseSearch.search(this.searchQuery)
 			}
 			this.searchedData = result

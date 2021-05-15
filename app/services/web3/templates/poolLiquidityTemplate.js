@@ -1,4 +1,4 @@
-import { poolLiquidityTemplate } from "@/constants/contractConfig"
+import { poolLiquidityTemplate } from "~/constants/contracts"
 import {
 	getNetworkId,
 	makeBatchCall as _makeBatchCall,

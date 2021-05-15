@@ -9,9 +9,9 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { recipe02 } from "@/constants/contractConfig"
-import Recipe02Form from "@/components/Miso/Recipes/Recipe02Form"
+import { mapGetters } from 'vuex'
+import { recipe02 } from '~/constants/contracts'
+import Recipe02Form from '@/components/Miso/Recipes/Recipe02Form'
 
 const contractAddress = recipe02.address
 
@@ -19,17 +19,17 @@ export default {
 	components: {
 		Recipe02Form,
 	},
-	layout: "DashboardLayout",
+	layout: 'DashboardLayout',
 	data() {
 		return {
-			contractAddress: "",
+			contractAddress: '',
 			tokenAddress: this.$route.query.token,
 			deploymentFee: 0,
 		}
 	},
 	computed: {
 		...mapGetters({
-			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 		}),
 	},
 	mounted() {

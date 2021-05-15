@@ -4,7 +4,10 @@
 			<div class="row align-items-center py-4">
 				<div class="col-lg-8 col-9 d-flex align-items-center">
 					<n-link to="/" class="h2 text-dark d-inline-block mb-0"></n-link>
-					<nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-1 mt-1"></nav>
+					<nav
+						aria-label="breadcrumb"
+						class="d-none d-md-inline-block ml-1 mt-1"
+					></nav>
 				</div>
 			</div>
 		</base-header>
@@ -35,7 +38,13 @@
 								<div class="d-flex align-items-center">
 									<div>
 										<div
-											class="icon icon-xs icon-shape bg-gradient-primary text-white shadow rounded-circle"
+											class="
+												icon icon-xs icon-shape
+												bg-gradient-primary
+												text-white
+												shadow
+												rounded-circle
+											"
 										>
 											<i class="fas fa-terminal"></i>
 										</div>
@@ -49,7 +58,13 @@
 								<div class="d-flex align-items-center">
 									<div>
 										<div
-											class="icon icon-xs icon-shape bg-gradient-primary text-white shadow rounded-circle"
+											class="
+												icon icon-xs icon-shape
+												bg-gradient-primary
+												text-white
+												shadow
+												rounded-circle
+											"
 										>
 											<i class="fas fa-pen-fancy"></i>
 										</div>
@@ -63,7 +78,13 @@
 								<div class="d-flex align-items-center">
 									<div>
 										<div
-											class="icon icon-xs icon-shape bg-gradient-primary text-white shadow rounded-circle"
+											class="
+												icon icon-xs icon-shape
+												bg-gradient-primary
+												text-white
+												shadow
+												rounded-circle
+											"
 										>
 											<i class="fas fa-hdd"></i>
 										</div>
@@ -104,7 +125,13 @@
 								<div class="d-flex align-items-center">
 									<div>
 										<div
-											class="icon icon-xs icon-shape bg-gradient-primary text-white shadow rounded-circle"
+											class="
+												icon icon-xs icon-shape
+												bg-gradient-primary
+												text-white
+												shadow
+												rounded-circle
+											"
 										>
 											<i class="fas fa-terminal"></i>
 										</div>
@@ -118,7 +145,13 @@
 								<div class="d-flex align-items-center">
 									<div>
 										<div
-											class="icon icon-xs icon-shape bg-gradient-primary text-white shadow rounded-circle"
+											class="
+												icon icon-xs icon-shape
+												bg-gradient-primary
+												text-white
+												shadow
+												rounded-circle
+											"
 										>
 											<i class="fas fa-pen-fancy"></i>
 										</div>
@@ -132,7 +165,13 @@
 								<div class="d-flex align-items-center">
 									<div>
 										<div
-											class="icon icon-xs icon-shape bg-gradient-primary text-white shadow rounded-circle"
+											class="
+												icon icon-xs icon-shape
+												bg-gradient-primary
+												text-white
+												shadow
+												rounded-circle
+											"
 										>
 											<i class="fas fa-hdd"></i>
 										</div>
@@ -148,7 +187,6 @@
 						</n-link>
 					</card>
 				</div>
-
 			</div>
 		</div>
 	</div>
@@ -156,7 +194,7 @@
 
 <script>
 export default {
-	layout: "DashboardLayout",
+	layout: 'DashboardLayout',
 }
 </script>
 

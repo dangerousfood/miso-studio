@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import test from "@/components/ValidationForms/LoginForm"
+import test from '@/components/ValidationForms/LoginForm'
 export default {
 	components: {
 		test,

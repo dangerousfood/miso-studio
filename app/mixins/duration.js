@@ -1,4 +1,4 @@
-import moment from "moment"
+import moment from 'moment'
 
 export const duration = {
 	data() {
@@ -11,9 +11,9 @@ export const duration = {
 		getDuration() {
 			const hours = this.numberOfDays * 24 + this.numberOfHours
 			const duration = moment(this.model.startDate)
-				.add(hours, "hours")
-				.format("YYYY-MM-DD HH:mm:ss")
-			if (this.model.startDate === "") return ""
+				.add(hours, 'hours')
+				.format('YYYY-MM-DD HH:mm:ss')
+			if (this.model.startDate === '') return ''
 			else return duration
 		},
 	},

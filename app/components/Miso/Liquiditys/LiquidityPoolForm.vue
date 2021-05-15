@@ -1,10 +1,15 @@
 <template>
 	<div>
-		<div
-			class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
-		>
+		<div class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative">
 			<span
-				class="text-uppercase text-secondary font-weight-bold border-bottom pb-2 fs-4 h-100"
+				class="
+					text-uppercase text-secondary
+					font-weight-bold
+					border-bottom
+					pb-2
+					fs-4
+					h-100
+				"
 			>
 				INIT POOL LIQUIDITY
 			</span>
@@ -159,9 +164,7 @@
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-12">
-											<span class="h6 surtitle text-muted">
-												Access Controls
-											</span>
+											<span class="h6 surtitle text-muted">Access Controls</span>
 											<span class="d-block h4">
 												{{ poolLiquidityDetailsForm.accessControls }}
 											</span>
@@ -197,9 +200,7 @@
 											</span>
 										</div>
 										<div class="col-sm-12 col-md-12">
-											<span class="h6 surtitle text-muted">
-												Liquidity Percent
-											</span>
+											<span class="h6 surtitle text-muted">Liquidity Percent</span>
 											<span class="d-block h4">
 												{{ poolLiquidityDetailsForm.liquidityPercent }}%
 											</span>
@@ -211,13 +212,9 @@
 											</span>
 										</div>
 										<div class="col-sm-12 col-md-12">
-											<span class="h6 surtitle text-muted">
-												Is Token 1 WETH
-											</span>
+											<span class="h6 surtitle text-muted">Is Token 1 WETH</span>
 											<span class="d-block h4">
-												{{
-													poolLiquidityDetailsForm.isToken1WETH ? "Yes" : "No"
-												}}
+												{{ poolLiquidityDetailsForm.isToken1WETH ? 'Yes' : 'No' }}
 											</span>
 										</div>
 									</card>
@@ -232,9 +229,7 @@
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-12">
-											<span class="h6 surtitle text-muted">
-												Transaction Hash
-											</span>
+											<span class="h6 surtitle text-muted">Transaction Hash</span>
 											<a
 												class="d-block"
 												:href="`${explorer.root}${explorer.tx}${transactionHash}`"
@@ -273,9 +268,7 @@
 											</div>
 										</div>
 										<div class="col-sm-12 col-md-12">
-											<span class="h6 surtitle text-muted">
-												Transaction Hash
-											</span>
+											<span class="h6 surtitle text-muted">Transaction Hash</span>
 											<a
 												class="d-block h4 text-primary"
 												:href="`${explorer.root}${explorer.tx}${transactionHash}`"
@@ -311,22 +304,22 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import { Step, Steps } from "element-ui"
-import * as _moment from "moment"
+import { mapGetters } from 'vuex'
+import { Step, Steps } from 'element-ui'
+import * as _moment from 'moment'
 import {
 	sendTransaction as poolLiquidityInit,
 	subscribeToLiquidityAddedEvent,
-} from "@/services/web3/templates/poolLiquidityTemplate"
-import { ValidationObserver } from "vee-validate"
-import SimpleWizard from "@/components/Miso/Liquiditys/LiquidityPoolForm/Wizard"
-import WizardTab from "@/components/Miso/Liquiditys/LiquidityPoolForm/WizardTab"
-import BigNumber from "bignumber.js"
+} from '@/services/web3/templates/poolLiquidityTemplate'
+import { ValidationObserver } from 'vee-validate'
+import SimpleWizard from '@/components/Miso/Liquiditys/LiquidityPoolForm/Wizard'
+import WizardTab from '@/components/Miso/Liquiditys/LiquidityPoolForm/WizardTab'
+import BigNumber from 'bignumber.js'
 
 const moment = _moment
 
 export default {
-	name: "BasePoolLiquidityValidation",
+	name: 'BasePoolLiquidityValidation',
 	components: {
 		[Steps.name]: Steps,
 		[Step.name]: Step,
@@ -340,14 +333,14 @@ export default {
 			activeStep: 0,
 			transactionHash: null,
 			poolLiquidityDetailsForm: {
-				accessControls: "0x62cAfEc8Fe3f5C2026B4b0F776575e6D4c3f5393",
-				token1: "0x0b5C52054636540b739FD846dc70D3c0c8a9D05F",
-				token2: "0xa686341b11c868FcAd6B83d73660423217d86433",
-				factory: "0xc35DADB65012eC5796536bD9864eD8773aBc74C4",
-				owner: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
-				wallet: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
-				liquidityPercent: "50.00",
-				deadline: moment().add(2, "days").valueOf(),
+				accessControls: '0x62cAfEc8Fe3f5C2026B4b0F776575e6D4c3f5393',
+				token1: '0x0b5C52054636540b739FD846dc70D3c0c8a9D05F',
+				token2: '0xa686341b11c868FcAd6B83d73660423217d86433',
+				factory: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4',
+				owner: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
+				wallet: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
+				liquidityPercent: '50.00',
+				deadline: moment().add(2, 'days').valueOf(),
 				launchwindow: 173000,
 				locktime: moment().utc().seconds(),
 				isToken1WETH: true,
@@ -357,8 +350,8 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
 		}),
 		hideNextBtn() {
 			return this.activeStep === 1
@@ -395,10 +388,10 @@ export default {
 				this.poolLiquidityDetailsForm.locktime,
 				this.poolLiquidityDetailsForm.isToken1WETH,
 			]
-			const txHash = await poolLiquidityInit("initPoolLiquidity", args, {
+			const txHash = await poolLiquidityInit('initPoolLiquidity', args, {
 				from: this.coinbase,
 			})
-			console.log(txHash, "txHash")
+			console.log(txHash, 'txHash')
 			if (txHash) {
 				this.transactionHash = txHash
 				this.changeStep()
@@ -408,13 +401,13 @@ export default {
 		changeStep() {
 			if (this.activeStep === 2) {
 				this.poolLiquidityDetailsForm = {
-					accessControls: "0x62cAfEc8Fe3f5C2026B4b0F776575e6D4c3f5393",
-					token1: "0x0b5C52054636540b739FD846dc70D3c0c8a9D05F",
-					token2: "0xa686341b11c868FcAd6B83d73660423217d86433",
-					factory: "0xc35DADB65012eC5796536bD9864eD8773aBc74C4",
-					owner: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
-					wallet: "0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52",
-					deadline: moment().add(2, "days").valueOf(),
+					accessControls: '0x62cAfEc8Fe3f5C2026B4b0F776575e6D4c3f5393',
+					token1: '0x0b5C52054636540b739FD846dc70D3c0c8a9D05F',
+					token2: '0xa686341b11c868FcAd6B83d73660423217d86433',
+					factory: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4',
+					owner: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
+					wallet: '0x8031EE7A32e9296e636428AF0Beea74Ae7BbEb52',
+					deadline: moment().add(2, 'days').valueOf(),
 					launchwindow: 173000,
 					locktime: moment().utc().seconds(),
 				}
@@ -424,20 +417,21 @@ export default {
 			}
 		},
 		subscribeToLiquidityAddedEvent() {
-			this.subscribeToLiquidityAddedEventSubscription = subscribeToLiquidityAddedEvent()
-				.on("data", (event) => {
-					if (this.transactionHash) {
-						if (this.transactionHash.toLowerCase() === event.transactionHash) {
-							console.log("from event", event)
-							// console.log(event.returnValues, 'token');
-							// this.farmAddress = event.returnValues.token;
-							this.changeStep()
+			this.subscribeToLiquidityAddedEventSubscription =
+				subscribeToLiquidityAddedEvent()
+					.on('data', (event) => {
+						if (this.transactionHash) {
+							if (this.transactionHash.toLowerCase() === event.transactionHash) {
+								console.log('from event', event)
+								// console.log(event.returnValues, 'token');
+								// this.farmAddress = event.returnValues.token;
+								this.changeStep()
+							}
 						}
-					}
-				})
-				.on("error", (error) => {
-					console.log("event error:", error)
-				})
+					})
+					.on('error', (error) => {
+						console.log('event error:', error)
+					})
 		},
 		unsubscribeFromLiquidityAddedEvent() {
 			if (this.subscribeToLiquidityAddedEventSubscription) {
