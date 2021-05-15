@@ -34,12 +34,13 @@
     "nuxt": "^2.14.12",
     "vue-currency-input": "^1.22.6",
     "vue-loading-spinner": "^1.0.11",
-    "vue-slider-component": "^3.2.11",
-    "vue-plyr": "^7.0.0"
+    "vue-plyr": "^7.0.0",
+    "vue-slider-component": "^3.2.11"
   },
   "devDependencies": {
     "@babel/core": "^7.13.10",
     "@babel/preset-env": "^7.13.10",
+    "@ethersproject/experimental": "^5.0.1",
     "@fullcalendar/core": "^4.3.1",
     "@fullcalendar/daygrid": "^4.3.0",
     "@fullcalendar/interaction": "^4.3.0",
@@ -47,6 +48,7 @@
     "@fullcalendar/vue": "^4.3.1",
     "@nuxtjs/eslint-config": "^5.0.0",
     "@nuxtjs/eslint-module": "^3.0.2",
+    "@sushiswap/sdk": "5.0.0-canary.7",
     "@types/aws-serverless-express": "^3.3.1",
     "@types/cookie-parser": "^1.4.1",
     "@vue/cli-plugin-eslint": "~4.5.0",

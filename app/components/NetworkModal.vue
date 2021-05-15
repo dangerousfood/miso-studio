@@ -43,7 +43,11 @@
 						</slot>
 					</div>
 
-					<div v-if="$slots.default" class="bg-gradient-to-r from-blue to-pink w-100 rounded p-px" :class="bodyClasses">
+					<div
+						v-if="$slots.default"
+						class="bg-gradient-to-r from-blue to-pink w-100 rounded p-px"
+						:class="bodyClasses"
+					>
 						<slot></slot>
 					</div>
 
@@ -95,26 +99,32 @@ export default {
 		modalClasses: {
 			type: [Object, String],
 			description: 'Modal dialog css classes',
+			default: '',
 		},
 		modalContentClasses: {
 			type: [Object, String],
 			description: 'Modal dialog content css classes',
+			default: '',
 		},
 		gradient: {
 			type: String,
 			description: 'Modal gradient type (danger, primary etc)',
+			default: '',
 		},
 		headerClasses: {
 			type: [Object, String],
 			description: 'Modal Header css classes',
+			default: '',
 		},
 		bodyClasses: {
 			type: [Object, String],
 			description: 'Modal Body css classes',
+			default: '',
 		},
 		footerClasses: {
 			type: [Object, String],
 			description: 'Modal Footer css classes',
+			default: '',
 		},
 		animationDuration: {
 			type: Number,
@@ -157,20 +167,20 @@ export default {
 }
 </script>
 <style>
-    .modal.show {
-        background-color: rgba(0, 0, 0, 0.3);
-    }
-    .sxwjV {
-		margin: 0 0 2rem 0;
-		background-color: #202231;
-		padding: 0px;
-		width: 50vw;
-		overflow-y: hidden;
-		overflow-x: hidden;
-		align-self: center;
-		max-width: 420px;
-		max-height: 90vh;
-		display: flex;
-		border-radius: 10px;
-	}
+.modal.show {
+	background-color: rgba(0, 0, 0, 0.3);
+}
+.sxwjV {
+	margin: 0 0 2rem 0;
+	background-color: #202231;
+	padding: 0px;
+	width: 50vw;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	align-self: center;
+	max-width: 420px;
+	max-height: 90vh;
+	display: flex;
+	border-radius: 10px;
+}
 </style>

@@ -68,7 +68,8 @@ export const actions = {
 
 			// Subscribe to chainId change
 			provider.on('chainChanged', (chainId) => {
-				window.location.reload()
+				console.log('chain changed:', parseInt(chainId))
+				dispatch('setNetwork', chainId)
 			})
 
 			commit('SET_COINBASE', data.account)
