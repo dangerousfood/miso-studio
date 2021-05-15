@@ -13,8 +13,8 @@
 </template>
 <script>
 export default {
-	name: "WizardTab",
-	inject: ["addTab", "removeTab"],
+	name: 'WizardTab',
+	inject: ['addTab', 'removeTab'],
 	props: {
 		label: String,
 		id: String,
@@ -25,7 +25,7 @@ export default {
 			active: false,
 			checked: false,
 			hasError: false,
-			tabId: "",
+			tabId: '',
 		}
 	},
 	mounted() {

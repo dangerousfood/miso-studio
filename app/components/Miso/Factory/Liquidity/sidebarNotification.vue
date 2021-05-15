@@ -19,7 +19,7 @@
 
 <script>
 export default {
-	name: "Notification",
+	name: 'Notification',
 	props: {
 		active: {
 			type: Boolean,
@@ -27,11 +27,11 @@ export default {
 		},
 		title: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		description: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		top: {
 			type: Number,
@@ -61,7 +61,7 @@ export default {
 				min-height: 220px;
 			}
 			&::before {
-				content: "";
+				content: '';
 				display: block;
 				clip-path: polygon(100% 0, 0 50%, 100% 100%);
 				background: #4c186d;

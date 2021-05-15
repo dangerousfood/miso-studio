@@ -5,10 +5,15 @@
 			:style="[isClaimed ? { opacity: 0.1 } : '']"
 		>
 			<!-- starting price text -->
-			<span
-				class="position-absolute progress-status_start-price d-flex flex-column"
-			>
+			<span class="position-absolute progress-status_start-price d-flex flex-column">
+				<el-tooltip
+						content="A Dutch auction starts high and ends low. Everyone pays the same final price."
+						:open-delay="200"
+						placement="top-end"
+						:effect="getTooltipEffect"
+				>
 				<span class="font-weight-bold fs-1 text-uppercase">starting price</span>
+				</el-tooltip>
 				<span class="font-weight-bold text-white fs-3 text-uppercase">
 					{{ marketInfo.startPrice }} {{ marketInfo.paymentCurrency.symbol }}
 					<!-- 0.0005897 ETH -->
@@ -21,7 +26,14 @@
 			<span
 				class="position-absolute progress-status_reserve-price d-flex flex-column"
 			>
+					<el-tooltip
+						content="The auction will end when price drops to the reserve price, if not already sold out"
+						:open-delay="200"
+						placement="top-end"
+						:effect="getTooltipEffect"
+					>
 				<span class="font-weight-bold fs-1 text-uppercase">RESERVE PRICE</span>
+				</el-tooltip>
 				<span class="font-weight-bold text-white fs-3 text-uppercase">
 					{{ marketInfo.minimumPrice }} {{ marketInfo.paymentCurrency.symbol }}
 				</span>
@@ -30,21 +42,31 @@
 
 			<!-- start auction text -->
 			<span
-				class="position-absolute progress-status_start-auction bottom-0 left-0 d-flex flex-column"
+				class="
+					position-absolute
+					progress-status_start-auction
+					bottom-0
+					left-0
+					d-flex
+					flex-column
+				"
 			>
-				<span class="font-weight-bold pt-1 fs-1 text-uppercase">
-					AUCTION START
-				</span>
+				<span class="font-weight-bold pt-1 fs-1 text-uppercase">AUCTION START</span>
 			</span>
 			<!-- start auction text -->
 
 			<!-- end auction text -->
 			<span
-				class="position-absolute progress-status_end-auction bottom-0 right-0 d-flex flex-column"
+				class="
+					position-absolute
+					progress-status_end-auction
+					bottom-0
+					right-0
+					d-flex
+					flex-column
+				"
 			>
-				<span class="font-weight-bold pt-1 fs-1 text-uppercase">
-					AUCTION END
-				</span>
+				<span class="font-weight-bold pt-1 fs-1 text-uppercase">AUCTION END</span>
 			</span>
 			<!-- end auction text -->
 
@@ -57,14 +79,8 @@
 					:class="[statusColor]"
 					:style="{ width: progress + '%' }"
 				></span>
-				<span
-					class="progress-status_line_left-dot"
-					:class="[statusColor]"
-				></span>
-				<span
-					class="progress-status_line_right-dot"
-					:class="[statusColor]"
-				></span>
+				<span class="progress-status_line_left-dot" :class="[statusColor]"></span>
+				<span class="progress-status_line_right-dot" :class="[statusColor]"></span>
 				<span
 					v-if="progress !== 0"
 					class="text-box d-flex align-items-end"
@@ -91,8 +107,15 @@
 								progress > 75 ? 'mr-2' : 'ml-2',
 								progress > 28 ? 'text-top' : 'text-bottom',
 							]"
-						>
-							<span class="font-weight-bold fs-1">AUCTION PRICE</span>
+						>    
+							<el-tooltip
+								content="This is the current auction price. The auction ends successfully when the token price (total commitments/tokens) reaches this price"
+								:open-delay="200"
+								placement="top-end"
+								:effect="getTooltipEffect"
+							>
+								<span class="font-weight-bold fs-1">AUCTION PRICE</span>
+							</el-tooltip>
 							<span class="font-weight-bold fs-3 text-white">
 								{{ marketInfo.currentPrice }}
 								{{ marketInfo.paymentCurrency.symbol }}
@@ -116,12 +139,16 @@
 		</div>
 		<div
 			v-if="isClaimed"
-			class="position-absolute finalize-box d-flex align-items-center justify-content-center"
+			class="
+				position-absolute
+				finalize-box
+				d-flex
+				align-items-center
+				justify-content-center
+			"
 		>
 			<div class="d-flex flex-column align-items-center">
-				<div class="fs-5 text-white font-weight-bold">
-					Your tokens have been
-				</div>
+				<div class="fs-5 text-white font-weight-bold">Your tokens have been</div>
 				<div class="fs-10 text-white font-weight-bold">CLAIMED</div>
 			</div>
 		</div>
@@ -129,14 +156,19 @@
 </template>
 
 <script>
-import { inpidatorTheme } from "@/mixins/auctionIndicator"
+
+import { Tooltip } from 'element-ui'
+import { inpidatorTheme } from '@/mixins/auctionIndicator'
 export default {
 	mixins: [inpidatorTheme],
+	components: {
+		[Tooltip.name]: Tooltip,
+	},
 	props: {
 		progress: {
 			type: [Number, String],
 			default: 0,
-			description: "progress in percentage",
+			description: 'progress in percentage',
 		},
 		status: {
 			type: Object,
@@ -172,9 +204,15 @@ export default {
 		},
 	},
 	computed: {
+		getTooltipEffect() {
+			if (this.getMode) {
+				return 'light'
+			}
+			return 'dark'
+		},
 		computedProgess() {
-			if (this.progress > 99 && this.$route.name.includes("auctions-address")) {
-				if (this.$route.name.includes("auctions-address")) {
+			if (this.progress > 99 && this.$route.name.includes('auctions-address')) {
+				if (this.$route.name.includes('auctions-address')) {
 					return this.progress - 2.1
 				}
 			} else if (this.progress > 99) {
@@ -204,7 +242,7 @@ export default {
 		&-line {
 			width: calc(100% / 4);
 			&:not(:last-child)::after {
-				content: "";
+				content: '';
 				height: 100%;
 				display: block;
 				right: 0;
@@ -213,7 +251,7 @@ export default {
 			}
 
 			&::before {
-				content: "";
+				content: '';
 				width: 100%;
 				height: 1px;
 				border-bottom: 1px solid;
@@ -345,7 +383,7 @@ export default {
 		transform: translateX(-1.6%) rotate(9deg);
 		&_left-dot {
 			position: absolute;
-			content: "";
+			content: '';
 			z-index: 50;
 			left: 0;
 			top: 50%;
@@ -358,7 +396,7 @@ export default {
 		}
 		&_right-dot {
 			position: absolute;
-			content: "";
+			content: '';
 			z-index: 50;
 			right: 0;
 			top: 50%;
@@ -395,7 +433,7 @@ export default {
 		top: 50%;
 		z-index: 99;
 		transform: translate(0%, -50%);
-		content: "";
+		content: '';
 		background: #95ce22;
 		width: 8px;
 		height: 8px;
@@ -408,7 +446,7 @@ export default {
 		right: 0;
 		z-index: 99;
 		transform: translate(0%, -50%);
-		content: "";
+		content: '';
 		background: #95ce22;
 		width: 8px;
 		height: 8px;
@@ -434,7 +472,7 @@ export default {
 			}
 		}
 		&-line {
-			content: "";
+			content: '';
 			position: absolute;
 			bottom: 0;
 			height: 94%;

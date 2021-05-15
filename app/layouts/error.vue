@@ -310,12 +310,12 @@
 								/>
 							</g>
 						</svg>
-						<div
-							class="error-message d-flex flex-column justify-content-center"
-						>
+						<div class="error-message d-flex flex-column justify-content-center">
 							<h2 class="text-center font-weight-bold">Not Found.</h2>
 							<div class="text-center pt-3">
-								<span class="font-weight-bold">If there is a pending transaction, refresh the page.</span>
+								<span class="font-weight-bold">
+									If there is a pending transaction, refresh the page.
+								</span>
 							</div>
 							<nuxt-link to="/" class="btn mt-4">Go Back</nuxt-link>
 						</div>
@@ -328,8 +328,8 @@
 
 <script>
 export default {
-	layout: "error",
-	props: ["error"],
+	layout: 'error',
+	props: ['error'],
 }
 </script>
 
@@ -379,7 +379,7 @@ $error-animation-step: 0.5s;
 			font-size: 0;
 			&:before {
 				font-size: 20px;
-				content: "On the bright side, you found";
+				content: 'On the bright side, you found';
 			}
 		}
 		span {
@@ -387,7 +387,7 @@ $error-animation-step: 0.5s;
 			&:after {
 				font-size: 50px;
 				line-height: 1.2em;
-				content: "THE PARTY!";
+				content: 'THE PARTY!';
 			}
 		}
 		span {
@@ -397,9 +397,9 @@ $error-animation-step: 0.5s;
 }
 
 @for $i from 1 through 12 {
-	[id$="cube-#{$i}"],
-	[id$="cube-#{$i + 12}"],
-	[id$="cube-#{$i + 24}"] {
+	[id$='cube-#{$i}'],
+	[id$='cube-#{$i + 12}'],
+	[id$='cube-#{$i + 24}'] {
 		animation: drop-cube-#{$i} 0.9s cubic-bezier(0.19, 1, 0.32, 1);
 		path {
 			animation: fade-cube-#{$i} 0.9s cubic-bezier(0.19, 1, 0.32, 1);
@@ -409,13 +409,10 @@ $error-animation-step: 0.5s;
 
 svg:hover {
 	@for $i from 1 through 12 {
-		[id$="cube-#{$i}"] path,
-		[id$="cube-#{$i + 12}"] path,
-		[id$="cube-#{$i + 24}"] path {
-			animation: fade-out-cube-#{$i}
-				0.7s
-				cubic-bezier(0.19, 1, 0.32, 1)
-				infinite;
+		[id$='cube-#{$i}'] path,
+		[id$='cube-#{$i + 12}'] path,
+		[id$='cube-#{$i + 24}'] path {
+			animation: fade-out-cube-#{$i} 0.7s cubic-bezier(0.19, 1, 0.32, 1) infinite;
 		}
 	}
 }

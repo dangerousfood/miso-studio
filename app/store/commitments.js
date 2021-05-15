@@ -59,22 +59,22 @@ export const mutations = {
 
 export const actions = {
 	setContractAddress({ commit }, contractAddress) {
-		commit("SET_CONTRACT_ADDRESS", contractAddress)
+		commit('SET_CONTRACT_ADDRESS', contractAddress)
 	},
 	setCommitments({ commit, state }, commitments) {
 		if (commitments.length > 0) {
 			if (state.commitments.length === 0) {
-				commit("SET_COMMITMENTS", commitments)
+				commit('SET_COMMITMENTS', commitments)
 			} else {
-				commit("MERGE_COMMITMENTS", commitments)
+				commit('MERGE_COMMITMENTS', commitments)
 			}
 		}
 	},
 	addCommitment({ commit }, commitment) {
-		commit("ADD_COMMITMENT", commitment)
+		commit('ADD_COMMITMENT', commitment)
 	},
 	resetCommitmentsState({ commit, state }) {
-		commit("RESET_STATE")
+		commit('RESET_STATE')
 	},
 }
 

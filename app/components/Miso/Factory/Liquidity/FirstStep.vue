@@ -89,25 +89,25 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { BaseInput } from "@/components"
-import Autocomplete from "@/components/Inputs/Autocomplete"
+import { mapGetters, mapActions } from 'vuex'
+import { BaseInput } from '@/components'
+import Autocomplete from '@/components/Inputs/Autocomplete'
 
 export default {
-	name: "LiqudityStepOne",
+	name: 'LiqudityStepOne',
 	components: {
 		BaseInput,
 		Autocomplete,
 	},
-	props: ["data"],
+	props: ['data'],
 	data() {
 		return {
 			model: {
-				wallet: "",
+				wallet: '',
 				token: {
-					address: "",
-					name: "",
-					symbol: "",
+					address: '',
+					name: '',
+					symbol: '',
 				},
 			},
 			colors: {
@@ -119,7 +119,7 @@ export default {
 		}
 	},
 	computed: {
-		...mapGetters({ coinbase: "ethereum/coinbase", tokens: "tokens/list" }),
+		...mapGetters({ coinbase: 'ethereum/coinbase', tokens: 'tokens/list' }),
 	},
 	created() {
 		if (this.data) {
@@ -128,7 +128,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			getTokens: "tokens/getTokens",
+			getTokens: 'tokens/getTokens',
 		}),
 		focuseColor(val) {
 			for (const key in this.colors) {
@@ -138,23 +138,23 @@ export default {
 					this.colors[key] = false
 				}
 			}
-			this.$emit("active-input", this.colors)
+			this.$emit('active-input', this.colors)
 		},
 		validate() {
 			return this.$refs.observer.validate().then((res) => {
-				this.$emit("on-validated", res, this.model)
+				this.$emit('on-validated', res, this.model)
 				return res
 			})
 		},
 		selectCurrentAccount() {
-			this.focuseColor("admin")
+			this.focuseColor('admin')
 			this.model.wallet = this.coinbase
 		},
 		async fetchTokens() {
 			// Clear Tokens
-			this.model.token.name = ""
-			this.model.token.symbol = ""
-			this.model.token.decimals = ""
+			this.model.token.name = ''
+			this.model.token.symbol = ''
+			this.model.token.decimals = ''
 
 			// Get Tokens
 			if (!this.tokensLoading) {

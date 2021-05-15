@@ -1,4 +1,4 @@
-import { tokenFactory } from "@/constants/contractConfig"
+import { tokenFactory } from "~/constants/contracts"
 import { getEvents, getNetworkId, unix2datetime } from "./base"
 
 const tokenFactoryAbi = tokenFactory.abi

@@ -40,10 +40,7 @@
 			</div>
 		</collapse-transition>
 
-		<slot
-			v-if="children.length === 0 && !$slots.default && link.path"
-			name="title"
-		>
+		<slot v-if="children.length === 0 && !$slots.default && link.path" name="title">
 			<component
 				:is="elementType(link, false)"
 				:to="link.path"
@@ -65,10 +62,10 @@
 	</component>
 </template>
 <script>
-import { CollapseTransition } from "vue2-transitions"
+import { CollapseTransition } from 'vue2-transitions'
 
 export default {
-	name: "SidebarItem",
+	name: 'SidebarItem',
 	components: {
 		CollapseTransition,
 	},
@@ -96,13 +93,13 @@ export default {
 			type: Object,
 			default: () => {
 				return {
-					name: "",
-					path: "",
+					name: '',
+					path: '',
 					children: [],
 				}
 			},
 			description:
-				"Sidebar link. Can contain name, path, icon and other attributes. See examples for more info",
+				'Sidebar link. Can contain name, path, icon and other attributes. See examples for more info',
 		},
 	},
 	data() {
@@ -113,22 +110,20 @@ export default {
 	},
 	computed: {
 		baseComponent() {
-			return this.isMenu || this.link.isRoute ? "li" : "nuxt-link"
+			return this.isMenu || this.link.isRoute ? 'li' : 'nuxt-link'
 		},
 		linkPrefix() {
 			let words
 			if (this.link.name) {
-				words = this.link.name.split(" ")
+				words = this.link.name.split(' ')
 			}
-			return words.map((word) => word.substring(0, 1)).join("")
+			return words.map((word) => word.substring(0, 1)).join('')
 		},
 		isMenu() {
 			if (!this.$slots.default) {
 				return false
 			}
-			return this.$slots.default.some((item) =>
-				item.tag.endsWith("sidebar-item")
-			)
+			return this.$slots.default.some((item) => item.tag.endsWith('sidebar-item'))
 		},
 		isActive() {
 			if (this.$route && this.$route.path) {
@@ -173,21 +168,17 @@ export default {
 		},
 		elementType(link, isParent = true) {
 			if (link.isRoute === false) {
-				return isParent ? "li" : "a"
+				return isParent ? 'li' : 'a'
 			} else {
-				return "nuxt-link"
+				return 'nuxt-link'
 			}
 		},
 		linkAbbreviation(name) {
 			const matches = name.match(/\b(\w)/g)
-			return matches.join("")
+			return matches.join('')
 		},
 		linkClick() {
-			if (
-				this.autoClose &&
-				this.$sidebar &&
-				this.$sidebar.showSidebar === true
-			) {
+			if (this.autoClose && this.$sidebar && this.$sidebar.showSidebar === true) {
 				this.$sidebar.displaySidebar(false)
 			}
 		},

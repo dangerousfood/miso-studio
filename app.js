@@ -1,15 +1,15 @@
-const express = require("express")
+const express = require('express')
 // const asyncify = require('express-asyncify')
-const { Nuxt } = require("nuxt")
-const { setHeadersMiddleware } = require("./middlewares/header-middleware")
-const { loggerMiddleware } = require("./middlewares/logger-middleware")
-const { envMiddleware } = require("./middlewares/env-middleware")
-var compression = require("compression")
+const { Nuxt } = require('nuxt')
+const compression = require('compression')
+const { setHeadersMiddleware } = require('./middlewares/header-middleware')
+const { loggerMiddleware } = require('./middlewares/logger-middleware')
+const { envMiddleware } = require('./middlewares/env-middleware')
 
-const nuxtConfig = require("./nuxt.config")
+const nuxtConfig = require('./nuxt.config')
 // const api = require('./app/api')
 
-const IS_PROD = process.env.NODE_ENV === "production"
+const IS_PROD = process.env.NODE_ENV === 'production'
 
 const nuxt = new Nuxt({
 	...nuxtConfig,
@@ -28,12 +28,12 @@ app.use(setHeadersMiddleware)
 //   app.use(envMiddleware);
 // }
 
-if (process.env.NODE_ENV !== "development") {
+if (process.env.NODE_ENV !== 'development') {
 	app.use(loggerMiddleware)
 }
 
 // S3 static bucket
-app.use("/s3", express.static("./s3"))
+app.use('/s3', express.static('./s3'))
 
 // app.use(api)
 app.use(

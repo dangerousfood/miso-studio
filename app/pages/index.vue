@@ -1,100 +1,173 @@
 <template>
 	<div class="container-fluid container-padding">
-		<div class="my-4 gradient-background">
-			<div class="top-50 text-white">Let us celebrate with a sip of SAKE.</div>
-			<img class="sake-img" src="@/assets/svg/sake.svg" />
+		<div class="my-4 row">
+			<div class="col-12 d-flex">
+				<div class="header-left">
+					<img
+						src="@/assets/svg/sake.svg"
+						class="float-left image-rem-size pr-3 mr-1"
+					/>
+					<div class="text-white font-weight-bold text-uppercase title">
+						Let us
+						<br />
+						celebrate
+						<br />
+						with a
+						<br />
+						sip of
+					</div>
+				</div>
+				<div class="text-white sake-text pr-5 image-rem-size header-right">
+					<img :src="computedSakeImage" class="sake-logo-image" />
+				</div>
+			</div>
+		</div>
+		<div class="my-4 row pt-3 video-mobile">
+			<div class="col-12">
+				<div class="text-white card-title">About SAKE</div>
+				<div class="text-white card-description pb-2">
+					Learn more about the Sake project in this video documenatary. Visit&nbsp;
+					<a
+						href="https://sake.sushi.com"
+						target="_blank"
+						class="sake-com text-white"
+					>
+						sake.sushi.com
+					</a>
+					&nbsp;for more.
+				</div>
+				<vue-plyr :options="options">
+					<video
+						controls
+						crossorigin
+						playsinline
+						:data-poster="require('~/assets/images/gallery01.png')"
+						class="video-poster"
+					>
+						<source
+							size="576"
+							src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+							type="video/mp4"
+						/>
+					</video>
+				</vue-plyr>
+			</div>
 		</div>
 		<div v-if="!loading" class="row">
-			<div
-				v-for="(auction, id) in auctionsList.slice(0, 1)"
-				:key="id"
-				class="col-lg-4 col-md-6 col-12 mb-3"
-			>
+			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">SAKE Sale</div>
+				<div class="text-white card-description pb-2">
+					Participate in the Sake Sale, the first sale to launch on MISO.
+				</div>
 				<nuxt-link
-					:to="`/auctions/${auction}`"
+					:to="`/auctions/${saketokenauction}`"
 					tag="div"
 					class="cursor-pointer specialCard"
 				>
 					<special-card
-						:auction="auction"
+						:auction="saketokenauction"
 						:ingredients="ingredients"
 						:buybuttonflag="true"
 					/>
 				</nuxt-link>
 			</div>
-			<div class="col-lg-8 col-md-6 col-12 mb-3">
-				<div class="text-white card-title">Gallery</div>
-				<card v-if="!loading" class="gallery-card p-2 card-hight">
-					<img src="@/assets/images/gallery01.png" />
-					<p class="sake-com">sake.com</p>
-					<a href="https://www.youtube.com/watch?v=IV0V7vjakKg" target="_blank">
-						<img src="@/assets/images/playbutton.png" class="gal-play" />
+			<div class="col-lg-8 col-md-6 col-12 mb-3 video-normal">
+				<div class="text-white card-title">About SAKE</div>
+				<div class="text-white card-description pb-2">
+					Learn more about the Sake project in this video documenatary. Visit&nbsp;
+					<a
+						href="https://sake.sushi.com"
+						target="_blank"
+						class="sake-com text-white"
+					>
+						sake.sushi.com
 					</a>
-				</card>
+					&nbsp;for more.
+				</div>
+				<vue-plyr :options="options">
+					<video
+						controls
+						crossorigin
+						playsinline
+						:data-poster="require('~/assets/images/gallery01.png')"
+						class="video-poster"
+					>
+						<source
+							size="576"
+							src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
+							type="video/mp4"
+						/>
+					</video>
+				</vue-plyr>
 			</div>
 		</div>
 		<loader v-else width="80" height="80" y="250" />
-		<div class="ama-cards row">
-			<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-				<ama-card
-					headerimage="amaheader01.png"
-					:youtubeflag="true"
-					title="What is MISO?"
-					pubdate="Feb 2, 2021"
-					linkurl="https://www.youtube.com/watch?v=IV0V7vjakKg"
-				/>
+		<div class="miso-ama">
+			<div class="miso-ama-logo px-2">
+				<img src="@/assets/svg/misoamalog.svg" />
 			</div>
-			<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-				<ama-card
-					headerimage="amaheader02.png"
-					:youtubeflag="false"
-					title="SAKE NFT"
-					pubdate="Feb 2, 2021"
-					linkurl="https://sakeswap.medium.com/introducing-sakeswap-irreversible-nft-a-new-way-of-sake-burn-449cd65c75f6"
-				/>
+			<div class="miso-ama-description px-2">
+				Follow interviews and articles on Medium and Youtube to find out more about
+				MISO.
 			</div>
-			<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-				<ama-card
-					headerimage="amaheader03.png"
-					:youtubeflag="false"
-					title="MISO Fermenter"
-					pubdate="Feb 2, 2021"
-					linkurl="https://medium.com/@LumpyBatter/what-is-miso-86f3bc117ea4"
-				/>
-			</div>
-			<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-				<ama-card
-					headerimage="amaheader04.png"
-					:youtubeflag="false"
-					title="MISO Factory"
-					pubdate="Feb 2, 2021"
-					linkurl="https://medium.com/@LumpyBatter/what-is-miso-86f3bc117ea4"
-				/>
-			</div>
-			<div class="miso-ama">
-				<div class="miso-ama-logo">
-					<img src="@/assets/svg/misoamalog.svg" />
+			<div class="ama-cards row">
+				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
+					<ama-card
+						headerimage="amaheader01.png"
+						:youtubeflag="true"
+						title="MISO Token Launchpad Intro"
+						pubdate="Feb 2, 2021"
+						linkurl="https://www.youtube.com/watch?v=DthRoorpw60"
+					/>
 				</div>
-				<div class="miso-ama-description">
-					Follow interviews and articles on Medium and Youtube to find out more
-					about MISO. 
+				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
+					<ama-card
+						headerimage="amaheader02.png"
+						:youtubeflag="false"
+						title="How To Participate in MISO Auctions"
+						pubdate="Feb 2, 2021"
+						linkurl="https://sakeswap.medium.com/introducing-sakeswap-irreversible-nft-a-new-way-of-sake-burn-449cd65c75f6"
+					/>
+				</div>
+				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
+					<ama-card
+						headerimage="amaheader03.png"
+						:youtubeflag="false"
+						title="SUSHI + MISO: The Perfect Combo"
+						pubdate="Feb 2, 2021"
+						linkurl="https://medium.com/sushiswap-org/sushi-miso-the-perfect-combo-9883548706b1"
+					/>
+				</div>
+				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
+					<ama-card
+						headerimage="amaheader04.png"
+						:youtubeflag="false"
+						title="MISO: Cooking New Tokens From Scratch"
+						pubdate="Feb 2, 2021"
+						linkurl="https://medium.com/sushiswap-org/miso-cooking-new-tokens-from-scratch-c6be6aad64a"
+					/>
 				</div>
 			</div>
 		</div>
+		<auction-modal
+			v-if="showModal && coinbase && !isRightNetwork"
+			@close="showModal = false"
+		></auction-modal>
 	</div>
 </template>
 
 <script>
-import SpecialCard from "@/components/Miso/Auctions/Specials/SpecialCard"
-import AmaCard from "@/components/Miso/Auctions/Specials/AmaCard"
-import { mapGetters, mapActions } from "vuex"
+import SpecialCard from '@/components/Miso/Auctions/Specials/SpecialCard'
+import AmaCard from '@/components/Miso/Auctions/Specials/AmaCard'
+import AuctionModal from '@/components/web3-core/navbar/AuctionModal'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-	name: "LiveAuctions",
+	name: 'LiveAuctions',
 	components: {
 		SpecialCard,
 		AmaCard,
+		AuctionModal,
 	},
 	data() {
 		return {
@@ -102,30 +175,63 @@ export default {
 			auctionsList: [],
 			ingredients: [
 				{
-					icon: "wheat",
-					text: "Mintable",
+					icon: 'wheat',
+					text: 'Mintable',
 				},
 				{
-					icon: "teapot",
-					text: "Pool Liquidity",
+					icon: 'teapot',
+					text: 'Pool Liquidity',
 				},
 				{
-					icon: "crowd",
-					text: "Crowdsale",
+					icon: 'crowd',
+					text: 'Crowdsale',
 				},
 			],
+			options: { quality: { default: '1080p' } },
+			saketokenauction: '0x602C17faD84E012604A92B757A192FdaDa7C8016',
+			showModal: true,
+			sakelogowhite: require('~/assets/images/sake_white.png'),
+			sakelogoblack: require('~/assets/images/sake_black.png'),
 		}
 	},
 	computed: {
-		...mapGetters({ auctions: "auctions/list" }),
+		...mapGetters({
+			auctions: 'auctions/list',
+			coinbase: 'ethereum/coinbase',
+			isRightNetwork: 'ethereum/isRightNetwork',
+			mode: 'theme/getMode',
+		}),
+		computedSakeImage() {
+			if (this.mode) {
+				return require('~/assets/images/sake_white.png')
+			}
+			return require('~/assets/images/sake_black.png')
+		},
+	},
+	watch: {
+		mode: {
+			deep: true,
+			handler(val) {
+				this.colorSwitch(val)
+			},
+		},
 	},
 	mounted() {
 		this.initAuctions()
+		this.colorSwitch(this.mode)
 	},
 	methods: {
 		...mapActions({
-			getAuctions: "auctions/getAuctions",
+			getAuctions: 'auctions/getAuctions',
 		}),
+		colorSwitch(val) {
+			const plyrposter = document.getElementsByClassName('plyr__poster')[0]
+			if (val) {
+				plyrposter.classList.remove('plyr__poster__white')
+			} else {
+				plyrposter.classList.add('plyr__poster__white')
+			}
+		},
 		async initAuctions() {
 			await this.getAuctions()
 			this.auctionsList = this.auctions
@@ -144,16 +250,62 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.title {
+	font-size: 1rem;
+	letter-spacing: 0.25rem;
+	padding-left: 3rem;
+	// padding-right: 3rem;
+	@media screen and (max-width: 800px) {
+		padding-left: 2rem;
+		// padding-right: 2rem;
+	}
+	@media screen and (max-width: 750px) {
+		padding-left: 1rem;
+		padding-right: 1rem;
+	}
+	@media screen and (max-width: 700px) {
+		font-size: 0.7rem;
+		letter-spacing: 0.1rem;
+		padding-left: 0.7rem;
+		padding-right: 0.7rem;
+	}
+	@media screen and (max-width: 500px) {
+		font-size: 0.5rem;
+		letter-spacing: 0.08rem;
+		padding-left: 0.5rem;
+		padding-right: 0.5rem;
+	}
+	@media screen and (max-width: 360px) {
+		font-size: 0.4rem;
+		letter-spacing: 0.04rem;
+		padding-left: 0.4rem;
+		padding-right: 0.4rem;
+	}
+}
+
+.image-rem-size {
+	width: 6rem;
+	height: 6rem;
+	@media screen and (max-width: 700px) {
+		width: 4rem;
+		height: 4rem;
+	}
+	@media screen and (max-width: 500px) {
+		width: 3rem;
+		height: 3rem;
+	}
+	@media screen and (max-width: 360px) {
+		width: 2rem;
+		height: 2rem;
+	}
+}
+
 .specialCard {
 	transition: all 0.4s ease-in-out;
 	transform: scale(1);
 	max-width: 490px;
 	@media screen and (max-width: 768px) {
 		max-width: 100%;
-	}
-	&:hover {
-		transition: all 0.4s ease-in-out;
-		transform: scale(1.025);
 	}
 }
 
@@ -169,6 +321,7 @@ export default {
 	height: 100px;
 	min-height: 100px;
 	width: 100%;
+	border-radius: 6px;
 }
 
 .top-50 {
@@ -183,41 +336,41 @@ export default {
 }
 
 .container-padding {
-	padding-top: 60px;
+	padding-top: 20px;
 }
 
 .miso-ama {
-	background-image: url("@/assets/images/misoama.png");
-	margin-left: -30px;
-	margin-right: -75px;
-	height: 361px;
+	background-image: linear-gradient(
+		180deg,
+		rgba(59, 20, 99, 0.8) 5%,
+		rgba(59, 20, 99, 1) 20%,
+		rgba(59, 20, 99, 0) 55%
+	);
 	background-size: 100% 100%;
 	text-align: center;
-	width: 106%;
-	z-index: 1;
-	position: absolute;
-	transform: translateY(-60%);
+	border-radius: 8px;
 }
 
 .miso-ama-description {
-	position: relative;
-	top: 36%;
 	color: white;
+	padding-top: 50px;
 }
 
 .miso-ama-logo {
-	position: relative;
-	top: 25%;
+	padding-top: 75px;
 }
 
 .ama-cards {
-	position: relative;
-	top: 45%;
-	margin-top: 250px;
+	padding-top: 50px;
+	padding-bottom: 30px;
+	margin-left: 5px;
+	margin-right: 5px;
 }
 
 .ama-card-single {
 	z-index: 2;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 .footer-link {
@@ -239,8 +392,7 @@ export default {
 }
 
 .sake-com {
-	text-align: right;
-	padding-top: 20px;
+	// color: white;
 	text-decoration: underline;
 }
 
@@ -248,5 +400,57 @@ export default {
 	position: absolute;
 	left: 45%;
 	top: 35%;
+}
+
+.card-description {
+	font-size: 12px;
+	min-height: 52px;
+}
+
+.sake-text {
+	display: flex;
+	justify-content: space-between;
+	flex: 1;
+}
+
+.video-poster {
+	object-fit: cover;
+}
+
+.video-mobile {
+	display: none;
+	@media screen and (max-width: 767px) {
+		display: block;
+	}
+}
+
+.video-normal {
+	display: none;
+	@media screen and (min-width: 768px) {
+		display: block;
+	}
+}
+
+.header-left {
+	flex: 1;
+}
+
+.header-right {
+	flex: 2;
+	@media screen and (min-width: 768px) and (max-width: 991px) {
+		flex: 1;
+	}
+	@media screen and (max-width: 767px) {
+		flex: 1;
+	}
+}
+
+.sake-logo-image {
+	@media screen and (min-width: 992px) {
+		padding-left: 0.5rem;
+	}
+	@media screen and (min-width: 768px) and (max-width: 991px) {
+		padding-left: 2rem;
+	}
 }
 </style>

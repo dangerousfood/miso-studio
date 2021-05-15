@@ -15,9 +15,7 @@
 				class="d-flex flex-column"
 			>
 				<h5 class="fs-1 mb-1 font-weight-bold text-center">COUNTDOWN:</h5>
-				<p
-					class="fs-3 text-white font-weight-bold d-flex status_counter text-center"
-				>
+				<p class="fs-3 text-white font-weight-bold d-flex status_counter text-center">
 					<span
 						v-if="
 							status.auction.toLowerCase() !== 'finished' &&
@@ -34,9 +32,7 @@
 				<h5 class="fs-1 mb-1 font-weight-bold text-center text-uppercase">
 					TOKENS left:
 				</h5>
-				<p class="fs-3 text-white font-weight-bold text-center">
-					{{ limit }}/1000
-				</p>
+				<p class="fs-3 text-white font-weight-bold text-center">{{ limit }}/1000</p>
 			</div>
 			<div class="d-flex flex-column">
 				<h5 class="fs-1 mb-1 font-weight-bold text-right">PARTICIPANTS:</h5>
@@ -115,10 +111,7 @@
 							></vue-slider>
 						</client-only>
 					</div>
-					<div
-						:style="emptyLine"
-						:class="[getMode ? 'bg-dark' : 'bg-light']"
-					></div>
+					<div :style="emptyLine" :class="[getMode ? 'bg-dark' : 'bg-light']"></div>
 				</div>
 				<div
 					v-if="coinbase"
@@ -131,22 +124,27 @@
 						<span :class="[getMode ? 'bg-dark' : 'bg-light']"></span>
 						<div v-if="limitWidth < 57" class="d-flex flex-column">
 							<p class="d-block pl-2 text-left m-0 fs-1">wallet max</p>
-							<p class="d-block pl-2 text-left m-0 fs-2">
-								40 TOKENS (0.018788 ETH)
-							</p>
+							<p class="d-block pl-2 text-left m-0 fs-2">40 TOKENS (0.018788 ETH)</p>
 						</div>
 						<div v-else class="d-flex flex-column right">
 							<p class="d-block pl-2 text-left m-0 fs-1">wallet max</p>
-							<p class="d-block pl-2 text-left m-0 fs-2">
-								40 TOKENS (0.018788 ETH)
-							</p>
+							<p class="d-block pl-2 text-left m-0 fs-2">40 TOKENS (0.018788 ETH)</p>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-xl-6 col-md-6 col-12">
 				<div
-					class="ml-xl-4 ml-0 pl-0 pl-xl-3 invest mt-xl-2 mt-5 pt-4 pt-md-0 mt-md-0 pl-md-3 pt-xl-0"
+					class="
+						ml-xl-4 ml-0
+						pl-0 pl-xl-3
+						invest
+						mt-xl-2 mt-5
+						pt-4 pt-md-0
+						mt-md-0
+						pl-md-3
+						pt-xl-0
+					"
 				>
 					<base-input
 						v-model="selectedTokenQuantity"
@@ -167,10 +165,7 @@
 					<div v-if="!coinbase" class="d-flex justify-content-center fs-2">
 						<div class="text-white font-weight-bold">
 							Wallet not detected.
-							<span
-								class="fs-2 text-primary connect-link"
-								@click="connectAccount"
-							>
+							<span class="fs-2 text-primary connect-link" @click="connectAccount">
 								Connect Wallet.
 							</span>
 						</div>
@@ -190,14 +185,14 @@
 </template>
 
 <script>
-import { Card, BaseInput } from "@/components"
-import { mapGetters, mapActions } from "vuex"
-import CrowdProgress from "~/components/Miso/Auctions/Details/CrowdProgress"
-import DutchProgress from "~/components/Miso/Auctions/Details/DutchProgress"
-import BaseDivider from "~/components/BaseDivider.vue"
+import { Card, BaseInput } from '@/components'
+import { mapGetters, mapActions } from 'vuex'
+import CrowdProgress from '~/components/Miso/Auctions/Details/CrowdProgress'
+import DutchProgress from '~/components/Miso/Auctions/Details/DutchProgress'
+import BaseDivider from '~/components/BaseDivider.vue'
 
 export default {
-	name: "LiveStatus",
+	name: 'LiveStatus',
 	components: {
 		BaseDivider,
 		CrowdProgress,
@@ -209,15 +204,15 @@ export default {
 		status: {
 			type: [Object, Array, Boolean],
 			required: true,
-			description: "full data for status card",
+			description: 'full data for status card',
 		},
 	},
 	data() {
 		return {
-			displaySeconds: "00",
-			displayMinutes: "00",
-			displayHours: "00",
-			displayDays: "00",
+			displaySeconds: '00',
+			displayMinutes: '00',
+			displayHours: '00',
+			displayDays: '00',
 			live: true,
 			userTokens: 15,
 			maxValue: 20,
@@ -227,9 +222,9 @@ export default {
 	},
 
 	computed: {
-		...mapGetters("theme", ["getMode"]),
+		...mapGetters('theme', ['getMode']),
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
+			coinbase: 'ethereum/coinbase',
 		}),
 		isAuthor() {
 			const currentAddress = this.$route.params.address.toLowerCase()
@@ -264,9 +259,9 @@ export default {
 		},
 		computedIconColor() {
 			if (this.getMode) {
-				return "#ffffff"
+				return '#ffffff'
 			}
-			return "rgba(255, 255, 255, 0.2)"
+			return 'rgba(255, 255, 255, 0.2)'
 		},
 		getFullTime() {
 			return `${this.displayDays} : ${this.displayHours} : ${this.displayMinutes} : ${this.displaySeconds}`
@@ -288,30 +283,30 @@ export default {
 		},
 		sliderLine() {
 			return {
-				width: this.limitWidth - 1 + "%",
+				width: this.limitWidth - 1 + '%',
 			}
 		},
 		emptyLine() {
 			return {
-				height: "1px",
-				width: 100 - this.limitWidth + "%",
+				height: '1px',
+				width: 100 - this.limitWidth + '%',
 			}
 		},
 		getStatus() {
 			return {
-				"bg-success": this.status.auction.toLowerCase() === "live",
-				"bg-danger":
-					this.status.auction.toLowerCase() === "finished" ||
-					this.status.auction.toLowerCase() === "failed",
-				"bg-info": this.status.auction.toLowerCase() === "upcoming",
+				'bg-success': this.status.auction.toLowerCase() === 'live',
+				'bg-danger':
+					this.status.auction.toLowerCase() === 'finished' ||
+					this.status.auction.toLowerCase() === 'failed',
+				'bg-info': this.status.auction.toLowerCase() === 'upcoming',
 			}
 		},
 		// dummy indicator status
 		auctionStatus() {
-			if (this.status.auction !== "finished") {
-				return "live"
+			if (this.status.auction !== 'finished') {
+				return 'live'
 			}
-			return "finished"
+			return 'finished'
 		},
 	},
 	created() {
@@ -322,24 +317,24 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			enableAccount: "ethereum/enableAccount",
+			enableAccount: 'ethereum/enableAccount',
 		}),
 		async connectAccount() {
 			const coinbase = await this.enableAccount()
 			if (!coinbase) {
 				this.$swal.fire({
-					icon: "warning",
+					icon: 'warning',
 					title: `WALLET NOT DETECTED!`,
 					html: `<p>Wallet is not detected in your browser, to continue please install Metamask extension for your browser</p> <a v-bind: href="https://metamask.io/" target="_blank">Get MetaMask</a>`,
 					buttonsStyling: false,
 					showCancelButton: false,
-					confirmButtonClass: "btn btn-primary btn-fill",
+					confirmButtonClass: 'btn btn-primary btn-fill',
 					confirmButtonText: `Close`,
 				})
 			}
 		},
 		showCountDown() {
-			if (this.status.auction === "finished") return
+			if (this.status.auction === 'finished') return
 			const timer = setInterval(() => {
 				// Get today's date
 				const now = new Date().getTime()
@@ -360,10 +355,10 @@ export default {
 				const seconds = Math.floor((distance % this.minutes) / this.seconds)
 
 				// Update display days, hours, minutes and seconds
-				this.displaySeconds = seconds < 10 ? "0" + seconds : seconds
-				this.displayMinutes = minutes < 10 ? "0" + minutes : minutes
-				this.displayHours = hours < 10 ? "0" + hours : hours
-				this.displayDays = days < 10 ? "0" + days : days
+				this.displaySeconds = seconds < 10 ? '0' + seconds : seconds
+				this.displayMinutes = minutes < 10 ? '0' + minutes : minutes
+				this.displayHours = hours < 10 ? '0' + hours : hours
+				this.displayDays = days < 10 ? '0' + days : days
 			}, 1000)
 		},
 	},

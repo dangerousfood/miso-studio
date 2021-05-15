@@ -20,7 +20,7 @@
 </template>
 <script>
 export default {
-	name: "TimeLine",
+	name: 'TimeLine',
 	props: {
 		steps: {
 			type: [Array, Object],
@@ -38,7 +38,7 @@ export default {
 	methods: {
 		stepActivator(item) {
 			if (this.clicable) {
-				this.$emit("changeActive", item)
+				this.$emit('changeActive', item)
 			}
 		},
 	},
@@ -135,7 +135,7 @@ export default {
 			font-weight: bold;
 		}
 		&:after {
-			content: "";
+			content: '';
 			position: absolute;
 			width: 150%;
 			height: 3px;
@@ -153,7 +153,7 @@ export default {
 .step:not(:last-child) {
 	width: 100%;
 	&::after {
-		content: "";
+		content: '';
 		position: absolute;
 		top: 50%;
 		width: 100%;

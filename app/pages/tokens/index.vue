@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import TokenList from "~/components/Miso/Tokens/TokenList"
+import TokenList from '~/components/Miso/Tokens/TokenList'
 
 export default {
 	components: {

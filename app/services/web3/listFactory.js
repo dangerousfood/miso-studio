@@ -1,8 +1,8 @@
-import { pointListFactory } from "@/constants/contractConfig"
+import { listFactory } from "~/constants/contracts"
 import { getNetworkId } from "./base"
 
-const pointListFactoryAbi = pointListFactory.abi
-const pointListFactoryAddress = pointListFactory.address
+const listFactoryAbi = listFactory.abi
+const listFactoryAddress = listFactory.address
 let contractInstance
 
 export const getContractInstance = () => {
@@ -11,8 +11,8 @@ export const getContractInstance = () => {
 		web3.currentProvider.isMetaMask !==
 			contractInstance.currentProvider.isMetaMask
 	) {
-		const address = pointListFactoryAddress[getNetworkId()]
-		contractInstance = new web3.eth.Contract(pointListFactoryAbi, address)
+		const address = listFactoryAddress[getNetworkId()]
+		contractInstance = new web3.eth.Contract(listFactoryAbi, address)
 	}
 
 	return contractInstance

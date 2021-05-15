@@ -2,8 +2,8 @@
 	<div id="loading" v-loading="true" class="row"></div>
 </template>
 <script>
-import Vue from "vue"
-import { Loading } from "element-ui"
+import Vue from 'vue'
+import { Loading } from 'element-ui'
 
 Vue.use(Loading.directive)
 export default {}

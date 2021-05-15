@@ -90,20 +90,20 @@
 	</div>
 </template>
 <script>
-import { throttle } from "./throttle"
+import { throttle } from './throttle'
 
 export default {
-	name: "SimpleWizard",
+	name: 'SimpleWizard',
 	components: {
 		TabItemContent: {
 			functional: true,
-			props: ["tab"],
+			props: ['tab'],
 			render(h, { props }) {
 				const content = props.tab.$slots.label
 				if (content && content.length) {
 					return content
 				}
-				return h("span", [props.tab.$slots.label, props.tab.label])
+				return h('span', [props.tab.$slots.label, props.tab.label])
 			},
 		},
 	},
@@ -120,23 +120,23 @@ export default {
 		},
 		title: {
 			type: String,
-			default: "Title",
+			default: 'Title',
 		},
 		subTitle: {
 			type: String,
-			default: "Subtitle",
+			default: 'Subtitle',
 		},
 		prevButtonText: {
 			type: String,
-			default: "Previous",
+			default: 'Previous',
 		},
 		nextButtonText: {
 			type: String,
-			default: "Next",
+			default: 'Next',
 		},
 		finishButtonText: {
 			type: String,
-			default: "Finish",
+			default: 'Finish',
 		},
 		vertical: {
 			type: Boolean,
@@ -180,8 +180,7 @@ export default {
 				const stepsToAdd = 1
 				const stepMultiplier = 2
 				percentage =
-					this.stepPercentage *
-					(this.activeTabIndex * stepMultiplier + stepsToAdd)
+					this.stepPercentage * (this.activeTabIndex * stepMultiplier + stepsToAdd)
 			} else {
 				percentage = this.stepPercentage
 			}
@@ -199,8 +198,8 @@ export default {
 				if (!newTab.checked) {
 					newTab.checked = true
 				}
-				this.$emit("tab-change", oldTab, newTab)
-				this.$emit("update:startIndex", newValue)
+				this.$emit('tab-change', oldTab, newTab)
+				this.$emit('update:startIndex', newValue)
 			}
 		},
 	},
@@ -212,7 +211,7 @@ export default {
 			this.onResize()
 		})
 		window.addEventListener(
-			"resize",
+			'resize',
 			() => {
 				throttle(this.onResize, 40)
 			},
@@ -222,8 +221,8 @@ export default {
 	methods: {
 		addTab(tab) {
 			const index = this.$slots.default.indexOf(tab.$vnode)
-			const tabTitle = tab.title || ""
-			tab.tabId = `${tabTitle.replace(/ /g, "")}${index}`
+			const tabTitle = tab.title || ''
+			tab.tabId = `${tabTitle.replace(/ /g, '')}${index}`
 			if (!this.activeTab && index === 0) {
 				tab.active = true
 				tab.checked = true
@@ -276,13 +275,13 @@ export default {
 						this.navigateToTab(index)
 					}
 				} else {
-					this.$emit("tab-navigate", index)
+					this.$emit('tab-navigate', index)
 					// this.activeTabIndex = index
 				}
 			}
 		},
 		onResize() {
-			const tabLinks = document.getElementsByClassName("wizard-tab-link")
+			const tabLinks = document.getElementsByClassName('wizard-tab-link')
 			if (tabLinks.length > 0 && this.tabCount > 0) {
 				const { clientWidth, clientHeight } = tabLinks[0]
 				this.tabLinkWidth = clientWidth

@@ -1,4 +1,4 @@
-import { getFarmCreated } from "@/services/web3/farmFactory"
+import { getFarmCreated } from '@/services/web3/farmFactory'
 
 const getDefaultState = () => ({
 	markets: [],
@@ -27,18 +27,18 @@ export const mutations = {
 
 export const actions = {
 	async setFarms({ commit, state }) {
-		commit("SET_LOADING", true)
+		commit('SET_LOADING', true)
 		const markets = await getFarmCreated(state.lastBlockNumber + 1)
-		console.log("markets:", markets)
+		console.log('markets:', markets)
 		if (markets.length > 0) {
-			const sortedFarms = sort(markets, "createdAt", "desc")
+			const sortedFarms = sort(markets, 'createdAt', 'desc')
 			if (state.lastBlockNumber !== 0) {
-				commit("MERGE_FARMS", sortedFarms)
+				commit('MERGE_FARMS', sortedFarms)
 			} else {
-				commit("SET_FARMS", sortedFarms)
+				commit('SET_FARMS', sortedFarms)
 			}
 		}
-		commit("SET_LOADING", false)
+		commit('SET_LOADING', false)
 	},
 }
 
@@ -55,7 +55,7 @@ export const getters = {
 }
 
 const sort = (arr, obj, orderBy) => {
-	if (orderBy === "desc") {
+	if (orderBy === 'desc') {
 		return arr.sort((current, next) =>
 			current[obj] < next[obj] ? 1 : current[obj] > next[obj] ? -1 : 0
 		)

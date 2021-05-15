@@ -2,35 +2,65 @@
 	<div>
 		<validation-observer ref="observer">
 			<div class="row">
-				<div class="col-12">
-					<!-- Token input -->
-					<autocomplete
-						v-model="model.token.address"
-						label="Token"
-						name="token"
-						placeholder="Type to search (name, symbol, address)"
-						rules="required|isAddress"
-						:suggestions="tokens"
-						:loading="tokensLoading"
-						:no-data="'No Tokens'"
-						@input="fetchTokens"
-						@complete="handleTokenComplete"
-					></autocomplete>
+				<div class="col-12 ma-30">
+					<div class="justify-content-between row align-items-center">
+						<!-- Token input -->
+						<autocomplete
+							v-if="model.token.name"
+							v-model="model.token.address"
+							class="label-underline col-lg-10 padding-left-15"
+							label="Token"
+							name="token"
+							placeholder="Type to search (name, symbol, address)"
+							rules="required|isAddress"
+							:suggestions="tokens"
+							:loading="tokensLoading"
+							:no-data="'No Tokens'"
+							@input="fetchTokens"
+							@focus="focusInputBatch('tokenAddress')"
+							@complete="handleTokenComplete"
+						></autocomplete>
 
-					<div class="fs-2">
-						Don't have a token?
-						<nuxt-link
-							v-slot="{ navigate }"
-							custom
-							to="/factory/token"
-							class="font-weight-bold text-white underline"
-						>
-							<span class="cursor-pointer" role="link" @click="navigate">
-								<u>Create it now!</u>
-							</span>
-						</nuxt-link>
+						<autocomplete
+							v-else
+							v-model="model.token.address"
+							class="label-underline col-lg-12 padding-left-15"
+							label="Token"
+							name="token"
+							placeholder="Type to search (name, symbol, address)"
+							rules="required|isAddress"
+							:suggestions="tokens"
+							:loading="tokensLoading"
+							:no-data="'No Tokens'"
+							@focus="focusInputBatch('tokenAddress')"
+							@input="fetchTokens"
+							@complete="handleTokenComplete"
+						></autocomplete>
+
+						<div v-if="model.token.name" class="position-auction-token-absolute">
+							{{ this.model.token.name }}
+						</div>
+
+						<div v-if="model.token.symbol" class="col-lg-2 text-right mt-4">
+							<base-button class="btn btn-custom btn-default">
+								{{ this.model.token.symbol }}
+							</base-button>
+						</div>
+
+						<div class="fs-2 pl-3">
+							Don't have a token?
+							<nuxt-link
+								v-slot="{ navigate }"
+								custom
+								to="/factory/token"
+								class="font-weight-bold text-white underline"
+							>
+								<span class="cursor-pointer" role="link" @click="navigate">
+									<u>Create it now!</u>
+								</span>
+							</nuxt-link>
+						</div>
 					</div>
-					<base-divider class="my-5" />
 				</div>
 
 				<!-- Alert -->
@@ -38,8 +68,8 @@
 					<base-alert v-if="!coinbase" type="danger">
 						<strong>Error</strong>
 						<span class="alert-inner--text">
-							Account is not connected. Please connect to Ethereum wallet to be
-							able to proceed
+							Account is not connected. Please connect to Ethereum wallet to be able
+							to proceed
 						</span>
 					</base-alert>
 					<base-alert v-else-if="userHasToken" type="secondary">
@@ -58,10 +88,7 @@
 							</span>
 						</div>
 					</base-alert>
-					<base-alert
-						v-else-if="model.token.symbol && !userLoading"
-						type="danger"
-					>
+					<base-alert v-else-if="model.token.symbol && !userLoading" type="danger">
 						<span class="alert-inner--text">
 							You don't have any {{ model.token.symbol }}
 						</span>
@@ -81,11 +108,7 @@
 							v-if="model.token.address && coinbase"
 							class="d-flex flex-column step"
 						>
-							<base-button
-								class="btn"
-								:loading="userLoading"
-								@click="updateUserInfo"
-							>
+							<base-button class="btn" :loading="userLoading" @click="updateUserInfo">
 								refresh
 							</base-button>
 						</div>
@@ -104,6 +127,7 @@
 							placeholder="Token amount"
 							type="number"
 							:rules="`required|decimal|max_value:${formatedTokenBalance}`"
+							@focus="focusInputBatch('tokenAmount')"
 						>
 							<template #label>
 								<span class="font-weight-bold">TOKEN AMOUNT</span>
@@ -111,244 +135,10 @@
 						</base-input>
 					</div>
 					<div v-if="!tokensApproved && model.tokenSupply > 0" class="mt-5">
-						<base-button
-							class="btn"
-							:loading="approveLoading"
-							@click="approve()"
-						>
+						<base-button class="btn" :loading="approveLoading" @click="approve()">
 							Approve
 						</base-button>
 					</div>
-				</div>
-
-				<div class="col-12">
-					<base-divider class="my-5" />
-					<div class="row">
-						<div class="col-12">
-							<payment-currency
-								:tokens-approved="tokensApproved"
-								@currency-updated="updateCurrency($event)"
-							/>
-						</div>
-
-						<!-- input line 1 -->
-						<div class="col-12">
-							<div class="row mt-4">
-								<base-input
-									v-model="model.minimumCommitmentAmount"
-									:disabled="!tokensApproved"
-									name="minimum amount"
-									class="col-md-6"
-									type="text"
-									placeholder="0"
-									:rules="`required`"
-								>
-									<template #label>
-										<span class="font-weight-bold">MIN PRICE</span>
-										- The lowest successful price
-									</template>
-								</base-input>
-								<base-input
-									:disabled="true"
-									name="minimum amount"
-									class="col-md-6"
-									type="number"
-									:placeholder="minRaise"
-									:rules="`required`"
-								>
-									<template #label>
-										<span class="font-weight-bold">MIN RAISED</span>
-										- Amount needed to be successful
-									</template>
-								</base-input>
-							</div>
-						</div>
-
-						<!-- input line 2 -->
-						<div class="col-12">
-							<div class="row">
-								<div class="col-12">
-									<base-input
-										:disabled="!tokensApproved"
-										class="col-md-6 right-icon position-relative"
-										name="start date"
-										type="text"
-										:rules="`required|afterNow:${
-											(model.startDate, 'start date')
-										}`"
-									>
-										<el-date-picker
-											v-model="model.startDate"
-											:disabled="!tokensApproved"
-											type="datetime"
-											:picker-options="{
-												start: '00:00',
-												step: '00:15',
-												end: '23:59',
-											}"
-										></el-date-picker>
-										<template #timestemp>
-											<span class="position-absolute timeZone">
-												{{ getStartTimeAbbr }}
-											</span>
-										</template>
-										<template #label>
-											<span class="font-weight-bold">START DATE</span>
-											- Must be a future date
-										</template>
-									</base-input>
-								</div>
-								<div class="col-md-6 col-sm-12">
-									<base-input
-										:placeholder="getDuration"
-										disabled
-										class="endDate"
-									>
-										<template #prepend>
-											<svg-icon
-												icon="clock"
-												width="20"
-												height="21"
-												:fill="false"
-											/>
-										</template>
-										<template #label>
-											<span class="font-weight-bold text-uppercase">
-												duration
-											</span>
-										</template>
-									</base-input>
-								</div>
-								<div class="col-md-6 col-sm-12">
-									<div class="d-flex flex-column">
-										<div class="d-flex justify-content-start">
-											<div>
-												<div class="text-left pl-5 ml-2 text-capitalize">
-													days
-												</div>
-												<div class="d-flex justify-content-start number-input">
-													<p class="number-input_down d-flex align-items-start">
-														<button
-															class="btn btn-primary rounded-circle"
-															:disabled="numberOfDays <= 0 || !tokensApproved"
-															@click="numberOfDays--"
-														>
-															<span>
-																<svg-icon
-																	icon="minus"
-																	height="20"
-																	width="20"
-																	:fill="false"
-																/>
-															</span>
-														</button>
-													</p>
-													<base-input
-														:placeholder="numberOfDays"
-														:disabled="!tokensApproved"
-														class="w-25 input_days"
-													/>
-													<p class="number-input_up d-flex align-items-start">
-														<button
-															class="btn-primary btn rounded-circle"
-															:disabled="!tokensApproved"
-															@click="numberOfDays++"
-														>
-															<span>
-																<svg-icon
-																	icon="plus"
-																	height="20"
-																	width="20"
-																	:fill="false"
-																/>
-															</span>
-														</button>
-													</p>
-												</div>
-											</div>
-											<div>
-												<div class="text-left pl-5 ml-1 text-capitalize">
-													hours
-												</div>
-												<div class="d-flex justify-content-start number-input">
-													<p class="number-input_down d-flex align-items-start">
-														<button
-															class="btn btn-primary rounded-circle"
-															:disabled="numberOfHours <= 0 || !tokensApproved"
-															@click="numberOfHours--"
-														>
-															<span>
-																<svg-icon
-																	icon="minus"
-																	height="20"
-																	width="20"
-																	:fill="false"
-																/>
-															</span>
-														</button>
-													</p>
-													<base-input
-														:placeholder="numberOfHours"
-														:disabled="!tokensApproved"
-														class="w-25 input_hours"
-													/>
-													<p class="number-input_up d-flex align-items-start">
-														<button
-															class="btn btn-primary rounded-circle"
-															:disabled="!tokensApproved"
-															@click="numberOfHours++"
-														>
-															<span>
-																<svg-icon
-																	icon="plus"
-																	height="20"
-																	width="20"
-																	:fill="false"
-																/>
-															</span>
-														</button>
-													</p>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<!-- input line 3 -->
-						<div class="col-12">
-							<div class="row mt-4">
-								<base-input
-									v-model="model.fundWallet"
-									:disabled="!tokensApproved"
-									class="col"
-									name="address"
-									placeholder="Ethereum Address"
-									rules="required|isAddress"
-								>
-									<template #prepend>
-										<svg-icon
-											class="svg-icon-left"
-											icon="ethereum"
-											height="24"
-											width="20"
-										/>
-									</template>
-									<template #label>
-										<span class="font-weight-bold">FUND WALLET</span>
-										- Where the funds will go
-									</template>
-								</base-input>
-							</div>
-						</div>
-					</div>
-					<p
-						class="font-weight-bold cursor-pointer"
-						@click="selectCurrentAccount"
-					>
-						Send to my account
-					</p>
 				</div>
 
 				<div class="col-12">
@@ -360,64 +150,72 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { BaseDivider, BaseAlert } from "@/components"
-import { DatePicker, TimeSelect } from "element-ui"
-import { getContractInstance as erc20Contract } from "@/services/web3/erc20Token"
-import { misoMarket as misoMarketConfig } from "@/constants/contractConfig"
-import { makeBatchCall, sendTransactionAndWait } from "@/services/web3/base"
-import { toDecimals, to18Decimals } from "@/util"
-import { duration } from "@/mixins/duration.js"
-import Autocomplete from "@/components/Inputs/Autocomplete"
-import PaymentCurrency from "../PaymentCurrency.vue"
+import { mapGetters, mapActions } from 'vuex'
+import { BaseDivider, BaseAlert } from '@/components'
+import { DatePicker, TimeSelect } from 'element-ui'
+import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
+import { misoMarket as misoMarketConfig } from '@/constants/contracts'
+import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
+import { toDecimals, to18Decimals } from '@/util'
+import { duration } from '@/mixins/duration.js'
+import Autocomplete from '@/components/Inputs/Autocomplete'
 
 export default {
 	components: {
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
 		Autocomplete,
-		BaseDivider,
 		BaseAlert,
-		PaymentCurrency,
 	},
 	mixins: [duration],
 	data() {
 		return {
-			misoMarketAddress: "",
+			misoMarketAddress: '',
 			model: {
 				token: {
 					address: this.$route.query.token,
-					name: "",
-					symbol: "",
+					name: '',
+					symbol: '',
 					decimals: 0,
 				},
+				allowance: '',
+				chosenAuctionType: 3,
 				paymentCurrency: {
-					address: "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE",
-					name: "Ethereum",
-					symbol: "ETH",
+					address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+					name: 'Ethereum',
+					symbol: 'ETH',
 					decimals: 18,
 				},
-				startDate: "",
-				endDate: "",
-				tokenSupply: 0,
-				minimumCommitmentAmount: "",
-				fundWallet: "",
+				startDate: '',
+				endDate: '',
+				tokenSupply: '',
+				minimumCommitmentAmount: '',
+				allowanceformatted: '',
+				fundWallet: '',
 			},
 			user: {
 				tokenBalance: 0,
-				allowance: 0,
+				allowance: '',
 			},
 			tokensLoading: false,
 			userLoading: false,
 			approveLoading: false,
+			batchitems: {
+				tokenAddress: false,
+				tokenAmount: false,
+				payment_currency: false,
+				walletAddress: false,
+				minPrice: false,
+				startend: false,
+			},
 		}
 	},
 	computed: {
 		...mapGetters({
-			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
-			coinbase: "ethereum/coinbase",
-			explorer: "ethereum/explorer",
-			tokens: "tokens/list",
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
+			tokens: 'tokens/list',
 		}),
 		formatedTokenBalance() {
 			if (!this.user.tokenBalance) return 0
@@ -438,16 +236,16 @@ export default {
 		},
 		getStartTimeAbbr() {
 			return new Date(this.model.startDate)
-				.toLocaleTimeString("en-us", { timeZoneName: "short" })
-				.split(" ")[2]
+				.toLocaleTimeString('en-us', { timeZoneName: 'short' })
+				.split(' ')[2]
 		},
 		getEndTimeAbbr() {
 			return new Date(this.model.endDate)
-				.toLocaleTimeString("en-us", { timeZoneName: "short" })
-				.split(" ")[2]
+				.toLocaleTimeString('en-us', { timeZoneName: 'short' })
+				.split(' ')[2]
 		},
 		minRaise() {
-			if (this.model.minimumCommitmentAmount !== "") {
+			if (this.model.minimumCommitmentAmount !== '') {
 				return (
 					parseFloat(this.model.tokenSupply) *
 					parseFloat(this.model.minimumCommitmentAmount)
@@ -457,10 +255,9 @@ export default {
 		},
 	},
 	async mounted() {
-		this.misoMarketAddress =
-			misoMarketConfig.address[this.currentProvidersNetworkId]
+		this.misoMarketAddress = misoMarketConfig.address[this.currentProvidersNetworkId]
 		const tokenAddress = this.model.token.address
-		if ((tokenAddress || "").length > 0) {
+		if ((tokenAddress || '').length > 0) {
 			await this.fetchTokens()
 			const matches = this.tokens.filter(
 				(token) => token.addr.toLowerCase() === tokenAddress.toLowerCase()
@@ -472,11 +269,11 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			getTokens: "tokens/getTokens",
+			getTokens: 'tokens/getTokens',
 		}),
 		validate() {
 			return this.$refs.observer.validate().then((res) => {
-				this.$emit("on-validated", res, this.model)
+				this.$emit('on-validated', res, this.model)
 				return res && this.model.paymentCurrency.address
 			})
 		},
@@ -484,9 +281,9 @@ export default {
 			// Clear Tokens
 			this.user.allowance = 0
 			this.user.tokenBalance = 0
-			this.model.token.name = ""
-			this.model.token.symbol = ""
-			this.model.token.decimals = ""
+			this.model.token.name = ''
+			this.model.token.symbol = ''
+			this.model.token.decimals = ''
 
 			// Get Tokens
 			if (!this.tokensLoading) {
@@ -501,11 +298,11 @@ export default {
 			this.userLoading = true
 			const methods = [
 				{
-					methodName: "allowance",
+					methodName: 'allowance',
 					args: [this.coinbase, this.misoMarketAddress],
 				},
 				{
-					methodName: "balanceOf",
+					methodName: 'balanceOf',
 					args: [this.coinbase],
 				},
 			]
@@ -516,6 +313,8 @@ export default {
 			)
 			if (data) {
 				;[this.user.allowance, this.user.tokenBalance] = data
+				this.model.allowance = this.user.allowance
+				this.model.allowanceformatted = toDecimals(this.user.allowance)
 			}
 			this.userLoading = false
 		},
@@ -550,6 +349,16 @@ export default {
 		updateCurrency(currency) {
 			this.model.paymentCurrency = currency
 		},
+		focusInputBatch(val) {
+			for (const key in this.batchitems) {
+				if (val === key) {
+					this.batchitems[key] = true
+				} else {
+					this.batchitems[key] = false
+				}
+			}
+			this.$emit('active-focus-batch', this.batchitems, this.model.chosenAuctionType)
+		},
 	},
 }
 </script>
@@ -568,14 +377,6 @@ export default {
 	position: absolute;
 	z-index: 10;
 	left: 10px;
-}
-.step {
-	/* .btn {
-		background: transparent !important;
-		border: 2px solid #23306b;
-		border-radius: 0;
-		color: white;
-	} */
 }
 .el-date-picker .el-picker-panel__footer .el-button:first-child {
 	display: none;

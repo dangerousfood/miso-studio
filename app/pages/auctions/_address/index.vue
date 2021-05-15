@@ -4,6 +4,7 @@
 			<div class="col-12 col-lg-6">
 				<about-card
 					:info="about"
+					:user="userInfo"
 					:price="marketInfo.currentPrice"
 					:type="status.type"
 					:status="status"
@@ -25,24 +26,24 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex"
-import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
+import { mapGetters, mapActions } from 'vuex'
+import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 import {
 	getContractInstance as dutchAuctionContract,
 	clearingPrice,
-} from "@/services/web3/auctions/dutch"
-import { getContractInstance as crowdsaleContract } from "@/services/web3/auctions/crowdsale"
-import { getContractInstance as batchAuctionContract } from "@/services/web3/auctions/batch"
-import { makeBatchCall } from "@/services/web3/base"
-import { toDecimals, toPrecision, to18Decimals } from "@/util/index"
-import AboutCard from "@/components/Miso/Auctions/AuctionInfo/AboutCard"
-import LiveStatus from "@/components/Miso/Auctions/AuctionInfo/LiveStatus"
+} from '@/services/web3/auctions/dutch'
+import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
+import { getContractInstance as batchAuctionContract } from '@/services/web3/auctions/batch'
+import { makeBatchCall } from '@/services/web3/base'
+import { toDecimals, toPrecision, to18Decimals } from '@/util/index'
+import AboutCard from '@/components/Miso/Auctions/AuctionInfo/AboutCard'
+import LiveStatus from '@/components/Miso/Auctions/AuctionInfo/LiveStatus'
 
 const TOPIC_ADDED_COMMITMENT =
-	"0x077511a636ba1f10551cc7b89c13ff66a6ac9344e8a917527817a9690b15af7a"
+	'0x077511a636ba1f10551cc7b89c13ff66a6ac9344e8a917527817a9690b15af7a'
 
 export default {
-	name: "AuctionInfo",
+	name: 'AuctionInfo',
 	components: {
 		LiveStatus,
 		AboutCard,
@@ -52,29 +53,29 @@ export default {
 			auctionAddress: this.$route.params.address,
 			// can be Object or Array
 			about: {
-				title: "",
-				tokenPair: "",
+				title: '',
+				tokenPair: '',
 				icons: {
 					social: {},
 					ingredient: [
 						{
-							icon: "liquidity-1",
-							text: "Pool Liquidity",
+							icon: 'liquidity-1',
+							text: 'Pool Liquidity',
 						},
 						{
-							icon: "mintable-2",
-							text: "Mintable",
+							icon: 'mintable-2',
+							text: 'Mintable',
 						},
 						{
-							icon: "crowdsale",
-							text: "Crowdsale",
+							icon: 'crowdsale',
+							text: 'Crowdsale',
 						},
 					],
 				},
-				recipe: "Classic Miso",
+				recipe: 'Classic Miso',
 			},
 			status: {
-				date: "",
+				date: '',
 				participants: 0,
 				finished: false,
 				auctionSuccessful: false,
@@ -86,8 +87,8 @@ export default {
 				totalTokensCommitted: 0,
 				paymentCurrency: {
 					addr: null,
-					name: "",
-					symbol: "",
+					name: '',
+					symbol: '',
 					decimals: 0,
 				},
 				hasPointList: false,
@@ -96,9 +97,9 @@ export default {
 				finalized: 0,
 			},
 			tokenInfo: {
-				address: "",
-				name: "",
-				symbol: "",
+				address: '',
+				name: '',
+				symbol: '',
 			},
 			userInfo: {
 				commitments: 0,
@@ -114,18 +115,18 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			commitmentsTotal: "commitments/commitmentsTotal",
+			coinbase: 'ethereum/coinbase',
+			commitmentsTotal: 'commitments/commitmentsTotal',
 		}),
 	},
 	watch: {
 		commitmentsTotal(newValue) {
 			this.marketInfo.commitmentsTotal = toPrecision(newValue, 3)
-			if (this.status.type === "dutch") {
+			if (this.status.type === 'dutch') {
 				this.updateDutchData()
-			} else if (this.status.type === "crowdsale") {
+			} else if (this.status.type === 'crowdsale') {
 				this.updateCrowdsaleData()
-			} else if (this.status.type === "batch") {
+			} else if (this.status.type === 'batch') {
 				this.updateBatchData()
 			}
 		},
@@ -136,23 +137,23 @@ export default {
 		// let finishAuction
 		switch (parseInt(this.marketTemplateId)) {
 			case 1:
-				type = "crowdsale"
+				type = 'crowdsale'
 				this.contractInstance = crowdsaleContract(this.auctionAddress)
 				await this.setCrowdsaleData()
 				// finishAuction = this.marketInfo.totalTokensCommitted
 				break
 			case 2:
-				type = "dutch"
+				type = 'dutch'
 				this.contractInstance = dutchAuctionContract(this.auctionAddress)
 				await this.setDutchAuctionData()
 				break
 			case 3:
-				type = "batch"
+				type = 'batch'
 				this.contractInstance = batchAuctionContract(this.auctionAddress)
 				await this.setBatchData()
 				break
 			case 4:
-				type = "hyperbolic"
+				type = 'hyperbolic'
 				break
 			default:
 				break
@@ -160,13 +161,13 @@ export default {
 		const currentTimestamp = Date.parse(new Date()) / 1000
 		let auction
 		if (this.marketInfo.startTime > currentTimestamp) {
-			auction = "upcoming"
+			auction = 'upcoming'
 			this.status.date = new Date(this.marketInfo.startTime * 1000)
 		} else if (currentTimestamp < this.marketInfo.endTime) {
-			auction = "live"
+			auction = 'live'
 			this.status.date = new Date(this.marketInfo.endTime * 1000)
 		} else {
-			auction = "finished"
+			auction = 'finished'
 		}
 		Object.assign(this.status, { type, auction })
 		if (this.coinbase) {
@@ -176,19 +177,17 @@ export default {
 		this.subscribeToNewCommitments()
 
 		// Documents
-		const methods = [
-			{ methodName: "getDocuments", args: [this.auctionAddress] },
-		]
+		const methods = [{ methodName: 'getDocuments', args: [this.auctionAddress] }]
 		const [documents] = await makeBatchCall(misoHelperContract(), methods)
 
 		documents.forEach((document) => {
-			const name = document["0"]
-			const data = document["1"]
+			const name = document['0']
+			const data = document['1']
 			if (name && data && data.length > 0) {
 				switch (name) {
-					case "website":
-					case "icon":
-					case "description":
+					case 'website':
+					case 'icon':
+					case 'description':
 						this.about[name] = data
 						break
 					default:
@@ -205,13 +204,13 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			setCommitments: "commitments/setCommitments",
-			addCommitment: "commitments/addCommitment",
-			resetCommitmentsState: "commitments/resetCommitmentsState",
+			setCommitments: 'commitments/setCommitments',
+			addCommitment: 'commitments/addCommitment',
+			resetCommitmentsState: 'commitments/resetCommitmentsState',
 		}),
 		async setDutchAuctionData() {
 			const methods = [
-				{ methodName: "getDutchAuctionInfo", args: [this.auctionAddress] },
+				{ methodName: 'getDutchAuctionInfo', args: [this.auctionAddress] },
 			]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			const tokenInfo = data.tokenInfo
@@ -242,7 +241,7 @@ export default {
 
 		async setCrowdsaleData() {
 			const methods = [
-				{ methodName: "getCrowdsaleInfo", args: [this.auctionAddress] },
+				{ methodName: 'getCrowdsaleInfo', args: [this.auctionAddress] },
 			]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			const tokenInfo = data.tokenInfo
@@ -269,7 +268,7 @@ export default {
 
 		async setBatchData() {
 			const methods = [
-				{ methodName: "getBatchAuctionInfo", args: [this.auctionAddress] },
+				{ methodName: 'getBatchAuctionInfo', args: [this.auctionAddress] },
 			]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			const tokenInfo = data.tokenInfo
@@ -314,21 +313,19 @@ export default {
 		},
 
 		updateCrowdsaleData() {
-			const tokensCommitted =
-				this.marketInfo.commitmentsTotal * this.marketInfo.rate
+			const tokensCommitted = this.marketInfo.commitmentsTotal * this.marketInfo.rate
 			this.marketInfo.totalTokensCommitted = toPrecision(tokensCommitted, 3)
 		},
 
 		updateBatchData() {
-			const price =
-				this.marketInfo.commitmentsTotal / this.marketInfo.totalTokens
+			const price = this.marketInfo.commitmentsTotal / this.marketInfo.totalTokens
 			this.marketInfo.currentPrice = toPrecision(price, 3)
 		},
 
 		async updateUserInfo() {
 			const methods = [
 				{
-					methodName: "getUserMarketInfo",
+					methodName: 'getUserMarketInfo',
 					args: [this.auctionAddress, this.coinbase],
 				},
 			]
@@ -342,7 +339,7 @@ export default {
 		},
 
 		async getTemplateId() {
-			const methods = [{ methodName: "marketTemplate" }]
+			const methods = [{ methodName: 'marketTemplate' }]
 			const [marketTemplate] = await makeBatchCall(
 				dutchAuctionContract(this.auctionAddress),
 				methods
@@ -363,7 +360,7 @@ export default {
 		subscribeToNewCommitments() {
 			this.subscription = web3socket.eth
 				.subscribe(
-					"logs",
+					'logs',
 					{
 						address: this.auctionAddress,
 						topics: [TOPIC_ADDED_COMMITMENT],
@@ -371,7 +368,7 @@ export default {
 					(error, result) => {
 						if (!error) {
 							const decodedData = web3.eth.abi.decodeParameters(
-								["address", "uint256"],
+								['address', 'uint256'],
 								result.data
 							)
 							this.addCommitment({
@@ -382,25 +379,25 @@ export default {
 						}
 					}
 				)
-				.on("connected", function (subscriptionId) {
-					console.log("subscriptionId:", subscriptionId)
+				.on('connected', function (subscriptionId) {
+					console.log('subscriptionId:', subscriptionId)
 				})
-				.on("data", function (log) {})
-				.on("changed", function (log) {
-					console.log("changed:", log)
+				.on('data', function (log) {})
+				.on('changed', function (log) {
+					console.log('changed:', log)
 				})
 		},
 		async getPastCommitments() {
 			const commitments = []
 			const logs = await web3.eth.getPastLogs({
 				fromBlock: 0,
-				toBlock: "latest",
+				toBlock: 'latest',
 				address: this.auctionAddress,
 				topics: [TOPIC_ADDED_COMMITMENT],
 			})
 			logs.forEach((log) => {
 				const decodedData = web3.eth.abi.decodeParameters(
-					["address", "uint256"],
+					['address', 'uint256'],
 					log.data
 				)
 				commitments.push({

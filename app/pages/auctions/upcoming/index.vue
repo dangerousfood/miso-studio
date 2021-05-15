@@ -14,6 +14,7 @@
 					tag="div"
 					class="cursor-pointer specialCard"
 				>
+					<!-- iconlink: [String] props for icon links -->
 					<special-card
 						:auction="auction"
 						:ingredients="ingredients"
@@ -27,11 +28,11 @@
 </template>
 
 <script>
-import SpecialCard from "@/components/Miso/Auctions/Specials/SpecialCard"
-import { mapGetters, mapActions } from "vuex"
+import SpecialCard from '@/components/Miso/Auctions/Specials/SpecialCard'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-	name: "LiveAuctions",
+	name: 'LiveAuctions',
 	components: {
 		SpecialCard,
 	},
@@ -41,29 +42,29 @@ export default {
 			auctionsList: [],
 			ingredients: [
 				{
-					icon: "wheat",
-					text: "Mintable",
+					icon: 'wheat',
+					text: 'Mintable',
 				},
 				{
-					icon: "teapot",
-					text: "Pool Liquidity",
+					icon: 'teapot',
+					text: 'Pool Liquidity',
 				},
 				{
-					icon: "crowd",
-					text: "Crowdsale",
+					icon: 'crowd',
+					text: 'Crowdsale',
 				},
 			],
 		}
 	},
 	computed: {
-		...mapGetters({ auctions: "auctions/list" }),
+		...mapGetters({ auctions: 'auctions/list' }),
 	},
 	mounted() {
 		this.initAuctions()
 	},
 	methods: {
 		...mapActions({
-			getAuctions: "auctions/getAuctions",
+			getAuctions: 'auctions/getAuctions',
 		}),
 		async initAuctions() {
 			await this.getAuctions()

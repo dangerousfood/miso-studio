@@ -1,9 +1,7 @@
 <template>
 	<div class="farmList">
 		<div class="hero-section mt-4 pt-2 mb-3 pb-1 text-white">
-			<p
-				class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative font-weight-bold"
-			>
+			<p class="fs-4 fs-xs-1 fs-sm-2 pb-1 mb-0 position-relative font-weight-bold">
 				LIST OF FARMS
 			</p>
 		</div>
@@ -65,9 +63,7 @@
 							<div slot-scope="{ row }" class="py-2">
 								<div class="d-flex">
 									<div class="d-flex flex-column">
-										<p class="fs-1 text-white">
-											Reward Token: {{ row.rewardToken }}
-										</p>
+										<p class="fs-1 text-white">Reward Token: {{ row.rewardToken }}</p>
 										<p class="fs-1 text-white">
 											Staking Token: {{ row.stakingToken }}
 										</p>
@@ -93,9 +89,7 @@
 						<el-table-column min-width="180" label="Reward">
 							<div slot-scope="{ row }" class="py-2">
 								<div class="d-flex flex-column">
-									<p class="fs-1 text-white">
-										{{ row.rewardsPerBlock }} per block
-									</p>
+									<p class="fs-1 text-white">{{ row.rewardsPerBlock }} per block</p>
 								</div>
 							</div>
 						</el-table-column>
@@ -105,9 +99,7 @@
 						<el-table-column min-width="180" label="Liquidity">
 							<div slot-scope="{ row }" class="py-2">
 								<div class="d-flex flex-column">
-									<p class="fs-1 text-white">
-										{{ row.totalStaked }} total staked
-									</p>
+									<p class="fs-1 text-white">{{ row.totalStaked }} total staked</p>
 								</div>
 							</div>
 						</el-table-column>
@@ -119,9 +111,7 @@
 								<div class="d-flex flex-column">
 									<div class="d-flex">
 										<div class="d-flex flex-column">
-											<p class="fs-1 text-white">
-												{{ row.pendingRewards }} pending
-											</p>
+											<p class="fs-1 text-white">{{ row.pendingRewards }} pending</p>
 										</div>
 									</div>
 								</div>
@@ -131,15 +121,8 @@
 
 						<!-- button -->
 						<el-table-column min-width="180" label="info" header-align="center">
-							<div
-								slot-scope="{ row }"
-								class="py-2 d-flex justify-content-center"
-							>
-								<nuxt-link
-									v-slot="{ navigate }"
-									:to="`/farms/${row.addr}`"
-									custom
-								>
+							<div slot-scope="{ row }" class="py-2 d-flex justify-content-center">
+								<nuxt-link v-slot="{ navigate }" :to="`/farms/${row.addr}`" custom>
 									<button class="btn info-button" role="link" @click="navigate">
 										View Farm
 									</button>
@@ -154,7 +137,12 @@
 		<div class="col-12 mt-5">
 			<div
 				slot="footer"
-				class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap"
+				class="
+					col-12
+					d-flex
+					justify-content-center justify-content-sm-between
+					flex-wrap
+				"
 			>
 				<div class>
 					<p class="card-category">
@@ -173,17 +161,17 @@
 </template>
 
 <script>
-import { Table, TableColumn } from "element-ui"
-import { BaseInput, BasePagination } from "@/components"
-import { fromWei, makeBatchCall } from "@/services/web3/base"
-import { getContractInstance as misoHelperContract } from "@/services/web3/misoHelper"
-import { zeroAddress } from "@/util/web3"
-import BigNumber from "bignumber.js"
+import { Table, TableColumn } from 'element-ui'
+import { BaseInput, BasePagination } from '@/components'
+import { fromWei, makeBatchCall } from '@/services/web3/base'
+import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
+import { zeroAddress } from '@/util/web3'
+import BigNumber from 'bignumber.js'
 
 // TODO data structure needs to be updated if this action is right one
-import { mapActions, mapGetters } from "vuex"
-import { theme } from "@/mixins/theme"
-import clientPaginationMixin from "~/components/Tables/PaginatedTables/clientPaginationMixin"
+import { mapActions, mapGetters } from 'vuex'
+import { theme } from '@/mixins/theme'
+import clientPaginationMixin from '~/components/Tables/PaginatedTables/clientPaginationMixin'
 
 export default {
 	components: {
@@ -196,15 +184,15 @@ export default {
 	data() {
 		return {
 			loading: true,
-			searchQuery: "",
+			searchQuery: '',
 			tableData: [],
-			propsToSearch: ["token", "name", "symbol"],
+			propsToSearch: ['token', 'name', 'symbol'],
 		}
 	},
 	computed: {
 		...mapGetters({
-			coinbase: "ethereum/coinbase",
-			farms: "farms/list",
+			coinbase: 'ethereum/coinbase',
+			farms: 'farms/list',
 		}),
 	},
 	mounted() {
@@ -212,7 +200,7 @@ export default {
 	},
 	methods: {
 		...mapActions({
-			getFarms: "farms/getFarms",
+			getFarms: 'farms/getFarms',
 		}),
 		async initFarms() {
 			// Get Farms
@@ -221,14 +209,11 @@ export default {
 			// Get UserPoolsInfos
 			const methods = [
 				{
-					methodName: "getUserPoolsInfos",
+					methodName: 'getUserPoolsInfos',
 					args: [this.coinbase || zeroAddress],
 				},
 			]
-			const [userPoolsInfos] = await makeBatchCall(
-				misoHelperContract(),
-				methods
-			)
+			const [userPoolsInfos] = await makeBatchCall(misoHelperContract(), methods)
 
 			// Get Farms & Pools TableData
 			this.farms.forEach((farm) => {

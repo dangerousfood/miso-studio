@@ -3,9 +3,9 @@
 		<div class="container">
 			<ul class="progressbar">
 				<li
-					:class="[active >= index + 1 ? 'active' : '']"
 					v-for="(step, index) in steps"
 					:key="step"
+					:class="[active >= index + 1 ? 'active' : '']"
 				>
 					{{ step }}
 				</li>
@@ -15,7 +15,7 @@
 </template>
 <script>
 export default {
-	name: "TimeLine",
+	name: 'TimeLine',
 	props: {
 		steps: {
 			type: [Array, Object],
@@ -50,11 +50,11 @@ export default {
 		text-transform: uppercase;
 		&.active {
 			&:after {
-				background: #F46E41;
+				background: #f46e41;
 			}
 			&:before {
-				border-color: #F46E41;
-				background: #F46E41;
+				border-color: #f46e41;
+				background: #f46e41;
 				color: white;
 			}
 		}
@@ -74,7 +74,7 @@ export default {
 			font-weight: bold;
 		}
 		&:after {
-			content: "";
+			content: '';
 			position: absolute;
 			width: 100%;
 			height: 3px;
@@ -91,7 +91,7 @@ export default {
 .step:not(:last-child) {
 	width: 100%;
 	&::after {
-		content: "";
+		content: '';
 		position: absolute;
 		top: 50%;
 		width: 100%;

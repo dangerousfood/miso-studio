@@ -1,4 +1,4 @@
-import { masterChefTemplate } from "@/constants/contractConfig"
+import { masterChefTemplate } from "~/constants/contracts"
 
 const masterChefAbi = masterChefTemplate.abi
 let contractInstance

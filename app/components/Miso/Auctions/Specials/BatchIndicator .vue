@@ -33,9 +33,7 @@
 					class="progress-status_indicator-line_status-bottom"
 					:style="{ left: computedProgress, width: computedProctessStyle }"
 				>
-					<span
-						class="d-flex flex-column align-items-end position-absolute pl-2"
-					>
+					<span class="d-flex flex-column align-items-end position-absolute pl-2">
 						<span class="font-weight-bold fs-1 no-whitespace text-uppercase">
 							tokens sold
 						</span>
@@ -62,12 +60,24 @@
 			</span>
 		</div>
 		<span
-			class="position-absolute bottom-0 fs-1 font-weight-bold progress-status_start-text"
+			class="
+				position-absolute
+				bottom-0
+				fs-1
+				font-weight-bold
+				progress-status_start-text
+			"
 		>
 			START
 		</span>
 		<span
-			class="position-absolute bottom-0 fs-1 font-weight-bold progress-status_end-text"
+			class="
+				position-absolute
+				bottom-0
+				fs-1
+				font-weight-bold
+				progress-status_end-text
+			"
 		>
 			END
 		</span>
@@ -75,7 +85,7 @@
 </template>
 
 <script>
-import { inpidatorTheme } from "@/mixins/auctionIndicator"
+import { inpidatorTheme } from '@/mixins/auctionIndicator'
 export default {
 	mixins: [inpidatorTheme],
 	props: {
@@ -119,7 +129,7 @@ export default {
 			if (this.progress > 99 || this.progress < 2) {
 				return 0
 			}
-			return "1px"
+			return '1px'
 		},
 	},
 }

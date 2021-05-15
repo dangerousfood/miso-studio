@@ -1,9 +1,6 @@
 /* eslint-disable no-async-promise-executor */
-import Swal from "sweetalert2"
-import networkConfig from "@/constants/networkConfig"
-
-const rightNetworks = networkConfig.rightNetworks
-const defaultNetwork = networkConfig.defaultNetwork
+import Swal from 'sweetalert2'
+import { EXPLORERS, RIGHT_NETWORKS, DEFAULT_NETWORK } from '~/constants/networks'
 
 let store
 
@@ -15,7 +12,7 @@ if (process.browser) {
 
 export const sendTransaction = (method, options) => {
 	return new Promise(async (resolve, reject) => {
-		if (store.getters["ethereum/isOk"]) {
+		if (store.getters['ethereum/isOk']) {
 			try {
 				const gasPriceInWei = await getGasPrice()
 				// const estimatedGas = await estimateGas(method, options.from, gasPriceInWei * 20);
@@ -27,7 +24,7 @@ export const sendTransaction = (method, options) => {
 
 				method.send(options, (err, txHash) => {
 					if (err) {
-						console.log("err:", err)
+						console.log('err:', err)
 						return resolve(false)
 					}
 					// store.dispatch('notification/addTransaction', { transaction: newTransaction, coinbase: from });
@@ -39,6 +36,7 @@ export const sendTransaction = (method, options) => {
 				return resolve(false)
 			}
 		} else {
+			// store.dispatch('ethereum/enableAccount')
 			showConnectionModal()
 			resolve(false)
 		}
@@ -60,7 +58,7 @@ export const sendTransaction = (method, options) => {
 // }
 
 export const sendTransactionAndWait = async (method, options, callback) => {
-	if (store.getters["ethereum/isOk"]) {
+	if (store.getters['ethereum/isOk']) {
 		try {
 			const gasPriceInWei = await getGasPrice()
 			Object.assign(options, {
@@ -71,21 +69,22 @@ export const sendTransactionAndWait = async (method, options, callback) => {
 			method
 				.send(options, (err, txHash) => {
 					if (err) {
-						console.log("err:", err)
+						console.log('err:', err)
 						return callback(false)
 					}
 					showTransactionSentModal(txHash)
 				})
-				.once("receipt", (receipt) => {
+				.once('receipt', (receipt) => {
 					return callback(receipt)
 				})
 				// eslint-disable-next-line node/handle-callback-err
-				.on("error", (error) => {})
+				.on('error', (error) => {})
 		} catch (error) {
 			if (error.code !== 4001) showErrorModal(error.message)
 			return callback(false)
 		}
 	} else {
+		console.log('fire')
 		showConnectionModal()
 		return callback(false)
 	}
@@ -126,74 +125,74 @@ export const makeBatchCall = async (contractInstance, methods) => {
 }
 
 const showTransactionSentModal = (txHash) => {
-	const explorer = store.getters["ethereum/explorer"]
+	const explorer = store.getters['ethereum/explorer']
 	Swal.fire({
-		icon: "success",
-		title: "Your transaction has been sent...",
+		icon: 'success',
+		title: 'Your transaction has been sent...',
 		html:
-			"See on etherscan: " +
+			'See on etherscan: ' +
 			`<a href="${explorer.root}${explorer.tx}${txHash}" target="_blank">here</a>.`,
 		buttonsStyling: false,
 		showCancelButton: false,
-		confirmButtonText: "Close",
-		confirmButtonClass: "btn btn-fill",
+		confirmButtonText: 'Close',
+		confirmButtonClass: 'btn btn-fill',
 	})
 }
 
 const showErrorModal = (errorMessage) => {
 	Swal.fire({
-		icon: "error",
-		title: "An unexpected error occurred",
+		icon: 'error',
+		title: 'An unexpected error occurred',
 		// html: "Please try again or reload the page.",
 		html: `<p>Description: ${errorMessage}</p>
                        <b>Please make sure you have entered the correct data.</b></br>
                        <b>You may also reload the page and try again.</b>`,
 		buttonsStyling: false,
 		showCancelButton: false,
-		confirmButtonText: "Close",
-		confirmButtonClass: "btn btn-fill",
+		confirmButtonText: 'Close',
+		confirmButtonClass: 'btn btn-fill',
 	})
 }
 
 const showConnectionModal = () => {
 	Swal.fire({
-		icon: "warning",
+		icon: 'warning',
 		title: getConnectionTitle(),
 		html: getConnectionBody(),
 		buttonsStyling: false,
 		showCancelButton: false,
-		confirmButtonText: "CLOSE",
-		confirmButtonClass: "btn btn-fill",
+		confirmButtonText: 'CLOSE',
+		confirmButtonClass: 'btn btn-fill',
 	})
 }
 
 const getConnectionTitle = () => {
-	const networkId = store.getters["ethereum/networkId"]
-	const isRightNetwork = store.getters["ethereum/isRightNetwork"]
-	if (store.getters["ethereum/isOk"]) {
-		return networkConfig[networkId].name
+	const networkId = store.getters['ethereum/networkId']
+	const isRightNetwork = store.getters['ethereum/isRightNetwork']
+	if (store.getters['ethereum/isOk']) {
+		return EXPLORERS[networkId].name
 	} else if (!isRightNetwork && networkId === 1) {
-		return "Testnet only, Mainnet upgrade"
+		return 'Testnet only, Mainnet upgrade'
 	} else if (!isRightNetwork) {
-		return "Wrong network"
+		return 'Wrong network'
 	} else {
-		return "Account is not connected"
+		return 'Account is not connected'
 	}
 }
 
 const getConnectionBody = () => {
 	const networkId = store.state.ethereum.networkId
-	const isRightNetwork = store.getters["ethereum/isRightNetwork"]
+	const isRightNetwork = store.getters['ethereum/isRightNetwork']
 	const defaultNetworkName =
-		networkConfig[store.getters["ethereum/defaultNetworkId"]].name
+		EXPLORERS[store.getters['ethereum/defaultNetworkId']].name
 	try {
 		if (!isRightNetwork) {
-			return `You are on ${networkConfig[networkId].name} . Please change your network to ${defaultNetworkName}.`
+			return `You are on ${EXPLORERS[networkId].name} . Please change your network to ${defaultNetworkName}.`
 		} else {
 			return `Please connect to Ethereum wallet to be able to proceed.`
 		}
 	} catch (error) {
-		return "An unexpected error occurred. Please try loading the page"
+		return 'An unexpected error occurred. Please try loading the page'
 	}
 }
 
@@ -201,11 +200,11 @@ export const getEvents = async (contractInstance, eventName, fromBlock) => {
 	try {
 		const events = await contractInstance.getPastEvents(eventName, {
 			fromBlock,
-			toBlock: "latest",
+			toBlock: 'latest',
 		})
 		return events
 	} catch (error) {
-		console.log("error:", error)
+		console.log('error:', error)
 	}
 }
 
@@ -239,7 +238,7 @@ export const waitForReceipt = (txhash) => {
 				}, 1000)
 			}
 		} catch (err) {
-			console.log("err:", err)
+			console.log('err:', err)
 		}
 	})
 }
@@ -249,7 +248,7 @@ export const getTransactionDetail = async (transactionHash) => {
 		const transactionDetail = await web3.eth.getTransaction(transactionHash)
 		return transactionDetail
 	} catch (error) {
-		console.log("error:", error)
+		console.log('error:', error)
 	}
 }
 
@@ -258,19 +257,19 @@ export const getNetworkId = () => {
 		const currentProvidersNetwork = parseInt(
 			web3.givenProvider.chainId || web3.givenProvider.networkVersion
 		)
-		const isRightNetwork = rightNetworks.includes(currentProvidersNetwork)
+		const isRightNetwork = RIGHT_NETWORKS.includes(currentProvidersNetwork)
 		if (isRightNetwork) {
 			return currentProvidersNetwork
 		}
 	}
-	return defaultNetwork
+	return DEFAULT_NETWORK
 }
 
 export const isContractExists = async (contractAddress) => {
 	try {
 		const code = await web3.eth.getCode(contractAddress)
 
-		return code !== "0x"
+		return code !== '0x'
 	} catch {}
 }
 
@@ -282,7 +281,7 @@ export const toWei = (amount, unit) => {
 	return web3.utils.toWei(amount.toString(), unit)
 }
 
-export const fromWei = (amount, unit = "ether") => {
+export const fromWei = (amount, unit = 'ether') => {
 	return web3.utils.fromWei(amount.toString(), unit)
 }
 
@@ -299,12 +298,11 @@ export const unix2datetime = (unixtime) => {
 	const date = new Date(unixtime * 1000)
 	const year = date.getFullYear()
 	const month =
-		date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1
-	const day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate()
-	const hour = date.getHours() < 10 ? "0" + date.getHours() : date.getHours()
-	const min =
-		date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
+		date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1
+	const day = date.getDate() < 10 ? '0' + date.getDate() : date.getDate()
+	const hour = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+	const min = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
 	// const sec = (date.getSeconds() < 10) ? '0' + date.getSeconds() : date.getSeconds();
-	const dateTimeString = year + "-" + month + "-" + day + " " + hour + ":" + min
+	const dateTimeString = year + '-' + month + '-' + day + ' ' + hour + ':' + min
 	return dateTimeString
 }

@@ -19,30 +19,30 @@
 </template>
 <script>
 export default {
-	name: "BaseRadio",
+	name: 'BaseRadio',
 	props: {
 		name: {
 			type: [String, Number],
-			default: "",
-			description: "Radio label",
+			default: '',
+			description: 'Radio label',
 		},
 		disabled: {
 			type: Boolean,
-			description: "Whether radio is disabled",
+			description: 'Whether radio is disabled',
 		},
 		value: {
 			type: [String, Number, Boolean],
-			default: "",
-			description: "Radio value",
+			default: '',
+			description: 'Radio value',
 		},
 		inline: {
 			type: Boolean,
-			description: "Whether radio is inline",
+			description: 'Whether radio is inline',
 		},
 	},
 	data() {
 		return {
-			cbId: "",
+			cbId: '',
 		}
 	},
 	computed: {
@@ -51,14 +51,14 @@ export default {
 				return this.value
 			},
 			set(value) {
-				this.$emit("input", value)
+				this.$emit('input', value)
 			},
 		},
 		inlineClass() {
 			if (this.inline) {
 				return `form-check-inline`
 			}
-			return ""
+			return ''
 		},
 	},
 	mounted() {

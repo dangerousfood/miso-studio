@@ -35,18 +35,10 @@
 				<div class="category form-category">* Required fields</div>
 			</div>
 			<template slot="footer" class="text-right">
-				<base-checkbox
-					v-model="model.subscribe"
-					class="pull-left"
-					name="subscribe"
-				>
+				<base-checkbox v-model="model.subscribe" class="pull-left" name="subscribe">
 					Accept terms & conditions
 				</base-checkbox>
-				<base-button
-					native-type="submit"
-					type="primary"
-					@click.prevent="validate"
-				>
+				<base-button native-type="submit" type="primary" @click.prevent="validate">
 					Register
 				</base-button>
 			</template>
@@ -54,7 +46,7 @@
 	</form>
 </template>
 <script>
-import { BaseCheckbox } from "@/components/index"
+import { BaseCheckbox } from '@/components/index'
 
 export default {
 	components: {
@@ -63,9 +55,9 @@ export default {
 	data() {
 		return {
 			model: {
-				email: "",
-				password: "",
-				confirmPassword: "",
+				email: '',
+				password: '',
+				confirmPassword: '',
 				subscribe: false,
 			},
 			modelValidations: {
@@ -79,7 +71,7 @@ export default {
 				},
 				confirmPassword: {
 					required: true,
-					confirmed: "password",
+					confirmed: 'password',
 				},
 				subscribe: {
 					required: true,
@@ -93,7 +85,7 @@ export default {
 		},
 		validate() {
 			this.$validator.validateAll().then((isValid) => {
-				this.$emit("on-submit", this.registerForm, isValid)
+				this.$emit('on-submit', this.registerForm, isValid)
 			})
 		},
 	},

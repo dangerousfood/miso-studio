@@ -31,28 +31,28 @@
 	</fade-transition>
 </template>
 <script>
-import { FadeTransition } from "vue2-transitions"
+import { FadeTransition } from 'vue2-transitions'
 
 export default {
-	name: "BaseAlert",
+	name: 'BaseAlert',
 	components: {
 		FadeTransition,
 	},
 	props: {
 		type: {
 			type: String,
-			default: "default",
-			description: "Alert type",
+			default: 'default',
+			description: 'Alert type',
 		},
 		dismissible: {
 			type: Boolean,
 			default: false,
-			description: "Whether alert is dismissible (closeable)",
+			description: 'Whether alert is dismissible (closeable)',
 		},
 		icon: {
 			type: String,
-			default: "",
-			description: "Alert icon to display",
+			default: '',
+			description: 'Alert icon to display',
 		},
 	},
 	data() {

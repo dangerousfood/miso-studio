@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FarmList from "~/components/Miso/Farms/FarmList"
+import FarmList from '~/components/Miso/Farms/FarmList'
 
 export default {
 	components: {
