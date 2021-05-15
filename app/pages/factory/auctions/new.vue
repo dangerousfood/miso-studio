@@ -596,7 +596,7 @@ export default {
 				{
 					active: false,
 					top: 57,
-					title: 'DUTCH AUCTION SETTINGS*',
+					title: 'CROWDSALE SETTINGS*',
 					desctiption:
 						'Set the PRICE PER TOKEN and MINIMUM TARGET for your Dutch Auction.  This will auto-calculate the maximum and minimum amounts you could raise with your selected price range. ',
 				},
@@ -640,7 +640,7 @@ export default {
 				{
 					active: false,
 					top: 57,
-					title: 'DUTCH AUCTION SETTINGS*',
+					title: 'BATCH AUCTION SETTINGS*',
 					desctiption:
 						'Set the PRICE PER TOKEN and MINIMUM TARGET for your Dutch Auction.  This will auto-calculate the maximum and minimum amounts you could raise with your selected price range. ',
 				},
