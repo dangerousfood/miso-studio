@@ -1,9 +1,9 @@
-import { misoMarket } from "~/constants/contracts"
+import { misoMarket } from '@/constants/contracts'
 import {
 	sendTransaction as _sendTransaction,
 	getNetworkId,
 	makeBatchCall as _makeBatchCall,
-} from "./base"
+} from './base'
 
 const misoMarketAbi = misoMarket.abi
 const misoMarketAddress = misoMarket.address
@@ -12,8 +12,7 @@ let contractInstance
 export const getContractInstance = () => {
 	if (
 		!contractInstance ||
-		web3.currentProvider.isMetaMask !==
-			contractInstance.currentProvider.isMetaMask
+		web3.currentProvider.isMetaMask !== contractInstance.currentProvider.isMetaMask
 	) {
 		const address = misoMarketAddress[getNetworkId()]
 		contractInstance = new web3.eth.Contract(misoMarketAbi, address)

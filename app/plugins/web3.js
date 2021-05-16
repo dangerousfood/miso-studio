@@ -1,10 +1,10 @@
 import Web3 from 'web3'
 import { DEFAULT_NETWORK, EXPLORERS } from '../constants/networks'
 
-export default ({ store }) => {
+export default async ({ store }) => {
 	if (window.ethereum) {
 		window.ethereum.autoRefreshOnNetworkChange = false
-		store.dispatch('ethereum/setProvider', ethereum)
+		await store.dispatch('ethereum/setProvider', window.ethereum)
 	} else {
 		window.web3 = getHttpWeb3Provider()
 	}

@@ -61,7 +61,7 @@
 import { mapGetters } from 'vuex'
 import { Vue } from 'vue-property-decorator'
 import { ZoomYTransition } from 'vue2-transitions'
-import { farmFactory } from '~/constants/contracts'
+import { farmFactory } from '@/constants/contracts'
 import FarmFactoryForm from '@/components/Miso/Farms/FarmFactoryForm'
 import Notificatoin from '@/components/Miso/Factory/Liquidity/sidebarNotification'
 

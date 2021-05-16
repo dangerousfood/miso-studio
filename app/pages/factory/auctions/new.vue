@@ -416,7 +416,6 @@
 						/>
 					</zoom-y-transition>
 				</template>
-				~/constants/contracts
 			</div>
 		</div>
 	</div>

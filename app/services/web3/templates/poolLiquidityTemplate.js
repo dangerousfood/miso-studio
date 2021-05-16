@@ -1,9 +1,9 @@
-import { poolLiquidityTemplate } from "~/constants/contracts"
+import { poolLiquidityTemplate } from '@/constants/contracts'
 import {
 	getNetworkId,
 	makeBatchCall as _makeBatchCall,
 	sendTransaction as _sendTransaction,
-} from "../base"
+} from '../base'
 
 const poolLiquidityTemplateAbi = poolLiquidityTemplate.abi
 const poolLiquidityTemplateAddress = poolLiquidityTemplate.address
@@ -12,8 +12,7 @@ let contractInstance
 const initContractInstance = () => {
 	if (
 		!contractInstance ||
-		web3.currentProvider.isMetaMask !==
-			contractInstance.currentProvider.isMetaMask
+		web3.currentProvider.isMetaMask !== contractInstance.currentProvider.isMetaMask
 	) {
 		const address = poolLiquidityTemplateAddress[getNetworkId()]
 		contractInstance = new web3.eth.Contract(poolLiquidityTemplateAbi, address)
