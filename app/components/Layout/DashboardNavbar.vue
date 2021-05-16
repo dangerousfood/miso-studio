@@ -149,7 +149,7 @@
 					class="d-flex flex-col h-full w-100 bg-dark-900 rounded overflow-y-auto p-6"
 				>
 					<div class="relative mb-2">
-						<h2 class="text-h5 mt-2.5 font-bold mb-0">Networks</h2>
+						<h2 class="text-h5 mt-2.5 font-bold mb-0 text-primary">Networks</h2>
 						<div
 							class="
 								p-1
