@@ -112,8 +112,8 @@
 								<hr />
 								<base-alert v-if="!coinbase" type="danger">
 									<span class="alert-inner--text">
-										Account is not connected. Please connect wallet to be able
-										to proceed
+										Account is not connected. Please connect wallet to be able to
+										proceed
 									</span>
 								</base-alert>
 								<base-button
@@ -174,7 +174,7 @@
 									<div class="col-sm-12 col-md-12">
 										<span class="h6 surtitle text-muted fs-3">Transaction Hash</span>
 										<a
-											class="d-block text-white fs-2"
+											class="d-block h4 text-white fs-2"
 											:href="`${explorer.root}${explorer.tx}${transactionHash}`"
 											target="blank"
 										>
