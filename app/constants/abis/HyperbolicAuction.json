@@ -59,6 +59,12 @@
     {
       "anonymous": false,
       "inputs": [],
+      "name": "AuctionCancelled",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [],
       "name": "AuctionFinalized",
       "type": "event"
     },
@@ -526,6 +532,13 @@
       "type": "function"
     },
     {
+      "inputs": [],
+      "name": "cancelAuction",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -650,7 +663,7 @@
     },
     {
       "inputs": [],
-      "name": "finalizeAuction",
+      "name": "finalize",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -899,6 +912,19 @@
         }
       ],
       "name": "getRoleMemberCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getTotalTokens",
       "outputs": [
         {
           "internalType": "uint256",
