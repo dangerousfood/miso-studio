@@ -43,20 +43,6 @@ export const sendTransaction = (method, options) => {
 	})
 }
 
-// export const sendTransactionAndWait = (method, options, callback) => {
-// 	setTimeout(() => {
-// 		return callback({
-// 			status: true,
-// 			events: {
-// 				MarketCreated: {
-// 					returnValues: "0x822b92A1feDa426a572d4c60b42088d874Dd9dE7",
-// 				},
-// 			},
-// 			address: "0x822b92A1feDa426a572d4c60b42088d874Dd9dE7",
-// 		})
-// 	}, 3000)
-// }
-
 export const sendTransactionAndWait = async (method, options, callback) => {
 	if (store.getters['ethereum/isOk']) {
 		try {

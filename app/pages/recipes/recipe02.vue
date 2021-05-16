@@ -10,7 +10,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { recipe02 } from '~/constants/contracts'
+import { recipe02 } from '@/constants/contracts'
 import Recipe02Form from '@/components/Miso/Recipes/Recipe02Form'
 
 const contractAddress = recipe02.address

@@ -1,5 +1,5 @@
-import { ERC20 } from "~/constants/contracts"
-import { sendTransaction, sendTransactionAndWait, toWei } from "./base"
+import { ERC20 } from '@/constants/contracts'
+import { sendTransaction, sendTransactionAndWait, toWei } from './base'
 
 const fixedTokenAbi = ERC20.abi
 let contractInstance
@@ -7,8 +7,7 @@ let contractInstance
 const initContractInstance = (address) => {
 	if (
 		!contractInstance ||
-		web3.currentProvider.isMetaMask !==
-			contractInstance.currentProvider.isMetaMask
+		web3.currentProvider.isMetaMask !== contractInstance.currentProvider.isMetaMask
 	) {
 		contractInstance = new web3.eth.Contract(fixedTokenAbi, address)
 	} else if (
@@ -22,7 +21,7 @@ export const approve = async (contractAddress, data, from) => {
 	initContractInstance(contractAddress)
 	const method = contractInstance.methods.approve(
 		data.spender,
-		toWei(data.amount, "ether")
+		toWei(data.amount, 'ether')
 	)
 
 	const txHash = await sendTransaction(method, from)
@@ -34,7 +33,7 @@ export const approveAndWait = async (contractAddress, data, from, callback) => {
 	initContractInstance(contractAddress)
 	const method = contractInstance.methods.approve(
 		data.spender,
-		toWei(data.amount, "ether")
+		toWei(data.amount, 'ether')
 	)
 
 	const receipt = await sendTransactionAndWait(method, from, 0, callback)
@@ -46,7 +45,7 @@ export const transfer = async (contractAddress, data, from) => {
 	initContractInstance(contractAddress)
 	const method = contractInstance.methods.transfer(
 		data.to,
-		toWei(data.amount, "ether")
+		toWei(data.amount, 'ether')
 	)
 
 	const txHash = await sendTransaction(method, from)
@@ -59,7 +58,7 @@ export const transferFrom = async (contractAddress, data, from) => {
 	const method = contractInstance.methods.transferFrom(
 		data.from,
 		data.to,
-		toWei(data.amount, "ether")
+		toWei(data.amount, 'ether')
 	)
 	const txHash = await sendTransaction(method, from)
 
@@ -94,9 +93,7 @@ export const call = async (contractAddress, methods) => {
 				.apply(null, method.args)
 				.call(method.opts)
 		} else {
-			result = await contractInstance.methods[method.methodName]().call(
-				method.opts
-			)
+			result = await contractInstance.methods[method.methodName]().call(method.opts)
 		}
 		response.push(result)
 	}
@@ -118,7 +115,7 @@ export const isErc20Token = async (tokenAddress) => {
 
 		return { name, symbol }
 	} catch (err) {
-		console.log("err:", err)
+		console.log('err:', err)
 		return false
 	}
 }

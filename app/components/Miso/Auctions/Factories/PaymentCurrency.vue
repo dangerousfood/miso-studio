@@ -2,7 +2,9 @@
 	<div class="row">
 		<div class="col-12">
 			<div class="mt-3 mb-2 fs-2">
-				<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Payment Currency*</span>
+				<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">
+					Payment Currency*
+				</span>
 			</div>
 		</div>
 		<div class="col-md-12">
@@ -27,14 +29,13 @@
 					class="m-0 p-0 font-weight-bold"
 					:class="{ 'text-white': paymentCurrency.symbol === 'ETH' }"
 				>
-					<i v-if="paymentCurrency.symbol == 'ETH'" class="far fa-circle fa-white-circle text-white"></i>
+					<i
+						v-if="paymentCurrency.symbol == 'ETH'"
+						class="far fa-circle fa-white-circle text-white"
+					></i>
 					<i v-else class="far fa-circle text-transparent"></i>
 					ETHEREUM
-					<svg-icon
-						icon="ethereum"
-						height="24"
-						width="20"
-					/>
+					<svg-icon icon="ethereum" height="24" width="20" />
 				</span>
 				<span :class="{ 'text-white': paymentCurrency.symbol === 'ETH' }">
 					Most Common
@@ -44,7 +45,16 @@
 		<div class="col-md-12 d-flex">
 			<div class="col-md-3 p-0">
 				<div
-					class="border border-2 d-flex justify-content-between align-items-baseline my-2 px-3 py-2 cursor-pointer"
+					class="
+						border border-2
+						d-flex
+						justify-content-between
+						align-items-baseline
+						my-2
+						px-3
+						py-2
+						cursor-pointer
+					"
 					:class="{ 'bg-primary': paymentCurrency.symbol === 'DAI' }"
 					@click="onCurrencyChanged('DAI')"
 				>
@@ -55,7 +65,10 @@
 						name="DAI"
 						class="m-0 p-0 font-weight-bold"
 					>
-						<i v-if="paymentCurrency.symbol == 'DAI'" class="far fa-circle fa-white-circle text-white"></i>
+						<i
+							v-if="paymentCurrency.symbol == 'DAI'"
+							class="far fa-circle fa-white-circle text-white"
+						></i>
 						<i v-else class="far fa-circle text-transparent"></i>
 						DAI
 					</span>
@@ -63,7 +76,16 @@
 			</div>
 			<div class="col-md-3">
 				<div
-					class="border border-2 d-flex justify-content-between align-items-baseline my-2 px-3 py-2 cursor-pointer"
+					class="
+						border border-2
+						d-flex
+						justify-content-between
+						align-items-baseline
+						my-2
+						px-3
+						py-2
+						cursor-pointer
+					"
 					:class="{ 'bg-primary': paymentCurrency.symbol === 'USDC' }"
 					@click="onCurrencyChanged('USDC')"
 				>
@@ -74,7 +96,10 @@
 						name="USDC"
 						class="m-0 p-0 font-weight-bold"
 					>
-						<i v-if="paymentCurrency.symbol == 'USDC'" class="far fa-circle fa-white-circle text-white"></i>
+						<i
+							v-if="paymentCurrency.symbol == 'USDC'"
+							class="far fa-circle fa-white-circle text-white"
+						></i>
 						<i v-else class="far fa-circle text-transparent"></i>
 						USDC
 					</span>
@@ -82,7 +107,16 @@
 			</div>
 			<div class="col-md-3 p-0">
 				<div
-					class="border border-2 d-flex justify-content-between align-items-baseline my-2 px-3 py-2 cursor-pointer"
+					class="
+						border border-2
+						d-flex
+						justify-content-between
+						align-items-baseline
+						my-2
+						px-3
+						py-2
+						cursor-pointer
+					"
 					:class="{ 'bg-primary': paymentCurrency.symbol === 'TETHER' }"
 					@click="onCurrencyChanged('TETHER')"
 				>
@@ -93,20 +127,34 @@
 						name="TETHER"
 						class="m-0 p-0 font-weight-bold"
 					>
-						<i v-if="paymentCurrency.symbol == 'TETHER'" class="far fa-circle fa-white-circle text-white"></i>
+						<i
+							v-if="paymentCurrency.symbol == 'TETHER'"
+							class="far fa-circle fa-white-circle text-white"
+						></i>
 						<i v-else class="far fa-circle text-transparent"></i>
 						TETHER (USDT)
 					</span>
 				</div>
 			</div>
 			<div class="col-md-3 pr-0 d-flex align-items-center justify-content-center">
-				<span :class="{ 'text-white': paymentCurrency.symbol === 'DAI' }">Stablecoins</span>
+				<span :class="{ 'text-white': paymentCurrency.symbol === 'DAI' }">
+					Stablecoins
+				</span>
 			</div>
 		</div>
 		<div class="col-md-12 d-flex align-items-center">
 			<div class="col-md-3 p-0">
 				<div
-					class="border border-2 d-flex justify-content-between align-items-baseline my-2 px-3 py-2 cursor-pointer"
+					class="
+						border border-2
+						d-flex
+						justify-content-between
+						align-items-baseline
+						my-2
+						px-3
+						py-2
+						cursor-pointer
+					"
 					:class="{ 'bg-primary': paymentCurrency.symbol === 'CUSTOM' }"
 					@click="onCurrencyChanged('CUSTOM')"
 				>
@@ -117,7 +165,10 @@
 						name="CUSTOM"
 						class="m-0 p-0 font-weight-bold"
 					>
-						<i v-if="paymentCurrency.symbol == 'CUSTOM'" class="far fa-circle fa-white-circle text-white"></i>
+						<i
+							v-if="paymentCurrency.symbol == 'CUSTOM'"
+							class="far fa-circle fa-white-circle text-white"
+						></i>
 						<i v-else class="far fa-circle text-transparent"></i>
 						CUSTOM
 					</span>
@@ -144,7 +195,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { isErc20Token } from '@/services/web3/erc20Token'
-import { dai } from '~/constants/contracts'
+import { dai } from '@/constants/contracts'
 
 export default {
 	props: {
@@ -217,25 +268,25 @@ export default {
 				paymentCurrency.name = 'Ethereum'
 				paymentCurrency.symbol = 'ETH'
 				paymentCurrency.decimals = 18
-			}else if (currency === "USDC") {
-				paymentCurrency.address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
-				paymentCurrency.name = "USDC"
-				paymentCurrency.symbol = "USDC"
+			} else if (currency === 'USDC') {
+				paymentCurrency.address = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+				paymentCurrency.name = 'USDC'
+				paymentCurrency.symbol = 'USDC'
 				paymentCurrency.decimals = 18
-			}else if (currency === "TETHER") {
-				paymentCurrency.address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
-				paymentCurrency.name = "TETHER"
-				paymentCurrency.symbol = "TETHER"
+			} else if (currency === 'TETHER') {
+				paymentCurrency.address = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+				paymentCurrency.name = 'TETHER'
+				paymentCurrency.symbol = 'TETHER'
 				paymentCurrency.decimals = 18
-			} else if (currency === "DAI") {
+			} else if (currency === 'DAI') {
 				paymentCurrency.address = dai.address[this.currentProvidersNetworkId]
 				paymentCurrency.name = 'Dai Stablecoin'
 				paymentCurrency.symbol = 'DAI'
 				paymentCurrency.decimals = 18
 			} else {
-				paymentCurrency.address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
-				paymentCurrency.name = "CUSTOM"
-				paymentCurrency.symbol = "CUSTOM"
+				paymentCurrency.address = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+				paymentCurrency.name = 'CUSTOM'
+				paymentCurrency.symbol = 'CUSTOM'
 				paymentCurrency.decimals = 18
 			}
 
@@ -256,20 +307,20 @@ export default {
 </script>
 
 <style lang="scss">
-	.custom {
-		input {
-			padding-right: 80px !important;
-			border: 0.0625rem solid #23306b !important;
-			background: #000a35 !important;
-		}
-		&-token {
-			top: 35%;
-			transform: translateY(-35%);
-			right: 30px;
-		}
+.custom {
+	input {
+		padding-right: 80px !important;
+		border: 0.0625rem solid #23306b !important;
+		background: #000a35 !important;
 	}
-	.fa-white-circle {
-		background-color: white;
-    	border-radius: 50px;
+	&-token {
+		top: 35%;
+		transform: translateY(-35%);
+		right: 30px;
 	}
+}
+.fa-white-circle {
+	background-color: white;
+	border-radius: 50px;
+}
 </style>

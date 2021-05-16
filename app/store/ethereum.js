@@ -36,7 +36,7 @@ export const mutations = {
 export const actions = {
 	async enableAccount({ dispatch }) {
 		const provider = await walletProvider.connectWallet()
-		dispatch('setProvider', provider)
+		await dispatch('setProvider', provider)
 	},
 	async disconnectAccount({ commit }) {
 		await walletProvider.disconnectProvider()
@@ -44,24 +44,17 @@ export const actions = {
 	},
 	async changeWallet({ dispatch }) {
 		const provider = await walletProvider.changeWallet()
-		dispatch('setProvider', provider)
+		await dispatch('setProvider', provider)
 	},
-	setProvider({ commit, state, dispatch }, provider) {
-		const data = {
-			account: null,
-			networkId: null,
-		}
-
+	async setProvider({ commit, state, dispatch }, provider) {
 		if (provider) {
 			if (provider.isMetaMask) {
-				data.account = provider.selectedAddress
-				data.networkId = provider.networkVersion
 				commit('SET_METAMASK', true)
-			} else {
-				data.account = provider.accounts[0]
-				data.networkId = provider.chainId
+			} else if (state.metamask) {
 				commit('SET_METAMASK', false)
 			}
+			const [account] = await provider.request({ method: 'eth_accounts' })
+			const networkId = await provider.request({ method: 'net_version' })
 
 			provider.on('accountsChanged', (accounts) => {
 				if (state.coinbase) {
@@ -70,13 +63,14 @@ export const actions = {
 			})
 
 			provider.on('chainChanged', (chainId) => {
-				dispatch('setNetwork', parseInt(chainId))
+				// dispatch('setNetwork', parseInt(chainId))
+				location.reload()
 			})
 
-			commit('SET_COINBASE', data.account)
-			dispatch('setNetwork', data.networkId)
+			commit('SET_COINBASE', account)
+			dispatch('setNetwork', networkId)
 
-			if (isRightNetwork(data.networkId)) {
+			if (isRightNetwork(networkId)) {
 				web3 = new Web3(provider)
 			} else {
 				const httpProvider = EXPLORERS[state.defaultNetworkId].httpProvider

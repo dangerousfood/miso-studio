@@ -1,5 +1,5 @@
-import { tokenFactory } from "~/constants/contracts"
-import { getEvents, getNetworkId, unix2datetime } from "./base"
+import { tokenFactory } from '@/constants/contracts'
+import { getEvents, getNetworkId, unix2datetime } from './base'
 
 const tokenFactoryAbi = tokenFactory.abi
 const tokenFactoryAddress = tokenFactory.address
@@ -8,8 +8,7 @@ let contractInstance
 export const getContractInstance = () => {
 	if (
 		!contractInstance ||
-		web3.currentProvider.isMetaMask !==
-			contractInstance.currentProvider.isMetaMask
+		web3.currentProvider.isMetaMask !== contractInstance.currentProvider.isMetaMask
 	) {
 		const address = tokenFactoryAddress[getNetworkId()]
 		contractInstance = new web3.eth.Contract(tokenFactoryAbi, address)
@@ -20,7 +19,7 @@ export const getContractInstance = () => {
 
 export const getCreatedTokens = async (fromBlock) => {
 	getContractInstance()
-	const events = await getEvents(contractInstance, "TokenCreated", fromBlock)
+	const events = await getEvents(contractInstance, 'TokenCreated', fromBlock)
 	const tokens = []
 	for (let i = 0; i < events.length; i++) {
 		const token = await getFixedTokenDetailFromEvent(events[i])
