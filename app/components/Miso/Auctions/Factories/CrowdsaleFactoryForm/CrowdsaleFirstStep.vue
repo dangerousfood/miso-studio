@@ -70,7 +70,7 @@
 					<base-alert v-if="!coinbase" type="danger">
 						<strong>Error</strong>
 						<span class="alert-inner--text">
-							Account is not connected. Please connect to Ethereum wallet to be able
+							Account is not connected. Please connect wallet to be able
 							to proceed
 						</span>
 					</base-alert>

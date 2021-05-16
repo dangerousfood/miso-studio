@@ -527,7 +527,7 @@ export default {
 					top: 38,
 					title: 'AUCTION TOKEN ALLOWANCE*',
 					desctiption:
-						'Enter the token you’re looking to create an auction for.  Either search by name or symbol, or paste in the token’s contract address. ',
+						'Miso needs an allowance of tokens to be approved so it can create your auction contract',
 				},
 				{
 					active: false,

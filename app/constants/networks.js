@@ -134,7 +134,7 @@ export const EXPLORERS = {
 		isTest: true,
 		hasExplorer: true,
 		explorer: {
-			root: 'https://goerli.etherscan.io/',
+			root: 'https://kovan.etherscan.io/',
 			address: 'address/',
 			tx: 'tx/',
 		},
