@@ -149,7 +149,7 @@
 					class="d-flex flex-col h-full w-100 bg-dark-900 rounded overflow-y-auto p-6"
 				>
 					<div class="relative mb-2">
-						<h2 class="text-h5 mt-2.5 font-bold mb-0">Select a Network</h2>
+						<h2 class="text-h5 mt-2.5 font-bold mb-0">Networks</h2>
 						<div
 							class="
 								p-1
@@ -191,13 +191,15 @@
 						<span class="font-bold text-blue">
 							{{ networkLables[networkId] }}
 						</span>
-						network
+						network.
+						<br />
+						We'll be launching on these networks soon. 
 					</div>
 					<div class="d-flex flex-col space-y-5 overflow-y-auto">
 						<button
 							v-for="(item, index) in ChainIDs"
 							:key="index"
-							:disabled="parseInt(item.chainId) === networkId"
+							:disabled="parseInt(item.chainId) === networkId || !item.enabled"
 							class="
 								flex
 								w-100
@@ -265,17 +267,18 @@ export default {
 			networkIcons: [],
 			networkLables: [],
 			ChainIDs: [
-				{
-					chainId: '0x1',
-					chainName: 'Ethereum',
-					nativeCurrency: {
-						name: 'Ethereum',
-						symbol: 'ETH',
-						decimals: 18,
-					},
-					rpcUrls: ['https://mainnet.infura.io/v3'],
-					blockExplorerUrls: ['https://etherscan.com'],
-				},
+				// {
+				// 	chainId: '0x1',
+				// 	chainName: 'Ethereum',
+				// 	nativeCurrency: {
+				// 		name: 'Ethereum',
+				// 		symbol: 'ETH',
+				// 		decimals: 18,
+				// 	},
+				// 	rpcUrls: ['https://mainnet.infura.io/v3'],
+				// 	blockExplorerUrls: ['https://etherscan.com'],
+				// 	enabled: true,
+				// },
 				{
 					chainId: '0xfa',
 					chainName: 'Fantom',
@@ -286,6 +289,7 @@ export default {
 					},
 					rpcUrls: ['https://rpcapi.fantom.network'],
 					blockExplorerUrls: ['https://ftmscan.com'],
+					enabled: false,
 				},
 				{
 					chainId: '0x38',
@@ -297,6 +301,7 @@ export default {
 					},
 					rpcUrls: ['https://bsc-dataseed.binance.org'],
 					blockExplorerUrls: ['https://bscscan.com'],
+					enabled: false,
 				},
 				{
 					chainId: '0x89',
@@ -308,6 +313,7 @@ export default {
 					},
 					rpcUrls: ['https://rpc-mainnet.maticvigil.com'], // ['https://matic-mainnet.chainstacklabs.com/'],
 					blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com'],
+					enabled: false,
 				},
 				{
 					chainId: '0x80',
@@ -319,6 +325,7 @@ export default {
 					},
 					rpcUrls: ['https://http-mainnet.hecochain.com'],
 					blockExplorerUrls: ['https://hecoinfo.com'],
+					enabled: false,
 				},
 				{
 					chainId: '0x64',
@@ -330,6 +337,7 @@ export default {
 					},
 					rpcUrls: ['https://rpc.xdaichain.com'],
 					blockExplorerUrls: ['https://blockscout.com/poa/xdai'],
+					enabled: false,
 				},
 				{
 					chainId: '0x63564C40',
@@ -341,6 +349,7 @@ export default {
 					},
 					rpcUrls: ['https://api.s0.t.hmny.io'],
 					blockExplorerUrls: ['https://explorer.harmony.one/'],
+					enabled: false,
 				},
 				{
 					chainId: '0xA86A',
@@ -352,6 +361,7 @@ export default {
 					},
 					rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
 					blockExplorerUrls: ['https://explorer.avax.network'],
+					enabled: false,
 				},
 				{
 					chainId: '0x42',
@@ -363,6 +373,7 @@ export default {
 					},
 					rpcUrls: ['https://exchainrpc.okex.org'],
 					blockExplorerUrls: ['https://www.oklink.com/okexchain'],
+					enabled: false,
 				},
 			],
 		}
