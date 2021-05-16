@@ -270,19 +270,6 @@ export default {
 			},
 		}
 	},
-	async mounted() {
-		this.misoMarketAddress = misoMarketConfig.address[this.currentProvidersNetworkId]
-		const tokenAddress = this.model.token.address
-		if ((tokenAddress || '').length > 0) {
-			await this.fetchTokens()
-			const matches = this.tokens.filter(
-				(token) => token.addr.toLowerCase() === tokenAddress.toLowerCase()
-			)
-			if (matches.length > 0) {
-				this.handleTokenComplete(matches[0])
-			}
-		}
-	},
 	computed: {
 		isETH() {
 			return (
@@ -347,6 +334,19 @@ export default {
 			}
 			return 0
 		},
+	},
+	async mounted() {
+		this.misoMarketAddress = misoMarketConfig.address[this.currentProvidersNetworkId]
+		const tokenAddress = this.model.token.address
+		if ((tokenAddress || '').length > 0) {
+			await this.fetchTokens()
+			const matches = this.tokens.filter(
+				(token) => token.addr.toLowerCase() === tokenAddress.toLowerCase()
+			)
+			if (matches.length > 0) {
+				this.handleTokenComplete(matches[0])
+			}
+		}
 	},
 	methods: {
 		...mapActions({

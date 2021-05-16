@@ -42,9 +42,7 @@
 						</div>
 
 						<div class="col-lg-2 text-right mt-4" v-if="model.token.symbol">
-							<base-button
-								class="btn btn-custom btn-default"
-							>
+							<base-button class="btn btn-custom btn-default">
 								{{ this.model.token.symbol }}
 							</base-button>
 						</div>
@@ -70,8 +68,7 @@
 					<base-alert v-if="!coinbase" type="danger">
 						<strong>Error</strong>
 						<span class="alert-inner--text">
-							Account is not connected. Please connect wallet to be able
-							to proceed
+							Account is not connected. Please connect wallet to be able to proceed
 						</span>
 					</base-alert>
 					<base-alert v-else-if="userHasToken" type="secondary">
@@ -197,24 +194,24 @@ export default {
 				endDate: '',
 				fundWallet: '',
 				tokenSupply: '',
-				allowance: "",
+				allowance: '',
 				allowanceformatted: '',
 			},
 			user: {
 				tokenBalance: 0,
-				allowance: "",
+				allowance: '',
 			},
 			tokensLoading: false,
 			userLoading: false,
 			approveLoading: false,
 			crowdsaleitems: {
-                tokenAddress: false,
-                tokenAmount: false,
+				tokenAddress: false,
+				tokenAmount: false,
 				payment_currency: false,
 				walletAddress: false,
 				tokenPrice: false,
-				startend: false
-			}
+				startend: false,
+			},
 		}
 	},
 	computed: {
@@ -258,16 +255,20 @@ export default {
 			return 0
 		},
 		minRaise() {
-			if(this.maxRaise) {
-				var med = this.maxRaise.split(' ');
+			if (this.maxRaise) {
+				var med = this.maxRaise.split(' ')
 
-					if (this.model.goal > 0 && med[0] > 0) {
-					return (parseFloat(med[0]) * parseFloat(this.model.goal)) / 100 + " " + this.model.paymentCurrency.symbol
+				if (this.model.goal > 0 && med[0] > 0) {
+					return (
+						(parseFloat(med[0]) * parseFloat(this.model.goal)) / 100 +
+						' ' +
+						this.model.paymentCurrency.symbol
+					)
 				}
 			}
-			
+
 			return 0
-		}
+		},
 	},
 	watch: {
 		goalPercentage() {
@@ -333,7 +334,7 @@ export default {
 			)
 			if (data) {
 				;[this.user.allowance, this.user.tokenBalance] = data
-				this.model.allowance = this.user.allowance;
+				this.model.allowance = this.user.allowance
 				this.model.allowanceformatted = toDecimals(this.user.allowance)
 			}
 			this.userLoading = false
@@ -349,6 +350,8 @@ export default {
 				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 					if (receipt.status) {
 						this.user.allowance = receipt.events.Approval.returnValues[2]
+						this.model.allowance = this.user.allowance
+						this.model.allowanceformatted = toDecimals(this.user.allowance)
 					}
 					this.approveLoading = false
 				})
@@ -377,28 +380,32 @@ export default {
 					this.crowdsaleitems[key] = false
 				}
 			}
-			this.$emit("active-focus-crowdsale", this.crowdsaleitems, this.model.chosenAuctionType)
-		}
+			this.$emit(
+				'active-focus-crowdsale',
+				this.crowdsaleitems,
+				this.model.chosenAuctionType
+			)
+		},
 	},
 }
 </script>
 
 <style lang="scss">
-	.right-icon {
-		.el-input__prefix {
-			font-size: 20px;
-			margin-right: 10px;
-		}
-		.el-input__inner {
-			padding-left: 40px;
-		}
+.right-icon {
+	.el-input__prefix {
+		font-size: 20px;
+		margin-right: 10px;
 	}
-	.svg-icon-left {
-		position: absolute;
-		z-index: 10;
-		left: 10px;
+	.el-input__inner {
+		padding-left: 40px;
 	}
-	.el-date-picker .el-picker-panel__footer .el-button:first-child {
-		display: none;
-	}
+}
+.svg-icon-left {
+	position: absolute;
+	z-index: 10;
+	left: 10px;
+}
+.el-date-picker .el-picker-panel__footer .el-button:first-child {
+	display: none;
+}
 </style>
