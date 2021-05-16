@@ -38,12 +38,12 @@
 						></autocomplete>
 
 						<div v-if="model.token.name" class="position-auction-token-absolute">
-							{{ this.model.token.name }}
+							{{ model.token.name }}
 						</div>
 
 						<div v-if="model.token.symbol" class="col-lg-2 text-right mt-4">
 							<base-button class="btn btn-custom btn-default">
-								{{ this.model.token.symbol }}
+								{{ model.token.symbol }}
 							</base-button>
 						</div>
 
@@ -68,8 +68,7 @@
 					<base-alert v-if="!coinbase" type="danger">
 						<strong>Error</strong>
 						<span class="alert-inner--text">
-							Account is not connected. Please connect to Ethereum wallet to be able
-							to proceed
+							Account is not connected. Please connect wallet to be able to proceed
 						</span>
 					</base-alert>
 					<base-alert v-else-if="userHasToken" type="secondary">
@@ -151,7 +150,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { BaseDivider, BaseAlert } from '@/components'
+import { BaseAlert } from '@/components'
 import { DatePicker, TimeSelect } from 'element-ui'
 import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
 import { misoMarket as misoMarketConfig } from '@/constants/contracts'
@@ -159,16 +158,13 @@ import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
 import { toDecimals, to18Decimals } from '@/util'
 import { duration } from '@/mixins/duration.js'
 import Autocomplete from '@/components/Inputs/Autocomplete'
-import PaymentCurrency from '../PaymentCurrency.vue'
 
 export default {
 	components: {
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
 		Autocomplete,
-		BaseDivider,
 		BaseAlert,
-		PaymentCurrency,
 	},
 	mixins: [duration],
 	data() {
@@ -351,6 +347,8 @@ export default {
 				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 					if (receipt.status) {
 						this.user.allowance = receipt.events.Approval.returnValues[2]
+						this.model.allowance = this.user.allowance
+						this.model.allowanceformatted = toDecimals(this.user.allowance)
 					}
 					this.approveLoading = false
 				})

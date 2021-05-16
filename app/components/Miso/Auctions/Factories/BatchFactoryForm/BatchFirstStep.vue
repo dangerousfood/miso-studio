@@ -68,8 +68,7 @@
 					<base-alert v-if="!coinbase" type="danger">
 						<strong>Error</strong>
 						<span class="alert-inner--text">
-							Account is not connected. Please connect to Ethereum wallet to be able
-							to proceed
+							Account is not connected. Please connect to wallet to be able to proceed
 						</span>
 					</base-alert>
 					<base-alert v-else-if="userHasToken" type="secondary">
@@ -329,6 +328,8 @@ export default {
 				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 					if (receipt.status) {
 						this.user.allowance = receipt.events.Approval.returnValues[2]
+						this.model.allowance = this.user.allowance
+						this.model.allowanceformatted = toDecimals(this.user.allowance)
 					}
 					this.approveLoading = false
 				})

@@ -64,19 +64,19 @@
 			<div class="col-md-3">
 				<div
 					class="border border-2 d-flex justify-content-between align-items-baseline my-2 px-3 py-2 cursor-pointer"
-					:class="{ 'bg-primary': paymentCurrency.symbol === 'USDCOIN' }"
-					@click="onCurrencyChanged('USDCOIN')"
+					:class="{ 'bg-primary': paymentCurrency.symbol === 'USDC' }"
+					@click="onCurrencyChanged('USDC')"
 				>
 					<span
 						:disabled="!tokensApproved"
 						inline
-						:class="{ 'text-white': paymentCurrency.symbol === 'USDCOIN' }"
-						name="USDCOIN"
+						:class="{ 'text-white': paymentCurrency.symbol === 'USDC' }"
+						name="USDC"
 						class="m-0 p-0 font-weight-bold"
 					>
-						<i v-if="paymentCurrency.symbol == 'USDCOIN'" class="far fa-circle fa-white-circle text-white"></i>
+						<i v-if="paymentCurrency.symbol == 'USDC'" class="far fa-circle fa-white-circle text-white"></i>
 						<i v-else class="far fa-circle text-transparent"></i>
-						USDCOIN
+						USDC
 					</span>
 				</div>
 			</div>
@@ -217,10 +217,10 @@ export default {
 				paymentCurrency.name = 'Ethereum'
 				paymentCurrency.symbol = 'ETH'
 				paymentCurrency.decimals = 18
-			}else if (currency === "USDCOIN") {
+			}else if (currency === "USDC") {
 				paymentCurrency.address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"
-				paymentCurrency.name = "USDCOIN"
-				paymentCurrency.symbol = "USDCOIN"
+				paymentCurrency.name = "USDC"
+				paymentCurrency.symbol = "USDC"
 				paymentCurrency.decimals = 18
 			}else if (currency === "TETHER") {
 				paymentCurrency.address = "0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE"

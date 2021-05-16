@@ -259,7 +259,7 @@ export default {
 			},
 		}
 	},
-		computed: {
+	computed: {
 		isETH() {
 			return (
 				this.model.paymentCurrency.address ===
