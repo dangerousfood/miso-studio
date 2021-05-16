@@ -223,11 +223,12 @@ import { misoMarket as misoMarketConfig } from '@/constants/contracts'
 import { makeBatchCall } from '@/services/web3/base'
 import { toDecimals } from '@/util'
 import { duration } from '@/mixins/duration.js'
-
+import PaymentCurrency from '../PaymentCurrency.vue'
 export default {
 	components: {
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
+		PaymentCurrency
 	},
 	mixins: [duration],
 	props: {
