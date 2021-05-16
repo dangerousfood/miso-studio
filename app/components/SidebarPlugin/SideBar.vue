@@ -366,7 +366,7 @@ export default {
 						// {
 						// 	name: 'New Launcher',
 						// 	path: '/factory/liquidity',
-						},
+						// },
 						// {
 						// 	name: "New Farm",
 						// 	path: "/factory/farm",
