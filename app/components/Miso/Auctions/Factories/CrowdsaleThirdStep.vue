@@ -9,13 +9,13 @@
 						</div>
 						<div class="">
 							<span
-								v-else-if="model.chosenAuctionType === 1"
+								v-if="model.chosenAuctionType === 1"
 								class="font-weight-bold text-secondary white_txt fs-2"
 							>
 								Crowdsale
 							</span>
 							<span
-								v-if="model.chosenAuctionType === 2"
+								v-else-if="model.chosenAuctionType === 2"
 								class="font-weight-bold text-secondary white_txt fs-2"
 							>
 								Dutch Auction
@@ -201,19 +201,6 @@ export default {
 			approveLoading: false,
 		}
 	},
-	async mounted() {
-		this.misoMarketAddress = misoMarketConfig.address[this.currentProvidersNetworkId]
-		const tokenAddress = this.model.token.address
-		if ((tokenAddress || '').length > 0) {
-			await this.fetchTokens()
-			const matches = this.tokens.filter(
-				(token) => token.addr.toLowerCase() === tokenAddress.toLowerCase()
-			)
-			if (matches.length > 0) {
-				this.handleTokenComplete(matches[0])
-			}
-		}
-	},
 	computed: {
 		isETH() {
 			return (
@@ -284,6 +271,19 @@ export default {
 			return 0
 		},
 	},
+	async mounted() {
+		this.misoMarketAddress = misoMarketConfig.address[this.currentProvidersNetworkId]
+		const tokenAddress = this.model.token.address
+		if ((tokenAddress || '').length > 0) {
+			await this.fetchTokens()
+			const matches = this.tokens.filter(
+				(token) => token.addr.toLowerCase() === tokenAddress.toLowerCase()
+			)
+			if (matches.length > 0) {
+				this.handleTokenComplete(matches[0])
+			}
+		}
+	},
 	methods: {
 		...mapActions({
 			getTokens: 'tokens/getTokens',
@@ -299,8 +299,11 @@ export default {
 			this.user.allowance = 0
 			this.user.tokenBalance = 0
 			// TODO: prop values can't be mutated in child components
+			// eslint-disable-next-line vue/no-mutating-props
 			this.model.token.name = ''
+			// eslint-disable-next-line vue/no-mutating-props
 			this.model.token.symbol = ''
+			// eslint-disable-next-line vue/no-mutating-props
 			this.model.token.decimals = ''
 
 			// Get Tokens
@@ -337,6 +340,7 @@ export default {
 
 		handleTokenComplete(token) {
 			// TODO: prop values can't be mutated in child components
+			// eslint-disable-next-line vue/no-mutating-props
 			this.model.token = {
 				address: token.addr,
 				name: token.name,
@@ -346,9 +350,11 @@ export default {
 			this.updateUserInfo()
 		},
 		selectCurrentAccount() {
+			// eslint-disable-next-line vue/no-mutating-props
 			this.model.fundWallet = this.coinbase
 		},
 		updateCurrency(currency) {
+			// eslint-disable-next-line vue/no-mutating-props
 			this.model.paymentCurrency = currency
 		},
 	},

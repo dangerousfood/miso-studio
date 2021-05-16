@@ -110,8 +110,14 @@
 									</div>
 								</div>
 								<hr />
+								<base-alert v-if="!coinbase" type="danger">
+									<span class="alert-inner--text">
+										Account is not connected. Please connect wallet to be able to
+										proceed
+									</span>
+								</base-alert>
 								<base-button
-									v-if="!hideNextBtn"
+									v-if="!hideNextBtn && coinbase"
 									:loading="waitingForConfirmation"
 									class="float-right"
 									type="primary"
@@ -168,7 +174,7 @@
 									<div class="col-sm-12 col-md-12">
 										<span class="h6 surtitle text-muted fs-3">Transaction Hash</span>
 										<a
-											class="d-block text-white fs-2"
+											class="d-block h4 text-white fs-2"
 											:href="`${explorer.root}${explorer.tx}${transactionHash}`"
 											target="blank"
 										>
@@ -245,7 +251,7 @@
 	</div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { Steps, Step } from 'element-ui'
 import {
 	// sendTransaction as tokenFactorySend,
@@ -352,6 +358,9 @@ export default {
 		this.unsubscribeFromTokenCreatedEvent()
 	},
 	methods: {
+		...mapActions({
+			getTokens: 'tokens/getTokens',
+		}),
 		focuseColor(val) {
 			for (const key in this.colors) {
 				if (val === key) {
@@ -427,6 +436,7 @@ export default {
 						if (this.transactionHash.toLowerCase() === event.transactionHash) {
 							this.tokenAddress = event.returnValues.addr
 							this.changeStep()
+							this.getTokens()
 						}
 					}
 				})
