@@ -308,17 +308,17 @@ export default {
 						// },
 					],
 				},
-				{
-					name: 'Farms',
-					active: false,
-					hover: false,
-					childLinks: [
-						{
-							name: 'Active Farms',
-							path: '/farms',
-						},
-					],
-				},
+				// {
+				// 	name: 'Farms',
+				// 	active: false,
+				// 	hover: false,
+				// 	childLinks: [
+				// 		{
+				// 			name: 'Active Farms',
+				// 			path: '/farms',
+				// 		},
+				// 	],
+				// },
 				{
 					name: 'Tokens',
 					active: false,
@@ -359,13 +359,13 @@ export default {
 							name: 'New Sale',
 							path: '/factory/auctions/new',
 						},
-						{
-							name: 'New List',
-							path: '/factory/points-list',
-						},
-						{
-							name: 'New Launcher',
-							path: '/factory/liquidity',
+						// {
+						// 	name: 'New List',
+						// 	path: '/factory/points-list',
+						// },
+						// {
+						// 	name: 'New Launcher',
+						// 	path: '/factory/liquidity',
 						},
 						// {
 						// 	name: "New Farm",
