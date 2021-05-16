@@ -251,7 +251,7 @@
 	</div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { Steps, Step } from 'element-ui'
 import {
 	// sendTransaction as tokenFactorySend,
@@ -358,6 +358,9 @@ export default {
 		this.unsubscribeFromTokenCreatedEvent()
 	},
 	methods: {
+		...mapActions({
+			getTokens: 'tokens/getTokens',
+		}),
 		focuseColor(val) {
 			for (const key in this.colors) {
 				if (val === key) {
@@ -433,6 +436,7 @@ export default {
 						if (this.transactionHash.toLowerCase() === event.transactionHash) {
 							this.tokenAddress = event.returnValues.addr
 							this.changeStep()
+							this.getTokens()
 						}
 					}
 				})
