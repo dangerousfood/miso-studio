@@ -167,6 +167,20 @@ export const wethToken = {
 	abi: WETH_ABI,
 }
 
+export const sushi = {
+	address: {
+		1: "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
+		3: "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2", // ropsten
+		4: "", // rinkeby
+		42: "", // kovan
+		5: "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2", // goerli
+		56: "", // BSC mainnet
+		97: "", // BSC testnet
+	}, 
+}
+
+
+
 export const dai = {
 	address: {
 		1: "0x6b175474e89094c44da98b954eedeac495271d0f",
