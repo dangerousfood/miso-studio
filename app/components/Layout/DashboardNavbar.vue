@@ -192,6 +192,8 @@
 							{{ networkLables[networkId] }}
 						</span>
 						network.
+						<br />
+						<span class="network-metamask-warning">ETH networks can only be switched via Metamask</span>
 					</div>
 					<div
 						class="d-flex flex-col space-y-5"
