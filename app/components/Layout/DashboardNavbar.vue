@@ -195,11 +195,14 @@
 						<br />
 						We'll be launching on these networks soon. 
 					</div>
-					<div class="d-flex flex-col space-y-5 overflow-y-auto">
+					<div
+						class="d-flex flex-col space-y-5"
+						style="overflow-y: scroll; height: 700px"
+					>
 						<button
 							v-for="(item, index) in ChainIDs"
 							:key="index"
-							:disabled="parseInt(item.chainId) === networkId || !item.enabled"
+							:disabled="+item.chainId === networkId || item.disabled"
 							class="
 								flex
 								w-100
@@ -211,16 +214,20 @@
 								from-blue
 								to-pink
 							"
-							:class="{ 'bg-dark-800': parseInt(item.chainId) !== networkId }"
+							:class="{
+								'btn-active': !item.disabled,
+								'bg-dark-800': +item.chainId !== networkId && !item.disabled,
+								'btn-disabled': item.disabled,
+							}"
 							@click="changeEthChain(index)"
 						>
 							<img
-								:src="networkIcons[parseInt(item.chainId)]"
+								:src="networkIcons[+item.chainId]"
 								alt="Switch Network"
 								class="rounded-md mr-2 w-8 h-8"
 							/>
 							<div class="text-primary font-bold">
-								{{ item.chainName }}
+								<span>{{ item.chainName }}</span>
 							</div>
 						</button>
 					</div>
@@ -280,6 +287,61 @@ export default {
 				// 	enabled: true,
 				// },
 				{
+					chainId: '0x1',
+					chainName: 'Ethereum',
+					nativeCurrency: {
+						name: 'Ethereum',
+						symbol: 'ETH',
+						decimals: 18,
+					},
+					rpcUrls: ['https://mainnet.infura.io/v3'],
+					blockExplorerUrls: ['https://etherscan.com'],
+				},
+				{
+					chainId: '0x3',
+					chainName: 'Ropsten',
+					nativeCurrency: {
+						name: 'Ethereum',
+						symbol: 'ETH',
+						decimals: 18,
+					},
+					rpcUrls: ['https://ropsten.infura.io/v3'],
+					blockExplorerUrls: ['https://ropsten.etherscan.com'],
+				},
+				{
+					chainId: '0x4',
+					chainName: 'Rinkeby',
+					nativeCurrency: {
+						name: 'Ethereum',
+						symbol: 'ETH',
+						decimals: 18,
+					},
+					rpcUrls: ['https://rinkeby.infura.io/v3'],
+					blockExplorerUrls: ['https://rinkeby.etherscan.com'],
+				},
+				{
+					chainId: '0x5',
+					chainName: 'Görli',
+					nativeCurrency: {
+						name: 'Ethereum',
+						symbol: 'ETH',
+						decimals: 18,
+					},
+					rpcUrls: ['https://goerli.infura.io/v3'],
+					blockExplorerUrls: ['https://goerli.etherscan.com'],
+				},
+				{
+					chainId: '0x2A',
+					chainName: 'Kovan',
+					nativeCurrency: {
+						name: 'Ethereum',
+						symbol: 'ETH',
+						decimals: 18,
+					},
+					rpcUrls: ['https://kovan.infura.io/v3'],
+					blockExplorerUrls: ['https://kovan.etherscan.com'],
+				},
+				{
 					chainId: '0xfa',
 					chainName: 'Fantom',
 					nativeCurrency: {
@@ -289,7 +351,7 @@ export default {
 					},
 					rpcUrls: ['https://rpcapi.fantom.network'],
 					blockExplorerUrls: ['https://ftmscan.com'],
-					enabled: false,
+					disabled: true,
 				},
 				{
 					chainId: '0x38',
@@ -313,7 +375,7 @@ export default {
 					},
 					rpcUrls: ['https://rpc-mainnet.maticvigil.com'], // ['https://matic-mainnet.chainstacklabs.com/'],
 					blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com'],
-					enabled: false,
+					disabled: true,
 				},
 				{
 					chainId: '0x80',
@@ -325,7 +387,7 @@ export default {
 					},
 					rpcUrls: ['https://http-mainnet.hecochain.com'],
 					blockExplorerUrls: ['https://hecoinfo.com'],
-					enabled: false,
+					disabled: true,
 				},
 				{
 					chainId: '0x64',
@@ -337,7 +399,7 @@ export default {
 					},
 					rpcUrls: ['https://rpc.xdaichain.com'],
 					blockExplorerUrls: ['https://blockscout.com/poa/xdai'],
-					enabled: false,
+					disabled: true,
 				},
 				{
 					chainId: '0x63564C40',
@@ -349,7 +411,7 @@ export default {
 					},
 					rpcUrls: ['https://api.s0.t.hmny.io'],
 					blockExplorerUrls: ['https://explorer.harmony.one/'],
-					enabled: false,
+					disabled: true,
 				},
 				{
 					chainId: '0xA86A',
@@ -361,7 +423,7 @@ export default {
 					},
 					rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
 					blockExplorerUrls: ['https://explorer.avax.network'],
-					enabled: false,
+					disabled: true,
 				},
 				{
 					chainId: '0x42',
@@ -373,7 +435,7 @@ export default {
 					},
 					rpcUrls: ['https://exchainrpc.okex.org'],
 					blockExplorerUrls: ['https://www.oklink.com/okexchain'],
-					enabled: false,
+					disabled: true,
 				},
 			],
 		}
@@ -616,10 +678,11 @@ export default {
 .network_btn:focus {
 	outline: none;
 }
-.network_btn:hover {
+.btn-active:hover {
 	--tw-bg-opacity: 1 !important;
 	background-color: rgba(46, 51, 72, var(--tw-bg-opacity)) !important;
 }
+
 .rounded-md {
 	border-radius: 0.375rem !important;
 }
@@ -660,6 +723,9 @@ export default {
 	--tw-bg-opacity: 1 !important;
 	background-color: rgba(32, 34, 49, var(--tw-bg-opacity)) !important;
 	border-inline-color: black;
+}
+.btn-disabled {
+	background-color: rgb(104, 101, 101);
 }
 .disabled {
 	background-color: rgba(59, 130, 246, 0.5);
