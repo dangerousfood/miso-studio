@@ -1,11 +1,11 @@
-import { farmFactory } from "~/constants/contracts"
+import { farmFactory } from "@/constants/contracts"
 import {
 	sendTransaction as _sendTransaction,
 	makeBatchCall as _makeBatchCall,
 	getNetworkId,
 	getEvents,
 	unix2datetime,
-} from "./base"
+} from './base'
 
 const farmFactoryAbi = farmFactory.abi
 const farmFactoryAddress = farmFactory.address
@@ -14,8 +14,7 @@ let contractInstance
 const initContractInstance = () => {
 	if (
 		!contractInstance ||
-		web3.currentProvider.isMetaMask !==
-			contractInstance.currentProvider.isMetaMask
+		web3.currentProvider.isMetaMask !== contractInstance.currentProvider.isMetaMask
 	) {
 		const address = farmFactoryAddress[getNetworkId()]
 		contractInstance = new web3.eth.Contract(farmFactoryAbi, address)

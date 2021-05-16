@@ -7,8 +7,8 @@
 						<!-- Token input -->
 						<autocomplete
 							v-if="model.token.name"
-							class="label-underline col-lg-10 padding-left-15"
 							v-model="model.token.address"
+							class="label-underline col-lg-10 padding-left-15"
 							label="Token"
 							name="token"
 							placeholder="Type to search (name, symbol, address)"
@@ -23,8 +23,8 @@
 
 						<autocomplete
 							v-else
-							class="label-underline col-lg-12 padding-left-15"
 							v-model="model.token.address"
+							class="label-underline col-lg-12 padding-left-15"
 							label="Token"
 							name="token"
 							placeholder="Type to search (name, symbol, address)"
@@ -37,13 +37,13 @@
 							@complete="handleTokenComplete"
 						></autocomplete>
 
-						<div class="position-auction-token-absolute" v-if="model.token.name">
-							{{ this.model.token.name }}
+						<div v-if="model.token.name" class="position-auction-token-absolute">
+							{{ model.token.name }}
 						</div>
 
-						<div class="col-lg-2 text-right mt-4" v-if="model.token.symbol">
+						<div v-if="model.token.symbol" class="col-lg-2 text-right mt-4">
 							<base-button class="btn btn-custom btn-default">
-								{{ this.model.token.symbol }}
+								{{ model.token.symbol }}
 							</base-button>
 						</div>
 
@@ -150,24 +150,21 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { BaseDivider, BaseAlert } from '@/components'
+import { BaseAlert } from '@/components'
 import { DatePicker, TimeSelect } from 'element-ui'
 import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
-import { misoMarket as misoMarketConfig } from '~/constants/contracts'
+import { misoMarket as misoMarketConfig } from '@/constants/contracts'
 import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
 import { toDecimals, to18Decimals } from '@/util'
 import { duration } from '@/mixins/duration.js'
 import Autocomplete from '@/components/Inputs/Autocomplete'
-import PaymentCurrency from '../PaymentCurrency.vue'
 
 export default {
 	components: {
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
 		Autocomplete,
-		BaseDivider,
 		BaseAlert,
-		PaymentCurrency,
 	},
 	mixins: [duration],
 	data() {
@@ -256,7 +253,7 @@ export default {
 		},
 		minRaise() {
 			if (this.maxRaise) {
-				var med = this.maxRaise.split(' ')
+				const med = this.maxRaise.split(' ')
 
 				if (this.model.goal > 0 && med[0] > 0) {
 					return (
