@@ -25,7 +25,7 @@
 				class="text-white"
 				:class="[slideBar ? 'pl-4 ml-1' : 'pl-2']"
 			>
-				MISO v1.0.3.4
+				MISO v1.0.4.2
 			</span>
 		</div>
 		<div v-if="notDesktopSize" slot="logo" class="d-flex justify-content-center">
@@ -192,8 +192,6 @@
 							{{ networkLables[networkId] }}
 						</span>
 						network.
-						<br />
-						We'll be launching on these networks soon. 
 					</div>
 					<div
 						class="d-flex flex-col space-y-5"
@@ -230,6 +228,41 @@
 								<span>{{ item.chainName }}</span>
 							</div>
 						</button>
+						<br />
+						<div class="text-lg text-primary mb-6">
+							We'll be launching on these networks soon. 
+						<div>
+						<button
+							v-for="(item, index) in PendingIDs"
+							:key="index"
+							:disabled="+item.chainId === networkId || item.disabled"
+							class="
+								flex
+								w-100
+								rounded
+								p-75
+								d-flex
+								items-center
+								network_btn
+								from-blue
+								to-pink
+							"
+							:class="{
+								'btn-active': !item.disabled,
+								'bg-dark-800': +item.chainId !== networkId && !item.disabled,
+								'btn-disabled': item.disabled,
+							}"
+							@click="changeEthChain(index)"
+						>
+							<img
+								:src="networkIcons[+item.chainId]"
+								alt="Switch Network"
+								class="rounded-md mr-2 w-8 h-8"
+							/>
+							<div class="text-primary font-bold">
+								<span>{{ item.chainName }}</span>
+							</div>
+						</button>		
 					</div>
 				</div>
 			</network-modal>
@@ -274,18 +307,6 @@ export default {
 			networkIcons: [],
 			networkLables: [],
 			ChainIDs: [
-				// {
-				// 	chainId: '0x1',
-				// 	chainName: 'Ethereum',
-				// 	nativeCurrency: {
-				// 		name: 'Ethereum',
-				// 		symbol: 'ETH',
-				// 		decimals: 18,
-				// 	},
-				// 	rpcUrls: ['https://mainnet.infura.io/v3'],
-				// 	blockExplorerUrls: ['https://etherscan.com'],
-				// 	enabled: true,
-				// },
 				{
 					chainId: '0x1',
 					chainName: 'Ethereum',
@@ -342,6 +363,20 @@ export default {
 					blockExplorerUrls: ['https://kovan.etherscan.com'],
 				},
 				{
+					chainId: '0x61',
+					chainName: 'Binance SC Testnet',
+					nativeCurrency: {
+						name: 'Binance Coin',
+						symbol: 'BNB',
+						decimals: 18,
+					},
+					rpcUrls: ['https://bsc-dataseed.binance.org'],
+					blockExplorerUrls: ['https://bscscan.com'],
+				},
+
+			],
+			PendingIDs: [
+				{
 					chainId: '0xfa',
 					chainName: 'Fantom',
 					nativeCurrency: {
@@ -363,7 +398,7 @@ export default {
 					},
 					rpcUrls: ['https://bsc-dataseed.binance.org'],
 					blockExplorerUrls: ['https://bscscan.com'],
-					enabled: false,
+					disabled: true,
 				},
 				{
 					chainId: '0x89',
