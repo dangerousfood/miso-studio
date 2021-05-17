@@ -84,7 +84,8 @@
 			<div class="col-12">
 				<div class="table-section">
 					<!-- <loading-main-panel /> -->
-					<el-table v-loading="loading" :data="queriedData">
+					<loader v-if="loading" width="80" height="80" y="250" />
+					<el-table :data="queriedData">
 						<el-table-column min-width="50">
 							<div slot-scope="{ row }" class="token-img mr-2">
 								<img :src="computedTokenImg(row.icon)" class="img-fluid" />

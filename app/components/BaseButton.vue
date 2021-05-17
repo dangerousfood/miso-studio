@@ -7,7 +7,7 @@
 		:to="to"
 		:style="{ 'min-width': minWidth + 'px' }"
 		:class="[
-			{ 'btn-round': round },
+			{ 'is-rounded': round },
 			{ 'btn-block': block },
 			{ 'btn-wd': wide },
 			{ 'btn-icon btn-fab': icon },
@@ -40,7 +40,10 @@ export default {
 			type: [String, Object],
 			default: undefined,
 		},
-		round: Boolean,
+		round: {
+			type: Boolean,
+			default: undefined,
+		},
 		minWidth: {
 			type: [String, Number],
 			default: 120,
