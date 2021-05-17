@@ -31,6 +31,7 @@
                 <i class="fs-3 text-secondary white-txt">
                     {{ option.description }}
                 </i>
+                <br>
             </div>
         </div>
     </div>

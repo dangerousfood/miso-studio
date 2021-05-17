@@ -41,6 +41,7 @@
 				</div>
 				<div class="pl-3">
 					* indicates required step
+					<br>
 					<span class="text-white fs-3">
 						Create your own Token at the Token Factory. For details on all current
 						Token types, please visit our

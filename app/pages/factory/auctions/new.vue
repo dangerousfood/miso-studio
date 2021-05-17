@@ -659,7 +659,7 @@ export default {
 			},
 			breackpoint: null,
 
-			sidebarTitles: ['Auction Type', 'Auction Setup', 'Sale Settings'],
+			sidebarTitles: ['Auction', 'Setup', 'Sale'],
 		}
 	},
 	computed: {
