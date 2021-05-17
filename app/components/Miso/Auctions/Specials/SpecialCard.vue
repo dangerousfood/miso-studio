@@ -96,7 +96,7 @@
 			<div v-else class="d-flex flex-column flex-grow-1">
 				<div class="text-white text-center">COUNTDOWN</div>
 				<div class="text-white font-weight-bold text-center fs-16">
-					<span class="counter-line">{{ getFullTime }}</span>
+					<span class="upcoming counter-line">{{ getFullTime }}</span>
 				</div>
 			</div>
 			<base-divider class="mb-4 mt-2 py-1" />
@@ -547,6 +547,14 @@ export default {
 .counter-line {
 	font-size: 28px;
 	max-width: 300px;
+	@media screen and (min-width: 992px) and (max-width: 1450px) {
+		font-size: 22px;
+		min-width: 235px;
+	}
+	@media screen and (max-width: 500px) {
+		font-size: 20px;
+		min-width: 225px;
+	}
 }
 .buy-sake {
 	position: absolute;

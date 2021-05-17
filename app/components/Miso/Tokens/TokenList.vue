@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="d-flex align-items-center py-3">
-			<p class="fs-5 py-0 font-weight-bold d-flex">Tokens Deployed on MISO</p>
+			<p class="fs-5 py-0 font-weight-bold d-flex mb-0">Tokens Deployed on MISO</p>
 			<span
 				class="
 					tokenNumber
@@ -84,7 +84,8 @@
 			<div class="col-12">
 				<div class="table-section">
 					<!-- <loading-main-panel /> -->
-					<el-table v-loading="loading" :data="queriedData">
+					<loader v-if="loading" width="80" height="80" y="250" />
+					<el-table :data="queriedData">
 						<el-table-column min-width="50">
 							<div slot-scope="{ row }" class="token-img mr-2">
 								<img :src="computedTokenImg(row.icon)" class="img-fluid" />
@@ -139,6 +140,7 @@
 						v-model="pagination.currentPage"
 						class="mb-0"
 						:total="total"
+						:show-arrows="false"
 						:per-page="pagination.perPage"
 					/>
 				</div>
@@ -315,7 +317,9 @@ export default {
 		background-size: 210% 210%;
 		background-position: top right;
 		transition: all 0.1s ease-in;
-		&:hover {
+		&:hover,
+		&:focus,
+		&:active {
 			background-color: transparent !important;
 			background-image: linear-gradient(
 				to bottom left,
