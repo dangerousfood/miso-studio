@@ -260,6 +260,9 @@ export default {
 		}
 		span {
 			white-space: nowrap;
+			@media screen and (max-width: 500px) {
+				font-size: 11px !important;
+			}
 		}
 		@media screen and (max-width: 500px) {
 			.text-bottom span {
@@ -398,6 +401,16 @@ export default {
 @media screen and (max-width: 500px) {
 	.price {
 		font-size: 10px;
+	}
+}
+@media screen and (min-width: 1200px) and (max-width: 1400px) {
+	.fs {
+		&-1 {
+			font-size: 9px !important;
+		}
+		&-2 {
+			font-size: 12px !important;
+		}
 	}
 }
 .fs-1 {

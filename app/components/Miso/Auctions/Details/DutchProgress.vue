@@ -7,12 +7,12 @@
 			<!-- starting price text -->
 			<span class="position-absolute progress-status_start-price d-flex flex-column">
 				<el-tooltip
-						content="A Dutch auction starts high and ends low. Everyone pays the same final price."
-						:open-delay="200"
-						placement="top-end"
-						:effect="getTooltipEffect"
+					content="A Dutch auction starts high and ends low. Everyone pays the same final price."
+					:open-delay="200"
+					placement="top-end"
+					:effect="getTooltipEffect"
 				>
-				<span class="font-weight-bold fs-1 text-uppercase">starting price</span>
+					<span class="font-weight-bold fs-1 text-uppercase">starting price</span>
 				</el-tooltip>
 				<span class="font-weight-bold text-white fs-3 text-uppercase">
 					{{ marketInfo.startPrice }} {{ marketInfo.paymentCurrency.symbol }}
@@ -26,13 +26,13 @@
 			<span
 				class="position-absolute progress-status_reserve-price d-flex flex-column"
 			>
-					<el-tooltip
-						content="The auction will end when price drops to the reserve price, if not already sold out"
-						:open-delay="200"
-						placement="top-end"
-						:effect="getTooltipEffect"
-					>
-				<span class="font-weight-bold fs-1 text-uppercase">RESERVE PRICE</span>
+				<el-tooltip
+					content="The auction will end when price drops to the reserve price, if not already sold out"
+					:open-delay="200"
+					placement="top-end"
+					:effect="getTooltipEffect"
+				>
+					<span class="font-weight-bold fs-1 text-uppercase">RESERVE PRICE</span>
 				</el-tooltip>
 				<span class="font-weight-bold text-white fs-3 text-uppercase">
 					{{ marketInfo.minimumPrice }} {{ marketInfo.paymentCurrency.symbol }}
@@ -107,7 +107,7 @@
 								progress > 75 ? 'mr-2' : 'ml-2',
 								progress > 28 ? 'text-top' : 'text-bottom',
 							]"
-						>    
+						>
 							<el-tooltip
 								content="This is the current auction price. The auction ends successfully when the token price (total commitments/tokens) reaches this price"
 								:open-delay="200"
@@ -156,14 +156,13 @@
 </template>
 
 <script>
-
 import { Tooltip } from 'element-ui'
 import { inpidatorTheme } from '@/mixins/auctionIndicator'
 export default {
-	mixins: [inpidatorTheme],
 	components: {
 		[Tooltip.name]: Tooltip,
 	},
+	mixins: [inpidatorTheme],
 	props: {
 		progress: {
 			type: [Number, String],
@@ -356,6 +355,9 @@ export default {
 		}
 		span {
 			white-space: nowrap;
+			@media screen and (max-width: 500px) {
+				font-size: 12px !important;
+			}
 		}
 		@media screen and (max-width: 500px) {
 			.text-bottom span {

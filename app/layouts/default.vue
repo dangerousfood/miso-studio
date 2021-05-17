@@ -63,7 +63,7 @@ export default {
 		ZoomCenterTransition,
 		// SidebarShare,
 	},
-	middleware: 'networkId',
+	// middleware: 'networkId',
 	data() {
 		return {
 			// darkMode: "",
