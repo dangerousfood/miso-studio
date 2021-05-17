@@ -124,7 +124,7 @@
 								<dutch-second-step
 									v-if="model"
 									ref="step2"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus="allStepInputs"
 								></dutch-second-step>
@@ -133,7 +133,7 @@
 								<crowdsale-second-step
 									v-if="model"
 									ref="step2"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-crowdsale="allCrowdsaleInputs"
 								></crowdsale-second-step>
@@ -142,7 +142,7 @@
 								<batch-second-step
 									v-if="model"
 									ref="step2"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-batch="allBatchStepInputs"
 								></batch-second-step>
@@ -153,7 +153,7 @@
 								<dutch-third-step
 									v-if="model"
 									ref="step3"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 								></dutch-third-step>
 							</template>
@@ -161,7 +161,7 @@
 								<crowdsale-third-step
 									v-if="model"
 									ref="step3"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 								></crowdsale-third-step>
 							</template>
@@ -169,7 +169,7 @@
 								<batch-third-step
 									v-if="model"
 									ref="step3"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 								></batch-third-step>
 							</template>
@@ -306,7 +306,7 @@
 								<dutch-second-step
 									v-if="model"
 									ref="step2"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus="allStepInputs"
 								></dutch-second-step>
@@ -315,7 +315,7 @@
 								<crowdsale-second-step
 									v-if="model"
 									ref="step2"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-crowdsale="allCrowdsaleInputs"
 								></crowdsale-second-step>
@@ -324,7 +324,7 @@
 								<batch-second-step
 									v-if="model"
 									ref="step2"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-batch="allBatchStepInputs"
 								></batch-second-step>
@@ -335,7 +335,7 @@
 								<dutch-third-step
 									v-if="model"
 									ref="step3"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 								></dutch-third-step>
 							</template>
@@ -343,7 +343,7 @@
 								<crowdsale-third-step
 									v-if="model"
 									ref="step3"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 								></crowdsale-third-step>
 							</template>
@@ -351,7 +351,7 @@
 								<batch-third-step
 									v-if="model"
 									ref="step3"
-									:model="model"
+									:init-model="model"
 									@on-validated="onStepValidated"
 								></batch-third-step>
 							</template>

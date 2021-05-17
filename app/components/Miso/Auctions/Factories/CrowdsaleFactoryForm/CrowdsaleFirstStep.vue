@@ -42,7 +42,7 @@
 						</div>
 
 						<div v-if="model.token.symbol" class="col-lg-2 text-right mt-4">
-							<base-button class="btn btn-custom btn-default">
+							<base-button class="btn btn-customs btn-disabled btn-default">
 								{{ model.token.symbol }}
 							</base-button>
 						</div>
@@ -404,5 +404,13 @@ export default {
 }
 .el-date-picker .el-picker-panel__footer .el-button:first-child {
 	display: none;
+}
+.btn-disabled {
+	cursor: default !important;
+}
+.btn-customs {
+	// padding: 12px 40px;
+	border-radius: unset;
+	height: 38px;
 }
 </style>

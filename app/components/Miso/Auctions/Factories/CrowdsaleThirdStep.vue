@@ -183,7 +183,7 @@ export default {
 	},
 	mixins: [duration],
 	props: {
-		model: {
+		initModel: {
 			type: Object,
 			required: true,
 		},
@@ -202,6 +202,9 @@ export default {
 		}
 	},
 	computed: {
+		model() {
+			return this.initModel
+		},
 		isETH() {
 			return (
 				this.model.paymentCurrency.address ===
