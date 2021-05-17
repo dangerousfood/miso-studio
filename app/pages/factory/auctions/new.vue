@@ -58,7 +58,7 @@
 								slot="label"
 							>
 								<span class="fs-5">1</span>
-								<p>Auction Type</p>
+								<p>Auction</p>
 							</template>
 
 							<div class="row mb-5">
@@ -88,7 +88,7 @@
 								slot="label"
 							>
 								<span class="fs-5">2</span>
-								<p>AUCTION SETUP</p>
+								<p>SETUP</p>
 							</template>
 							<template v-if="chosenAuctionType === 2">
 								<dutch-first-step
@@ -118,7 +118,7 @@
 								slot="label"
 							>
 								<span class="fs-5">3</span>
-								<p>SALE SETTINGS</p>
+								<p>SALE</p>
 							</template>
 							<template v-if="chosenAuctionType === 2">
 								<dutch-second-step
@@ -240,7 +240,7 @@
 								slot="label"
 							>
 								<span class="fs-5">1</span>
-								<p>Auction Type</p>
+								<p>Auction</p>
 							</template>
 
 							<div class="row mb-5">
@@ -270,7 +270,7 @@
 								slot="label"
 							>
 								<span class="fs-5">2</span>
-								<p>AUCTION SETUP</p>
+								<p>SETUP</p>
 							</template>
 							<template v-if="chosenAuctionType === 2">
 								<dutch-first-step
@@ -300,7 +300,7 @@
 								slot="label"
 							>
 								<span class="fs-5">3</span>
-								<p>SALE SETTINGS</p>
+								<p>SALE</p>
 							</template>
 							<template v-if="chosenAuctionType === 2">
 								<dutch-second-step
@@ -533,7 +533,7 @@ export default {
 					top: 57,
 					title: 'AUCTION TOKEN AMOUNT*',
 					desctiption:
-						'Enter the token you’re looking to create an auction for.  Either search by name or symbol, or paste in the token’s contract address. ',
+						'This will be the number of tokens you will put into the auction contract. Please consider this carefully.',
 				},
 				{
 					active: false,

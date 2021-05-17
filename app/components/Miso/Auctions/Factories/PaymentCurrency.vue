@@ -136,36 +136,10 @@
 					</span>
 				</div>
 			</div>
-			<div class="col-md-3 p-0">
-				<div
-					class="
-						border border-2
-						d-flex
-						justify-content-between
-						align-items-baseline
-						my-2
-						px-3
-						py-2
-						cursor-pointer
-					"
-					:class="{ 'bg-primary': paymentCurrency.symbol === 'SUSHI' }"
-					@click="onCurrencyChanged('TETHER')"
-				>
-					<span
-						:disabled="!tokensApproved || sushi.address[this.currentProvidersNetworkId] === '' "
-						inline
-						:class="{ 'text-white': paymentCurrency.symbol === 'SUSHI' }"
-						name="SUSHI"
-						class="m-0 p-0 font-weight-bold"
-					>
-						<i
-							v-if="paymentCurrency.symbol == 'SUSHI'"
-							class="far fa-circle fa-white-circle text-white"
-						></i>
-						<i v-else class="far fa-circle text-transparent"></i>
-						SUSHI
-					</span>
-				</div>
+			<div class="col-md-3 pr-0 d-flex align-items-center justify-content-center">
+				<span :class="{ 'text-white': paymentCurrency.symbol === 'DAI' }">
+					Stablecoins
+				</span>
 			</div>
 		</div>
 		<div class="col-md-12 d-flex align-items-center">
@@ -308,11 +282,6 @@ export default {
 				paymentCurrency.address = dai.address[this.currentProvidersNetworkId]
 				paymentCurrency.name = 'Dai Stablecoin'
 				paymentCurrency.symbol = 'DAI'
-				paymentCurrency.decimals = 18
-			} else if (currency === 'SUSHI') {
-				paymentCurrency.address = sushi.address[this.currentProvidersNetworkId]
-				paymentCurrency.name = 'Sushi'
-				paymentCurrency.symbol = 'SUSHI'
 				paymentCurrency.decimals = 18
 			} else {
 				paymentCurrency.address = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
