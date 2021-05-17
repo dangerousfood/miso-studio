@@ -17,7 +17,7 @@
 					<div class="modal-footer">
 						<slot name="footer">
 							<div class="modal-default-button px-5 py-2" @click="$emit('close')">
-								Switch Network
+								OK
 							</div>
 						</slot>
 					</div>

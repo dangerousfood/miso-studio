@@ -25,7 +25,7 @@
 				class="text-white"
 				:class="[slideBar ? 'pl-4 ml-1' : 'pl-2']"
 			>
-				MISO v1.0.3.4
+				MISO v1.0.4.2
 			</span>
 		</div>
 		<div v-if="notDesktopSize" slot="logo" class="d-flex justify-content-center">
@@ -149,7 +149,7 @@
 					class="d-flex flex-col h-full w-100 bg-dark-900 rounded overflow-y-auto p-6"
 				>
 					<div class="relative mb-2">
-						<h2 class="text-h5 mt-2.5 font-bold mb-0">Select a Network</h2>
+						<h2 class="text-h5 mt-2.5 font-bold mb-0 text-primary">Networks</h2>
 						<div
 							class="
 								p-1
@@ -193,7 +193,7 @@
 						</span>
 						network.
 						<br />
-						We'll be launching on all these networks soon.
+						<span class="network-metamask-warning">ETH networks can only be switched via Metamask</span>
 					</div>
 					<div
 						class="d-flex flex-col space-y-5"
@@ -230,6 +230,41 @@
 								<span>{{ item.chainName }}</span>
 							</div>
 						</button>
+						<br />
+						<div class="text-lg text-primary mb-6">
+							We'll be launching on these networks soon. 
+						<div>
+						<button
+							v-for="(item, index) in PendingIDs"
+							:key="index"
+							:disabled="+item.chainId === networkId || item.disabled"
+							class="
+								flex
+								w-100
+								rounded
+								p-75
+								d-flex
+								items-center
+								network_btn
+								from-blue
+								to-pink
+							"
+							:class="{
+								'btn-active': !item.disabled,
+								'bg-dark-800': +item.chainId !== networkId && !item.disabled,
+								'btn-disabled': item.disabled,
+							}"
+							@click="changeEthChain(index)"
+						>
+							<img
+								:src="networkIcons[+item.chainId]"
+								alt="Switch Network"
+								class="rounded-md mr-2 w-8 h-8"
+							/>
+							<div class="text-primary font-bold">
+								<span>{{ item.chainName }}</span>
+							</div>
+						</button>		
 					</div>
 				</div>
 			</network-modal>
@@ -330,6 +365,20 @@ export default {
 					blockExplorerUrls: ['https://kovan.etherscan.com'],
 				},
 				{
+					chainId: '0x61',
+					chainName: 'Binance SC Testnet',
+					nativeCurrency: {
+						name: 'Binance Coin',
+						symbol: 'BNB',
+						decimals: 18,
+					},
+					rpcUrls: ['https://bsc-dataseed.binance.org'],
+					blockExplorerUrls: ['https://bscscan.com'],
+				},
+
+			],
+			PendingIDs: [
+				{
 					chainId: '0xfa',
 					chainName: 'Fantom',
 					nativeCurrency: {
@@ -351,6 +400,7 @@ export default {
 					},
 					rpcUrls: ['https://bsc-dataseed.binance.org'],
 					blockExplorerUrls: ['https://bscscan.com'],
+					disabled: true,
 				},
 				{
 					chainId: '0x89',
@@ -546,6 +596,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
+.network-metamask-warning {
+	font-size: 12px;
+}
+
 .disabled {
 	background: #dddddd;
 }
@@ -712,7 +767,7 @@ export default {
 	border-inline-color: black;
 }
 .btn-disabled {
-	background-color: rgb(104, 101, 101);
+	background-color: #050f39;
 }
 .disabled {
 	background-color: rgba(59, 130, 246, 0.5);
