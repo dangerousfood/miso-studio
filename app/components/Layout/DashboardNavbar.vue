@@ -64,23 +64,26 @@
 						:fill="false"
 					/>
 				</div>
-				<div v-if="coinbase && isMetamask" class="d-flex align-items-center pr-2">
-					<button
-						type="primary"
-						class="btn toggle-network-btn text-white btn-primary py-3 btn-simple"
-						:class="{ 'connect-btn_white': !darkMode }"
-						style="height: 20px"
-						@click="showNetworkModal = true"
-					>
-						<img
-							:src="networkIcons[networkId]"
-							alt="Network icon"
-							class="rounded-md mr-2"
-							style="width: 22px; height: 22px"
-						/>
-						{{ networkLables[networkId] }}
-					</button>
-				</div>
+			</div>
+			<div
+				v-if="coinbase && isMetamask"
+				class="d-flex align-items-center justify-content-center pr-2 my-3 my-lg-0"
+			>
+				<button
+					type="primary"
+					class="btn toggle-network-btn text-white btn-primary py-3 btn-simple"
+					:class="{ 'connect-btn_white': !darkMode }"
+					style="height: 20px"
+					@click="showNetworkModal = true"
+				>
+					<img
+						:src="networkIcons[networkId]"
+						alt="Network icon"
+						class="rounded-md mr-2"
+						style="width: 22px; height: 22px"
+					/>
+					{{ networkLables[networkId] }}
+				</button>
 			</div>
 
 			<client-only>
