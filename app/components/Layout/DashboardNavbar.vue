@@ -193,7 +193,9 @@
 						</span>
 						network.
 						<br />
-						<span class="network-metamask-warning">ETH networks can only be switched via Metamask</span>
+						<span class="network-metamask-warning">
+							ETH networks can only be switched via Metamask
+						</span>
 					</div>
 					<div
 						class="d-flex flex-col space-y-5"
@@ -201,7 +203,7 @@
 					>
 						<button
 							v-for="(item, index) in ChainIDs"
-							:key="index"
+							:key="index + '_a'"
 							:disabled="+item.chainId === networkId || item.disabled"
 							class="
 								flex
@@ -232,11 +234,11 @@
 						</button>
 						<br />
 						<div class="text-lg text-primary mb-6">
-							We'll be launching on these networks soon. 
-						<div>
+							We'll be launching on these networks soon.
+						</div>
 						<button
 							v-for="(item, index) in PendingIDs"
-							:key="index"
+							:key="index + '_b'"
 							:disabled="+item.chainId === networkId || item.disabled"
 							class="
 								flex
@@ -264,7 +266,7 @@
 							<div class="text-primary font-bold">
 								<span>{{ item.chainName }}</span>
 							</div>
-						</button>		
+						</button>
 					</div>
 				</div>
 			</network-modal>
@@ -375,7 +377,6 @@ export default {
 					rpcUrls: ['https://bsc-dataseed.binance.org'],
 					blockExplorerUrls: ['https://bscscan.com'],
 				},
-
 			],
 			PendingIDs: [
 				{
@@ -596,7 +597,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 .network-metamask-warning {
 	font-size: 12px;
 }
