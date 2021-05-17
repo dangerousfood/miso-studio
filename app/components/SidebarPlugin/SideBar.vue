@@ -391,11 +391,11 @@ export default {
 		},
 		computedNetworkNav() {
 			const networkList = this.navItems
-			/* if (this.networkID === 1) {
+			if (this.networkID === 1) {
 				networkList = networkList.filter((item) => {
 					return item.name !== 'Farms' && item.name !== 'Factory'
 				})
-			} */
+			} 
 			// in future we can add new filters
 			return networkList
 		},
