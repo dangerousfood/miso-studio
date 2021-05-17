@@ -354,7 +354,7 @@ export default {
 		setTokenInfo(tokenInfo) {
 			this.tokenInfo = tokenInfo
 			this.about.title = `${tokenInfo.name} (${tokenInfo.symbol})`
-			this.about.tokenPair = `${tokenInfo.symbol}/${this.marketInfo.paymentCurrency.symbol}`
+			this.about.tokenPair = `${this.marketInfo.paymentCurrency.symbol}/${tokenInfo.symbol}`
 		},
 
 		subscribeToNewCommitments() {

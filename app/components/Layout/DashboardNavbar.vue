@@ -30,13 +30,15 @@
 		</div>
 		<div v-if="notDesktopSize" slot="logo" class="d-flex justify-content-center">
 			<zoom-x-transition :duration="500">
-				<svg-icon
-					v-show="!showSideBar"
-					icon="miso"
-					:height="logoHeight"
-					width="150"
-					color="#ffffff"
-				/>
+				<nuxt-link to="/">
+					<svg-icon
+						v-show="!showSideBar"
+						icon="miso"
+						:height="logoHeight"
+						width="150"
+						color="#ffffff"
+					/>
+				</nuxt-link>
 			</zoom-x-transition>
 		</div>
 		<ul class="navbar-nav ml-auto">
@@ -64,23 +66,26 @@
 						:fill="false"
 					/>
 				</div>
-				<div v-if="coinbase && isMetamask" class="d-flex align-items-center pr-2">
-					<button
-						type="primary"
-						class="btn toggle-network-btn text-white btn-primary py-3 btn-simple"
-						:class="{ 'connect-btn_white': !darkMode }"
-						style="height: 20px"
-						@click="showNetworkModal = true"
-					>
-						<img
-							:src="networkIcons[networkId]"
-							alt="Network icon"
-							class="rounded-md mr-2"
-							style="width: 22px; height: 22px"
-						/>
-						{{ networkLables[networkId] }}
-					</button>
-				</div>
+			</div>
+			<div
+				v-if="coinbase && isMetamask"
+				class="d-flex align-items-center justify-content-center pr-2 my-3 my-lg-0"
+			>
+				<button
+					type="primary"
+					class="btn toggle-network-btn text-white btn-primary py-3 btn-simple"
+					:class="{ 'connect-btn_white': !darkMode }"
+					style="height: 20px"
+					@click="showNetworkModal = true"
+				>
+					<img
+						:src="networkIcons[networkId]"
+						alt="Network icon"
+						class="rounded-md mr-2"
+						style="width: 22px; height: 22px"
+					/>
+					{{ networkLables[networkId] }}
+				</button>
 			</div>
 
 			<client-only>
@@ -193,7 +198,9 @@
 						</span>
 						network.
 						<br />
-						<span class="network-metamask-warning">ETH networks can only be switched via Metamask</span>
+						<span class="network-metamask-warning">
+							ETH networks can only be switched via Metamask
+						</span>
 					</div>
 					<div
 						class="d-flex flex-col space-y-5"
@@ -201,7 +208,7 @@
 					>
 						<button
 							v-for="(item, index) in ChainIDs"
-							:key="index"
+							:key="index + '_a'"
 							:disabled="+item.chainId === networkId || item.disabled"
 							class="
 								flex
@@ -232,11 +239,11 @@
 						</button>
 						<br />
 						<div class="text-lg text-primary mb-6">
-							We'll be launching on these networks soon. 
-						<div>
+							We'll be launching on these networks soon.
+						</div>
 						<button
 							v-for="(item, index) in PendingIDs"
-							:key="index"
+							:key="index + '_b'"
 							:disabled="+item.chainId === networkId || item.disabled"
 							class="
 								flex
@@ -264,7 +271,7 @@
 							<div class="text-primary font-bold">
 								<span>{{ item.chainName }}</span>
 							</div>
-						</button>		
+						</button>
 					</div>
 				</div>
 			</network-modal>
@@ -375,7 +382,6 @@ export default {
 					rpcUrls: ['https://bsc-dataseed.binance.org'],
 					blockExplorerUrls: ['https://bscscan.com'],
 				},
-
 			],
 			PendingIDs: [
 				{
@@ -596,7 +602,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
 .network-metamask-warning {
 	font-size: 12px;
 }

@@ -21,7 +21,7 @@
 						placement="top-end"
 						:effect="getTooltipEffect"
 					>
-					<span class="text pl-2 text-uppercase font-weight-bold">min raise</span>
+						<span class="text pl-2 text-uppercase font-weight-bold">min raise</span>
 					</el-tooltip>
 					<span class="fs-2 pl-2 text-white font-weight-bold no-whitespace">
 						{{ soft }} {{ marketInfo.paymentCurrency.symbol }}

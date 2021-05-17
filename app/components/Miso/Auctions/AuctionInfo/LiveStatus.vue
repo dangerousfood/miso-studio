@@ -118,6 +118,8 @@
 					/>
 					<!-- BatchProgress -->
 				</div>
+
+				<!-- upcoming -->
 				<div v-else-if="!isUpcoming && status.auction === 'finished'" class="d-flex">
 					<div v-if="status.auctionSuccessful" class="finalized-box">
 						<video
@@ -162,7 +164,7 @@
 						:class="{ 'd-flex flex-column': !upcomingVideo }"
 					>
 						<div class="text-white text-center">COUNTDOWN</div>
-						<div class="text-white font-weight-bold text-center fs-16">
+						<div class="text-white font-weight-bold text-center fs-14">
 							<span class="counter-line">{{ getFullTime }}</span>
 						</div>
 					</div>
@@ -253,6 +255,24 @@
 								input-classes="is-small invest-input font-weight-bolder"
 								:class="responsiveClass"
 							>
+								<template #custom>
+									<span class="position-absolute symbol_wrapper">
+										<span
+											class="
+												d-flex
+												align-items-center
+												font-weight-bold
+												text-white
+												fs-2
+											"
+										>
+											<span class="pr-3 amount">{{ selectedTokenQuantity }}</span>
+											<span class="token">
+												{{ marketInfo.paymentCurrency.symbol }}
+											</span>
+										</span>
+									</span>
+								</template>
 								<template #sub-button>
 									<div class="h-100 invest-bg d-sm-block d-none">
 										<base-button
@@ -263,7 +283,7 @@
 											:loading="loading"
 											@click="invest"
 										>
-											commit {{ marketInfo.paymentCurrency.symbol }}
+											commit
 										</base-button>
 										<base-button
 											v-else
@@ -273,7 +293,7 @@
 											:loading="loading"
 											@click="approve"
 										>
-											approve {{ marketInfo.paymentCurrency.symbol }}
+											approve
 										</base-button>
 									</div>
 								</template>
@@ -911,12 +931,24 @@ export default {
 		height: 100%;
 	}
 }
+.symbol_wrapper {
+	top: 50%;
+	transform: translateY(-50%);
+	left: 20px;
+	.amount {
+		font-size: 0.875rem !important;
+		opacity: 0;
+	}
+	.token {
+		opacity: 0.8;
+	}
+}
 .upcoming-counter {
-	position: absolute;
+	/* position: absolute;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	width: 100%;
+	width: 100%; */
 }
 .center-status {
 	position: absolute;
