@@ -255,6 +255,24 @@
 								input-classes="is-small invest-input font-weight-bolder"
 								:class="responsiveClass"
 							>
+								<template #custom>
+									<span class="position-absolute symbol_wrapper">
+										<span
+											class="
+												d-flex
+												align-items-center
+												font-weight-bold
+												text-white
+												fs-2
+											"
+										>
+											<span class="pr-3 amount">{{ selectedTokenQuantity }}</span>
+											<span class="token">
+												{{ marketInfo.paymentCurrency.symbol }}
+											</span>
+										</span>
+									</span>
+								</template>
 								<template #sub-button>
 									<div class="h-100 invest-bg d-sm-block d-none">
 										<base-button
@@ -265,7 +283,7 @@
 											:loading="loading"
 											@click="invest"
 										>
-											commit {{ marketInfo.paymentCurrency.symbol }}
+											commit
 										</base-button>
 										<base-button
 											v-else
@@ -275,7 +293,7 @@
 											:loading="loading"
 											@click="approve"
 										>
-											approve {{ marketInfo.paymentCurrency.symbol }}
+											approve
 										</base-button>
 									</div>
 								</template>
@@ -911,6 +929,18 @@ export default {
 	&-video {
 		width: 100%;
 		height: 100%;
+	}
+}
+.symbol_wrapper {
+	top: 50%;
+	transform: translateY(-50%);
+	left: 20px;
+	.amount {
+		font-size: 0.875rem !important;
+		opacity: 0;
+	}
+	.token {
+		opacity: 0.8;
 	}
 }
 .upcoming-counter {

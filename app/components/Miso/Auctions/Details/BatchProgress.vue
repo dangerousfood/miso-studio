@@ -21,14 +21,14 @@
 						class="d-flex flex-column align-items-baseline position-absolute pl-2"
 					>
 						<el-tooltip
-								content="This is the current token price. (total commitments/number of tokens)"
-								:open-delay="200"
-								placement="top-end"
-								:effect="getTooltipEffect"
-						>		
-						<span class="font-weight-bold fs-1 no-whitespace text-uppercase">
-							CURRENT PRICE
-						</span>
+							content="This is the current token price. (total commitments/number of tokens)"
+							:open-delay="200"
+							placement="top-end"
+							:effect="getTooltipEffect"
+						>
+							<span class="font-weight-bold fs-1 no-whitespace text-uppercase">
+								CURRENT PRICE
+							</span>
 						</el-tooltip>
 						<span class="font-weight-bold fs-3 text-white no-whitespace">
 							{{ marketInfo.currentPrice }}
@@ -42,14 +42,14 @@
 				>
 					<span class="d-flex flex-column align-items-end position-absolute pl-2">
 						<el-tooltip
-								content="This is the current token price. (total commitments/number of tokens)"
-								:open-delay="200"
-								placement="top-end"
-								:effect="getTooltipEffect"
-						>		
-						<span class="font-weight-bold fs-1 no-whitespace text-uppercase">
-							CURRENT PRICE
-						</span>
+							content="This is the current token price. (total commitments/number of tokens)"
+							:open-delay="200"
+							placement="top-end"
+							:effect="getTooltipEffect"
+						>
+							<span class="font-weight-bold fs-1 no-whitespace text-uppercase">
+								CURRENT PRICE
+							</span>
 						</el-tooltip>
 						<span class="font-weight-bold fs-3 text-white no-whitespace">
 							{{ marketInfo.currentPrice }}
@@ -130,10 +130,10 @@ import { Tooltip } from 'element-ui'
 
 import { inpidatorTheme } from '@/mixins/auctionIndicator'
 export default {
-	mixins: [inpidatorTheme],
 	components: {
 		[Tooltip.name]: Tooltip,
 	},
+	mixins: [inpidatorTheme],
 	props: {
 		progress: {
 			type: [Number, String],
