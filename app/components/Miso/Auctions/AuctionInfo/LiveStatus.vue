@@ -118,6 +118,8 @@
 					/>
 					<!-- BatchProgress -->
 				</div>
+
+				<!-- upcoming -->
 				<div v-else-if="!isUpcoming && status.auction === 'finished'" class="d-flex">
 					<div v-if="status.auctionSuccessful" class="finalized-box">
 						<video
@@ -162,7 +164,7 @@
 						:class="{ 'd-flex flex-column': !upcomingVideo }"
 					>
 						<div class="text-white text-center">COUNTDOWN</div>
-						<div class="text-white font-weight-bold text-center fs-16">
+						<div class="text-white font-weight-bold text-center fs-14">
 							<span class="counter-line">{{ getFullTime }}</span>
 						</div>
 					</div>
@@ -912,11 +914,11 @@ export default {
 	}
 }
 .upcoming-counter {
-	position: absolute;
+	/* position: absolute;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%, -50%);
-	width: 100%;
+	width: 100%; */
 }
 .center-status {
 	position: absolute;
