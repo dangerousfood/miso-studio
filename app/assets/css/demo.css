@@ -75,10 +75,18 @@
 }
 
 .plyr__poster {
-  background-color: #000000 !important;
   background-size: cover !important;
+  background-image: url('../images/gallery01.png');
 }
 
 .plyr--video .plyr__controls {
   background: none !important;
+}
+
+.plyr__video-embed {
+  height: 100% !important;
+}
+
+.plyr--youtube {
+  object-fit: cover;
 }
