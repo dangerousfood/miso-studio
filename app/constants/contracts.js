@@ -19,7 +19,7 @@ export const tokenFactory = {
 	address: {
 		1: "0xA550114ee3688601006b8b9f25e64732eF774934", // main
 		3: "0x9fEc0402944037d8d96Cfd05bFDEb4324400653C", // ropsten
-		4: "0x29FeaCd4329833Af72fb3Eb33aD3838F36f9385a", // rinkeby
+		4: "0xBa7D3437c9aB413ADdE8611A298Eb29fc967883b", // rinkeby
 		42: "0xb3943350DF5856A48fCeBF393771d8802A2cd92D", // kovan
 		5: "0x494C9ECF590126d2784D8f72cc0BfCEb72f3Cdaa", // goerli
 		56: "", // BSC mainnet
@@ -32,7 +32,7 @@ export const farmFactory = {
 	address: {
 		1: "", // main
 		3: "0xA6fBa394Ab40C29fEa394Fc4Ea8Afe4184149553", // ropsten
-		4: "0x08BD0C9F9154212E8d0684e0EEf92300034E8743", // rinkeby
+		4: "0xDdee4dD1637e6037337797e80e774fbf0fd411F4", // rinkeby
 		42: "0xC9FdA883AFD33606ff4faAEEa59554a3be3AA271", // kovan
 		5: "0x4fFc1D3a04bfb3E657c3248AE1986786A49362cF", // goerli
 		56: "", // BSC mainnet
@@ -45,7 +45,7 @@ export const listFactory = {
 	address: {
 		1: "", // main
 		3: "0x428C2E48FD89Fd759C14ac97e33Ce541159e0583", // ropsten
-		4: "0xFde0Ac8Ab559cb04b0033Ae8bAe706F21105E4d1", // rinkeby
+		4: "0xd06e1A28b6D239440310dEe66392926770719C3b", // rinkeby
 		42: "0x28a84670c4C1C5D74bF164AE18688f2AA6ea7411", // kovan
 		5: "0x4C2b109dde326efDFfa9d106fC1ade6463Eb6Db1", // goerli
 		56: "", // BSC mainnet
@@ -58,7 +58,7 @@ export const misoLauncher = {
 	address: {
 		1: "", // main
 		3: "0x89d9C21cABb1eE74E8e2BB792FCafdF8EDc366A4", // ropsten
-		4: "0x44706B409453baBa660a4Ac480677AeD6C731EBC", // rinkeby
+		4: "0xbcE6f035C6E23d3c2F7059F2E71e9422fbecbacE", // rinkeby
 		42: "0x5940DF4FD357b6e1f5ED17EE9Baf9Da0ae9C17Cb", // kovan
 		5: "0x3e1deFf91dF395e9024c3b450096131A36BD297D", // goerli
 		56: "", // BSC mainnet
@@ -71,7 +71,7 @@ export const misoMarket = {
 	address: {
 		1: "", // main
 		3: "0x264711419866C6ADD2BbCDd5746790E84cF62e48", // ropsten
-		4: "0x6bF3e9E9Dc251106Fd6202B8eD63d3b481B1f7d6", // rinkeby
+		4: "0x937989abcc28aC0132073d3F0A17C8CfB04A2cA0", // rinkeby
 		42: "0xc75cbBDAd0Cd33b616Ec25bA914D039ed2085d42", // kovan
 		5: "0xA370345F738d5795BA62Db3f142e2E84cAfD3760", // goerli
 		56: "", // BSC mainnet
@@ -84,7 +84,7 @@ export const crowdsaleTemplate = {
 	address: {
 		1: "", // main
 		3: "0x6f5391dD88C2FB327d5894dcbE42A5e3C87e2fC0", // ropsten
-		4: "0x8349ddEa4fdfF24201890D90C6af72Dc971caB91", // rinkeby
+		4: "0x2EF13B66193eFB8F17edF5c06E8767b1C0d5A983", // rinkeby
 		42: "0x9245997d0E7D692f39eFFB1Ed6f61d620750Eb3B", // kovan
 		5: "0x357913c8ffCDa8344E47a7F0eF8388B5063410ae", // goerli
 		56: "", // BSC mainnet
@@ -97,7 +97,7 @@ export const dutchAuction = {
 	address: {
 		1: "", // main
 		3: "0x92F43e9C8636AE8E011e89c0928AC865a5d6A6E3", // ropsten
-		4: "0x848abB2A27041A5a175fFf0A4Bc108a39028F398", // rinkeby
+		4: "0x66f25F7Ad69dF86E9AC5acA6Dfb1C3B96f2329ed", // rinkeby
 		42: "0x89540210D56c18760115FD2c4C7847D98c408b28", // kovan
 		5: "0xcD1377dd0e0093681af5a58c14dD644Fe9dB80A1", // goerli
 		56: "", // BSC mainnet
@@ -110,7 +110,7 @@ export const batchAuction = {
 	address: {
 		1: "", // main
 		3: "0x5771c1647001250456EBE3B4310aE257e325D5b2", // ropsten
-		4: "0x357913c8ffCDa8344E47a7F0eF8388B5063410ae", // rinkeby
+		4: "0xE33b9A94E3EF3F675da969093890442ffbf01914", // rinkeby
 		42: "0x501db6C8a7427cf6e0b4F8A5727D111DcF5F702a", // kovan
 		5: "0x6bF3e9E9Dc251106Fd6202B8eD63d3b481B1f7d6", // goerli
 		56: "", // BSC mainnet
@@ -123,7 +123,7 @@ export const hyperbolicAuction = {
 	address: {
 		1: "", // main
 		3: "0xBfc67Cd67928a0Ee6dF88a2d7cE4031533FCB7e5", // ropsten
-		4: "0xcD1377dd0e0093681af5a58c14dD644Fe9dB80A1", // rinkeby
+		4: "0x391497867449D7B9138B8320B401e211D2F1c466", // rinkeby
 		42: "0x6cCC1998876486CE0cB662FC151Abb84eA19Ad4d", // kovan
 		5: "0x6Ab711D341a384BaFD602A1952079066AA78Cb19", // goerli
 		56: "", // BSC mainnet
@@ -170,10 +170,10 @@ export const wethToken = {
 export const sushi = {
 	address: {
 		1: "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2",
-		3: "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2", // ropsten
+		3: "", // ropsten
 		4: "", // rinkeby
 		42: "", // kovan
-		5: "0x6b3595068778dd592e39a122f4f5a5cf09c90fe2", // goerli
+		5: "", // goerli
 		56: "", // BSC mainnet
 		97: "", // BSC testnet
 	}, 
@@ -198,7 +198,7 @@ export const misoHelper = {
 	address: {
 		1: "",
 		3: "0x69563367EE14928d15c2Cc5Eb3E92847b23A32ec", // ropsten
-		4: "0x69563367EE14928d15c2Cc5Eb3E92847b23A32ec", // rinkeby
+		4: "0x167CA3BFCDb26757c064a6fa4eB9c560f1BD7c12", // rinkeby
 		42: "0xA564bf9EAE15816d89f9fbC8d9264B056f039a3E", // kovan
 		5: "0x0e9aA0158AB5FFb44f6839857dC8024c38695ae3", // goerli
 		56: "", // BSC mainnet
@@ -211,7 +211,7 @@ export const masterChefTemplate = {
 	address: {
 		1: "", // main
 		3: "0xae4630aBD1a489fDa717C127F2744ec5d14fCBa2", // ropsten
-		4: "0xbA90BF5c7cbd43F54bF5BAcdc83E6BE0AC6943D0", // rinkeby
+		4: "0xe16F916C3dd41d198B0B3D0595Fc2b969542cc2b", // rinkeby
 		42: "0x6A21a80C62b86e1EaC7A7E0a039066Fc1fBfC03D", // kovan
 		5: "0x3Fc0f7340a8F81558ee42260A6b86D53926CA642", // goerli
 		56: "", // BSC mainnet
