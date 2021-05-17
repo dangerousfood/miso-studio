@@ -116,7 +116,7 @@
 						headerimage="amaheader01.png"
 						:youtubeflag="true"
 						title="MISO Token Launchpad Intro"
-						pubdate="Feb 2, 2021"
+						pubdate="May 12, 2021"
 						linkurl="https://www.youtube.com/watch?v=DthRoorpw60"
 					/>
 				</div>
@@ -125,8 +125,8 @@
 						headerimage="amaheader02.png"
 						:youtubeflag="false"
 						title="How To Participate in MISO Auctions"
-						pubdate="Feb 2, 2021"
-						linkurl="https://sakeswap.medium.com/introducing-sakeswap-irreversible-nft-a-new-way-of-sake-burn-449cd65c75f6"
+						pubdate="May 2, 2021"
+						linkurl="https://instantmiso.gitbook.io/miso/using-miso/participating-in-an-auction"
 					/>
 				</div>
 				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
@@ -134,7 +134,7 @@
 						headerimage="amaheader03.png"
 						:youtubeflag="false"
 						title="SUSHI + MISO: The Perfect Combo"
-						pubdate="Feb 2, 2021"
+						pubdate="May 14, 2021"
 						linkurl="https://medium.com/sushiswap-org/sushi-miso-the-perfect-combo-9883548706b1"
 					/>
 				</div>
@@ -143,7 +143,7 @@
 						headerimage="amaheader04.png"
 						:youtubeflag="false"
 						title="MISO: Cooking New Tokens From Scratch"
-						pubdate="Feb 2, 2021"
+						pubdate="May 16, 2021"
 						linkurl="https://medium.com/sushiswap-org/miso-cooking-new-tokens-from-scratch-c6be6aad64a"
 					/>
 				</div>
