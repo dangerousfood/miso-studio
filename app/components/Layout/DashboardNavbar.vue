@@ -30,13 +30,15 @@
 		</div>
 		<div v-if="notDesktopSize" slot="logo" class="d-flex justify-content-center">
 			<zoom-x-transition :duration="500">
-				<svg-icon
-					v-show="!showSideBar"
-					icon="miso"
-					:height="logoHeight"
-					width="150"
-					color="#ffffff"
-				/>
+				<nuxt-link to="/">
+					<svg-icon
+						v-show="!showSideBar"
+						icon="miso"
+						:height="logoHeight"
+						width="150"
+						color="#ffffff"
+					/>
+				</nuxt-link>
 			</zoom-x-transition>
 		</div>
 		<ul class="navbar-nav ml-auto">
