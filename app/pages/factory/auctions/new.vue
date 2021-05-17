@@ -533,7 +533,7 @@ export default {
 					top: 57,
 					title: 'AUCTION TOKEN AMOUNT*',
 					desctiption:
-						'Enter the token you’re looking to create an auction for.  Either search by name or symbol, or paste in the token’s contract address. ',
+						'This will be the number of tokens you will put into the auction contract. Please consider this carefully.',
 				},
 				{
 					active: false,
@@ -659,7 +659,7 @@ export default {
 			},
 			breackpoint: null,
 
-			sidebarTitles: ['Auction', 'Setup', 'Sale'],
+			sidebarTitles: ['Auction Type', 'Auction Setup', 'Sale Settings'],
 		}
 	},
 	computed: {
