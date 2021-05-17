@@ -16,8 +16,8 @@ import Rinkeby from '@/assets/networks/rinkeby-network.jpg'
 import Ropsten from '@/assets/networks/ropsten-network.jpg'
 import xDai from '@/assets/networks/xdai-network.jpg'
 
-export const RIGHT_NETWORKS = [5, 3, 4, 42, 97]
-export const DEFAULT_NETWORK = 5
+export const RIGHT_NETWORKS = [1, 5, 3, 4, 42, 97]
+export const DEFAULT_NETWORK = 1
 
 export const NETWORK_ICON = {
 	[ChainId.MAINNET]: Mainnet,
