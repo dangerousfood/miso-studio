@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="d-flex align-items-center py-3">
-			<p class="fs-5 py-0 font-weight-bold d-flex">Tokens Deployed on MISO</p>
+			<p class="fs-5 py-0 font-weight-bold d-flex mb-0">Tokens Deployed on MISO</p>
 			<span
 				class="
 					tokenNumber
