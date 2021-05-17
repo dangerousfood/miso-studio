@@ -18,7 +18,11 @@
 					inputGroupClasses,
 				]"
 			>
-				<div v-if="prependIcon || $slots.prepend" class="input-group-prepend">
+				<div
+					v-if="prependIcon || $slots.prepend"
+					class="input-group-prepend"
+					:class="{ 'input-group-prepend_round': rounded }"
+				>
 					<span
 						class="input-group-text px-2"
 						:class="{ 'prepend-rounded-icon': rounded }"
@@ -251,5 +255,9 @@ export default {
 		border-top-right-radius: 0 !important;
 		border-bottom-right-radius: 0 !important;
 	}
+}
+.input-group-prepend_round {
+	border-top-left-radius: 50%;
+	border-bottom-left-radius: 50%;
 }
 </style>
