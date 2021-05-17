@@ -102,7 +102,7 @@
 			</div>
 		</div>
 		<loader v-else width="80" height="80" y="250" />
-		<div class="miso-ama">
+		<div>
 			<div class="miso-ama-logo px-2">
 				<img src="@/assets/svg/misoamalog.svg" />
 			</div>

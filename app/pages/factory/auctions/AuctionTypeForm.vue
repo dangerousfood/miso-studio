@@ -15,6 +15,7 @@
                     width="60"
                     height="60"
                     class="mr-3"
+                    :color="computedIconColor"
                 />
                 <base-radio
                     :name="option.id"
@@ -36,10 +37,14 @@
 </template>
 
 <script>
+import { theme } from '@/mixins/theme'
+
 export default {
 	components: {
 		
 	},
+	mixins: [theme],
+
 	data() {
 		return {
 			items: {
