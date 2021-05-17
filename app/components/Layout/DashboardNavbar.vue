@@ -596,6 +596,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
+.network-metamask-warning {
+	font-size: 12px;
+}
+
 .disabled {
 	background: #dddddd;
 }
@@ -762,7 +767,7 @@ export default {
 	border-inline-color: black;
 }
 .btn-disabled {
-	background-color: rgb(104, 101, 101);
+	background-color: #050f39;
 }
 .disabled {
 	background-color: rgba(59, 130, 246, 0.5);
