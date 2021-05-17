@@ -317,7 +317,9 @@ export default {
 		background-size: 210% 210%;
 		background-position: top right;
 		transition: all 0.1s ease-in;
-		&:hover {
+		&:hover,
+		&:focus,
+		&:active {
 			background-color: transparent !important;
 			background-image: linear-gradient(
 				to bottom left,
