@@ -140,6 +140,7 @@
 						v-model="pagination.currentPage"
 						class="mb-0"
 						:total="total"
+						:show-arrows="false"
 						:per-page="pagination.perPage"
 					/>
 				</div>
