@@ -30,6 +30,12 @@ module.exports = {
 				content: 'List new tokens on Sushiswap by starting with a nice hot MISO',
 			},
 			{
+				hid: 'twitter:image',
+				name: 'twitter:image',
+				content:
+					'https://raw.githubusercontent.com/sushiswap/sushi-content/master/miso/miso-cover.jpg',
+			},
+			{
 				name: 'og:image',
 				content:
 					'https://raw.githubusercontent.com/sushiswap/sushi-content/master/miso/miso-cover.jpg',
