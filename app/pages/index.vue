@@ -1,31 +1,6 @@
 <template>
 	<div class="container-fluid container-padding">
-		<div class="my-4 row pt-3 video-mobile">
-			<div class="col-12">
-				<div class="text-white card-title">About SAKE</div>
-				<div class="text-white card-description pb-2">
-					Sake documentary teaser. Visit&nbsp;
-					<a
-						href="https://sake.sushi.com"
-						target="_blank"
-						class="sake-com text-white"
-					>
-						sake.sushi.com
-					</a>
-					&nbsp;for more information.
-				</div>
-				<vue-plyr :options="options">
-					<div class="plyr__video-embed">
-						<iframe
-							src="https://youtu.be/nwQkOn4wfEU"
-							allowfullscreen
-							allowtransparency
-						></iframe>
-					</div>
-				</vue-plyr>
-			</div>
-		</div>
-		<div v-if="!loading" class="row">
+		<div v-if="!loading" class="row video-normal">
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">SAKE Sale</div>
 				<div class="text-white card-description pb-2">
@@ -43,7 +18,7 @@
 					/>
 				</nuxt-link>
 			</div>
-			<div class="col-lg-8 col-md-6 col-12 mb-3 video-normal">
+			<div class="col-lg-8 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">About SAKE</div>
 				<div class="text-white card-description pb-2">
 					Sake documentary teaser. Visit&nbsp;
@@ -165,7 +140,6 @@ export default {
 			auctions: 'auctions/list',
 			coinbase: 'ethereum/coinbase',
 			isRightNetwork: 'ethereum/isRightNetwork',
-			mode: 'theme/getMode',
 		}),
 		computedSakeImage() {
 			if (this.mode) {
@@ -174,30 +148,14 @@ export default {
 			return require('~/assets/images/sake_black.png')
 		},
 	},
-	watch: {
-		mode: {
-			deep: true,
-			handler(val) {
-				this.colorSwitch(val)
-			},
-		},
-	},
+	watch: {},
 	mounted() {
 		this.initAuctions()
-		this.colorSwitch(this.mode)
 	},
 	methods: {
 		...mapActions({
 			getAuctions: 'auctions/getAuctions',
 		}),
-		colorSwitch(val) {
-			const plyrposter = document.getElementsByClassName('plyr__poster')[0]
-			if (val) {
-				plyrposter.classList.remove('plyr__poster__white')
-			} else {
-				plyrposter.classList.add('plyr__poster__white')
-			}
-		},
 		async initAuctions() {
 			await this.getAuctions()
 			this.auctionsList = this.auctions
@@ -391,9 +349,8 @@ export default {
 }
 
 .video-normal {
-	display: none;
-	@media screen and (min-width: 768px) {
-		display: block;
+	@media screen and (max-width: 768px) {
+		flex-direction: column-reverse;
 	}
 }
 
