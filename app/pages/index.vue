@@ -68,7 +68,7 @@
 			<div class="col-lg-8 col-md-6 col-12 mb-3 video-normal">
 				<div class="text-white card-title">About SAKE</div>
 				<div class="text-white card-description pb-2">
-					Learn more about the Sake project in this video documenatary. Visit&nbsp;
+					Learn more about the Sake project in this video documentary. Visit&nbsp;
 					<a
 						href="https://sake.sushi.com"
 						target="_blank"
