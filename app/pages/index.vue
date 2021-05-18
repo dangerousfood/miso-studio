@@ -17,7 +17,7 @@
 				<vue-plyr :options="options">
 					<div class="plyr__video-embed">
 						<iframe
-							src="https://youtu.be/Q3FZkPLxN74"
+							src="https://youtu.be/nwQkOn4wfEU"
 							allowfullscreen
 							allowtransparency
 						></iframe>
@@ -59,7 +59,7 @@
 				<vue-plyr :options="options">
 					<div class="plyr__video-embed">
 						<iframe
-							src="https://youtu.be/Q3FZkPLxN74"
+							src="https://youtu.be/nwQkOn4wfEU"
 							allowfullscreen
 							allowtransparency
 						></iframe>
