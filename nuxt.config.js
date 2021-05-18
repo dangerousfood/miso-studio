@@ -23,7 +23,17 @@ module.exports = {
 				name: 'og:title',
 				content: 'MISO | Minimal Initial SushiSwap Offering',
 			},
-			{ name: 'og:image', content: '/s3/img/brand/miso-social.jpg' },
+			{ hid: 'twitter:card', name: 'twitter:card', content: 'summary_large_image' },
+			{
+				hid: 'twitter:description',
+				name: 'twitter:description',
+				content: 'List new tokens on Sushiswap by starting with a nice hot MISO',
+			},
+			{
+				name: 'og:image',
+				content:
+					'https://raw.githubusercontent.com/sushiswap/sushi-content/master/miso/miso-cover.jpg',
+			},
 			{ name: 'robots', content: 'noindex' },
 			{
 				hid: 'description',
@@ -35,11 +45,13 @@ module.exports = {
 			{ rel: 'icon', type: 'image/x-icon', href: '/s3/miso.ico' },
 			{
 				rel: 'stylesheet',
-				href: 'https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800',
+				href:
+					'https://fonts.googleapis.com/css?family=Poppins:200,300,400,600,700,800',
 			},
 			{
 				rel: 'stylesheet',
-				href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css',
+				href:
+					'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css',
 			},
 		],
 	},
