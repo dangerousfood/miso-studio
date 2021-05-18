@@ -37,19 +37,13 @@
 					&nbsp;for more.
 				</div>
 				<vue-plyr :options="options">
-					<video
-						controls
-						crossorigin
-						playsinline
-						:data-poster="require('~/assets/images/gallery01.png')"
-						class="video-poster"
-					>
-						<source
-							size="576"
-							src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-							type="video/mp4"
-						/>
-					</video>
+					<div class="plyr__video-embed">
+						<iframe
+							src="https://youtu.be/Q3FZkPLxN74"
+							allowfullscreen
+							allowtransparency
+						></iframe>
+					</div>
 				</vue-plyr>
 			</div>
 		</div>
@@ -85,19 +79,13 @@
 					&nbsp;for more.
 				</div>
 				<vue-plyr :options="options">
-					<video
-						controls
-						crossorigin
-						playsinline
-						:data-poster="require('~/assets/images/gallery01.png')"
-						class="video-poster"
-					>
-						<source
-							size="576"
-							src="https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"
-							type="video/mp4"
-						/>
-					</video>
+					<div class="plyr__video-embed">
+						<iframe
+							src="https://youtu.be/Q3FZkPLxN74"
+							allowfullscreen
+							allowtransparency
+						></iframe>
+					</div>
 				</vue-plyr>
 			</div>
 		</div>
@@ -188,7 +176,7 @@ export default {
 				},
 			],
 			options: { quality: { default: '1080p' } },
-			saketokenauction: '0x602C17faD84E012604A92B757A192FdaDa7C8016',
+			saketokenauction: '0x5cFEb913fe8aE7e5E63E5930F044f36Ba4B882aB',
 			showModal: true,
 			sakelogowhite: require('~/assets/images/sake_white.png'),
 			sakelogoblack: require('~/assets/images/sake_black.png'),
