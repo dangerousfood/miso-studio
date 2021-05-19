@@ -47,7 +47,7 @@
 			<div class="miso-ama-logo px-2">
 				<img src="@/assets/svg/misoamalog.svg" />
 			</div>
-			<div class="miso-ama-description px-2">
+			<div class="miso-ama-description px-2 text-white">
 				Follow interviews and articles on Medium and Youtube to find out more about
 				MISO.
 			</div>
