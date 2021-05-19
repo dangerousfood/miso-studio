@@ -395,7 +395,7 @@ export default {
 				networkList = networkList.filter((item) => {
 					return item.name !== 'Farms' && item.name !== 'Factory'
 				})
-			} 
+			}
 			// in future we can add new filters
 			return networkList
 		},
