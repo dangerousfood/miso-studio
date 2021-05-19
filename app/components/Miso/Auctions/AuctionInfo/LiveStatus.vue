@@ -333,7 +333,10 @@
 					</div>
 				</div>
 				<!-- if auction is finished -->
-				<div v-else-if="status.auction === 'finished'" class="row no-gutters">
+				<div
+					v-else-if="status.auction === 'finished' || marketInfo.finalized"
+					class="row no-gutters"
+				>
 					<div class="d-flex flex-column flex-grow-1">
 						<div v-if="status.auctionSuccessful">
 							<!-- not finalized -->
