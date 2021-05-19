@@ -38,12 +38,12 @@
 						></autocomplete>
 
 						<div v-if="model.token.name" class="position-auction-token-absolute">
-							{{ this.model.token.name }}
+							{{ model.token.name }}
 						</div>
 
 						<div v-if="model.token.symbol" class="col-lg-2 text-right mt-4">
-							<base-button class="btn btn-custom btn-default">
-								{{ this.model.token.symbol }}
+							<base-button class="btn btn-customs btn-disabled btn-default">
+								{{ model.token.symbol }}
 							</base-button>
 						</div>
 
@@ -168,7 +168,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { BaseDivider, BaseAlert } from '@/components'
+import { BaseAlert } from '@/components'
 import { DatePicker, TimeSelect } from 'element-ui'
 import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
 import { misoMarket as misoMarketConfig } from '@/constants/contracts'
@@ -176,16 +176,13 @@ import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
 import { toDecimals, to18Decimals } from '@/util'
 import { duration } from '@/mixins/duration.js'
 import Autocomplete from '@/components/Inputs/Autocomplete'
-import PaymentCurrency from '../PaymentCurrency.vue'
 
 export default {
 	components: {
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
 		Autocomplete,
-		BaseDivider,
 		BaseAlert,
-		PaymentCurrency,
 	},
 	mixins: [duration],
 	data() {
@@ -505,5 +502,8 @@ export default {
 }
 .custom_mb {
 	margin-top: -15px;
+}
+.btn-disabled {
+	cursor: default !important;
 }
 </style>

@@ -38,12 +38,12 @@
 						></autocomplete>
 
 						<div v-if="model.token.name" class="position-auction-token-absolute">
-							{{ this.model.token.name }}
+							{{ model.token.name }}
 						</div>
 
 						<div v-if="model.token.symbol" class="col-lg-2 text-right mt-4">
-							<base-button class="btn btn-custom btn-default">
-								{{ this.model.token.symbol }}
+							<base-button class="btn btn-customs btn-disabled btn-default">
+								{{ model.token.symbol }}
 							</base-button>
 						</div>
 
@@ -150,7 +150,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { BaseDivider, BaseAlert } from '@/components'
+import { BaseAlert } from '@/components'
 import { DatePicker, TimeSelect } from 'element-ui'
 import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
 import { misoMarket as misoMarketConfig } from '@/constants/contracts'
@@ -384,5 +384,13 @@ export default {
 }
 .payment-token {
 	border-color: #ff8d72 !important;
+}
+.btn-disabled {
+	cursor: default !important;
+}
+.btn-customs {
+	// padding: 12px 40px;
+	border-radius: unset;
+	height: 38px;
 }
 </style>

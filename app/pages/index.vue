@@ -22,32 +22,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="my-4 row pt-3 video-mobile">
-			<div class="col-12">
-				<div class="text-white card-title">About SAKE</div>
-				<div class="text-white card-description pb-2">
-					Learn more about the Sake project in this video documenatary. Visit&nbsp;
-					<a
-						href="https://sake.sushi.com"
-						target="_blank"
-						class="sake-com text-white"
-					>
-						sake.sushi.com
-					</a>
-					&nbsp;for more.
-				</div>
-				<vue-plyr :options="options">
-					<div class="plyr__video-embed">
-						<iframe
-							src="https://www.youtube.com/watch?v=DVDh5ca4ta0"
-							allowfullscreen
-							allowtransparency
-						></iframe>
-					</div>
-				</vue-plyr>
-			</div>
-		</div>
-		<div v-if="!loading" class="row">
+
+		<div v-if="!loading" class="row video-normal">
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">SAKE Sale</div>
 				<div class="text-white card-description pb-2">
@@ -65,7 +41,7 @@
 					/>
 				</nuxt-link>
 			</div>
-			<div class="col-lg-8 col-md-6 col-12 mb-3 video-normal">
+			<div class="col-lg-8 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">About SAKE</div>
 				<div class="text-white card-description pb-2">
 					Learn more about the Sake project in this video documentary. Visit&nbsp;
@@ -76,7 +52,7 @@
 					>
 						sake.sushi.com
 					</a>
-					&nbsp;for more.
+					&nbsp;for more information.
 				</div>
 				<vue-plyr :options="options">
 					<div class="plyr__video-embed">
@@ -92,9 +68,9 @@
 		<loader v-else width="80" height="80" y="250" />
 		<div>
 			<div class="miso-ama-logo px-2">
-				<img src="@/assets/svg/misoamalog.svg" />
+				<img :src="computedMisoAma" />
 			</div>
-			<div class="miso-ama-description px-2">
+			<div class="miso-ama-description px-2 text-white">
 				Follow interviews and articles on Medium and Youtube to find out more about
 				MISO.
 			</div>
@@ -178,8 +154,6 @@ export default {
 			options: { quality: { default: '1080p' } },
 			saketokenauction: '0x5cFEb913fe8aE7e5E63E5930F044f36Ba4B882aB',
 			showModal: true,
-			sakelogowhite: require('~/assets/images/sake_white.png'),
-			sakelogoblack: require('~/assets/images/sake_black.png'),
 		}
 	},
 	computed: {
@@ -195,31 +169,21 @@ export default {
 			}
 			return require('~/assets/images/sake_black.png')
 		},
-	},
-	watch: {
-		mode: {
-			deep: true,
-			handler(val) {
-				this.colorSwitch(val)
-			},
+		computedMisoAma() {
+			if (this.mode) {
+				return require('~/assets/svg/misoamalog.svg')
+			}
+			return require('~/assets/svg/misoamalog-dark.svg')
 		},
 	},
+	watch: {},
 	mounted() {
 		this.initAuctions()
-		this.colorSwitch(this.mode)
 	},
 	methods: {
 		...mapActions({
 			getAuctions: 'auctions/getAuctions',
 		}),
-		colorSwitch(val) {
-			const plyrposter = document.getElementsByClassName('plyr__poster')[0]
-			if (val) {
-				plyrposter.classList.remove('plyr__poster__white')
-			} else {
-				plyrposter.classList.add('plyr__poster__white')
-			}
-		},
 		async initAuctions() {
 			await this.getAuctions()
 			this.auctionsList = this.auctions
@@ -413,9 +377,8 @@ export default {
 }
 
 .video-normal {
-	display: none;
-	@media screen and (min-width: 768px) {
-		display: block;
+	@media screen and (max-width: 768px) {
+		flex-direction: column-reverse;
 	}
 }
 
