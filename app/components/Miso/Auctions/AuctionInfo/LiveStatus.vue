@@ -428,6 +428,7 @@
 										v-if="marketInfo.finalized"
 										class="withdraw d-flex justify-content-center"
 									>
+										<!-- needs transaction link -->
 										<base-button
 											class="
 												btn
