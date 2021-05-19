@@ -5,7 +5,7 @@ import { makeBatchCall } from '@/services/web3/base'
 
 const getDefaultState = () => ({
 	tokens: [],
-	lastBlockNumber: 0,
+	// lastBlockNumber: 0,
 	loading: false,
 })
 
@@ -14,12 +14,14 @@ export const state = () => getDefaultState()
 export const mutations = {
 	SET_TOKENS: (state, tokens) => {
 		state.tokens = tokens
-		state.lastBlockNumber = tokens[0].blockNumber
+		// state.lastBlockNumber = tokens[0].blockNumber
+		console.log(tokens[0].blockNumber)
 	},
-	MERGE_TOKENS: (state, tokens) => {
-		state.tokens = tokens.concat(state.tokens)
+	// REVIEW what's the propose for this??? with concat, tokens array is updating with the same data over and over.
+	/* MERGE_TOKENS: (state, tokens) => {
+		// state.tokens = tokens.concat(state.tokens)
 		state.lastBlockNumber = tokens[0].blockNumber
-	},
+	}, */
 	SET_LOADING: (state, loading) => {
 		state.loading = loading
 	},
@@ -35,15 +37,14 @@ export const actions = {
 		const methods = [{ methodName: 'getTokens' }]
 		const tokens = await makeBatchCall(getMisoHelperContract(), methods)
 		const filteredTokens = filterArrayToJson(tokens)
-		console.log('filteredTokens:', filteredTokens)
-		if (filteredTokens.length > 0) {
-			const sortedTokens = sort(filteredTokens, 'createdAt', 'desc')
+		const sortedTokens = sort(filteredTokens, 'createdAt', 'desc')
+		commit('SET_TOKENS', sortedTokens)
+		/* if (filteredTokens.length > 0) {
 			if (state.lastBlockNumber !== 0) {
 				commit('MERGE_TOKENS', sortedTokens)
 			} else {
-				commit('SET_TOKENS', sortedTokens)
 			}
-		}
+		} */
 		commit('SET_LOADING', false)
 	},
 	// async getTokens({ commit, state }) {
