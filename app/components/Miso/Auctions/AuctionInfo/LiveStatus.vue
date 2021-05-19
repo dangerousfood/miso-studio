@@ -82,7 +82,9 @@
 					</div>
 				</div>
 				<base-divider class="mt-2 py-2" />
-				<div v-if="!isUpcoming && status.auction !== 'finished'">
+				<div
+					v-if="!isUpcoming && status.auction !== 'finished' && !marketInfo.finalized"
+				>
 					<!-- CrowedProgress -->
 					<crowd-progress
 						v-if="status.type === 'crowdsale'"
@@ -119,8 +121,7 @@
 					<!-- BatchProgress -->
 				</div>
 
-				<!-- upcoming -->
-				<div v-else-if="!isUpcoming && status.auction === 'finished'" class="d-flex">
+				<div v-else-if="!isUpcoming || marketInfo.finalized" class="d-flex">
 					<div v-if="status.auctionSuccessful" class="finalized-box">
 						<video
 							v-if="mode"
@@ -175,7 +176,10 @@
 					class="mb-5 pb-2"
 				/>
 				<!-- active auction -->
-				<div v-if="getStatus && status.auction !== 'upcoming'" class="row no-gutters">
+				<div
+					v-if="getStatus && status.auction !== 'upcoming' && !marketInfo.finalized"
+					class="row no-gutters"
+				>
 					<div class="col-12">
 						<div class="d-flex justify-content-between mb-2">
 							<template v-if="status.type === 'batch'">
