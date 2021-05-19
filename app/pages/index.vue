@@ -22,32 +22,8 @@
 				</div>
 			</div>
 		</div>
-		<div class="my-4 row pt-3 video-mobile">
-			<div class="col-12">
-				<div class="text-white card-title">About SAKE</div>
-				<div class="text-white card-description pb-2">
-					Learn more about the Sake project in this video documenatary. Visit&nbsp;
-					<a
-						href="https://sake.sushi.com"
-						target="_blank"
-						class="sake-com text-white"
-					>
-						sake.sushi.com
-					</a>
-					&nbsp;for more.
-				</div>
-				<vue-plyr :options="options">
-					<div class="plyr__video-embed">
-						<iframe
-							src="https://www.youtube.com/watch?v=DVDh5ca4ta0"
-							allowfullscreen
-							allowtransparency
-						></iframe>
-					</div>
-				</vue-plyr>
-			</div>
-		</div>
-		<div v-if="!loading" class="row">
+
+		<div v-if="!loading" class="row video-normal">
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">SAKE Sale</div>
 				<div class="text-white card-description pb-2">
