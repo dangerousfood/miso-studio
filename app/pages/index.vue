@@ -1,6 +1,53 @@
 <template>
 	<div class="container-fluid container-padding">
-		<div v-if="!loading" class="row video-normal">
+		<div class="my-4 row">
+			<div class="col-12 d-flex">
+				<div class="header-left">
+					<img
+						src="@/assets/svg/sake.svg"
+						class="float-left image-rem-size pr-3 mr-1"
+					/>
+					<div class="text-white font-weight-bold text-uppercase title">
+						Let us
+						<br />
+						celebrate
+						<br />
+						with a
+						<br />
+						sip of
+					</div>
+				</div>
+				<div class="text-white sake-text pr-5 image-rem-size header-right">
+					<img :src="computedSakeImage" class="sake-logo-image" />
+				</div>
+			</div>
+		</div>
+		<div class="my-4 row pt-3 video-mobile">
+			<div class="col-12">
+				<div class="text-white card-title">About SAKE</div>
+				<div class="text-white card-description pb-2">
+					Learn more about the Sake project in this video documenatary. Visit&nbsp;
+					<a
+						href="https://sake.sushi.com"
+						target="_blank"
+						class="sake-com text-white"
+					>
+						sake.sushi.com
+					</a>
+					&nbsp;for more.
+				</div>
+				<vue-plyr :options="options">
+					<div class="plyr__video-embed">
+						<iframe
+							src="https://www.youtube.com/watch?v=DVDh5ca4ta0"
+							allowfullscreen
+							allowtransparency
+						></iframe>
+					</div>
+				</vue-plyr>
+			</div>
+		</div>
+		<div v-if="!loading" class="row">
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">SAKE Sale</div>
 				<div class="text-white card-description pb-2">
@@ -21,7 +68,7 @@
 			<div class="col-lg-8 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">About SAKE</div>
 				<div class="text-white card-description pb-2">
-					Sake documentary teaser. Visit&nbsp;
+					Learn more about the Sake project in this video documentary. Visit&nbsp;
 					<a
 						href="https://sake.sushi.com"
 						target="_blank"
