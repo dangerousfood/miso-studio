@@ -45,7 +45,7 @@
 		<loader v-else width="80" height="80" y="250" />
 		<div>
 			<div class="miso-ama-logo px-2">
-				<img src="@/assets/svg/misoamalog.svg" />
+				<img :src="computedMisoAma" />
 			</div>
 			<div class="miso-ama-description px-2 text-white">
 				Follow interviews and articles on Medium and Youtube to find out more about
@@ -131,8 +131,6 @@ export default {
 			options: { quality: { default: '1080p' } },
 			saketokenauction: '0x5cFEb913fe8aE7e5E63E5930F044f36Ba4B882aB',
 			showModal: true,
-			sakelogowhite: require('~/assets/images/sake_white.png'),
-			sakelogoblack: require('~/assets/images/sake_black.png'),
 		}
 	},
 	computed: {
@@ -140,12 +138,19 @@ export default {
 			auctions: 'auctions/list',
 			coinbase: 'ethereum/coinbase',
 			isRightNetwork: 'ethereum/isRightNetwork',
+			mode: 'theme/getMode',
 		}),
 		computedSakeImage() {
 			if (this.mode) {
 				return require('~/assets/images/sake_white.png')
 			}
 			return require('~/assets/images/sake_black.png')
+		},
+		computedMisoAma() {
+			if (this.mode) {
+				return require('~/assets/svg/misoamalog.svg')
+			}
+			return require('~/assets/svg/misoamalog-dark.svg')
 		},
 	},
 	watch: {},
