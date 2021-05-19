@@ -417,8 +417,29 @@
 							<!-- claimed user -->
 							<div v-if="isClaimed" class="finalize_bg-user">
 								<div class="w-100">
-									<div class="text-white font-weight-bold fs-5 text-center">
-										Your participation was successful
+									<div class="font-weight-bold text-white fs-4 text-center">
+										Congratulations!
+									</div>
+									<div class="font-weight-bold text-center mb-4">
+										Your tokens have been claimed
+									</div>
+
+									<div
+										v-if="marketInfo.finalized"
+										class="withdraw d-flex justify-content-center"
+									>
+										<base-button
+											class="
+												btn
+												finalize
+												bg-orange
+												text-uppercase text-white
+												font-weight-bold
+												cursor-pointer
+											"
+										>
+											view transaction
+										</base-button>
 									</div>
 								</div>
 							</div>
