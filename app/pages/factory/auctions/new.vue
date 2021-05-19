@@ -775,7 +775,9 @@ export default {
 			const pointList = '0x0000000000000000000000000000000000000000'
 			const operator = this.coinbase
 			const rate = to18Decimals(1 / this.model.tokenPrice)
-			const goal = to18Decimals(this.model.tokenSupply * this.model.tokenPrice * this.model.goal / 100)
+			const goal = to18Decimals(
+				(this.model.tokenSupply * this.model.tokenPrice * this.model.goal) / 100
+			)
 			const dataParams = [
 				this.marketFactoryAddress,
 				model.token.address,
