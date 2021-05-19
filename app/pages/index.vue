@@ -39,7 +39,7 @@
 				<vue-plyr :options="options">
 					<div class="plyr__video-embed">
 						<iframe
-							src="https://youtu.be/Q3FZkPLxN74"
+							src="https://www.youtube.com/watch?v=DVDh5ca4ta0"
 							allowfullscreen
 							allowtransparency
 						></iframe>

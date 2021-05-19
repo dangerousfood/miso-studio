@@ -79,8 +79,8 @@
 											suffix: ' ' + model.paymentCurrency.symbol || 'ETH',
 										}"
 										locale="en"
-										@focus="focusInput('dutchSettings')"
 										:precision="8"
+										@focus="focusInput('dutchSettings')"
 									/>
 								</div>
 
@@ -100,8 +100,8 @@
 											suffix: ' ' + model.paymentCurrency.symbol || 'ETH',
 										}"
 										locale="en"
-										@focus="focusInput('dutchSettings')"
 										:precision="8"
+										@focus="focusInput('dutchSettings')"
 									/>
 								</div>
 							</div>
@@ -228,11 +228,11 @@ export default {
 	components: {
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
-		PaymentCurrency
+		PaymentCurrency,
 	},
 	mixins: [duration],
 	props: {
-		model: {
+		initModel: {
 			type: Object,
 			required: true,
 		},
@@ -261,6 +261,9 @@ export default {
 		}
 	},
 	computed: {
+		model() {
+			return this.initModel
+		},
 		isETH() {
 			return (
 				this.model.paymentCurrency.address ===
@@ -289,10 +292,7 @@ export default {
 			return this.user.tokenBalance > 0
 		},
 		tokensApproved() {
-			return (
-				parseFloat(this.model.tokenSupply) !== 0 &&
-				parseFloat(this.formatedAllowance) >= parseFloat(this.model.tokenSupply)
-			)
+			return parseFloat(this.model.allowanceformatted) !== 0
 		},
 		getStartTimeAbbr() {
 			return new Date(this.model.startDate)
@@ -384,6 +384,7 @@ export default {
 			)
 			if (data) {
 				;[this.user.allowance, this.user.tokenBalance] = data
+				this.model.allowanceformatted = toDecimals(this.user.allowance)
 			}
 			this.userLoading = false
 		},

@@ -24,7 +24,18 @@
 									@focus="focusInputCrowdsale('walletAddress')"
 								>
 									<template #label>
-										<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Fund Wallet</span>*
+										<span
+											class="
+												font-weight-bold
+												fs-4
+												text-secondary
+												white-txt
+												border-bottom
+											"
+										>
+											Fund Wallet
+										</span>
+										*
 									</template>
 								</base-input>
 							</div>
@@ -41,15 +52,17 @@
 								Use my account
 							</p>
 						</div>
-						
 
 						<!-- input line 1 -->
 						<div class="col-12">
 							<div class="mt-3 mb-2 fs-2">
-								<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Crowdsale Settings*</span>
+								<span
+									class="font-weight-bold fs-4 text-secondary white-txt border-bottom"
+								>
+									Crowdsale Settings*
+								</span>
 							</div>
 							<div class="row">
-								
 								<div class="col-md-6 form-group">
 									<span class="font-weight-bold fs-4">PRICE PER TOKEN</span>
 
@@ -62,8 +75,7 @@
 										placeholder="0"
 										:rules="`required|isBigger:0|max_value:${model.tokenSupply}`"
 										@focus="focusInputCrowdsale('tokenPrice')"
-									>
-									</base-input>
+									></base-input>
 								</div>
 
 								<div class="col-md-6 form-group">
@@ -91,14 +103,13 @@
 												:process-style="{
 													background: '#f46e41',
 												}"
-												@focus="focusInputCrowdsale('tokenPrice')"
 												tooltip="none"
 												class="vue-slider mt-4"
+												@focus="focusInputCrowdsale('tokenPrice')"
 											></vue-slider>
 										</client-only>
 									</div>
 								</div>
-								
 							</div>
 						</div>
 
@@ -108,7 +119,13 @@
 								<div class="col-md-6 form-group">
 									<i class="el-icon-bottom-right"></i>
 									<span class="font-weight-bold fs-4">MAXIMUM RAISED</span>
-									<br><i>Maximum amount raised if all tokens are<br> sold at highest price possible</i><br>
+									<br />
+									<i>
+										Maximum amount raised if all tokens are
+										<br />
+										sold at highest price possible
+									</i>
+									<br />
 									<div class="mt-2 max_raise text-center">
 										{{ maxRaise }}
 									</div>
@@ -117,7 +134,13 @@
 								<div class="col-md-6 form-group">
 									<i class="el-icon-bottom-right"></i>
 									<span class="font-weight-bold fs-4">MINIMUM RAISED</span>
-									<br><i>Minimum amount raised in order to have<br> a successful auction</i><br>
+									<br />
+									<i>
+										Minimum amount raised in order to have
+										<br />
+										a successful auction
+									</i>
+									<br />
 									<div class="mt-2 max_raise text-center">
 										{{ minRaise }}
 									</div>
@@ -128,7 +151,11 @@
 						<!-- input line 3 -->
 						<div class="col-12">
 							<div class="mt-3 mb-2 fs-2 mt-5">
-								<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Auction Start & End*</span>
+								<span
+									class="font-weight-bold fs-4 text-secondary white-txt border-bottom"
+								>
+									Auction Start & End*
+								</span>
 							</div>
 							<div class="row">
 								<base-input
@@ -136,22 +163,20 @@
 									class="col-md-6 right-icon position-relative"
 									name="start date"
 									type="text"
-									:rules="`required|afterNow:${
-										(model.startDate, 'start date')
-									}`"
+									:rules="`required|afterNow:${(model.startDate, 'start date')}`"
 								>
 									<el-date-picker
 										v-model="model.startDate"
 										:disabled="!tokensApproved"
 										type="datetime"
-										@focus="focusInputCrowdsale('startend')"
-										format="MMMM dd, yyyy HH:mm:ss"
-										placeholder="Select a start date for your auction"
 										:picker-options="{
 											start: '00:00',
 											step: '00:15',
 											end: '23:59',
 										}"
+										format="MMMM dd, yyyy HH:mm:ss"
+										placeholder="Select a start date for your auction"
+										@focus="focusInputCrowdsale('startend')"
 									></el-date-picker>
 									<template #timestemp>
 										<span class="position-absolute timeZone">
@@ -164,22 +189,20 @@
 									class="col-md-6 right-icon position-relative"
 									name="end date"
 									type="text"
-									:rules="`required|afterNow:${
-										(model.endDate, 'end date')
-									}`"
+									:rules="`required|afterNow:${(model.endDate, 'end date')}`"
 								>
 									<el-date-picker
 										v-model="model.endDate"
 										:disabled="!tokensApproved"
 										type="datetime"
 										format="MMMM dd, yyyy HH:mm:ss"
-										@focus="focusInputCrowdsale('startend')"
-										placeholder="Select a end date for your auction"
 										:picker-options="{
 											start: '00:00',
 											step: '00:15',
 											end: '23:59',
 										}"
+										placeholder="Select a end date for your auction"
+										@focus="focusInputCrowdsale('startend')"
 									></el-date-picker>
 									<template #timestemp>
 										<span class="position-absolute timeZone">
@@ -199,57 +222,51 @@
 	</validation-observer>
 </template>
 <script>
-import EthImage from '@/components/web3-core/eth-identication/EthImage'
-import { mapGetters, mapActions } from "vuex"
-import { BaseDivider, BaseAlert } from "@/components"
-import { DatePicker, TimeSelect } from "element-ui"
-import { getContractInstance as erc20Contract } from "@/services/web3/erc20Token"
-import { makeBatchCall, sendTransactionAndWait } from "@/services/web3/base"
-import { toDecimals, to18Decimals } from "@/util"
-import { duration } from "@/mixins/duration.js"
-import Autocomplete from "@/components/Inputs/Autocomplete"
-import PaymentCurrency from "../PaymentCurrency.vue"
-import VueCurrencyInput from 'vue-currency-input'
+import { mapGetters, mapActions } from 'vuex'
+import { DatePicker, TimeSelect } from 'element-ui'
+import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
+import { makeBatchCall } from '@/services/web3/base'
+import { toDecimals } from '@/util'
+import { duration } from '@/mixins/duration.js'
+import PaymentCurrency from '../PaymentCurrency.vue'
 
 export default {
 	components: {
-		EthImage,
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
-		Autocomplete,
-		BaseDivider,
-		BaseAlert,
 		PaymentCurrency,
-		VueCurrencyInput
 	},
 	mixins: [duration],
+	props: {
+		initModel: {
+			type: Object,
+			required: true,
+		},
+	},
 	data() {
 		return {
 			misoMarketAddress: '',
 			user: {
 				tokenBalance: 0,
-				allowance: "",
+				allowance: '',
 			},
 			tokensLoading: false,
 			userLoading: false,
 			approveLoading: false,
 			crowdsaleitems: {
-                tokenAddress: false,
-                tokenAmount: false,
+				tokenAddress: false,
+				tokenAmount: false,
 				payment_currency: false,
 				walletAddress: false,
 				tokenPrice: false,
-				startend: false
-			}
+				startend: false,
+			},
 		}
 	},
-	props: {
-		model: {
-			type: Object,
-			required: true,
-		},
-	},
 	computed: {
+		model() {
+			return this.initModel
+		},
 		isETH() {
 			return (
 				this.model.paymentCurrency.address ===
@@ -260,11 +277,11 @@ export default {
 			return this.isETH ? 'ETH' : 'ERC20'
 		},
 		...mapGetters({
-			currentProvidersNetworkId: "ethereum/currentProvidersNetworkId",
-			coinbase: "ethereum/coinbase",
-			walletFound: "ethereum/walletFound",
-			explorer: "ethereum/explorer",
-			tokens: "tokens/list",
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
+			coinbase: 'ethereum/coinbase',
+			walletFound: 'ethereum/walletFound',
+			explorer: 'ethereum/explorer',
+			tokens: 'tokens/list',
 		}),
 		formatedTokenBalance() {
 			if (!this.user.tokenBalance) return 0
@@ -285,39 +302,47 @@ export default {
 		},
 		getStartTimeAbbr() {
 			return new Date(this.model.startDate)
-				.toLocaleTimeString("en-us", { timeZoneName: "short" })
-				.split(" ")[2]
+				.toLocaleTimeString('en-us', { timeZoneName: 'short' })
+				.split(' ')[2]
 		},
 		getEndTimeAbbr() {
 			return new Date(this.model.endDate)
-				.toLocaleTimeString("en-us", { timeZoneName: "short" })
-				.split(" ")[2]
+				.toLocaleTimeString('en-us', { timeZoneName: 'short' })
+				.split(' ')[2]
 		},
 		maxRaise() {
 			if (this.model.tokenPrice > 0 && this.model.tokenSupply > 0) {
-				return parseFloat(this.model.tokenSupply) * parseFloat(this.model.tokenPrice) + " " + this.model.paymentCurrency.symbol
+				return (
+					parseFloat(this.model.tokenSupply) * parseFloat(this.model.tokenPrice) +
+					' ' +
+					this.model.paymentCurrency.symbol
+				)
 			}
 			return 0
 		},
 		minRaise() {
-			if(this.maxRaise) {
-				var med = this.maxRaise.split(' ');
+			if (this.maxRaise) {
+				const med = this.maxRaise.split(' ')
 
-					if (this.model.goal > 0 && med[0] > 0) {
-					return (parseFloat(med[0]) * parseFloat(this.model.goal)) / 100 + " " + this.model.paymentCurrency.symbol
+				if (this.model.goal > 0 && med[0] > 0) {
+					return (
+						(parseFloat(med[0]) * parseFloat(this.model.goal)) / 100 +
+						' ' +
+						this.model.paymentCurrency.symbol
+					)
 				}
 			}
-			
+
 			return 0
-		}
+		},
 	},
 	methods: {
 		...mapActions({
-			getTokens: "tokens/getTokens",
+			getTokens: 'tokens/getTokens',
 		}),
 		validate() {
 			return this.$refs.observer.validate().then((res) => {
-				this.$emit("on-validated", res, this.model)
+				this.$emit('on-validated', res, this.model)
 				return res && this.model.paymentCurrency.address
 			})
 		},
@@ -325,9 +350,9 @@ export default {
 			// Clear Tokens
 			this.user.allowance = 0
 			this.user.tokenBalance = 0
-			this.model.token.name = ""
-			this.model.token.symbol = ""
-			this.model.token.decimals = ""
+			this.model.token.name = ''
+			this.model.token.symbol = ''
+			this.model.token.decimals = ''
 
 			// Get Tokens
 			if (!this.tokensLoading) {
@@ -342,11 +367,11 @@ export default {
 			this.userLoading = true
 			const methods = [
 				{
-					methodName: "allowance",
+					methodName: 'allowance',
 					args: [this.coinbase, this.misoMarketAddress],
 				},
 				{
-					methodName: "balanceOf",
+					methodName: 'balanceOf',
 					args: [this.coinbase],
 				},
 			]
@@ -360,7 +385,7 @@ export default {
 			}
 			this.userLoading = false
 		},
-		
+
 		handleTokenComplete(token) {
 			this.model.token = {
 				address: token.addr,
@@ -375,8 +400,12 @@ export default {
 		},
 		updateCurrency(currency) {
 			this.model.paymentCurrency = currency
-			this.crowdsaleitems['payment_currency'] = true
-            this.$emit("active-focus-crowdsale", this.crowdsaleitems, this.model.chosenAuctionType)
+			this.crowdsaleitems.payment_currency = true
+			this.$emit(
+				'active-focus-crowdsale',
+				this.crowdsaleitems,
+				this.model.chosenAuctionType
+			)
 		},
 		focusInputCrowdsale(val) {
 			for (const key in this.crowdsaleitems) {
@@ -386,8 +415,12 @@ export default {
 					this.crowdsaleitems[key] = false
 				}
 			}
-			this.$emit("active-focus-crowdsale", this.crowdsaleitems, this.model.chosenAuctionType)
-		}
+			this.$emit(
+				'active-focus-crowdsale',
+				this.crowdsaleitems,
+				this.model.chosenAuctionType
+			)
+		},
 	},
 }
 </script>

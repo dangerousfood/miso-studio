@@ -24,7 +24,18 @@
 									@focus="focusInputBatch('walletAddress')"
 								>
 									<template #label>
-										<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Fund Wallet</span>*
+										<span
+											class="
+												font-weight-bold
+												fs-4
+												text-secondary
+												white-txt
+												border-bottom
+											"
+										>
+											Fund Wallet
+										</span>
+										*
 									</template>
 								</base-input>
 							</div>
@@ -41,15 +52,17 @@
 								Use my account
 							</p>
 						</div>
-						
 
 						<!-- input line 1 -->
 						<div class="col-12">
 							<div class="mt-3 mb-2 fs-2">
-								<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Batch Auction Settings*</span>
+								<span
+									class="font-weight-bold fs-4 text-secondary white-txt border-bottom"
+								>
+									Batch Auction Settings*
+								</span>
 							</div>
 							<div class="row">
-								
 								<div class="col-md-6 form-group">
 									<span class="font-weight-bold fs-4">MIN PRICE</span>
 
@@ -62,14 +75,19 @@
 										placeholder="0"
 										:rules="`required|isBigger:0|max_value:${model.tokenSupply}`"
 										@focus="focusInputBatch('minPrice')"
-									>
-									</base-input>
+									></base-input>
 								</div>
 
 								<div class="col-md-6 form-group">
 									<i class="el-icon-bottom-right"></i>
 									<span class="font-weight-bold fs-4">MINIMUM RAISED</span>
-									<br><i>Minimum amount raised in order to have<br> a successful auction</i><br>
+									<br />
+									<i>
+										Minimum amount raised in order to have
+										<br />
+										a successful auction
+									</i>
+									<br />
 									<div class="mt-2 max_raise text-center">
 										{{ minRaise }}
 									</div>
@@ -80,7 +98,11 @@
 						<!-- input line 3 -->
 						<div class="col-12">
 							<div class="mt-3 mb-2 fs-2 mt-5">
-								<span class="font-weight-bold fs-4 text-secondary white-txt border-bottom">Auction Start & End*</span>
+								<span
+									class="font-weight-bold fs-4 text-secondary white-txt border-bottom"
+								>
+									Auction Start & End*
+								</span>
 							</div>
 							<div class="row">
 								<base-input
@@ -88,22 +110,20 @@
 									class="col-md-6 right-icon position-relative"
 									name="start date"
 									type="text"
-									:rules="`required|afterNow:${
-										(model.startDate, 'start date')
-									}`"
+									:rules="`required|afterNow:${(model.startDate, 'start date')}`"
 								>
 									<el-date-picker
 										v-model="model.startDate"
 										:disabled="!tokensApproved"
 										type="datetime"
-										@focus="focusInputBatch('startend')"
 										format="MMMM dd, yyyy HH:mm:ss"
-										placeholder="Select a start date for your auction"
 										:picker-options="{
 											start: '00:00',
 											step: '00:15',
 											end: '23:59',
 										}"
+										placeholder="Select a start date for your auction"
+										@focus="focusInputBatch('startend')"
 									></el-date-picker>
 									<template #timestemp>
 										<span class="position-absolute timeZone">
@@ -116,22 +136,20 @@
 									class="col-md-6 right-icon position-relative"
 									name="end date"
 									type="text"
-									:rules="`required|afterNow:${
-										(model.endDate, 'end date')
-									}`"
+									:rules="`required|afterNow:${(model.endDate, 'end date')}`"
 								>
 									<el-date-picker
 										v-model="model.endDate"
 										:disabled="!tokensApproved"
 										type="datetime"
 										format="MMMM dd, yyyy HH:mm:ss"
-										@focus="focusInputBatch('startend')"
-										placeholder="Select a end date for your auction"
 										:picker-options="{
 											start: '00:00',
 											step: '00:15',
 											end: '23:59',
 										}"
+										placeholder="Select a end date for your auction"
+										@focus="focusInputBatch('startend')"
 									></el-date-picker>
 									<template #timestemp>
 										<span class="position-absolute timeZone">
@@ -151,57 +169,51 @@
 	</validation-observer>
 </template>
 <script>
-import EthImage from '@/components/web3-core/eth-identication/EthImage'
-import { mapGetters, mapActions } from "vuex"
-import { BaseDivider, BaseAlert } from "@/components"
-import { DatePicker, TimeSelect } from "element-ui"
-import { getContractInstance as erc20Contract } from "@/services/web3/erc20Token"
-import { makeBatchCall, sendTransactionAndWait } from "@/services/web3/base"
-import { toDecimals, to18Decimals } from "@/util"
-import { duration } from "@/mixins/duration.js"
-import Autocomplete from "@/components/Inputs/Autocomplete"
-import PaymentCurrency from "../PaymentCurrency.vue"
-import VueCurrencyInput from 'vue-currency-input'
+import { mapGetters, mapActions } from 'vuex'
+import { DatePicker, TimeSelect } from 'element-ui'
+import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
+import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
+import { toDecimals, to18Decimals } from '@/util'
+import { duration } from '@/mixins/duration.js'
+import PaymentCurrency from '../PaymentCurrency.vue'
 
 export default {
 	components: {
-		EthImage,
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
-		Autocomplete,
-		BaseDivider,
-		BaseAlert,
 		PaymentCurrency,
-		VueCurrencyInput
 	},
+	mixins: [duration],
 	props: {
-		model: {
+		initModel: {
 			type: Object,
 			required: true,
 		},
 	},
-	mixins: [duration],
 	data() {
 		return {
 			misoMarketAddress: '',
 			user: {
 				tokenBalance: 0,
-				allowance: "",
+				allowance: '',
 			},
 			tokensLoading: false,
 			userLoading: false,
 			approveLoading: false,
 			batchitems: {
-                tokenAddress: false,
-                tokenAmount: false,
+				tokenAddress: false,
+				tokenAmount: false,
 				payment_currency: false,
 				walletAddress: false,
 				minPrice: false,
-				startend: false
-			}
+				startend: false,
+			},
 		}
 	},
 	computed: {
+		model() {
+			return this.initModel
+		},
 		isETH() {
 			return (
 				this.model.paymentCurrency.address ===
@@ -334,8 +346,8 @@ export default {
 		},
 		updateCurrency(currency) {
 			this.model.paymentCurrency = currency
-			this.batchitems['payment_currency'] = true
-            this.$emit("active-focus-batch", this.batchitems, this.model.chosenAuctionType)
+			this.batchitems.payment_currency = true
+			this.$emit('active-focus-batch', this.batchitems, this.model.chosenAuctionType)
 		},
 		focusInputBatch(val) {
 			for (const key in this.batchitems) {
@@ -345,8 +357,8 @@ export default {
 					this.batchitems[key] = false
 				}
 			}
-			this.$emit("active-focus-batch", this.batchitems, this.model.chosenAuctionType)
-		}
+			this.$emit('active-focus-batch', this.batchitems, this.model.chosenAuctionType)
+		},
 	},
 }
 </script>
