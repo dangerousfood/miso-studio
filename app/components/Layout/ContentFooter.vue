@@ -4,7 +4,11 @@
 		:class="[!slideBar ? 'active-footer' : 'inactive-footer']"
 	>
 		<div class="container-fluid d-flex justify-content-between align-items-center">
-			<div class="footer-link" />
+			<div class="footer-link">
+				<a href="https://discord.gg/yYWQrPdNJc" target="_blank" rel="noopener">
+					Report any bugs on our Discord. No one wants your alpha bug Tweetstorm.
+				</a>
+			</div>
 			<div class="copyright">
 				MISO &copy; {{ year }}, made by
 
