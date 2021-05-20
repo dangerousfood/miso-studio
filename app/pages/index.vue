@@ -22,7 +22,6 @@
 				</div>
 			</div>
 		</div>
-
 		<div v-if="!loading" class="row video-normal">
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">SAKE Sale</div>
@@ -57,7 +56,7 @@
 				<vue-plyr :options="options">
 					<div class="plyr__video-embed">
 						<iframe
-							src="https://www.youtube.com/watch?v=DVDh5ca4ta0"
+							src="https://www.youtube.com/watch?v=IUb6K1AMUvA"
 							allowfullscreen
 							allowtransparency
 						></iframe>
