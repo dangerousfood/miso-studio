@@ -247,7 +247,22 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-12 mt-5">
+					<div class="col-12 mt-4 mb-3">
+						<base-input
+							v-model="tokenAmount"
+							type="number"
+							step="0.1"
+							name="input"
+							:bg-color="['#20284E', '#D5D6DC']"
+							input-classes="is-small invest-input font-weight-bolder"
+							sixe="md"
+							rounded
+						/>
+					</div>
+					<div class="col-12 mb-3">
+						<div class="font-weight-bold text-uppercase text-white fs-4">payment</div>
+					</div>
+					<div class="col-12">
 						<div class="invest">
 							<base-input
 								v-model="selectedTokenQuantity"
@@ -595,6 +610,7 @@ export default {
 				return this.userTokens
 			},
 			set(val) {
+				console.log(val)
 				this.userTokens = val
 			},
 		},
@@ -692,16 +708,21 @@ export default {
 		totalCommitments() {
 			return toPrecision(this.marketInfo.commitmentsTotal, 3)
 		},
-		tokenAmount() {
-			if (this.status.type === 'batch') {
-				if (parseFloat(this.marketInfo.currentPrice) === 0)
-					return this.marketInfo.totalTokens
-				return divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice)
-			}
-			return toPrecision(
-				divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice),
-				3
-			)
+		tokenAmount: {
+			get() {
+				if (this.status.type === 'batch') {
+					if (parseFloat(this.marketInfo.currentPrice) === 0)
+						return this.marketInfo.totalTokens
+					return divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice)
+				}
+				return toPrecision(
+					divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice),
+					3
+				)
+			},
+			set(val) {
+				this.userTokens = multiplyNumbers(val, this.marketInfo.currentPrice)
+			},
 		},
 		isApproved() {
 			if (
@@ -1115,6 +1136,25 @@ export default {
 .bg-dark {
 	background: rgba(255, 255, 255, 0.2) !important;
 }
+.sale-token {
+	button {
+		background: #f46e41 !important;
+		border-radius: 34234234px;
+		margin: 0;
+		height: inherit;
+		min-width: 70px !important;
+		&:first-child {
+			border-top-right-radius: 0 !important;
+			border-bottom-right-radius: 0 !important;
+		}
+		&:last-child {
+			border-top-left-radius: 0 !important;
+			border-bottom-left-radius: 0 !important;
+		}
+	}
+	input {
+	}
+}
 </style>
 
 <style lang="scss">
@@ -1189,6 +1229,11 @@ export default {
 				}
 			}
 		}
+	}
+}
+.sale-token {
+	.form-group {
+		margin-bottom: 0 !important;
 	}
 }
 </style>

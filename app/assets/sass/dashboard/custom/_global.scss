@@ -399,12 +399,16 @@ input[type='number'] {
 			border-bottom-left-radius: 0 !important;
 			padding: 0.6em 0.75em;
 			margin-top: 9px;
+			min-width: 80px;
 		}
 	}
 	input {
 		padding: 0 !important;
 		text-align: center;
 	}
+}
+.w-80 {
+	width: 80% !important;
 }
 
 .radius {
