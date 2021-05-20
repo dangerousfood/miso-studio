@@ -18,23 +18,41 @@
 							<h4 class="card-title font-weight-bold text-capitalize fs-5 mb-1">
 								{{ textCheck(info.title, 'title') }}
 							</h4>
-							<span
-								v-if="status.auction !== 'upcoming' && status.auction !== 'finished'"
-								class="
-									fs-2
-									font-weight-bold
-									text-capitalize text-white
-									d-flex
-									align-items-center
-									pl-2
-								"
-							>
+							<div class="d-flex flex-column">
 								<span
-									class="radius-full status-indicator mr-2"
-									:class="computedStatusColor"
-								></span>
-								{{ status.auction }}
-							</span>
+									v-if="
+										status.auction !== 'upcoming' && status.auction !== 'finished'
+									"
+									class="
+										fs-2
+										font-weight-bold
+										text-capitalize text-white
+										d-flex
+										align-items-center
+										pl-2
+									"
+								>
+									<span
+										class="radius-full status-indicator mr-2"
+										:class="computedStatusColor"
+									></span>
+									{{ status.auction }}
+								</span>
+								<span
+									v-if="pointList"
+									class="
+										fs-2
+										font-weight-bold
+										text-capitalize text-white
+										d-flex
+										align-items-center
+										pl-2
+									"
+								>
+									<span class="radius-full status-indicator btn-primary mr-2"></span>
+									<span class="pl-2">private</span>
+								</span>
+							</div>
 						</div>
 						<p class="font-weight-bold text-uppercase fs-2">
 							Token Price:
@@ -231,6 +249,10 @@ export default {
 			type: String,
 			required: true,
 			description: 'full data for status card',
+		},
+		pointList: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data() {
