@@ -9,9 +9,6 @@
 					Report any bugs on our Discord. No one wants your alpha bug Tweetstorm.
 				</a>
 			</div>
-			<!-- <div class="footer-image">
-				<img src="s3/img/misoBowl.png" class="img-fluid" alt="miso" />
-			</div> -->
 			<div class="copyright">
 				MISO &copy; {{ year }}, made by
 
