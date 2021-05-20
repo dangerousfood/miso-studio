@@ -126,7 +126,7 @@
 							placeholder="Token amount"
 							type="number"
 							:rules="`required|decimal|max_value:${formatedTokenBalance}`"
-							@focus="focusInputCrowdsale('tokenAmount')"
+							@focus="focusInput('tokenAmount')"
 						>
 							<template #label>
 								<span class="font-weight-bold">TOKEN AMOUNT</span>
@@ -231,9 +231,8 @@ export default {
 		},
 		tokensApproved() {
 			return (
-				parseFloat(this.model.allowanceformatted) !== 0 &&
-				parseFloat(this.formatedAllowance) >=
-					parseFloat(this.model.allowanceformatted)
+				parseFloat(this.model.tokenSupply) !== 0 &&
+				parseFloat(this.formatedAllowance) >= parseFloat(this.model.tokenSupply)
 			)
 		},
 		getStartTimeAbbr() {
@@ -318,6 +317,7 @@ export default {
 			)
 			if (data) {
 				;[this.user.allowance, this.user.tokenBalance] = data
+				this.model.allowance = this.user.allowance
 				this.model.allowanceformatted = toDecimals(this.user.allowance)
 			}
 			this.userLoading = false
@@ -328,12 +328,14 @@ export default {
 				this.approveLoading = true
 				const method = erc20Contract(this.model.token.address).methods.approve(
 					this.misoMarketAddress,
-					to18Decimals(this.model.allowanceformatted)
+					to18Decimals(this.model.tokenSupply)
 				)
 
 				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 					if (receipt.status) {
 						this.user.allowance = receipt.events.Approval.returnValues[2]
+						this.model.allowance = this.user.allowance
+						this.model.allowanceformatted = toDecimals(this.user.allowance)
 					}
 					this.approveLoading = false
 				})
