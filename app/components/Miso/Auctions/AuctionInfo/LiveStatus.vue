@@ -964,6 +964,7 @@ export default {
 	top: 50%;
 	transform: translateY(-50%);
 	left: 20px;
+	pointer-events: none;
 	.amount {
 		font-size: 0.875rem !important;
 		opacity: 0;
