@@ -1,28 +1,5 @@
 <template>
 	<div class="container-fluid container-padding">
-		<div class="my-4 row">
-			<div class="col-12 d-flex">
-				<div class="header-left">
-					<img
-						src="@/assets/svg/sake.svg"
-						class="float-left image-rem-size pr-3 mr-1"
-					/>
-					<div class="text-white font-weight-bold text-uppercase title">
-						Let us
-						<br />
-						celebrate
-						<br />
-						with a
-						<br />
-						sip of
-					</div>
-				</div>
-				<div class="text-white sake-text pr-5 image-rem-size header-right">
-					<img :src="computedSakeImage" class="sake-logo-image" />
-				</div>
-			</div>
-		</div>
-
 		<div v-if="!loading" class="row video-normal">
 			<div class="col-lg-4 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">SAKE Sale</div>
@@ -44,7 +21,7 @@
 			<div class="col-lg-8 col-md-6 col-12 mb-3">
 				<div class="text-white card-title">About SAKE</div>
 				<div class="text-white card-description pb-2">
-					Learn more about the Sake project in this video documentary. Visit&nbsp;
+					Sake documentary teaser. Visit&nbsp;
 					<a
 						href="https://sake.sushi.com"
 						target="_blank"
