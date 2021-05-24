@@ -63,103 +63,85 @@
 					</div>
 				</div>
 
-				<div class="col-12 ma-30">
-					<div class="justify-content-between row align-items-center">
-						<div class="col-lg-10 position-relative">
-							<base-input
-								v-model="model.allowanceformatted"
-								name="token allowance"
-								placeholder="Enter the amount of  token you would like to launch."
-								type="number"
-								:rules="`required|decimal`"
-								@focus="focusInput('tokenAllowance')"
-							>
-								<template #label>
-									<span
-										class="
-											font-weight-bold
-											fs-4
-											text-secondary
-											white-txt
-											border-bottom
-										"
-									>
-										Auction Token Allowance*
-									</span>
-								</template>
-							</base-input>
-							<base-alert type="" class="alert_left">
-								<div class="text-primary">
-									<span class="alert-inner--text text-primary">
-										<strong>Note:</strong>
-										Your auction token amount must be higher than or equal to token
-										balance.
-									</span>
-								</div>
-							</base-alert>
-							<div class="position-absolute custom-position">
-								Your Token Balance : {{ formatedTokenBalance }}
-								{{ model.token.symbol }}
-							</div>
+				<!-- Alert -->
+				<div class="col-12">
+					<base-alert v-if="!coinbase" type="danger">
+						<strong>Error</strong>
+						<span class="alert-inner--text">
+							Account is not connected. Please connect wallet to be able to proceed
+						</span>
+					</base-alert>
+					<base-alert v-else-if="userHasToken" type="secondary">
+						<div class="text-primary">
+							<span class="alert-inner--text text-primary">
+								<strong>Note:</strong>
+								Your
+								<strong>token balance</strong>
+								must be higher than or equal to
+								<strong>allowance</strong>
+								.
+								<strong>Token amount</strong>
+								must be lower or equal to
+								<strong>allowance</strong>
+								, otherwise you can approve the new allowance in any amount.
+							</span>
 						</div>
-
-						<div class="col-lg-2 text-right custom_mb">
-							<base-button
-								class="btn-primary btn-customs"
-								:loading="approveLoading"
-								:disabled="user.allowance < 0 || user.allowance === ''"
-								@click="approve()"
-							>
-								Approve
-							</base-button>
-						</div>
-					</div>
+					</base-alert>
+					<base-alert v-else-if="model.token.symbol && !userLoading" type="danger">
+						<span class="alert-inner--text">
+							You don't have any {{ model.token.symbol }}
+						</span>
+					</base-alert>
 				</div>
 
-				<div class="col-12 ma-30">
-					<div class="justify-content-between row align-items-center">
-						<div class="col-lg-12 position-relative">
-							<base-input
-								v-model="model.tokenSupply"
-								name="token amount"
-								placeholder="Enter the amount of token you would like to auction."
-								type="number"
-								:rules="`required|decimal|max_value:${formatedTokenBalance}`"
-								@focus="focusInput('tokenAmount')"
-							>
-								<template #label>
-									<span
-										class="
-											font-weight-bold
-											fs-4
-											text-secondary
-											white-txt
-											border-bottom
-										"
-									>
-										Auction Token Amount*
-									</span>
-								</template>
-							</base-input>
-
-							<base-alert type="" class="alert_left">
-								<div class="text-primary">
-									<span class="alert-inner--text text-primary">
-										<strong>Note:</strong>
-										Token amount must be lower or equal to allowance.
-									</span>
-								</div>
-							</base-alert>
-
-							<div class="position-absolute custom-position">
-								Your Token Allowance: {{ formatedAllowance }}
-							</div>
+				<!-- Approve -->
+				<div class="col-12">
+					<div class="d-flex justify-content-between">
+						<div class="d-flex flex-column">
+							<span class="font-weight-bold">YOUR TOKEN BALANCE</span>
+							<span class="font-weight-bold text-white">
+								{{ formatedTokenBalance }} {{ model.token.symbol }}
+							</span>
 						</div>
+						<div
+							v-if="model.token.address && coinbase"
+							class="d-flex flex-column step"
+						>
+							<base-button class="btn" :loading="userLoading" @click="updateUserInfo">
+								refresh
+							</base-button>
+						</div>
+						<div class="d-flex flex-column">
+							<span class="font-weight-bold">YOUR TOKEN ALLOWANCE</span>
+							<span class="font-weight-bold text-white">
+								{{ formatedAllowance }} {{ model.token.symbol }}
+							</span>
+						</div>
+					</div>
+					<div class="mt-5">
+						<base-input
+							v-model="model.tokenSupply"
+							:disabled="!userHasToken"
+							name="token amount"
+							placeholder="Token amount"
+							type="number"
+							:rules="`required|decimal|max_value:${formatedTokenBalance}`"
+							@focus="focusInput('tokenAmount')"
+						>
+							<template #label>
+								<span class="font-weight-bold">TOKEN AMOUNT</span>
+							</template>
+						</base-input>
+					</div>
+					<div v-if="!tokensApproved && model.tokenSupply > 0" class="mt-5">
+						<base-button class="btn" :loading="approveLoading" @click="approve()">
+							Approve
+						</base-button>
 					</div>
 				</div>
 
 				<div class="col-12">
-					<div class="line-divider"></div>
+					<div class="line-divider my-5"></div>
 				</div>
 			</div>
 		</validation-observer>
@@ -249,9 +231,8 @@ export default {
 		},
 		tokensApproved() {
 			return (
-				parseFloat(this.model.allowanceformatted) !== 0 &&
-				parseFloat(this.formatedAllowance) >=
-					parseFloat(this.model.allowanceformatted)
+				parseFloat(this.model.tokenSupply) !== 0 &&
+				parseFloat(this.formatedAllowance) >= parseFloat(this.model.tokenSupply)
 			)
 		},
 		getStartTimeAbbr() {
@@ -336,6 +317,7 @@ export default {
 			)
 			if (data) {
 				;[this.user.allowance, this.user.tokenBalance] = data
+				this.model.allowance = this.user.allowance
 				this.model.allowanceformatted = toDecimals(this.user.allowance)
 			}
 			this.userLoading = false
@@ -346,12 +328,14 @@ export default {
 				this.approveLoading = true
 				const method = erc20Contract(this.model.token.address).methods.approve(
 					this.misoMarketAddress,
-					to18Decimals(this.model.allowanceformatted)
+					to18Decimals(this.model.tokenSupply)
 				)
 
 				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 					if (receipt.status) {
 						this.user.allowance = receipt.events.Approval.returnValues[2]
+						this.model.allowance = this.user.allowance
+						this.model.allowanceformatted = toDecimals(this.user.allowance)
 					}
 					this.approveLoading = false
 				})

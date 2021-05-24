@@ -90,8 +90,8 @@
 											name="start block"
 											placeholder="Start Block"
 											type="number"
-											@focus="focuseColor('startBlock')"
 											:rules="`required|min_value:${farmFactoryDetailsForm.lowerBlock}|max_value:${farmFactoryDetailsForm.upperBlock}`"
+											@focus="focuseColor('startBlock')"
 										></base-input>
 										<base-input
 											v-model="farmFactoryDetailsForm.devaddr"
