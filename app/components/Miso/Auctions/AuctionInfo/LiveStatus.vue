@@ -199,13 +199,13 @@
 							</template>
 							<template v-else>
 								<div class="font-weight-bold text-uppercase d-flex flex-column">
-									<span class="fs-1">Token Amount</span>
+									<span class="fs-1">Minimum token Amount</span>
 									<span class="text-white fs-3">
 										{{ tokenAmount }} {{ textCheck(tokenInfo.symbol) }}
 									</span>
 								</div>
 								<div class="font-weight-bold text-uppercase d-flex flex-column">
-									<span class="fs-1">MAX</span>
+									<span class="fs-1">MAX Available</span>
 									<span class="text-white fs-3">
 										{{ maxTokenAmount }} {{ textCheck(tokenInfo.symbol) }}
 									</span>
@@ -260,7 +260,16 @@
 						/>
 					</div>
 					<div class="col-12 mb-3">
-						<div class="font-weight-bold text-uppercase text-white fs-4">payment</div>
+						<div class="font-weight-bold text-uppercase text-white fs-4">
+							commitment
+						</div>
+						<span v-if="status.type === 'dutch'" class="fs-2">
+							Your commitment is for the minimum amount of tokens. As the auction
+							price drops, your commitment will entile you to claim even more tokens
+							at the end. Final price per token is determined at the end of the
+							auction. Everyone who commits before the end of a successful auction,
+							claims tokens at same final price.
+						</span>
 					</div>
 					<div class="col-12">
 						<div class="invest">
@@ -685,7 +694,7 @@ export default {
 					0,
 					this.marketInfo.totalTokens - this.marketInfo.totalTokensCommitted
 				),
-				3
+				5
 			)
 		},
 		maxInvestAmount() {
@@ -701,7 +710,7 @@ export default {
 			return parseFloat(
 				toPrecision(
 					divNumbers(this.maxTokenAmount, this.marketInfo.totalTokens) * 100,
-					4
+					5
 				)
 			)
 		},
