@@ -21,6 +21,17 @@
 					@auctionFinalized="finalizeAuction"
 				/>
 			</div>
+			<br />
+			<div class="col-12 col-lg-12 mt-4 pt-3">
+				<commitments
+					:commitments="listCommitments"
+					:short-currency="marketInfo.paymentCurrency.symbol"
+					:total-tokens="marketInfo.totalTokens"
+					:total-tokens-committed="marketInfo.totalTokensCommitted"
+					:current-price="marketInfo.currentPrice"
+					:minimum-price="marketInfo.minimumPrice"
+				/>
+			</div>
 		</div>
 		<loader v-else width="80" height="80" y="250" />
 	</div>
@@ -39,6 +50,7 @@ import { makeBatchCall } from '@/services/web3/base'
 import { toDecimals, toPrecision, to18Decimals } from '@/util/index'
 import AboutCard from '@/components/Miso/Auctions/AuctionInfo/AboutCard'
 import LiveStatus from '@/components/Miso/Auctions/AuctionInfo/LiveStatus'
+import Commitments from '@/components/Miso/Auctions/Commitments'
 
 const TOPIC_ADDED_COMMITMENT =
 	'0x077511a636ba1f10551cc7b89c13ff66a6ac9344e8a917527817a9690b15af7a'
@@ -48,6 +60,7 @@ export default {
 	components: {
 		LiveStatus,
 		AboutCard,
+		Commitments,
 	},
 	data() {
 		return {
@@ -118,6 +131,7 @@ export default {
 		...mapGetters({
 			coinbase: 'ethereum/coinbase',
 			commitmentsTotal: 'commitments/commitmentsTotal',
+			listCommitments: 'commitments/list',
 		}),
 	},
 	watch: {
@@ -374,6 +388,7 @@ export default {
 							)
 							this.addCommitment({
 								txHash: result.transactionHash,
+								timestamp: result.blockNumber,
 								address: decodedData[0],
 								amount: toDecimals(decodedData[1]),
 							})
@@ -403,6 +418,7 @@ export default {
 				)
 				commitments.push({
 					txHash: log.transactionHash,
+					timestamp: log.blockNumber,
 					address: decodedData[0],
 					amount: toDecimals(decodedData[1]),
 				})
