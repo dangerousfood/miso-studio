@@ -40,6 +40,31 @@
 			</span>
 			<!-- reserve price text -->
 
+			<!-- current token price text -->
+			<span
+				class="
+					position-absolute
+					progress-status_current-token-price
+					d-flex
+					flex-column
+				"
+			>
+				<el-tooltip
+					content="This is the current price per token. It is calculated from the total commitments divided by the number of tokens on sale."
+					:open-delay="200"
+					placement="top-start"
+					:effect="getTooltipEffect"
+				>
+					<span class="font-weight-bold fs-1 text-uppercase">
+						current token price ⚠️
+					</span>
+				</el-tooltip>
+				<span class="font-weight-bold text-white fs-3 text-uppercase">
+					{{ currentTokenPrice }} {{ marketInfo.paymentCurrency.symbol }}
+				</span>
+			</span>
+			<!-- current token price text -->
+
 			<!-- start auction text -->
 			<span
 				class="
@@ -158,6 +183,8 @@
 <script>
 import { Tooltip } from 'element-ui'
 import { inpidatorTheme } from '@/mixins/auctionIndicator'
+import { divNumbers, toPrecision } from '@/util'
+
 export default {
 	components: {
 		[Tooltip.name]: Tooltip,
@@ -185,6 +212,14 @@ export default {
 				required: true,
 			},
 			minimumPrice: {
+				type: [Number, String],
+				required: true,
+			},
+			totalTokens: {
+				type: [Number, String],
+				required: true,
+			},
+			commitmentsTotal: {
 				type: [Number, String],
 				required: true,
 			},
@@ -219,6 +254,12 @@ export default {
 			}
 
 			return this.progress - 1
+		},
+		currentTokenPrice() {
+			return toPrecision(
+				divNumbers(this.marketInfo.commitmentsTotal, this.marketInfo.totalTokens),
+				5
+			)
 		},
 		isClaimed() {
 			const claimed = parseFloat(this.userInfo.claimed)
@@ -291,6 +332,21 @@ export default {
 		text-align: right;
 		@media screen and (max-width: 500px) {
 			margin-top: -2px;
+			span {
+				&:first-child {
+					font-size: 10px !important;
+				}
+				font-size: 12px !important;
+			}
+		}
+	}
+	&_current-token-price {
+		left: 0;
+		bottom: 0;
+		margin-bottom: 8px;
+		margin-left: 15px;
+		@media screen and (max-width: 500px) {
+			margin-bottom: 12px;
 			span {
 				&:first-child {
 					font-size: 10px !important;
