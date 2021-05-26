@@ -54,8 +54,8 @@ export default {
 			auctionAddress: this.$route.params.address,
 			// can be Object or Array
 			about: {
-				title: '',
-				tokenPair: '',
+				paymentCurrency: {},
+				tokenInfo: {},
 				icons: {
 					social: {},
 					ingredient: [
@@ -354,8 +354,8 @@ export default {
 
 		setTokenInfo(tokenInfo) {
 			this.tokenInfo = tokenInfo
-			this.about.title = `${tokenInfo.name} (${tokenInfo.symbol})`
-			this.about.tokenPair = `${this.marketInfo.paymentCurrency.symbol}/${tokenInfo.symbol}`
+			this.about.paymentCurrency = this.marketInfo.paymentCurrency
+			this.about.tokenInfo = tokenInfo
 		},
 
 		subscribeToNewCommitments() {
