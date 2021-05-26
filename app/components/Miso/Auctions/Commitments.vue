@@ -3,7 +3,7 @@
 		<template slot="header">
 			<!-- <div class="border-0 card-header"> -->
 			<div class="row align-items-center">
-				<h3 class="mb-0">Commitments</h3>
+				<h4 class="mb-0 ml-3 mt-3 font-weight-bold text-uppercase">Commitments</h4>
 			</div>
 		</template>
 		<div>
@@ -43,7 +43,7 @@
 				class="table-responsive table-flush"
 				:data="queriedData"
 				row-key="id"
-				header-row-class-name="thead-light"
+				header-row-class-name="thead"
 				@sort-change="sortChange"
 			>
 				<el-table-column label="Address" min-width="200px" prop="address">
@@ -56,29 +56,23 @@
 								scale: 5,
 							}"
 						/>
-						<span>{{ row.address | shortenAddress(8) }}</span>
+						<span>{{ shortenAddress(row.address) }}</span>
 					</template>
 				</el-table-column>
 
-				<!--        <el-table-column label="Tx Hash" min-width="200px" prop="txHash">-->
-				<!--          <template v-slot="{ row }">-->
-				<!--            <a :href="`${txUrl}${row.txHash}`" target="_blank">{{ row.txHash | shortenAddress(10) }}</a>-->
-				<!--          </template>-->
-				<!--        </el-table-column>-->
-				<el-table-column label="Amount" min-width="150px" prop="commitment">
+				<el-table-column label="Amount Committed" min-width="150px" prop="commitment">
 					<template #default="{ row }">
-						<span>{{ to18Decimals(row.commitment) }} {{ shortCurrency }}</span>
+						<span>{{ row.amount }} {{ shortCurrency }}</span>
 					</template>
 				</el-table-column>
 
-				<el-table-column label="Price" min-width="140px" prop="price">
+				<!-- <el-table-column label="Price" min-width="140px" prop="price">
 					<template #default="{ row }">
-						<!--            <a :href="`${txUrl}${row.txHash}`" target="_blank">{{ row.txHash | shortenAddress(10) }}</a>-->
 						<span>{{ to18Decimals(row.price) }}</span>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 
-				<el-table-column
+				<!-- <el-table-column
 					label="Min Tokens"
 					min-width="160px"
 					prop="totalTokensCommitted"
@@ -86,35 +80,45 @@
 					<template #default="{ row }">
 						<span>{{ to18Decimals(row.commitment) / to18Decimals(row.price) }}</span>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 
-				<el-table-column label="Bonus" min-width="120px" prop="bonus">
+				<!-- <el-table-column label="Bonus" min-width="120px" prop="bonus">
 					<template #default="{ row }">
 						<span>
 							{{
-								to18Decimals(row.commitment) / to18Decimals(currentPrice) -
-								to18Decimals(row.commitment) / to18Decimals(row.price)
+								row.amount / to18Decimals(currentPrice) -
+								row.amount / to18Decimals(row.price)
 							}}
 						</span>
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 
-				<el-table-column label="Total Tokens" min-width="130px" prop="totalTokens">
+				<el-table-column
+					label="Tokens Claimable"
+					min-width="130px"
+					prop="totalTokens"
+				>
 					<template #default="{ row }">
 						<span>
-							{{ to18Decimals(row.commitment) / to18Decimals(currentPrice) }}
+							{{ row.amount / currentPrice }}
 						</span>
 					</template>
 				</el-table-column>
-
+				<el-table-column label="Tx Hash" min-width="100px" prop="txHash">
+					<template #default="{ row }">
+						<a :href="`${txUrl}${row.txHash}`" target="_blank">
+							{{ shortenAddress(row.txHash) }}
+						</a>
+					</template>
+				</el-table-column>
 				<el-table-column
-					label="Commited At"
-					min-width="150px"
+					label="Block Number"
+					min-width="100px"
 					prop="timestamp"
 					sortable
 				>
 					<template #default="{ row }">
-						<span>{{ formatTimestamp(row.timestamp) }}</span>
+						<span>{{ row.timestamp }}</span>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -148,8 +152,9 @@ import { mapGetters } from 'vuex'
 import { Table, TableColumn, Select, Option } from 'element-ui'
 import EthImage from '@/components/web3-core/eth-identication/EthImage.vue'
 import * as moment from 'moment'
-import { to18Decimals } from '@/util'
-import clientPaginationMixin from '~/components/Tables/PaginatedTables/clientPaginationMixin'
+import { to18Decimals, shortenAddress } from '@/util'
+import clientPaginationMixin from '@/components/Tables/PaginatedTables/clientPaginationMixin'
+import { BasePagination, BaseSwitch } from '@/components'
 
 export default {
 	components: {
@@ -158,6 +163,8 @@ export default {
 		[Table.name]: Table,
 		[TableColumn.name]: TableColumn,
 		EthImage,
+		BasePagination,
+		BaseSwitch,
 	},
 	mixins: [clientPaginationMixin],
 	props: {
@@ -171,16 +178,26 @@ export default {
 		},
 		totalTokens: {
 			type: String,
+			required: true,
 		},
 		totalTokensCommitted: {
 			type: String,
+			required: true,
 		},
 		currentPrice: {
 			type: String,
+			required: true,
 		},
 		minimumPrice: {
 			type: String,
+			required: true,
 		},
+	},
+	data() {
+		return {
+			isAll: true,
+			tableData: [],
+		}
 	},
 	computed: {
 		...mapGetters({
@@ -199,15 +216,13 @@ export default {
 	mounted() {
 		this.setTableData(this.commitments)
 	},
-	data() {
-		return {
-			isAll: true,
-			tableData: [],
-		}
-	},
+
 	methods: {
 		to18Decimals(val) {
 			return to18Decimals(val)
+		},
+		shortenAddress(addr) {
+			return shortenAddress(addr, 8)
 		},
 		formatTimestamp(timestamp) {
 			return `${moment(timestamp).format('MM/DD/YYYY LT')}`
