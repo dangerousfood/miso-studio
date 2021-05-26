@@ -92,6 +92,24 @@
 				</span>
 			</span>
 			<!-- hard cap section -->
+
+			<!-- token price text -->
+			<span class="progress-status_token-price d-flex flex-column">
+				<el-tooltip
+					content="Cause it doesn't change over time, so the price now will be the same later"
+					:open-delay="200"
+					placement="top-start"
+					:effect="getTooltipEffect"
+				>
+					<span class="text pl-2 text-uppercase font-weight-bold">
+						token price ⚠️
+					</span>
+				</el-tooltip>
+				<span class="fs-2 pl-2 text-white font-weight-bold no-whitespace">
+					{{ tokenPrice }} {{ marketInfo.paymentCurrency.symbol }}
+				</span>
+			</span>
+			<!-- token price text -->
 		</div>
 		<div
 			v-if="isClaimed"
@@ -114,6 +132,7 @@
 <script>
 import { Tooltip } from 'element-ui'
 import { mapGetters } from 'vuex'
+import { toPrecision } from '@/util'
 
 export default {
 	components: {
@@ -209,6 +228,9 @@ export default {
 
 			return this.progress
 		},
+		tokenPrice() {
+			return toPrecision(this.marketInfo.currentPrice, 5)
+		},
 		isClaimed() {
 			const claimed = parseFloat(this.userInfo.claimed)
 			const tokensClaimable = parseFloat(this.userInfo.tokensClaimable)
@@ -282,6 +304,14 @@ export default {
 		height: 15px;
 		border-radius: 100%;
 		border: 1px solid #fff;
+	}
+	&_token-price {
+		position: absolute;
+		top: 100%;
+		left: 0;
+		margin-top: 42px;
+		margin-left: 15px;
+		z-index: 99;
 	}
 	&_text {
 		&-box {

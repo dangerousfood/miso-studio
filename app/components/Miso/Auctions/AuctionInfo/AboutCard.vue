@@ -16,7 +16,7 @@
 					<div class="d-flex flex-column" :class="{ 'pl-4': checkImage }">
 						<div class="d-flex align-items-center">
 							<h4 class="card-title font-weight-bold text-capitalize fs-5 mb-1">
-								{{ textCheck(info.title, 'title') }}
+								{{ textCheck(title, 'title') }}
 							</h4>
 							<div class="d-flex flex-column">
 								<span
@@ -57,7 +57,6 @@
 						<p class="font-weight-bold text-uppercase fs-2">
 							Token Price:
 							<span class="text-white">{{ tokenPrice }}</span>
-							{{ info.tokenPair }}
 						</p>
 					</div>
 				</div>
@@ -337,10 +336,13 @@ export default {
 
 			return !!pattern.test(this.info.website)
 		},
+		title() {
+			return `${this.info.tokenInfo.name} (${this.info.tokenInfo.symbol})`
+		},
 		tokenPrice() {
 			if (this.type === 'batch' && parseFloat(this.price) === 0)
 				return 'Price not determined'
-			return this.price
+			return `1 ${this.info.tokenInfo.symbol} = ${this.price} ${this.info.paymentCurrency.symbol}`
 		},
 		computedTokenImg() {
 			if (this.info.icon) {
