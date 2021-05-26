@@ -18,7 +18,7 @@
 					<el-tooltip
 						content="The sale needs to raise this much or more to be successful"
 						:open-delay="200"
-						placement="top-end"
+						placement="top-start"
 						:effect="getTooltipEffect"
 					>
 						<span class="text pl-2 text-uppercase font-weight-bold">min raise</span>
@@ -101,9 +101,7 @@
 					placement="top-start"
 					:effect="getTooltipEffect"
 				>
-					<span class="text pl-2 text-uppercase font-weight-bold">
-						token price ⚠️
-					</span>
+					<span class="text pl-2 text-uppercase font-weight-bold">token price</span>
 				</el-tooltip>
 				<span class="fs-2 pl-2 text-white font-weight-bold no-whitespace">
 					{{ tokenPrice }} {{ marketInfo.paymentCurrency.symbol }}
@@ -309,8 +307,8 @@ export default {
 		position: absolute;
 		top: 100%;
 		left: 0;
-		margin-top: 42px;
-		margin-left: 15px;
+		margin-top: 64px;
+		margin-left: 12px;
 		z-index: 99;
 	}
 	&_text {

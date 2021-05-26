@@ -9,7 +9,7 @@
 				<el-tooltip
 					content="A Dutch auction starts high and ends low. Everyone pays the same final price."
 					:open-delay="200"
-					placement="top-end"
+					placement="top-start"
 					:effect="getTooltipEffect"
 				>
 					<span class="font-weight-bold fs-1 text-uppercase">starting price</span>
@@ -49,18 +49,32 @@
 					flex-column
 				"
 			>
-				<el-tooltip
-					content="This is the current price per token. It is calculated from the total commitments divided by the number of tokens on sale."
-					:open-delay="200"
-					placement="top-start"
-					:effect="getTooltipEffect"
-				>
-					<span class="font-weight-bold fs-1 text-uppercase">
-						current token price ⚠️
-					</span>
-				</el-tooltip>
+				<span class="d-flex align-items-center">
+					<el-tooltip
+						:disabled="tokenPriceStatusColor !== 'bg-danger'"
+						content="Auction is only successful if token price goes above reserve price."
+						:open-delay="200"
+						placement="top-start"
+						:effect="getTooltipEffect"
+					>
+						<span
+							class="radius-full token-price-status-indicator mr-2"
+							:class="tokenPriceStatusColor"
+						></span>
+					</el-tooltip>
+					<el-tooltip
+						content="This is the current price per token. It is calculated from the total commitments divided by the number of tokens on sale."
+						:open-delay="200"
+						placement="top-start"
+						:effect="getTooltipEffect"
+					>
+						<span class="font-weight-bold fs-1 text-uppercase">
+							current token price
+						</span>
+					</el-tooltip>
+				</span>
 				<span class="font-weight-bold text-white fs-3 text-uppercase">
-					{{ currentTokenPrice }} {{ marketInfo.paymentCurrency.symbol }}
+					{{ tokenPrice }} {{ marketInfo.paymentCurrency.symbol }}
 				</span>
 			</span>
 			<!-- current token price text -->
@@ -255,11 +269,19 @@ export default {
 
 			return this.progress - 1
 		},
-		currentTokenPrice() {
+		tokenPrice() {
 			return toPrecision(
 				divNumbers(this.marketInfo.commitmentsTotal, this.marketInfo.totalTokens),
 				5
 			)
+		},
+		tokenPriceStatusColor() {
+			if (
+				divNumbers(this.marketInfo.commitmentsTotal, this.marketInfo.totalTokens) <
+				this.marketInfo.minimumPrice
+			)
+				return 'bg-danger'
+			return 'bg-success'
 		},
 		isClaimed() {
 			const claimed = parseFloat(this.userInfo.claimed)
@@ -559,6 +581,13 @@ export default {
 		border-color: rgba(255, 255, 255, 0.1);
 	}
 }
+
+.token-price-status-indicator {
+	height: 12px;
+	width: 12px;
+	display: block;
+}
+
 @media screen and (max-width: 500px) {
 	.price {
 		font-size: 10px;

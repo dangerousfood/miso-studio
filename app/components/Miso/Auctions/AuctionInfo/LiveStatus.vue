@@ -448,12 +448,12 @@
 										Your tokens have been claimed
 									</div>
 
-									<div
+									<!-- <div
 										v-if="marketInfo.finalized"
 										class="withdraw d-flex justify-content-center"
-									>
-										<!-- needs transaction link -->
-										<base-button
+									> -->
+									<!-- needs transaction link -->
+									<!-- <base-button
 											class="
 												btn
 												finalize
@@ -464,8 +464,8 @@
 											"
 										>
 											view transaction
-										</base-button>
-									</div>
+										</base-button> -->
+									<!-- </div> -->
 								</div>
 							</div>
 						</div>
@@ -535,11 +535,7 @@
 <script>
 // import BigNumber from "bignumber.js"
 import { mapGetters, mapActions } from 'vuex'
-import {
-	sendTransaction,
-	sendTransactionAndWait,
-	makeBatchCall,
-} from '@/services/web3/base'
+import { sendTransactionAndWait, makeBatchCall } from '@/services/web3/base'
 import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 import { getContractInstance as getAuctionContract } from '@/services/web3/auctions/auction'
 import { getContractInstance as erc20TokenContract } from '@/services/web3/erc20Token'
@@ -919,7 +915,7 @@ export default {
 				this.displayDays = days < 10 ? '0' + days : days
 			}, 1000)
 		},
-		async invest() {
+		invest() {
 			const contract = getAuctionContract(this.$route.params.address)
 			this.loading = true
 			let method
@@ -937,11 +933,10 @@ export default {
 				)
 			}
 			// TODO: update user's allowance when transaction confirmed
-			await sendTransaction(method, {
-				from: this.coinbase,
-				value,
+			sendTransactionAndWait(method, { from: this.coinbase, value }, (_) => {
+				this.loading = false
+				this.updateAllowance()
 			})
-			this.loading = false
 		},
 
 		approve() {

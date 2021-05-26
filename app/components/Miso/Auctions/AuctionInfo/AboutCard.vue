@@ -54,9 +54,21 @@
 								</span>
 							</div>
 						</div>
-						<p class="font-weight-bold text-uppercase fs-2">
-							Token Price:
-							<span class="text-white">{{ tokenPrice }}</span>
+						<p class="font-weight-bold text-uppercase fs-2 d-flex align-items-center">
+							{{ tokenPriceTitle }}
+							<span class="text-white ml-2">{{ tokenPrice }}</span>
+							<el-tooltip
+								:disabled="tokenPriceStatusColor !== 'bg-danger'"
+								content="Auction is only successful if token price goes above reserve price."
+								:open-delay="200"
+								placement="top-start"
+								:effect="getTooltipEffect"
+							>
+								<span
+									class="radius-full token-price-status-indicator ml-2"
+									:class="tokenPriceStatusColor"
+								></span>
+							</el-tooltip>
 						</p>
 					</div>
 				</div>
@@ -217,6 +229,7 @@
 import { Card, BaseDivider } from '@/components'
 // import { Popover } from "element-ui"
 import { theme } from '@/mixins/theme'
+import { divNumbers, toPrecision } from '@/util'
 
 export default {
 	components: {
@@ -238,6 +251,14 @@ export default {
 			type: [Object, Array],
 			required: true,
 			description: 'full data for about card',
+		},
+		marketInfo: {
+			type: [Object, Array],
+			required: true,
+		},
+		tokenInfo: {
+			type: [Object, Array],
+			required: true,
 		},
 		price: {
 			type: [String, Number],
@@ -294,8 +315,11 @@ export default {
 				? 'bg-link'
 				: 'bg-danger'
 		},
-		computedTooltipEffect() {
-			return this.mode ? 'light' : 'dark'
+		getTooltipEffect() {
+			if (this.mode) {
+				return 'light'
+			}
+			return 'dark'
 		},
 		days() {
 			return this.hours * 24
@@ -337,12 +361,40 @@ export default {
 			return !!pattern.test(this.info.website)
 		},
 		title() {
-			return `${this.info.tokenInfo.name} (${this.info.tokenInfo.symbol})`
+			return `${this.tokenInfo.name} (${this.tokenInfo.symbol})`
+		},
+		tokenPriceTitle() {
+			if (this.type === 'batch' && parseFloat(this.price) === 0) return 'Token Price:'
+
+			if (this.type === 'dutch' || this.type === 'batch')
+				return 'Current Token Price:'
+
+			return 'Token Price:'
 		},
 		tokenPrice() {
 			if (this.type === 'batch' && parseFloat(this.price) === 0)
 				return 'Price not determined'
-			return `1 ${this.info.tokenInfo.symbol} = ${this.price} ${this.info.paymentCurrency.symbol}`
+
+			if (this.type === 'dutch' || this.type === 'batch')
+				return `${toPrecision(
+					divNumbers(this.marketInfo.commitmentsTotal, this.marketInfo.totalTokens),
+					5
+				)} ${this.marketInfo.paymentCurrency.symbol}`
+
+			return `${toPrecision(this.marketInfo.currentPrice, 5)} ${
+				this.marketInfo.paymentCurrency.symbol
+			}`
+		},
+		tokenPriceStatusColor() {
+			if (this.status.auction === 'live' && this.type === 'dutch') {
+				if (
+					divNumbers(this.marketInfo.commitmentsTotal, this.marketInfo.totalTokens) <
+					this.marketInfo.minimumPrice
+				)
+					return 'bg-danger'
+				return 'bg-success'
+			}
+			return 'bg-none'
 		},
 		computedTokenImg() {
 			if (this.info.icon) {
@@ -430,6 +482,11 @@ export default {
 .status-indicator {
 	height: 8px;
 	width: 8px;
+	display: block;
+}
+.token-price-status-indicator {
+	height: 12px;
+	width: 12px;
 	display: block;
 }
 .duration {
