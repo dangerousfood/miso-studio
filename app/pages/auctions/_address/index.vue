@@ -4,6 +4,8 @@
 			<div class="col-12 col-lg-6">
 				<about-card
 					:info="about"
+					:market-info="marketInfo"
+					:token-info="tokenInfo"
 					:point-list="marketInfo.hasPointList"
 					:user="userInfo"
 					:price="marketInfo.currentPrice"
@@ -67,8 +69,6 @@ export default {
 			auctionAddress: this.$route.params.address,
 			// can be Object or Array
 			about: {
-				paymentCurrency: {},
-				tokenInfo: {},
 				icons: {
 					social: {},
 					ingredient: [
@@ -368,8 +368,6 @@ export default {
 
 		setTokenInfo(tokenInfo) {
 			this.tokenInfo = tokenInfo
-			this.about.paymentCurrency = this.marketInfo.paymentCurrency
-			this.about.tokenInfo = tokenInfo
 		},
 
 		subscribeToNewCommitments() {
