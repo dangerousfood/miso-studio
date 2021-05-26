@@ -2,6 +2,7 @@
 	struct of commitments
 		commitment: {
 			txHash: "",  commitment transaction hash
+			timestamp: "", commitment timestamp
 			address: "", who committed
 			amount: "", amount committed
 		}
