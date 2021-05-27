@@ -247,7 +247,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-12 mt-4 mb-3">
+					<div v-if="status.type !== 'batch'" class="col-12 mt-4">
 						<base-input
 							v-model="tokenAmount"
 							type="number"
@@ -259,7 +259,7 @@
 							rounded
 						/>
 					</div>
-					<div class="col-12 mb-3">
+					<div class="col-12 mt-4 mb-3">
 						<div class="font-weight-bold text-uppercase text-white fs-4">
 							commitment
 						</div>
