@@ -5,21 +5,35 @@
 				<div class="col-12 ma-30">
 					<div class="justify-content-between row align-items-center">
 						<!-- Token input -->
-						<autocomplete
+						<div
 							v-if="model.token.name"
-							v-model="model.token.address"
-							class="label-underline col-lg-10 padding-left-15"
-							label="Token"
-							name="token"
-							placeholder="Type to search (name, symbol, address)"
-							rules="required|isAddress"
-							:suggestions="tokens"
-							:loading="tokensLoading"
-							:no-data="'No Tokens'"
-							@input="fetchTokens"
-							@focus="focusInputBatch('tokenAddress')"
-							@complete="handleTokenComplete"
-						></autocomplete>
+							class="d-flex align-items-center col-lg-12 padding-left-15"
+						>
+							<autocomplete
+								v-if="model.token.name"
+								v-model="model.token.address"
+								class="label-underline"
+								label="Token"
+								name="token"
+								placeholder="Type to search (name, symbol, address)"
+								rules="required|isAddress"
+								:suggestions="tokens"
+								:loading="tokensLoading"
+								:no-data="'No Tokens'"
+								:style="{ flex: 1 }"
+								@input="fetchTokens"
+								@focus="focusInputBatch('tokenAddress')"
+								@complete="handleTokenComplete"
+							></autocomplete>
+
+							<div class="text-right ml-4 mt-4">
+								<base-button
+									class="text-capitalize btn btn-customs btn-disabled btn-default"
+								>
+									{{ model.token.name }} ({{ model.token.symbol }})
+								</base-button>
+							</div>
+						</div>
 
 						<autocomplete
 							v-else
@@ -36,16 +50,6 @@
 							@input="fetchTokens"
 							@complete="handleTokenComplete"
 						></autocomplete>
-
-						<div v-if="model.token.name" class="position-auction-token-absolute">
-							{{ model.token.name }}
-						</div>
-
-						<div v-if="model.token.symbol" class="col-lg-2 text-right mt-4">
-							<base-button class="btn btn-customs btn-disabled btn-default">
-								{{ model.token.symbol }}
-							</base-button>
-						</div>
 
 						<div class="fs-2 pl-3">
 							Don't have a token?
