@@ -53,7 +53,7 @@
 								</div>
 							</form>
 						</validation-observer>
-						<!-- <validation-observer v-slot="{ invalid }">
+						<validation-observer v-slot="{ invalid }">
 							<form class="needs-validation" @submit.prevent="updateDocument(1)">
 								<div class="row">
 									<div class="col-md-2" />
@@ -80,7 +80,7 @@
 									</div>
 								</div>
 							</form>
-						</validation-observer> -->
+						</validation-observer>
 						<validation-observer v-slot="{ invalid }">
 							<form class="needs-validation" @submit.prevent="updateDocument(2)">
 								<div class="row">
