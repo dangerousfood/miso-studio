@@ -230,6 +230,7 @@ import { Card, BaseDivider } from '@/components'
 // import { Popover } from "element-ui"
 import { theme } from '@/mixins/theme'
 import { divNumbers, toPrecision } from '@/util'
+import BigNumber from 'bignumber.js'
 
 export default {
 	components: {
@@ -388,8 +389,9 @@ export default {
 		tokenPriceStatusColor() {
 			if (this.status.auction === 'live' && this.type === 'dutch') {
 				if (
-					divNumbers(this.marketInfo.commitmentsTotal, this.marketInfo.totalTokens) <
-					this.marketInfo.minimumPrice
+					BigNumber(
+						divNumbers(this.marketInfo.commitmentsTotal, this.marketInfo.totalTokens)
+					).comparedTo(this.marketInfo.minimumPrice) < 0
 				)
 					return 'bg-danger'
 				return 'bg-success'

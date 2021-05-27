@@ -86,7 +86,7 @@
 									</div>
 									<div class="col-md-12 mr-1">
 										<base-input
-											v-if="tokenModel.templateId == '2'"
+											v-if="tokenModel.templateId == '1'"
 											v-model="tokenModel.totalSupply"
 											placeholder="1000"
 											label="Total Supply"
@@ -296,12 +296,12 @@ export default {
 			tokenTypes: [
 				{
 					displayName: 'fixed',
-					name: '2',
+					name: '1',
 					icon: 'mintable-boxes',
 				},
 				{
 					displayName: 'mintable',
-					name: '1',
+					name: '2',
 					icon: 'mintable-2',
 				},
 				{
@@ -314,7 +314,7 @@ export default {
 				name: '',
 				symbol: '',
 				totalSupply: null,
-				templateId: '1',
+				templateId: '2',
 			},
 			waitingForConfirmation: false,
 			transactionHash: null,
@@ -384,7 +384,7 @@ export default {
 					name: '',
 					symbol: '',
 					totalSupply: 0,
-					templateId: '1',
+					templateId: '2',
 					deploymentFee: 0.1,
 				}
 				this.activeStep = 0
@@ -406,10 +406,6 @@ export default {
 				['string', 'string', 'address', 'uint256'],
 				tokenData
 			)
-
-			// const args = [this.tokenModel.templateId, this.coinbase, data]
-
-			console.log('this.tokenFactoryContract:', this.tokenFactoryContract)
 
 			const methodToSend = this.tokenFactoryContract.methods.createToken(
 				this.tokenModel.templateId,
