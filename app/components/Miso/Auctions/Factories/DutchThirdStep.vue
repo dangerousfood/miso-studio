@@ -99,10 +99,10 @@
 									white_txt
 									fs-2
 									mb-4
-									text-uppercase
+									text-capitalize
 								"
 							>
-								{{ model.paymentCurrency.name }}
+								{{ model.paymentCurrency.name }} ({{ model.paymentCurrency.symbol }})
 							</span>
 						</div>
 					</div>
