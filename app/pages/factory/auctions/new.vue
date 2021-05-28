@@ -53,10 +53,7 @@
 						@update:startIndex="onTabChanged"
 					>
 						<wizard-tab>
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">1</span>
 								<p>Auction</p>
 							</template>
@@ -83,10 +80,7 @@
 							<base-divider class="my-5" />
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step1')">
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">2</span>
 								<p>SETUP</p>
 							</template>
@@ -113,10 +107,7 @@
 							</template>
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step2')">
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">3</span>
 								<p>SALE</p>
 							</template>
@@ -235,10 +226,7 @@
 						@update:startIndex="onTabChanged"
 					>
 						<wizard-tab>
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">1</span>
 								<p>Auction</p>
 							</template>
@@ -265,10 +253,7 @@
 							<base-divider class="my-5" />
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step1')">
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">2</span>
 								<p>SETUP</p>
 							</template>
@@ -295,10 +280,7 @@
 							</template>
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step2')">
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">3</span>
 								<p>SALE</p>
 							</template>
