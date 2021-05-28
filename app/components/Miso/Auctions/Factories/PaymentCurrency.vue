@@ -19,7 +19,7 @@
 					py-2
 					cursor-pointer
 				"
-				:class="{ 'bg-primary': paymentCurrency.symbol === 'ETH' }"
+				:class="{ 'bg-primary': tokenType === 'ETH' }"
 				@click="onCurrencyChanged('ETH')"
 			>
 				<span
@@ -27,19 +27,17 @@
 					inline
 					name="ETH"
 					class="m-0 p-0 font-weight-bold"
-					:class="{ 'text-white': paymentCurrency.symbol === 'ETH' }"
+					:class="{ 'text-white': tokenType === 'ETH' }"
 				>
 					<i
-						v-if="paymentCurrency.symbol == 'ETH'"
+						v-if="tokenType == 'ETH'"
 						class="far fa-circle fa-white-circle text-white"
 					></i>
 					<i v-else class="far fa-circle text-transparent"></i>
 					ETHEREUM
 					<svg-icon icon="ethereum" height="24" width="20" />
 				</span>
-				<span :class="{ 'text-white': paymentCurrency.symbol === 'ETH' }">
-					Most Common
-				</span>
+				<span :class="{ 'text-white': tokenType === 'ETH' }">Most Common</span>
 			</div>
 		</div>
 		<div class="col-md-12 d-flex">
@@ -55,18 +53,18 @@
 						py-2
 						cursor-pointer
 					"
-					:class="{ 'bg-primary': paymentCurrency.symbol === 'DAI' }"
+					:class="{ 'bg-primary': tokenType === 'DAI' }"
 					@click="onCurrencyChanged('DAI')"
 				>
 					<span
 						:disabled="!tokensApproved"
 						inline
-						:class="{ 'text-white': paymentCurrency.symbol === 'DAI' }"
+						:class="{ 'text-white': tokenType === 'DAI' }"
 						name="DAI"
 						class="m-0 p-0 font-weight-bold"
 					>
 						<i
-							v-if="paymentCurrency.symbol == 'DAI'"
+							v-if="tokenType == 'DAI'"
 							class="far fa-circle fa-white-circle text-white"
 						></i>
 						<i v-else class="far fa-circle text-transparent"></i>
@@ -86,18 +84,18 @@
 						py-2
 						cursor-pointer
 					"
-					:class="{ 'bg-primary': paymentCurrency.symbol === 'USDC' }"
+					:class="{ 'bg-primary': tokenType === 'USDC' }"
 					@click="onCurrencyChanged('USDC')"
 				>
 					<span
 						:disabled="!tokensApproved"
 						inline
-						:class="{ 'text-white': paymentCurrency.symbol === 'USDC' }"
+						:class="{ 'text-white': tokenType === 'USDC' }"
 						name="USDC"
 						class="m-0 p-0 font-weight-bold"
 					>
 						<i
-							v-if="paymentCurrency.symbol == 'USDC'"
+							v-if="tokenType == 'USDC'"
 							class="far fa-circle fa-white-circle text-white"
 						></i>
 						<i v-else class="far fa-circle text-transparent"></i>
@@ -117,18 +115,18 @@
 						py-2
 						cursor-pointer
 					"
-					:class="{ 'bg-primary': paymentCurrency.symbol === 'TETHER' }"
+					:class="{ 'bg-primary': tokenType === 'TETHER' }"
 					@click="onCurrencyChanged('TETHER')"
 				>
 					<span
 						:disabled="!tokensApproved"
 						inline
-						:class="{ 'text-white': paymentCurrency.symbol === 'TETHER' }"
+						:class="{ 'text-white': tokenType === 'TETHER' }"
 						name="TETHER"
 						class="m-0 p-0 font-weight-bold"
 					>
 						<i
-							v-if="paymentCurrency.symbol == 'TETHER'"
+							v-if="tokenType == 'TETHER'"
 							class="far fa-circle fa-white-circle text-white"
 						></i>
 						<i v-else class="far fa-circle text-transparent"></i>
@@ -137,12 +135,17 @@
 				</div>
 			</div>
 			<div class="col-md-3 pr-0 d-flex align-items-center justify-content-center">
-				<span :class="{ 'text-white': paymentCurrency.symbol === 'DAI' }">
+				<span
+					:class="{
+						'text-white':
+							tokenType === 'DAI' || tokenType === 'USDC' || tokenType === 'TETHER',
+					}"
+				>
 					Stablecoins
 				</span>
 			</div>
 		</div>
-		<div class="col-md-12 d-flex align-items-center">
+		<div class="col-md-12 d-flex">
 			<div class="col-md-3 p-0">
 				<div
 					class="
@@ -155,18 +158,18 @@
 						py-2
 						cursor-pointer
 					"
-					:class="{ 'bg-primary': paymentCurrency.symbol === 'CUSTOM' }"
+					:class="{ 'bg-primary': tokenType === 'CUSTOM' }"
 					@click="onCurrencyChanged('CUSTOM')"
 				>
 					<span
 						:disabled="!tokensApproved"
 						inline
-						:class="{ 'text-white': paymentCurrency.symbol === 'CUSTOM' }"
+						:class="{ 'text-white': tokenType === 'CUSTOM' }"
 						name="CUSTOM"
 						class="m-0 p-0 font-weight-bold"
 					>
 						<i
-							v-if="paymentCurrency.symbol == 'CUSTOM'"
+							v-if="tokenType == 'CUSTOM'"
 							class="far fa-circle fa-white-circle text-white"
 						></i>
 						<i v-else class="far fa-circle text-transparent"></i>
@@ -186,6 +189,11 @@
 							{{ paymentCurrency.name }} ({{ paymentCurrency.symbol }})
 						</div>
 					</template>
+					<template slot="error">
+						<div v-if="errorMessage" class="invalid-feedback" style="display: block">
+							{{ errorMessage }}
+						</div>
+					</template>
 				</base-input>
 			</div>
 		</div>
@@ -195,7 +203,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { isErc20Token } from '@/services/web3/erc20Token'
-import { dai } from '@/constants/contracts'
+import { dai, usdc, tether } from '@/constants/contracts'
 
 export default {
 	props: {
@@ -222,6 +230,22 @@ export default {
 		...mapGetters({
 			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 		}),
+		tokenType() {
+			if (this.customToken.length > 0) return 'CUSTOM'
+
+			switch (this.paymentCurrency.address) {
+				case '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE':
+					return 'ETH'
+				case usdc.address[this.currentProvidersNetworkId]:
+					return 'USDC'
+				case tether.address[this.currentProvidersNetworkId]:
+					return 'TETHER'
+				case dai.address[this.currentProvidersNetworkId]:
+					return 'DAI'
+				default:
+					return 'CUSTOM'
+			}
+		},
 	},
 	watch: {
 		customToken(newValue) {
@@ -235,6 +259,7 @@ export default {
 		async updateCustomCurrency(currency) {
 			this.loading = true
 			this.customToken = currency
+
 			const isValidAddress = web3.utils.isAddress(currency)
 			if (isValidAddress) {
 				const erc20Info = await isErc20Token(currency)
@@ -242,8 +267,10 @@ export default {
 					this.errorMessage = 'Address is not ERC20'
 					this.success = false
 				} else {
-					this.paymentCurrency = erc20Info
 					this.paymentCurrency.address = currency
+					this.paymentCurrency.name = erc20Info.name
+					this.paymentCurrency.symbol = erc20Info.symbol
+					this.paymentCurrency.decimals = erc20Info.decimals
 					this.errorMessage = null
 					this.success = true
 				}
@@ -260,38 +287,35 @@ export default {
 		},
 
 		onCurrencyChanged(currency) {
+			this.customToken = ''
 			this.errorMessage = null
 			this.success = false
-			const paymentCurrency = this.paymentCurrency
+
 			if (currency === 'ETH') {
-				paymentCurrency.address = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-				paymentCurrency.name = 'Ethereum'
-				paymentCurrency.symbol = 'ETH'
-				paymentCurrency.decimals = 18
+				this.paymentCurrency.address = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+				this.paymentCurrency.name = 'Ethereum'
+				this.paymentCurrency.symbol = 'ETH'
+				this.paymentCurrency.decimals = 18
 			} else if (currency === 'USDC') {
-				paymentCurrency.address = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-				paymentCurrency.name = 'USDC'
-				paymentCurrency.symbol = 'USDC'
-				paymentCurrency.decimals = 18
+				this.paymentCurrency.address = usdc.address[this.currentProvidersNetworkId]
+				this.paymentCurrency.name = 'USD Coin'
+				this.paymentCurrency.symbol = 'USDC'
+				this.paymentCurrency.decimals = 18
 			} else if (currency === 'TETHER') {
-				paymentCurrency.address = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-				paymentCurrency.name = 'TETHER'
-				paymentCurrency.symbol = 'TETHER'
-				paymentCurrency.decimals = 18
+				this.paymentCurrency.address = tether.address[this.currentProvidersNetworkId]
+				this.paymentCurrency.name = 'Tether'
+				this.paymentCurrency.symbol = 'USDT'
+				this.paymentCurrency.decimals = 18
 			} else if (currency === 'DAI') {
-				paymentCurrency.address = dai.address[this.currentProvidersNetworkId]
-				paymentCurrency.name = 'Dai Stablecoin'
-				paymentCurrency.symbol = 'DAI'
-				paymentCurrency.decimals = 18
+				this.paymentCurrency.address = dai.address[this.currentProvidersNetworkId]
+				this.paymentCurrency.name = 'Dai'
+				this.paymentCurrency.symbol = 'DAI'
+				this.paymentCurrency.decimals = 18
 			} else {
-				paymentCurrency.address = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-				paymentCurrency.name = 'CUSTOM'
-				paymentCurrency.symbol = 'CUSTOM'
-				paymentCurrency.decimals = 18
+				this.resetPaymentCurrency()
 			}
 
 			this.$emit('currency-updated', this.paymentCurrency)
-			this.customToken = ''
 		},
 
 		resetPaymentCurrency() {

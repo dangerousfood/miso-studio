@@ -23,15 +23,15 @@
 						<el-tooltip
 							content="This is the current token price. (total commitments/number of tokens)"
 							:open-delay="200"
-							placement="top-end"
+							placement="top-start"
 							:effect="getTooltipEffect"
 						>
 							<span class="font-weight-bold fs-1 no-whitespace text-uppercase">
-								CURRENT PRICE
+								CURRENT TOKEN PRICE
 							</span>
 						</el-tooltip>
 						<span class="font-weight-bold fs-3 text-white no-whitespace">
-							{{ marketInfo.currentPrice }}
+							{{ marketInfo.currentPrice }} {{ marketInfo.paymentCurrency.symbol }}
 						</span>
 					</span>
 				</span>
@@ -48,11 +48,11 @@
 							:effect="getTooltipEffect"
 						>
 							<span class="font-weight-bold fs-1 no-whitespace text-uppercase">
-								CURRENT PRICE
+								CURRENT TOKEN PRICE
 							</span>
 						</el-tooltip>
 						<span class="font-weight-bold fs-3 text-white no-whitespace">
-							{{ marketInfo.currentPrice }}
+							{{ marketInfo.currentPrice }} {{ marketInfo.paymentCurrency.symbol }}
 						</span>
 					</span>
 				</span>

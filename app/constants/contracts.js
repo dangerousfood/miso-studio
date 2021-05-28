@@ -179,7 +179,31 @@ export const sushi = {
 	}, 
 }
 
+export const usdc = {
+	address: {
+		1: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+		3: '', // ropsten
+		4: '', // rinkeby
+		42: '', // kovan
+		5: '0x78deca24cba286c0f8d56370f5406b48cfce2f86', // goerli
+		56: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', // BSC mainnet
+		97: '', // BSC testnet
+	}, // main
+	misoFeeAcct: '0x2a3070d384f2871c4fddf05f4c5dd9b6272fb54c', // integratorFeeAccount
+}
 
+export const tether = {
+	address: {
+		1: '0xdac17f958d2ee523a2206206994597c13d831ec7',
+		3: '', // ropsten
+		4: '', // rinkeby
+		42: '', // kovan
+		5: '0x509ee0d083ddf8ac028f2a56731412edd63223b9', // goerli
+		56: '0x55d398326f99059ff775485246999027b3197955', // BSC mainnet
+		97: '', // BSC testnet
+	}, // main
+	misoFeeAcct: '0x2a3070d384f2871c4fddf05f4c5dd9b6272fb54c', // integratorFeeAccount
+}
 
 export const dai = {
 	address: {
@@ -188,7 +212,7 @@ export const dai = {
 		4: "", // rinkeby
 		42: "", // kovan
 		5: "0xF2D1F94310823FE26cFa9c9B6fD152834b8E7849", // goerli
-		56: "", // BSC mainnet
+		56: "0x1af3f329e8be154074d8769d1ffa4ee058b1dbc3", // BSC mainnet
 		97: "", // BSC testnet
 	}, // main
 	misoFeeAcct: "0x2a3070d384f2871c4fddf05f4c5dd9b6272fb54c", // integratorFeeAccount
