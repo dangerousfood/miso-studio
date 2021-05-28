@@ -131,6 +131,7 @@
 
 			<base-divider class="mb-4 mt-2 py-1" />
 			<div class="pt-2">
+				<!-- Auction Contract -->
 				<div class="pt-3 mt-1 pr-5">
 					<h5 class="fs-1 font-weight-bold text-uppercase mb-0">CONTRACT:</h5>
 					<div class="d-flex align-items-center">
@@ -153,6 +154,32 @@
 						</div>
 					</div>
 				</div>
+
+				<!-- Token Contract -->
+				<div class="pt-3 mt-1 pr-5">
+					<h5 class="fs-1 font-weight-bold text-uppercase mb-0">TOKEN:</h5>
+					<div class="d-flex align-items-center">
+						<p class="font-weight-bold text-white text-uppercase fs-3 mb-0">
+							{{ tokenInfo.addr | truncate(6) }}
+						</p>
+						<div class="copy-box d-flex align-items-center ml-2">
+							<div class="copy-box_icon">
+								<svg-icon
+									class="cursor-pointer"
+									icon="copy"
+									height="20"
+									width="20"
+									color="#F46E41"
+									:fill="false"
+									@click="copyToClipboard(tokenInfo.addr)"
+								/>
+							</div>
+							<span class="font-weight-bolder text-white fs-2 pl-1">copy</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Auction Detail -->
 				<div v-if="info.website && urlCheck" class="pt-3">
 					<h5 class="fs-1 font-weight-bold mb-2 text-uppercase">Website:</h5>
 					<a
