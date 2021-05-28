@@ -73,7 +73,7 @@
 										class="col-md-6"
 										type="text"
 										placeholder="0"
-										:rules="`required|isBigger:0|max_value:${model.tokenSupply}`"
+										rules="required|isBigger:0"
 										@focus="focusInputCrowdsale('tokenPrice')"
 									></base-input>
 								</div>

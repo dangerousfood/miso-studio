@@ -181,17 +181,17 @@ export default {
 			required: true,
 		},
 		totalTokensCommitted: {
-			type: String,
+			type: [String, Number],
 			required: true,
 		},
 		currentPrice: {
 			type: String,
 			required: true,
 		},
-		minimumPrice: {
-			type: String,
-			required: true,
-		},
+		// minimumPrice: {
+		// 	type: String,
+		// 	required: true,
+		// },
 	},
 	data() {
 		return {

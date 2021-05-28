@@ -69,11 +69,11 @@
 									<base-input
 										v-model="model.minimumCommitmentAmount"
 										:disabled="!tokensApproved"
-										name="minimum amount"
+										name="min price"
 										class="col-md-6"
 										type="text"
 										placeholder="0"
-										:rules="`required|isBigger:0|max_value:${model.tokenSupply}`"
+										rules="required|isBigger:0"
 										@focus="focusInputBatch('minPrice')"
 									></base-input>
 								</div>
