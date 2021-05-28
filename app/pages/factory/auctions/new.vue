@@ -847,6 +847,16 @@ export default {
 		},
 		onTabChanged(newValue) {
 			this.tabIndex = newValue
+
+			if (this.tabIndex === 0) {
+				this.allSteps.forEach((item) => {
+					item.active = false
+				})
+			} else {
+				this.notificationSteps.forEach((item) => {
+					item.active = false
+				})
+			}
 		},
 		allStepInputs(event, val) {
 			let i = 0

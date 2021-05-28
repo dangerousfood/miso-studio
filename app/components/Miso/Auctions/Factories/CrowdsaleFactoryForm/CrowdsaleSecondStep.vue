@@ -399,6 +399,9 @@ export default {
 			this.model.fundWallet = this.coinbase
 		},
 		updateCurrency(currency) {
+			this.crowdsaleitems.walletAddress = false
+			this.crowdsaleitems.tokenPrice = false
+			this.crowdsaleitems.startend = false
 			this.model.paymentCurrency = currency
 			this.crowdsaleitems.payment_currency = true
 			this.$emit(
