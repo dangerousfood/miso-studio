@@ -351,7 +351,7 @@ export default {
 
 			this.model.paymentCurrency = currency
 			this.batchitems.payment_currency = true
-			this.$emit('active-focus-batch', this.batchitems, this.model.chosenAuctionType)
+			this.$emit('active-focus-batch', this.batchitems, 3)
 		},
 		focusInputBatch(val) {
 			for (const key in this.batchitems) {
@@ -361,7 +361,7 @@ export default {
 					this.batchitems[key] = false
 				}
 			}
-			this.$emit('active-focus-batch', this.batchitems, this.model.chosenAuctionType)
+			this.$emit('active-focus-batch', this.batchitems, 3)
 		},
 	},
 }

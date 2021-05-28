@@ -87,6 +87,7 @@
 							<template v-if="chosenAuctionType === 2">
 								<dutch-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus="allStepInputs"
 								></dutch-first-step>
@@ -94,6 +95,7 @@
 							<template v-else-if="chosenAuctionType === 1">
 								<crowdsale-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-crowdsale="allCrowdsaleInputs"
 								></crowdsale-first-step>
@@ -101,6 +103,7 @@
 							<template v-else-if="chosenAuctionType === 3">
 								<batch-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-batch="allBatchStepInputs"
 								></batch-first-step>
@@ -260,6 +263,7 @@
 							<template v-if="chosenAuctionType === 2">
 								<dutch-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus="allStepInputs"
 								></dutch-first-step>
@@ -267,6 +271,7 @@
 							<template v-else-if="chosenAuctionType === 1">
 								<crowdsale-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-crowdsale="allCrowdsaleInputs"
 								></crowdsale-first-step>
@@ -274,6 +279,7 @@
 							<template v-else-if="chosenAuctionType === 3">
 								<batch-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-batch="allBatchStepInputs"
 								></batch-first-step>
@@ -453,7 +459,32 @@ export default {
 	mixins: [theme],
 	data() {
 		return {
-			model: null,
+			model: {
+				token: {
+					address: this.$route.query.token,
+					name: '',
+					symbol: '',
+					decimals: 0,
+				},
+				chosenAuctionType: 2,
+				paymentCurrency: {
+					address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+					name: 'Ethereum',
+					symbol: 'ETH',
+					decimals: 18,
+				},
+				startPrice: 0,
+				minPrice: 0,
+				startDate: '',
+				endDate: '',
+				fundWallet: '',
+				tokenSupply: '',
+				allowanceformatted: '',
+				tokenPrice: '',
+				goal: '',
+				allowance: '',
+				minimumCommitmentAmount: '',
+			},
 			marketFactoryAddress: null,
 			tabIndex: 0,
 			chosenAuctionType: 2,

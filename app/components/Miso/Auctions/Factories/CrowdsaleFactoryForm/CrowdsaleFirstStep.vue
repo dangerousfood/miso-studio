@@ -171,33 +171,16 @@ export default {
 		BaseAlert,
 	},
 	mixins: [duration],
+	props: {
+		initModel: {
+			type: Object,
+			required: true,
+		},
+	},
 	data() {
 		return {
 			misoMarketAddress: '',
 			goalPercentage: 0,
-			model: {
-				token: {
-					address: this.$route.query.token,
-					name: '',
-					symbol: '',
-					decimals: 0,
-				},
-				chosenAuctionType: 1,
-				paymentCurrency: {
-					address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-					name: 'Ethereum',
-					symbol: 'ETH',
-					decimals: 18,
-				},
-				tokenPrice: '',
-				goal: '',
-				startDate: '',
-				endDate: '',
-				fundWallet: '',
-				tokenSupply: '',
-				allowance: '',
-				allowanceformatted: '',
-			},
 			user: {
 				tokenBalance: 0,
 				allowance: '',
@@ -216,6 +199,9 @@ export default {
 		}
 	},
 	computed: {
+		model() {
+			return this.initModel
+		},
 		...mapGetters({
 			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 			coinbase: 'ethereum/coinbase',
@@ -381,11 +367,7 @@ export default {
 					this.crowdsaleitems[key] = false
 				}
 			}
-			this.$emit(
-				'active-focus-crowdsale',
-				this.crowdsaleitems,
-				this.model.chosenAuctionType
-			)
+			this.$emit('active-focus-crowdsale', this.crowdsaleitems, 1)
 		},
 	},
 }

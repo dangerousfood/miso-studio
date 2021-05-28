@@ -404,11 +404,7 @@ export default {
 			this.crowdsaleitems.startend = false
 			this.model.paymentCurrency = currency
 			this.crowdsaleitems.payment_currency = true
-			this.$emit(
-				'active-focus-crowdsale',
-				this.crowdsaleitems,
-				this.model.chosenAuctionType
-			)
+			this.$emit('active-focus-crowdsale', this.crowdsaleitems, 1)
 		},
 		focusInputCrowdsale(val) {
 			for (const key in this.crowdsaleitems) {
@@ -418,11 +414,7 @@ export default {
 					this.crowdsaleitems[key] = false
 				}
 			}
-			this.$emit(
-				'active-focus-crowdsale',
-				this.crowdsaleitems,
-				this.model.chosenAuctionType
-			)
+			this.$emit('active-focus-crowdsale', this.crowdsaleitems, 1)
 		},
 	},
 }

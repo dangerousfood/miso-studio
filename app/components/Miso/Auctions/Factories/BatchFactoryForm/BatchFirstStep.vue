@@ -171,31 +171,15 @@ export default {
 		BaseAlert,
 	},
 	mixins: [duration],
+	props: {
+		initModel: {
+			type: Object,
+			required: true,
+		},
+	},
 	data() {
 		return {
 			misoMarketAddress: '',
-			model: {
-				token: {
-					address: this.$route.query.token,
-					name: '',
-					symbol: '',
-					decimals: 0,
-				},
-				allowance: '',
-				chosenAuctionType: 3,
-				paymentCurrency: {
-					address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-					name: 'Ethereum',
-					symbol: 'ETH',
-					decimals: 18,
-				},
-				startDate: '',
-				endDate: '',
-				tokenSupply: '',
-				minimumCommitmentAmount: '',
-				allowanceformatted: '',
-				fundWallet: '',
-			},
 			user: {
 				tokenBalance: 0,
 				allowance: '',
@@ -214,6 +198,9 @@ export default {
 		}
 	},
 	computed: {
+		model() {
+			return this.initModel
+		},
 		...mapGetters({
 			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 			coinbase: 'ethereum/coinbase',
@@ -362,7 +349,7 @@ export default {
 					this.batchitems[key] = false
 				}
 			}
-			this.$emit('active-focus-batch', this.batchitems, this.model.chosenAuctionType)
+			this.$emit('active-focus-batch', this.batchitems, 3)
 		},
 	},
 }

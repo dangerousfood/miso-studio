@@ -240,7 +240,6 @@ export default {
 	data() {
 		return {
 			misoMarketAddress: '',
-
 			user: {
 				tokenBalance: 0,
 				allowance: '',
