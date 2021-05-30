@@ -35,6 +35,7 @@
     "vue-currency-input": "^1.22.6",
     "vue-loading-spinner": "^1.0.11",
     "vue-plyr": "^7.0.0",
+    "vue-scroll-div": "^1.3.5",
     "vue-slider-component": "^3.2.11"
   },
   "devDependencies": {
