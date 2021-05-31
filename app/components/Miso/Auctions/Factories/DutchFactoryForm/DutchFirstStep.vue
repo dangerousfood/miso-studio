@@ -480,4 +480,8 @@ export default {
 .btn-disabled {
 	cursor: default !important;
 }
+.dropdown-menu.show {
+	min-width: calc(100% - 30px);
+	margin-left: 15px;
+}
 </style>
