@@ -3,6 +3,7 @@
 		<div class="row d-flex justify-content-center">
 			<div class="col-md-11 mt-6">
 				<div v-if="!loading">
+					<!---- Details !---->
 					<div
 						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
 					>
@@ -147,6 +148,8 @@
 							</form>
 						</validation-observer> -->
 					</div>
+
+					<!---- Social Info !---->
 					<hr />
 					<div
 						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
@@ -437,6 +440,8 @@
 							</form>
 						</validation-observer>
 					</div>
+
+					<!---- Permission List !---->
 					<hr />
 					<div
 						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
@@ -509,6 +514,33 @@
 								</div>
 							</div>
 						</form>
+					</div>
+
+					<!---- Cancel Auction !---->
+					<hr />
+					<div
+						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
+					>
+						<span
+							class="
+								text-uppercase text-secondary
+								font-weight-bold
+								border-bottom
+								pb-2
+								fs-4
+								h-100
+							"
+						>
+							Cancel Auction
+						</span>
+						<p class="mt-4">
+							The Auction can only be cancelled by the admin before the start date.
+						</p>
+					</div>
+					<div class="px-md-5">
+						<base-button class="float-left" type="primary" @click="cancelAuction">
+							Cancel
+						</base-button>
 					</div>
 				</div>
 
@@ -656,6 +688,10 @@ export default {
 					this.list.status = !this.list.status
 				}
 			})
+		},
+		async cancelAuction() {
+			const method = this.contractInstance.methods.cancelAuction()
+			await sendTransaction(method, { from: this.coinbase })
 		},
 	},
 }
