@@ -1,140 +1,124 @@
 <template>
 	<div class="container-fluid container-padding">
-		<div class="my-4 row">
-			<div class="col-12 d-flex">
-				<div class="header-left">
-					<img
-						src="@/assets/svg/sake.svg"
-						class="float-left image-rem-size pr-3 mr-1"
-					/>
-					<div class="text-white font-weight-bold text-uppercase title">
-						Let us
-						<br />
-						celebrate
-						<br />
-						with a
-						<br />
-						sip of
+		<div class="row">
+			<div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+				<div class="my-4 row">
+					<div class="col-12">
+						<div class="d-flex">
+							<img src="@/assets/images/misoBowl.png" class="bowl" />
+							<p class="text-uppercase text-white misoido pt-1">Miso Ido</p>
+						</div>
+						<p class="bottom-bar">&nbsp;</p>
 					</div>
 				</div>
-				<div class="text-white sake-text pr-5 image-rem-size header-right">
-					<img :src="computedSakeImage" class="sake-logo-image" />
-				</div>
-			</div>
-		</div>
-		<div v-if="!loading" class="row video-normal">
-			<div class="col-lg-4 col-md-6 col-12 mb-3">
-				<div class="text-white card-title">SAKE Sale</div>
-				<div class="text-white card-description pb-2">
-					Participate in the Sake Sale, the first sale to launch on MISO.
-				</div>
-				<nuxt-link
-					:to="`/auctions/${saketokenauction}`"
-					tag="div"
-					class="cursor-pointer specialCard"
+				<scroll-div
+					ref="myscroll"
+					:height="scrollHeight"
+					view-class="scrolldiv"
+					:scroll="onScroll"
 				>
-					<special-card
-						:auction="saketokenauction"
+					<landing-card
+						v-for="(cardcont, index) in cardContent"
+						:id="'landingcard' + index"
+						:key="index"
+						:ref="'landingcard' + index"
+						:class="{ 'pt-5': index !== 0 }"
+						:cardimg="cardcont.cardimg"
+						:logoimg="cardcont.logoimg"
+						:title="cardcont.title"
+						:description="cardcont.description"
+						:websiteurl="cardcont.websiteurl"
+						:social="cardcont.social"
+						:auction="cardcont.auction"
 						:ingredients="ingredients"
-						:buybuttonflag="true"
-					/>
-				</nuxt-link>
+					></landing-card>
+				</scroll-div>
+				<landing-card
+					v-for="(cardcont, index) in cardContent"
+					:key="index"
+					:class="{ 'pt-5': index !== 0 }"
+					:cardimg="cardcont.cardimg"
+					:logoimg="cardcont.logoimg"
+					:title="cardcont.title"
+					:description="cardcont.description"
+					:websiteurl="cardcont.websiteurl"
+					:social="cardcont.social"
+					:auction="cardcont.auction"
+					:ingredients="ingredients"
+					class="landing-mobile"
+				></landing-card>
 			</div>
-			<div class="col-lg-8 col-md-6 col-12 mb-3">
-				<div class="text-white card-title">About SAKE</div>
-				<div class="text-white card-description pb-2">
-					Learn more about the Sake project in this video documentary. Visit&nbsp;
-					<a
-						href="https://sake.sushi.com"
-						target="_blank"
-						class="sake-com text-white"
-					>
-						sake.sushi.com
-					</a>
-					&nbsp;for more information.
-				</div>
-				<vue-plyr :options="options">
-					<div class="plyr__video-embed">
-						<iframe
-							src="https://www.youtube.com/watch?v=IUb6K1AMUvA"
-							allowfullscreen
-							allowtransparency
-						></iframe>
+			<div class="col-lg-3 col-md-3 d-flex right-pane mt-5">
+				<div></div>
+				<div>
+					<div v-for="(cardcont, index) in cardContent" :key="index">
+						<div class="d-flex">
+							<div class="status-icon">
+								<div v-if="cardcont.status == 'live'" class="d-flex">
+									<div
+										:id="'circle' + index"
+										class="green-circle bg-success"
+										:class="{ 'bg-disabled': index !== 0 }"
+									></div>
+								</div>
+								<div
+									v-if="cardcont.status == 'upcoming'"
+									:id="'circle' + index"
+									class="green-circle bg-orange"
+									:class="{ 'bg-disabled': index !== 0 }"
+								></div>
+							</div>
+							<div>
+								<div class="text-white dead-date pb-1">{{ cardcont.deaddate }}</div>
+								<div class="d-flex">
+									<div
+										class="pane-card d-flex text-white"
+										:class="paneCardBack"
+										@click="paneClick(index)"
+									>
+										<img :src="cardcont.logoimg" class="logo-image" />
+										<div class="margin-auto">
+											<div class="title">{{ cardcont.title }}</div>
+											<div class="panescript">{{ cardcont.panescript }}</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-				</vue-plyr>
-			</div>
-		</div>
-		<loader v-else width="80" height="80" y="250" />
-		<div>
-			<div class="miso-ama-logo px-2">
-				<img :src="computedMisoAma" />
-			</div>
-			<div class="miso-ama-description px-2 text-white">
-				Follow interviews and articles on Medium and Youtube to find out more about
-				MISO.
-			</div>
-			<div class="ama-cards row">
-				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-					<ama-card
-						headerimage="amaheader01.png"
-						:youtubeflag="true"
-						title="MISO Token Launchpad Intro"
-						pubdate="May 12, 2021"
-						linkurl="https://www.youtube.com/watch?v=DthRoorpw60"
-					/>
-				</div>
-				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-					<ama-card
-						headerimage="amaheader02.png"
-						:youtubeflag="false"
-						title="How To Participate in MISO Auctions"
-						pubdate="May 2, 2021"
-						linkurl="https://instantmiso.gitbook.io/miso/using-miso/participating-in-an-auction"
-					/>
-				</div>
-				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-					<ama-card
-						headerimage="amaheader03.png"
-						:youtubeflag="false"
-						title="SUSHI + MISO: The Perfect Combo"
-						pubdate="May 14, 2021"
-						linkurl="https://medium.com/sushiswap-org/sushi-miso-the-perfect-combo-9883548706b1"
-					/>
-				</div>
-				<div class="col-lg-3 col-md-6 col-12 mb-3 ama-card-single">
-					<ama-card
-						headerimage="amaheader04.png"
-						:youtubeflag="false"
-						title="MISO: Cooking New Tokens From Scratch"
-						pubdate="May 16, 2021"
-						linkurl="https://medium.com/sushiswap-org/miso-cooking-new-tokens-from-scratch-c6be6aad64a"
-					/>
 				</div>
 			</div>
 		</div>
-		<auction-modal
-			v-if="showModal && coinbase && !isRightNetwork"
-			@close="showModal = false"
-		></auction-modal>
 	</div>
 </template>
 
 <script>
-import SpecialCard from '@/components/Miso/Auctions/Specials/SpecialCard'
-import AmaCard from '@/components/Miso/Auctions/Specials/AmaCard'
-import AuctionModal from '@/components/web3-core/navbar/AuctionModal'
+import LandingCard from '@/components/Miso/Auctions/Specials/LandingCard'
+// import AuctionModal from '@/components/web3-core/navbar/AuctionModal'
 import { mapGetters, mapActions } from 'vuex'
+import ScrollDiv from 'vue-scroll-div'
+
+import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
+import {
+	getContractInstance as dutchAuctionContract,
+	clearingPrice,
+} from '@/services/web3/auctions/dutch'
+import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
+import { getContractInstance as batchAuctionContract } from '@/services/web3/auctions/batch'
+import { makeBatchCall } from '@/services/web3/base'
+import { toDecimals, toPrecision, to18Decimals } from '@/util/index'
 
 export default {
 	name: 'LiveAuctions',
 	components: {
-		SpecialCard,
-		AmaCard,
-		AuctionModal,
+		LandingCard,
+		// AuctionModal,
+		ScrollDiv,
 	},
 	data() {
 		return {
 			loading: true,
+			scrollHeight: 0,
 			auctionsList: [],
 			ingredients: [
 				{
@@ -151,8 +135,85 @@ export default {
 				},
 			],
 			options: { quality: { default: '1080p' } },
-			saketokenauction: '0x5cFEb913fe8aE7e5E63E5930F044f36Ba4B882aB',
 			showModal: true,
+			cardContent: [
+				{
+					cardimg: 'card01.png',
+					logoimg:
+						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
+					title: 'Manifold Finance',
+					description: '',
+					websiteurl: 'manifoldfinance.com',
+					twitterurl: '',
+					mediumurl: '',
+					auction: '0x4d9858548CE846b8732E28cFce55317E31Fc5388',
+					deaddate: 'June 1 2021, 12AM UTC',
+					panescript: '',
+					type: '',
+					status: '',
+					social: {},
+				},
+				{
+					cardimg: 'card02.png',
+					logoimg:
+						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
+					title: 'Manifold Finance',
+					description: '',
+					websiteurl: 'app.fractionalart.com',
+					twitterurl: '',
+					mediumurl: '',
+					auction: '0x4d9858548CE846b8732E28cFce55317E31Fc5388',
+					deaddate: 'June 1 2021, 12AM UTC',
+					panescript: '',
+					type: '',
+					status: '',
+					social: {},
+				},
+				{
+					cardimg: 'card01.png',
+					logoimg:
+						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
+					title: 'Manifold Finance',
+					description: '',
+					websiteurl: 'xverse.ai',
+					twitterurl: '',
+					mediumurl: '',
+					auction: '0x4d9858548CE846b8732E28cFce55317E31Fc5388',
+					deaddate: 'June 1 2021, 12AM UTC',
+					panescript: '',
+					type: '',
+					status: '',
+					social: {},
+				},
+			],
+			status: {
+				date: '',
+				participants: 0,
+				finished: false,
+				auctionSuccessful: false,
+			},
+			marketInfo: {
+				startTime: 0,
+				endTime: 0,
+				currentPrice: 0,
+				totalTokensCommitted: 0,
+				paymentCurrency: 'ETH',
+				hasPointList: false,
+				totalTokens: 0,
+				commitmentsTotal: 0,
+			},
+			tokenInfo: {
+				address: '',
+				name: '',
+				symbol: '',
+			},
+			about: {
+				title: '',
+				tokenPair: '',
+				recipe: 'Classic Miso',
+			},
+			contractInstance: null,
+			currentpane: 0,
 		}
 	},
 	computed: {
@@ -162,22 +223,109 @@ export default {
 			isRightNetwork: 'ethereum/isRightNetwork',
 			mode: 'theme/getMode',
 		}),
-		computedSakeImage() {
+		paneCardBack() {
 			if (this.mode) {
-				return require('~/assets/images/sake_white.png')
+				return 'pane-card-back'
 			}
-			return require('~/assets/images/sake_black.png')
-		},
-		computedMisoAma() {
-			if (this.mode) {
-				return require('~/assets/svg/misoamalog.svg')
-			}
-			return require('~/assets/svg/misoamalog-dark.svg')
+			return 'pane-card-back-white'
 		},
 	},
-	watch: {},
-	mounted() {
+	watch: {
+		currentpane(val) {
+			this.currentpaneChanged(val)
+		},
+	},
+	beforeMount() {
+		this.scrollHeight = window.innerHeight - 320
+		window.addEventListener('resize', this.myResize)
+	},
+	beforeDestroy() {
+		window.removeEventListener('resize', this.myResize)
+	},
+	async mounted() {
 		this.initAuctions()
+		let i
+		for (i = 0; i < this.cardContent.length; i++) {
+			await this.getTemplateId(this.cardContent[i].auction)
+			let type
+			switch (parseInt(this.marketTemplateId)) {
+				case 1:
+					type = 'crowdsale'
+					this.contractInstance = crowdsaleContract(this.cardContent[i].auction)
+					await this.setCrowdsaleData(this.cardContent[i].auction)
+					break
+				case 2:
+					type = 'dutch'
+					this.contractInstance = dutchAuctionContract(this.cardContent[i].auction)
+					await this.setDutchAuctionData(this.cardContent[i].auction)
+					break
+				case 3:
+					type = 'batch'
+					this.contractInstance = batchAuctionContract(this.cardContent[i].auction)
+					await this.setBatchData(this.cardContent[i].auction)
+					break
+				case 4:
+					type = 'hyperbolic'
+					break
+				default:
+					break
+			}
+			const currentTimestamp = Date.parse(new Date()) / 1000
+			let auction
+			if (this.marketInfo.startTime > currentTimestamp) {
+				auction = 'upcoming'
+				this.status.date = new Date(this.marketInfo.startTime * 1000)
+			} else if (currentTimestamp < this.marketInfo.endTime) {
+				auction = 'live'
+				this.status.date = new Date(this.marketInfo.endTime * 1000)
+			} else {
+				auction = 'finished'
+			}
+			this.cardContent[i].type = type
+			this.cardContent[i].status = auction
+			this.cardContent[i].deaddate = new Date(
+				parseInt(this.marketInfo.endTime) * 1000
+			).toUTCString()
+
+			this.cardContent[i].title = `${this.tokenInfo.name} (${this.tokenInfo.symbol})`
+			this.cardContent[i].title = this.cardContent[i].title.substring(
+				0,
+				this.cardContent[i].title.lastIndexOf('(')
+			)
+
+			if (this.cardContent[i].description)
+				this.cardContent[i].description =
+					this.cardContent[i].description.substring(0, 200) + ' ...'
+
+			const methods = [
+				{ methodName: 'getDocuments', args: [this.cardContent[i].auction] },
+			]
+			const [documents] = await makeBatchCall(misoHelperContract(), methods)
+
+			documents.forEach((document) => {
+				const name = document['0']
+				const data = document['1']
+				if (name && data && data.length > 0) {
+					switch (name) {
+						case 'website':
+							this.cardContent[i].websiteurl = data
+							break
+						case 'icon':
+							this.cardContent[i].logoimg = data
+							break
+						case 'description':
+							this.cardContent[i].description = data
+							break
+						case 'twitter':
+							this.cardContent[i].social[name] = 'https://' + data
+							break
+						default:
+							this.cardContent[i].social[name] = data
+							break
+					}
+				}
+			})
+		}
 	},
 	methods: {
 		...mapActions({
@@ -196,211 +344,280 @@ export default {
 				.map((x) => x[0])
 			this.loading = false
 		},
+		async setDutchAuctionData(auction) {
+			const methods = [{ methodName: 'getDutchAuctionInfo', args: [auction] }]
+			const [data] = await makeBatchCall(misoHelperContract(), methods)
+			const tokenInfo = data.tokenInfo
+			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
+
+			this.setTokenInfo(tokenInfo)
+			this.marketInfo.startTime = data.startTime
+			this.marketInfo.endTime = data.endTime
+			this.marketInfo.startPrice = toDecimals(data.startPrice)
+			this.marketInfo.minimumPrice = toDecimals(data.minimumPrice)
+			this.marketInfo.commitmentsTotal = toPrecision(
+				toDecimals(data.commitmentsTotal),
+				3
+			)
+
+			this.marketInfo.totalTokens = toDecimals(data.totalTokens)
+
+			this.status.auctionSuccessful = data.auctionSuccessful
+			const currentTimestamp = Date.parse(new Date()) / 1000
+			if (data.startTime > currentTimestamp) {
+				this.status.date = new Date(data.startTime * 1000)
+			} else {
+				this.status.date = new Date(data.endTime * 1000)
+			}
+			const marketInfo = {
+				currentTimestamp: Date.parse(new Date()) / 1000,
+				startTime: this.marketInfo.startTime,
+				endTime: this.marketInfo.endTime,
+				startPrice: to18Decimals(this.marketInfo.startPrice),
+				minimumPrice: to18Decimals(this.marketInfo.minimumPrice),
+				totalTokens: to18Decimals(this.marketInfo.totalTokens),
+				commitmentsTotal: to18Decimals(this.commitmentsTotal),
+			}
+			const price = clearingPrice(marketInfo)
+			this.marketInfo.currentPrice = toPrecision(toDecimals(price), 3)
+			const tokensCommitted =
+				this.marketInfo.commitmentsTotal / this.marketInfo.currentPrice
+			this.marketInfo.totalTokensCommitted = toPrecision(tokensCommitted, 3)
+		},
+
+		async setCrowdsaleData(auction) {
+			const methods = [{ methodName: 'getCrowdsaleInfo', args: [auction] }]
+			const [data] = await makeBatchCall(misoHelperContract(), methods)
+			const tokenInfo = data.tokenInfo
+			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
+
+			this.setTokenInfo(tokenInfo)
+			this.marketInfo.startTime = data.startTime
+			this.marketInfo.endTime = data.endTime
+			this.marketInfo.rate = toDecimals(data.rate)
+			this.marketInfo.goal = toDecimals(data.goal)
+			this.marketInfo.totalTokens = toDecimals(data.totalTokens)
+			this.marketInfo.commitmentsTotal = toPrecision(
+				toDecimals(data.commitmentsTotal),
+				2
+			)
+
+			this.status.auctionSuccessful = data.auctionSuccessful
+			this.status.totalTokens = toDecimals(data.totalTokens)
+			this.marketInfo.currentPrice = toPrecision(
+				data.rate / this.status.totalTokens,
+				2
+			)
+			const tokensCommitted = this.marketInfo.commitmentsTotal * this.marketInfo.rate
+			this.marketInfo.totalTokensCommitted = tokensCommitted
+		},
+
+		async setBatchData(auction) {
+			const methods = [{ methodName: 'getBatchAuctionInfo', args: [auction] }]
+			const [data] = await makeBatchCall(misoHelperContract(), methods)
+			const tokenInfo = data.tokenInfo
+			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
+
+			this.setTokenInfo(tokenInfo)
+			this.marketInfo.startTime = data.startTime
+			this.marketInfo.endTime = data.endTime
+			this.marketInfo.totalTokens = toDecimals(data.totalTokens)
+			this.marketInfo.commitmentsTotal = toPrecision(
+				toDecimals(data.commitmentsTotal),
+				2
+			)
+			this.marketInfo.minimumCommitmentAmount = toDecimals(
+				data.minimumCommitmentAmount
+			)
+
+			this.status.auctionSuccessful = data.auctionSuccessful
+			this.status.totalTokens = toDecimals(data.totalTokens)
+			this.marketInfo.currentPrice = toPrecision(
+				this.marketInfo.commitmentsTotal / this.status.totalTokens,
+				2
+			)
+		},
+
+		async getTemplateId(auction) {
+			const methods = [{ methodName: 'marketTemplate' }]
+			const [marketTemplate] = await makeBatchCall(
+				dutchAuctionContract(auction),
+				methods
+			)
+			this.marketTemplateId = marketTemplate
+		},
+
+		setTokenInfo(tokenInfo) {
+			this.tokenInfo = tokenInfo
+			this.about.title = `${tokenInfo.name} (${tokenInfo.symbol})`
+			this.about.tokenPair = `${tokenInfo.symbol}/${this.marketInfo.paymentCurrency.symbol}`
+		},
+
+		myResize() {
+			this.scrollHeight = window.innerHeight - 320
+		},
+
+		paneClick(ind) {
+			if (ind === 0) this.$refs.myscroll.scrollTo('top')
+			else if (ind === this.cardContent.length - 1) this.$refs.myscroll.scrollTo(9999)
+			else {
+				let height = 0
+				let i
+				for (i = 0; i < ind; i++) {
+					height =
+						height +
+						parseInt(getComputedStyle(document.documentElement).fontSize) * 3 +
+						document.getElementById('landingcard' + i).offsetHeight
+				}
+				this.$refs.myscroll.scrollTo(height)
+			}
+			this.currentpaneChanged(ind)
+		},
+
+		currentpaneChanged(val) {
+			let i
+			for (i = 0; i < this.cardContent.length; i++) {
+				if (document.getElementById('circle' + i) != null) {
+					if (i !== val) {
+						document.getElementById('circle' + i).classList.add('bg-disabled')
+					} else {
+						document.getElementById('circle' + i).classList.remove('bg-disabled')
+					}
+				}
+			}
+		},
+
+		onScroll(e, val) {
+			let i
+			let height = 0
+			for (i = 0; i < this.cardContent.length; i++) {
+				height = height + document.getElementById('landingcard' + i).offsetHeight
+			}
+			const maxScroll = height - this.$refs.myscroll.height
+			height = 0
+			if (e.target.scrollTop === maxScroll)
+				this.currentpaneChanged(this.cardContent.length - 1)
+			else if (e.target.scrollTop === 0) this.currentpaneChanged(0)
+			else {
+				for (i = 0; i < this.cardContent.length - 1; i++) {
+					height = height + document.getElementById('landingcard' + i).offsetHeight
+					if (e.target.scrollTop > height) {
+						this.currentpaneChanged(i + 1)
+						break
+					}
+				}
+			}
+		},
 	},
 }
 </script>
 
 <style lang="scss" scoped>
+.bowl {
+	width: 6rem;
+	height: fit-content;
+	margin: auto 0;
+	@media screen and (max-width: 400px) {
+		width: 4.5rem;
+	}
+}
+.misoido {
+	font-size: 3rem;
+	@media screen and (min-width: 360px) and (max-width: 400px) {
+		font-size: 2rem;
+	}
+	@media screen and (max-width: 359px) {
+		font-size: 1.7rem;
+	}
+}
+.bottom-bar {
+	background-image: linear-gradient(115deg, #ff000b 0%, #ff5100 40%, #f800ff 80%);
+	height: 2px;
+	margin: 0 auto;
+}
+
+.scrolldiv {
+	width: 100%;
+	// height: 800px;
+	@media screen and (max-width: 767px) {
+		display: none;
+	}
+}
+
+.landing-mobile {
+	display: none;
+	@media screen and (max-width: 767px) {
+		display: inline;
+	}
+}
+
+.scroll-div.is-scroll-native::-webkit-scrollbar {
+	width: 0;
+	height: 0;
+}
+
+.right-pane {
+	@media screen and (max-width: 767px) {
+		display: none !important;
+	}
+}
+
+.pane-card {
+	border-radius: 6px;
+	padding: 0.5rem;
+	border: none;
+	cursor: pointer;
+	margin-bottom: 1.5rem;
+}
+
+.pane-card-back {
+	background-color: #262f53;
+}
+
+.pane-card-back-white {
+	background-color: #f3f3f3;
+}
+
+.logo-image {
+	min-width: 3.5rem;
+	max-height: 3.5rem;
+	margin-right: 0.5rem;
+	margin-top: auto;
+	margin-bottom: auto;
+}
+
 .title {
 	font-size: 1rem;
-	letter-spacing: 0.25rem;
-	padding-left: 3rem;
-	// padding-right: 3rem;
-	@media screen and (max-width: 800px) {
-		padding-left: 2rem;
-		// padding-right: 2rem;
-	}
-	@media screen and (max-width: 750px) {
-		padding-left: 1rem;
-		padding-right: 1rem;
-	}
-	@media screen and (max-width: 700px) {
-		font-size: 0.7rem;
-		letter-spacing: 0.1rem;
-		padding-left: 0.7rem;
-		padding-right: 0.7rem;
-	}
-	@media screen and (max-width: 500px) {
-		font-size: 0.5rem;
-		letter-spacing: 0.08rem;
-		padding-left: 0.5rem;
-		padding-right: 0.5rem;
-	}
-	@media screen and (max-width: 360px) {
-		font-size: 0.4rem;
-		letter-spacing: 0.04rem;
-		padding-left: 0.4rem;
-		padding-right: 0.4rem;
-	}
 }
 
-.image-rem-size {
-	width: 6rem;
-	height: 6rem;
-	@media screen and (max-width: 700px) {
-		width: 4rem;
-		height: 4rem;
-	}
-	@media screen and (max-width: 500px) {
-		width: 3rem;
-		height: 3rem;
-	}
-	@media screen and (max-width: 360px) {
-		width: 2rem;
-		height: 2rem;
-	}
+.panescript {
+	font-size: 0.6rem;
 }
 
-.specialCard {
-	transition: all 0.4s ease-in-out;
-	transform: scale(1);
-	max-width: 490px;
-	@media screen and (max-width: 768px) {
-		max-width: 100%;
-	}
+.margin-auto {
+	margin: auto;
 }
 
-.gradient-background {
-	background-image: linear-gradient(
-		90deg,
-		rgba(91, 13, 131, 0.3) 24.52%,
-		rgba(248, 60, 44, 0.3) 52.9%
-	);
-	text-align: center;
-	font-weight: bold;
-	font-size: 24px;
-	height: 100px;
-	min-height: 100px;
-	width: 100%;
-	border-radius: 6px;
+.dead-date {
+	font-size: 0.6rem;
 }
 
-.top-50 {
-	top: 50%;
-	position: relative;
+.green-circle {
+	border-radius: 1rem;
+	width: 1rem;
+	height: 1rem;
 }
 
-.sake-img {
-	width: 80px;
-	position: relative;
-	top: -80%;
+.status-icon {
+	margin: auto;
+	padding-right: 0.5rem;
 }
 
-.container-padding {
-	padding-top: 20px;
+.bg-orange {
+	background-color: #ffa500 !important;
 }
 
-.miso-ama {
-	background-image: linear-gradient(
-		180deg,
-		rgba(59, 20, 99, 0.8) 5%,
-		rgba(59, 20, 99, 1) 20%,
-		rgba(59, 20, 99, 0) 55%
-	);
-	background-size: 100% 100%;
-	text-align: center;
-	border-radius: 8px;
-}
-
-.miso-ama-description {
-	color: white;
-	padding-top: 50px;
-}
-
-.miso-ama-logo {
-	padding-top: 75px;
-}
-
-.ama-cards {
-	padding-top: 50px;
-	padding-bottom: 30px;
-	margin-left: 5px;
-	margin-right: 5px;
-}
-
-.ama-card-single {
-	z-index: 2;
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-.footer-link {
-	display: none;
-}
-
-.copyright {
-	display: none;
-}
-
-.card-title {
-	font-size: 18px;
-	font-weight: bold;
-}
-
-.gallery-card {
-	padding-top: 15px !important;
-	text-align: center;
-}
-
-.sake-com {
-	// color: white;
-	text-decoration: underline;
-}
-
-.gal-play {
-	position: absolute;
-	left: 45%;
-	top: 35%;
-}
-
-.card-description {
-	font-size: 12px;
-	min-height: 52px;
-}
-
-.sake-text {
-	display: flex;
-	justify-content: space-between;
-	flex: 1;
-}
-
-.video-poster {
-	object-fit: cover;
-}
-
-.video-mobile {
-	display: none;
-	@media screen and (max-width: 767px) {
-		display: block;
-	}
-}
-
-.video-normal {
-	@media screen and (max-width: 768px) {
-		flex-direction: column-reverse;
-	}
-}
-
-.header-left {
-	flex: 1;
-}
-
-.header-right {
-	flex: 2;
-	@media screen and (min-width: 768px) and (max-width: 991px) {
-		flex: 1;
-	}
-	@media screen and (max-width: 767px) {
-		flex: 1;
-	}
-}
-
-.sake-logo-image {
-	@media screen and (min-width: 992px) {
-		padding-left: 0.5rem;
-	}
-	@media screen and (min-width: 768px) and (max-width: 991px) {
-		padding-left: 2rem;
-	}
+.bg-disabled {
+	opacity: 0.5;
 }
 </style>
