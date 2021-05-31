@@ -170,31 +170,15 @@ export default {
 		BaseAlert,
 	},
 	mixins: [duration],
+	props: {
+		initModel: {
+			type: Object,
+			required: true,
+		},
+	},
 	data() {
 		return {
 			misoMarketAddress: '',
-			model: {
-				token: {
-					address: this.$route.query.token,
-					name: '',
-					symbol: '',
-					decimals: 0,
-				},
-				chosenAuctionType: 2,
-				paymentCurrency: {
-					address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
-					name: 'Ethereum',
-					symbol: 'ETH',
-					decimals: 18,
-				},
-				startPrice: 0,
-				minPrice: 0,
-				startDate: '',
-				endDate: '',
-				fundWallet: '',
-				tokenSupply: '',
-				allowanceformatted: '',
-			},
 			user: {
 				tokenBalance: 0,
 				allowance: '',
@@ -215,6 +199,9 @@ export default {
 		}
 	},
 	computed: {
+		model() {
+			return this.initModel
+		},
 		...mapGetters({
 			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 			coinbase: 'ethereum/coinbase',

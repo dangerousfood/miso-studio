@@ -53,10 +53,7 @@
 						@update:startIndex="onTabChanged"
 					>
 						<wizard-tab>
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">1</span>
 								<p>Auction</p>
 							</template>
@@ -83,16 +80,14 @@
 							<base-divider class="my-5" />
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step1')">
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">2</span>
 								<p>SETUP</p>
 							</template>
 							<template v-if="chosenAuctionType === 2">
 								<dutch-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus="allStepInputs"
 								></dutch-first-step>
@@ -100,6 +95,7 @@
 							<template v-else-if="chosenAuctionType === 1">
 								<crowdsale-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-crowdsale="allCrowdsaleInputs"
 								></crowdsale-first-step>
@@ -107,16 +103,14 @@
 							<template v-else-if="chosenAuctionType === 3">
 								<batch-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-batch="allBatchStepInputs"
 								></batch-first-step>
 							</template>
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step2')">
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">3</span>
 								<p>SALE</p>
 							</template>
@@ -235,10 +229,7 @@
 						@update:startIndex="onTabChanged"
 					>
 						<wizard-tab>
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">1</span>
 								<p>Auction</p>
 							</template>
@@ -265,16 +256,14 @@
 							<base-divider class="my-5" />
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step1')">
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">2</span>
 								<p>SETUP</p>
 							</template>
 							<template v-if="chosenAuctionType === 2">
 								<dutch-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus="allStepInputs"
 								></dutch-first-step>
@@ -282,6 +271,7 @@
 							<template v-else-if="chosenAuctionType === 1">
 								<crowdsale-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-crowdsale="allCrowdsaleInputs"
 								></crowdsale-first-step>
@@ -289,16 +279,14 @@
 							<template v-else-if="chosenAuctionType === 3">
 								<batch-first-step
 									ref="step1"
+									:init-model="model"
 									@on-validated="onStepValidated"
 									@active-focus-batch="allBatchStepInputs"
 								></batch-first-step>
 							</template>
 						</wizard-tab>
 						<wizard-tab :before-change="() => deployAuction('step2')">
-							<template
-								v-if="tabIndex === 1 || tabIndex === 0 || tabIndex === 2"
-								slot="label"
-							>
+							<template slot="label">
 								<span class="fs-5">3</span>
 								<p>SALE</p>
 							</template>
@@ -471,7 +459,32 @@ export default {
 	mixins: [theme],
 	data() {
 		return {
-			model: null,
+			model: {
+				token: {
+					address: this.$route.query.token,
+					name: '',
+					symbol: '',
+					decimals: 0,
+				},
+				chosenAuctionType: 2,
+				paymentCurrency: {
+					address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+					name: 'Ethereum',
+					symbol: 'ETH',
+					decimals: 18,
+				},
+				startPrice: 0,
+				minPrice: 0,
+				startDate: '',
+				endDate: '',
+				fundWallet: '',
+				tokenSupply: '',
+				allowanceformatted: '',
+				tokenPrice: '',
+				goal: '',
+				allowance: '',
+				minimumCommitmentAmount: '',
+			},
 			marketFactoryAddress: null,
 			tabIndex: 0,
 			chosenAuctionType: 2,
@@ -847,6 +860,16 @@ export default {
 		},
 		onTabChanged(newValue) {
 			this.tabIndex = newValue
+
+			if (this.tabIndex === 0) {
+				this.allSteps.forEach((item) => {
+					item.active = false
+				})
+			} else {
+				this.notificationSteps.forEach((item) => {
+					item.active = false
+				})
+			}
 		},
 		allStepInputs(event, val) {
 			let i = 0

@@ -240,7 +240,6 @@ export default {
 	data() {
 		return {
 			misoMarketAddress: '',
-
 			user: {
 				tokenBalance: 0,
 				allowance: '',
@@ -402,6 +401,9 @@ export default {
 			this.model.fundWallet = this.coinbase
 		},
 		updateCurrency(currency) {
+			this.items.walletAddress = false
+			this.items.dutchSettings = false
+			this.items.startend = false
 			this.model.paymentCurrency = currency
 			this.items.payment_currency = true
 			this.$emit('active-focus', this.items, this.model.chosenAuctionType)
