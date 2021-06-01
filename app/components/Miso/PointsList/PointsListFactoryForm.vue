@@ -44,6 +44,28 @@
 										</p>
 									</div>
 								</div>
+								<div class="form-row justify-content-center mb-4">
+									<div class="input-file-container">
+										<input
+											id="importCSV"
+											type="file"
+											class="mt-4 input-file"
+											@change="onFileChange"
+										/>
+										<label tabindex="0" for="my-file" class="input-file-trigger">
+											Import the CSV
+										</label>
+									</div>
+
+									<!-- <base-button
+										class="mt-4"
+										type="file"
+										:round="true"
+										@click.prevent="importCSV"
+									>
+										Import the CSV
+									</base-button> -->
+								</div>
 
 								<div class="form-row justify-content-center">
 									<div
@@ -270,6 +292,7 @@ export default {
 			transactionHash: null,
 			pointListAddress: null,
 			pointListDeployedEventSubscribtion: null,
+			fileinput: '',
 		}
 	},
 	computed: {
@@ -291,6 +314,19 @@ export default {
 		},
 		hideNextBtn() {
 			return this.activeStep === 1
+		},
+	},
+	watch: {
+		fileinput() {
+			const arr = this.fileinput.split('\r\n')
+			const points = arr.map((elm) => {
+				const childArray = elm.split(',')
+				return {
+					account: childArray[0],
+					amount: childArray[childArray.length - 1],
+				}
+			})
+			this.pointsListModel.points = points
 		},
 	},
 	mounted() {
@@ -329,6 +365,19 @@ export default {
 		},
 		addPoint() {
 			this.pointsListModel.points.push({ account: '', amount: 0 })
+		},
+		onFileChange(e) {
+			const files = e.target.files || e.dataTransfer.files
+			if (!files.length) return
+			this.createInput(files[0])
+		},
+		createInput(file) {
+			const reader = new FileReader()
+			const vm = this
+			reader.onload = (e) => {
+				vm.fileinput = reader.result
+			}
+			reader.readAsText(file)
 		},
 		removePoint(index) {
 			this.pointsListModel.points.splice(index, 1)
@@ -380,3 +429,46 @@ export default {
 	},
 }
 </script>
+
+<style lang="scss">
+.input-file-container {
+	position: relative;
+}
+.input-file-trigger {
+	display: block;
+	padding: 14px 45px;
+	background: #f46e41;
+	background-image: linear-gradient(to bottom left, #f46e41, #ba54f5, #f46e41);
+	background-size: 210% 210%;
+	background-position: top right;
+	background-color: #f46e41;
+	transition: all 0.15s ease;
+	box-shadow: none;
+	color: #ffffff;
+	font-size: 1rem !important;
+	font-weight: bolder;
+	cursor: pointer;
+}
+.input-file {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 225px;
+	opacity: 0;
+	padding: 14px 0;
+	cursor: pointer;
+}
+.input-file:hover + .input-file-trigger,
+.input-file:focus + .input-file-trigger,
+.input-file-trigger:hover,
+.input-file-trigger:focus {
+	background: #f46e41;
+	background-image: linear-gradient(to bottom left, #f46e41, #ba54f5, #f46e41);
+	background-size: 210% 210%;
+	background-position: top right;
+	background-color: #f46e41;
+	transition: all 0.15s ease;
+	box-shadow: none;
+	color: #ffffff;
+}
+</style>
