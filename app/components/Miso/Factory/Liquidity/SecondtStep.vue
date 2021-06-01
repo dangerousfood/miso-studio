@@ -12,6 +12,9 @@
 								LIQUIDITY PAIR TOKEN*
 							</div>
 						</div>
+						<div class="ml-5 mb-4 liquidity_pair_token text-center py-2">
+							{{ model.token.symbol }} + {{ model.auction.payment_currency }}
+						</div>
 					</div>
 					<div
 						class="
@@ -23,11 +26,11 @@
 						"
 					>
 						<div
+							v-if="data.auction.payment_currency === 'ETH'"
 							class="d-flex align-items-center pl-3"
-							@click="activeSectionCalc('token')"
 						>
 							<base-radio
-								v-model="type"
+								v-model="model.auction.payment_currency"
 								name="ETH"
 								class="text-white font-weight-bold fs-4 mr-3 mb-2"
 							>
@@ -35,94 +38,73 @@
 							</base-radio>
 							<svg-icon icon="ethereum" height="30" width="30" />
 						</div>
-						<p class="pr-3 mb-0">Most Common</p>
-					</div>
-					<div class="row mt-3">
-						<div class="col-lg-4 mb-3">
-							<div class="border-miso radio_wrapper">
-								<div
-									class="d-flex h-100 fs-4 mr-3 pl-3 align-items-center"
-									@click="activeSectionCalc('token')"
-								>
-									<base-radio
-										v-model="type"
-										name="DAI"
-										class="text-white font-weight-bold fs-3 mr-3 mb-2"
-									>
-										DAI
-									</base-radio>
-									<div class="tokenImage">
-										<img src="@/assets/svg/DAI.svg" alt="DAI" class="img-fluid" />
-									</div>
-								</div>
+						<div
+							v-else-if="data.auction.payment_currency === 'DAI'"
+							class="d-flex align-items-center pl-3"
+						>
+							<base-radio
+								v-model="model.auction.payment_currency"
+								name="DAI"
+								class="text-white font-weight-bold fs-3 mr-3 mb-2"
+							>
+								DAI
+							</base-radio>
+							<div class="tokenImage">
+								<img src="@/assets/svg/DAI.svg" alt="DAI" class="img-fluid" />
 							</div>
 						</div>
-
-						<div class="col-lg-4 mb-3">
-							<div class="border-miso radio_wrapper">
-								<div
-									class="d-flex h-100 fs-4 mr-3 pl-3 align-items-center"
-									@click="activeSectionCalc('token')"
-								>
-									<base-radio
-										v-model="type"
-										name="USD"
-										class="text-white font-weight-bold mr-3 mb-2"
-										:class="computedFontSize"
-									>
-										USDC
-									</base-radio>
-									<div class="tokenImage">
-										<img src="@/assets/svg/USD.svg" alt="USD" />
-									</div>
-								</div>
+						<div
+							v-else-if="data.auction.payment_currency === 'USDT'"
+							class="d-flex align-items-center pl-3"
+						>
+							<base-radio
+								v-model="model.auction.payment_currency"
+								name="USDT"
+								class="text-white font-weight-bold mr-3 mb-2"
+								:class="computedFontSize"
+							>
+								USDT
+							</base-radio>
+							<div class="tokenImage">
+								<img src="@/assets/svg/USD.svg" alt="USD" />
 							</div>
 						</div>
-
-						<div class="col-lg-4 mb-3">
-							<div class="border-miso radio_wrapper">
-								<div
-									class="d-flex h-100 fs-3 mr-3 pl-3 align-items-center"
-									@click="activeSectionCalc('token')"
-								>
-									<base-radio
-										v-model="type"
-										name="USDT"
-										class="text-white font-weight-bold fs-4 mr-3 mb-2"
-									>
-										TETHER (USDT)
-									</base-radio>
-									<div class="tokenImage">
-										<img src="@/assets/svg/USDT.svg" alt="USDT" class="img-fluid" />
-									</div>
-								</div>
+						<div
+							v-else-if="data.auction.payment_currency === 'TETHER'"
+							class="d-flex align-items-center pl-3"
+						>
+							<base-radio
+								v-model="model.auction.payment_currency"
+								name="USDT"
+								class="text-white font-weight-bold fs-4 mr-3 mb-2"
+							>
+								TETHER (USDT)
+							</base-radio>
+							<div class="tokenImage">
+								<img src="@/assets/svg/USDT.svg" alt="USDT" class="img-fluid" />
 							</div>
 						</div>
-						<div class="col-4">
-							<div class="border-miso radio_wrapper">
-								<div
-									class="d-flex h-100 fs-3 mr-3 pl-3 align-items-center"
-									@click="activeSectionCalc('token')"
-								>
-									<base-radio
-										v-model="type"
-										name="custom"
-										class="text-white text-uppercase font-weight-bold fs-4 mr-3 mb-2"
-									>
-										custom
-									</base-radio>
-								</div>
-							</div>
-						</div>
-						<div class="col-8">
+						<div v-else class="d-flex col-12 align-items-center pl-3">
+							<base-radio
+								v-model="model.auction.payment_currency"
+								name="custom"
+								class="text-white col-2 font-weight-bold fs-4 mr-3 mb-2"
+							>
+								CUSTOM
+							</base-radio>
 							<base-input
 								v-model="customType"
-								:disabled="!inputActive"
+								:disabled="true"
 								placeholder="Search by token name, token symbol, or Enter an ERC-20 token address"
-								class="custom-input"
+								class="custom-input col-10 p-0"
 								name="token"
-								:rules="rule"
 							/>
+						</div>
+					</div>
+
+					<div class="row p-3">
+						<div class="">
+							Liquidity pair token is set to the payment currency from your auction.
 						</div>
 					</div>
 				</div>
@@ -153,7 +135,8 @@
 								name="slider"
 								class="text-white fs-4 mr-3 mb-2"
 							>
-								Select the percentage of auction fund reserved for provision
+								Enter the percentage of auction sale you would like to reserve for
+								provision
 							</base-radio>
 						</div>
 						<div class="col-12">
@@ -169,10 +152,10 @@
 											class="custom-input w-100"
 											@focus="activeSectionCalc('provision')"
 										/>
-										<span class="ml-3">LCRX</span>
+										<span class="ml-3">{{ model.token.symbol }}</span>
 									</div>
 									<span class="fs-1">
-										Remaining Token Balance: {{ remainingTokens }}
+										Remaining Token Allowance: {{ remainingTokens }}
 									</span>
 								</div>
 								<div class="amount_or d-flex justify-content-center pt-3">- Or -</div>
@@ -207,15 +190,18 @@
 										></vue-slider>
 									</client-only>
 									<div class="mt-4 pt-2">
-										<span class="fs-1">Your auction allocation: 800,000 LCRX</span>
+										<span class="fs-1">
+											Your auction allocation: 800,000 {{ model.token.symbol }}
+										</span>
 									</div>
 								</div>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="mt-5 fs-2">
-								25% of amount raised from auction in ETH, pairing with 200,000 LCRX,
-								will be launched on SushiSwap as a 50/50 weighting liquidity pool.
+								25% of amount raised from auction in ETH, pairing with 200,000
+								{{ model.token.symbol }}, will be launched on SushiSwap as a 50/50
+								weighting liquidity pool.
 							</div>
 						</div>
 					</div>
@@ -228,15 +214,16 @@
 <script>
 export default {
 	name: 'SecondStep',
-	props: ['data'],
+	props: {
+		data: {
+			type: Object,
+			default: null,
+		},
+	},
 	data() {
 		return {
 			colors: {
 				token: false,
-			},
-			model: {
-				type: 'ETH',
-				amount: '',
 			},
 			type: 'ETH',
 			amountType: 'input',
@@ -244,13 +231,15 @@ export default {
 			customType: '',
 			percentage: 0,
 			activeSection: {
-				token: false,
 				provision: false,
 			},
 			rule: '',
 		}
 	},
 	computed: {
+		model() {
+			return this.data
+		},
 		computedFontSize() {
 			const width = this.$screen.width
 			if (width >= 1200 && width <= 1400) {
@@ -297,6 +286,7 @@ export default {
 		},
 	},
 	created() {
+		console.log(this.data)
 		const typeChecks = ['USD', 'ETH', 'DAI', 'USDT']
 		if (this.data) {
 			Object.assign(this.model, this.data)
@@ -378,5 +368,10 @@ export default {
 	.radio_wrapper label {
 		font-size: 10px !important;
 	}
+}
+.liquidity_pair_token {
+	width: 128px;
+	border-radius: 10px;
+	background: rgba(246, 102, 69, 0.4);
 }
 </style>

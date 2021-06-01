@@ -1,13 +1,13 @@
 <template>
 	<div class="row">
 		<div class="col-12 col-lg-9 col-xl-8 order-1 order-lg-0">
-			<div class="d-flex align-items-center mt-4">
+			<div class="d-flex align-items-center mt-4 px-5">
 				<svg-icon icon="liquid-luncher" height="70" width="70" />
 				<h2 class="mb-0 pl-3 text-white font-weight-bold fs-10">
 					Liquidity Launcher
 				</h2>
 			</div>
-			<div class="row">
+			<div class="row px-5">
 				<div class="col-12">
 					<div>
 						<client-only>
@@ -162,7 +162,23 @@ export default {
 			breackpoint: null,
 			nextBtnLoading: false,
 			tabIndex: 0,
-			model: null,
+			model: {
+				wallet: '',
+				token: {
+					address: '',
+					name: '',
+					symbol: '',
+				},
+				auction: {
+					address: '',
+					payment_currency: '',
+				},
+				type: 'ETH',
+				amount: '',
+				vaultAddr: '',
+				lunchDate: null,
+				endTime: '',
+			},
 			chosenLauncherType: 1,
 			firstSteps: [
 				{
@@ -177,7 +193,7 @@ export default {
 					top: 42.5,
 					title: 'AUCTION ADDRESS (optional)',
 					desctiption:
-						'Enter the address of the auction held for this token. This enables us to import data from the auction to facilitate the launching process. This is not required, if you did not have an auction, leave this field blank.',
+						'Enter the address of the auction held for this token. \n\n This enables us to import data from the auction to facilitate the launching process. This is not required, if you did not have an auction, leave this field blank.',
 				},
 				{
 					active: false,
@@ -188,13 +204,6 @@ export default {
 				},
 			],
 			SecondStep: [
-				{
-					active: true,
-					top: 24.5,
-					title: 'LIQUIDITY PAIR TOKEN*',
-					desctiption:
-						'Select the asset that your custom token will be paired with when it’s liquidity pool is launched on SushiSwap.  Common pair tokens are ETH and stablecoins, but you can use any ERC-20 token.',
-				},
 				{
 					active: false,
 					top: 55,

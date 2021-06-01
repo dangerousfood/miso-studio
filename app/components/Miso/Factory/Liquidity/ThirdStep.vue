@@ -165,14 +165,14 @@ export default {
 		[DatePicker.name]: DatePicker,
 		[TimeSelect.name]: TimeSelect,
 	},
-	props: ['data'],
+	props: {
+		data: {
+			type: Object,
+			default: null,
+		},
+	},
 	data() {
 		return {
-			model: {
-				vaultAddr: '',
-				lunchDate: null,
-				endTime: '',
-			},
 			type: 180,
 			rule: '',
 			customDays: '',
@@ -185,6 +185,9 @@ export default {
 		}
 	},
 	computed: {
+		model() {
+			return this.data
+		},
 		...mapGetters({ coinbase: 'ethereum/coinbase' }),
 	},
 	watch: {
