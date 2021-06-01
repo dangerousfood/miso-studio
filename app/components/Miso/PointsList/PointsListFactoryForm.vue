@@ -69,7 +69,7 @@
 												placeholder="Amount"
 												type="number"
 												min="0"
-												rules="required|numeric|min_value:0"
+												rules="required|min_value:0"
 											></base-input>
 										</div>
 										<div class="col-md-1 mt-4">
