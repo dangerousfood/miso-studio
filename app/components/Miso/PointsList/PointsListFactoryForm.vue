@@ -44,28 +44,6 @@
 										</p>
 									</div>
 								</div>
-								<div class="form-row justify-content-center mb-4">
-									<div class="input-file-container">
-										<input
-											id="importCSV"
-											type="file"
-											class="mt-4 input-file"
-											@change="onFileChange"
-										/>
-										<label tabindex="0" for="my-file" class="input-file-trigger">
-											Import the CSV
-										</label>
-									</div>
-
-									<!-- <base-button
-										class="mt-4"
-										type="file"
-										:round="true"
-										@click.prevent="importCSV"
-									>
-										Import the CSV
-									</base-button> -->
-								</div>
 
 								<div class="form-row justify-content-center">
 									<div
@@ -91,7 +69,7 @@
 												placeholder="Amount"
 												type="number"
 												min="0"
-												rules="required|numeric|min_value:1"
+												rules="required|numeric|min_value:0"
 											></base-input>
 										</div>
 										<div class="col-md-1 mt-4">
@@ -112,6 +90,24 @@
 									>
 										Add to List
 									</base-button>
+
+									<div class="justify-content-center mt-4 pl-3">
+										<div class="input-file-container">
+											<input
+												id="importCSV"
+												type="file"
+												class="mt-4 input-file"
+												@change="onFileChange"
+											/>
+											<label
+												tabindex="0"
+												for="my-file"
+												class="input-file-trigger is-rounded"
+											>
+												Import the CSV
+											</label>
+										</div>
+									</div>
 								</div>
 								<hr />
 								<base-button
@@ -319,13 +315,15 @@ export default {
 	watch: {
 		fileinput() {
 			const arr = this.fileinput.split('\r\n')
-			const points = arr.map((elm) => {
-				const childArray = elm.split(',')
-				return {
-					account: childArray[0],
-					amount: childArray[childArray.length - 1],
-				}
-			})
+			const points = arr
+				.filter((elm) => elm !== '')
+				.map((elm) => {
+					const childArray = elm.split(',')
+					return {
+						account: childArray[0],
+						amount: childArray[childArray.length - 1],
+					}
+				})
 			this.pointsListModel.points = points
 		},
 	},
