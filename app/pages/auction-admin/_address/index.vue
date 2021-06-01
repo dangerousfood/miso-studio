@@ -526,81 +526,84 @@
 						>
 							Point List
 						</span>
-						<div class="form-row justify-content-center mt-4">
-							<div
-								v-for="(point, index) in pointsListModel.points"
-								:key="index"
-								class="col-12 d-flex justify-content-center"
-							>
-								<div class="col-md-5">
-									<base-input
-										v-model="point.account"
-										:label="`Account ${index + 1}`"
-										name="Account"
-										placeholder="Account Address"
-										type="text"
-										rules="required|isAddress"
-									></base-input>
-								</div>
-								<div class="col-md-5">
-									<base-input
-										v-model="point.amount"
-										:label="`Amount ${index + 1}`"
-										name="Amount"
-										placeholder="Amount"
-										type="number"
-										step="0.00001"
-										min="0"
-										rules="required|min_value:0"
-									></base-input>
-								</div>
-								<div class="col-md-1 mt-4">
-									<base-button
-										type="primary"
-										:min-width="50"
-										@click.prevent="removePoint(index)"
+						<validation-observer v-slot="{ invalid }">
+							<form class="needs-validation" @submit.prevent="updatePointList">
+								<div class="form-row justify-content-center mt-4">
+									<div
+										v-for="(point, index) in pointsListModel.points"
+										:key="index"
+										class="col-12 d-flex justify-content-center"
 									>
-										-
+										<div class="col-md-5">
+											<base-input
+												v-model="point.account"
+												:label="`Account ${index + 1}`"
+												name="Account"
+												placeholder="Account Address"
+												type="text"
+												rules="required|isAddress"
+											></base-input>
+										</div>
+										<div class="col-md-5">
+											<base-input
+												v-model="point.amount"
+												:label="`Amount ${index + 1}`"
+												name="Amount"
+												placeholder="Amount"
+												type="number"
+												step="0.00001"
+												min="0"
+												rules="required|min_value:0"
+											></base-input>
+										</div>
+										<div class="col-md-1 mt-4">
+											<base-button
+												type="primary"
+												:min-width="50"
+												@click.prevent="removePoint(index)"
+											>
+												-
+											</base-button>
+										</div>
+									</div>
+									<base-button
+										class="mt-4"
+										type="primary"
+										:round="true"
+										@click.prevent="addPoint"
+									>
+										Add to List
+									</base-button>
+
+									<div class="justify-content-center mt-4 pl-3">
+										<div class="input-file-container">
+											<input
+												id="importCSV"
+												type="file"
+												class="mt-4 input-file"
+												@change="onFileChange"
+											/>
+											<label
+												tabindex="0"
+												for="my-file"
+												class="input-file-trigger is-rounded"
+											>
+												Import the CSV
+											</label>
+										</div>
+									</div>
+
+									<base-button
+										class="mt-4 ml-5"
+										type="primary"
+										:disabled="!pointsListModel.points.length || invalid"
+										native-type="submit"
+									>
+										Update
 									</base-button>
 								</div>
-							</div>
-							<base-button
-								class="mt-4"
-								type="primary"
-								:round="true"
-								@click.prevent="addPoint"
-							>
-								Add to List
-							</base-button>
-
-							<div class="justify-content-center mt-4 pl-3">
-								<div class="input-file-container">
-									<input
-										id="importCSV"
-										type="file"
-										class="mt-4 input-file"
-										@change="onFileChange"
-									/>
-									<label
-										tabindex="0"
-										for="my-file"
-										class="input-file-trigger is-rounded"
-									>
-										Import the CSV
-									</label>
-								</div>
-							</div>
-
-							<base-button
-								class="mt-4 ml-3"
-								type="primary"
-								:round="true"
-								:disabled="!pointsListModel.points.length"
-								@click.prevent="updatePointList"
-							>
-								Update
-							</base-button>
-						</div>
+							</form>
+						</validation-observer>
 					</div>
 
 					<!---- Cancel Auction !---->
@@ -804,9 +807,10 @@ export default {
 				this.pointsListModel.points.map((point) => point.account),
 				this.pointsListModel.points.map((point) => toWei(point.amount))
 			)
+			console.log(pointListContract(this.list.address), method)
 			await sendTransaction(method, { from: this.coinbase })
 
-			this.pointList.points = []
+			this.pointsListModel.points = []
 		},
 		async cancelAuction() {
 			const method = this.contractInstance.methods.cancelAuction()
