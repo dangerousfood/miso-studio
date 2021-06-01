@@ -42,6 +42,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.text-neutral {
+	white-space: pre-line;
+}
 .sidebar-card {
 	display: none;
 }

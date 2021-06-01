@@ -69,11 +69,11 @@
 									<base-input
 										v-model="model.minimumCommitmentAmount"
 										:disabled="!tokensApproved"
-										name="minimum amount"
+										name="min price"
 										class="col-md-6"
 										type="text"
 										placeholder="0"
-										:rules="`required|isBigger:0|max_value:${model.tokenSupply}`"
+										rules="required|isBigger:0"
 										@focus="focusInputBatch('minPrice')"
 									></base-input>
 								</div>
@@ -345,9 +345,13 @@ export default {
 			this.model.fundWallet = this.coinbase
 		},
 		updateCurrency(currency) {
+			this.batchitems.walletAddress = false
+			this.batchitems.minPrice = false
+			this.batchitems.startend = false
+
 			this.model.paymentCurrency = currency
 			this.batchitems.payment_currency = true
-			this.$emit('active-focus-batch', this.batchitems, this.model.chosenAuctionType)
+			this.$emit('active-focus-batch', this.batchitems, 3)
 		},
 		focusInputBatch(val) {
 			for (const key in this.batchitems) {
@@ -357,7 +361,7 @@ export default {
 					this.batchitems[key] = false
 				}
 			}
-			this.$emit('active-focus-batch', this.batchitems, this.model.chosenAuctionType)
+			this.$emit('active-focus-batch', this.batchitems, 3)
 		},
 	},
 }

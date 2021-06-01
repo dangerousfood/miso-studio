@@ -73,7 +73,7 @@
 										class="col-md-6"
 										type="text"
 										placeholder="0"
-										:rules="`required|isBigger:0|max_value:${model.tokenSupply}`"
+										rules="required|isBigger:0"
 										@focus="focusInputCrowdsale('tokenPrice')"
 									></base-input>
 								</div>
@@ -399,13 +399,12 @@ export default {
 			this.model.fundWallet = this.coinbase
 		},
 		updateCurrency(currency) {
+			this.crowdsaleitems.walletAddress = false
+			this.crowdsaleitems.tokenPrice = false
+			this.crowdsaleitems.startend = false
 			this.model.paymentCurrency = currency
 			this.crowdsaleitems.payment_currency = true
-			this.$emit(
-				'active-focus-crowdsale',
-				this.crowdsaleitems,
-				this.model.chosenAuctionType
-			)
+			this.$emit('active-focus-crowdsale', this.crowdsaleitems, 1)
 		},
 		focusInputCrowdsale(val) {
 			for (const key in this.crowdsaleitems) {
@@ -415,11 +414,7 @@ export default {
 					this.crowdsaleitems[key] = false
 				}
 			}
-			this.$emit(
-				'active-focus-crowdsale',
-				this.crowdsaleitems,
-				this.model.chosenAuctionType
-			)
+			this.$emit('active-focus-crowdsale', this.crowdsaleitems, 1)
 		},
 	},
 }
