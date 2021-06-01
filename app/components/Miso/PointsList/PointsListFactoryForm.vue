@@ -68,6 +68,7 @@
 												name="Amount"
 												placeholder="Amount"
 												type="number"
+												step="0.00001"
 												min="0"
 												rules="required|min_value:0"
 											></base-input>
@@ -104,7 +105,7 @@
 												for="my-file"
 												class="input-file-trigger is-rounded"
 											>
-												IMPORT THE CSV
+												Import the CSV
 											</label>
 										</div>
 									</div>
