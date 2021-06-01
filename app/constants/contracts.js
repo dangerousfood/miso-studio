@@ -7,6 +7,7 @@ import CROWDSALE_ABI from './abis/Crowdsale.json'
 import DUTCH_AUCTION_ABI from './abis/DutchAuction.json'
 import BATCH_AUCTION_ABI from './abis/BatchAuction.json'
 import HYPERBOLIC_AUCTION_ABI from './abis/HyperbolicAuction.json'
+import POINT_LIST_ABI from './abis/PointList.json'
 import ERC20_ABI from './abis/ERC20.json'
 import POOL_LIQUIDITY_ABI from './abis/PoolLiquidity.json'
 import MISO_RECIPE_02_ABI from './abis/MISORecipe02.json'
@@ -156,6 +157,10 @@ export const recipe02 = {
 		97: "", // BSC testnet
 	},
 	abi: MISO_RECIPE_02_ABI,
+}
+
+export const pointList = {
+	abi: POINT_LIST_ABI,
 }
 
 export const ERC20 = {
