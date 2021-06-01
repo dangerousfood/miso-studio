@@ -104,7 +104,7 @@
 												for="my-file"
 												class="input-file-trigger is-rounded"
 											>
-												Import the CSV
+												IMPORT THE CSV
 											</label>
 										</div>
 									</div>
