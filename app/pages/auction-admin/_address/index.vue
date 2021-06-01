@@ -556,6 +556,7 @@ import { getContractInstance as misoHelperContract } from '@/services/web3/misoH
 import { getContractInstance as dutchAuctionContract } from '@/services/web3/auctions/dutch'
 import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
 import { getContractInstance as batchAuctionContract } from '@/services/web3/auctions/batch'
+import { getContractInstance as pointListContract } from '@/services/web3/pointList'
 import {
 	makeBatchCall,
 	sendTransaction,
@@ -688,6 +689,17 @@ export default {
 					this.list.status = !this.list.status
 				}
 			})
+		},
+		async updatePointList() {
+			// TODO: Hi, Sava please use it
+			// accounts is the address array
+			// amounts is the amount array
+			// const method = pointListContract(this.list.address).methods.setPoints(
+			// 	accounts,
+			// 	amounts
+			// )
+			// await sendTransaction(method, { from: this.coinbase })
+			// TODO: Clear the accounts and amounts array
 		},
 		async cancelAuction() {
 			const method = this.contractInstance.methods.cancelAuction()
