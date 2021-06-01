@@ -12,6 +12,9 @@
 				</div>
 			</nuxt-link>
 		</div>
+		<div class="mobile-display">
+			<img :src="mobileCardImage" class="mobile-card-image pb-1" />
+		</div>
 		<div
 			class="col-lg-7 col-md-7 col-sm-12 col-xs-12 card-content"
 			:class="cardContentBack"
@@ -47,15 +50,17 @@
 							<span class="title">{{ title }}</span>
 						</div>
 						<div class="text-uppercase raise-target">
-							Raise Target:
+							{{ raisedTargetLabel }}
 							<nobr>
-								{{ raise_target_from }}
+								{{ raiseTargetFrom }}
 								{{ textCheck(marketInfo.paymentCurrency.symbol) }}
-								~
+								<span v-if="status.type !== 'batch'">~</span>
 							</nobr>
 							<nobr>
-								{{ raise_target_to }}
-								{{ textCheck(marketInfo.paymentCurrency.symbol) }}
+								{{ raiseTargetTo }}
+								<span v-if="status.type !== 'batch'">
+									{{ textCheck(marketInfo.paymentCurrency.symbol) }}
+								</span>
 							</nobr>
 						</div>
 					</div>
@@ -63,9 +68,15 @@
 			</div>
 			<div class="split-line" :class="splitLineBack"></div>
 			<div class="text-white social-link pb-1">
-				<a :href="websiteurl" class="text-white" target="_blank">
+				<a
+					v-if="websiteurl !== ''"
+					:href="websiteurl"
+					class="text-white"
+					target="_blank"
+				>
 					<i class="fas fa-globe"></i>
 					<span class="pl-1">{{ websiteURL }}</span>
+					&nbsp;
 				</a>
 				<a
 					v-for="(item, index) in social"
@@ -74,21 +85,23 @@
 					class="text-capitalize text-white"
 					target="_blank"
 				>
-					<i :class="icons[index]" class="pl-1" />
-					<span>{{ index }}</span>
+					<nobr>
+						<i :class="icons[index]" class="pl-1" />
+						<span>{{ index }}</span>
+						&nbsp;
+					</nobr>
 				</a>
 			</div>
 			<div class="split-line" :class="splitLineBack"></div>
 			<div class="auction-description text-white">
 				{{ description }}
 			</div>
-			<!-- <div class="read-more text-white py-2">
-				<span class="cursor-pointer">Read More</span>
-			</div> -->
-			<div
-				v-if="isUpcoming"
-				class="d-flex countdown-area flex-grow-1 justify-content-between"
-			>
+			<!-- div v-if="description !== ''" class="read-more text-white pb-2">
+				<nuxt-link :to="`/auctions/${auction}`" tag="div" class="cursor-pointer">
+					<span class="cursor-pointer">Read More</span>
+				</nuxt-link>
+			</div -->
+			<div v-if="isUpcoming" class="d-flex countdown-area flex-grow-1">
 				<div>
 					<p class="text-uppercase text-white countdown">Countdown</p>
 					<p class="countdown-instance">{{ getFullTime }}</p>
@@ -106,10 +119,7 @@
 					</div>
 				</div>
 			</div>
-			<div
-				v-if="status.auction == 'live'"
-				class="d-flex countdown-area flex-grow-1 justify-content-between"
-			>
+			<div v-if="status.auction == 'live'" class="d-flex countdown-area flex-grow-1">
 				<div class="d-flex">
 					<div>
 						<p class="text-uppercase text-white countdown">
@@ -144,7 +154,7 @@
 								</span>
 							</div>
 						</div>
-						<div v-if="status.type === 'crowd'" class="progress-status">
+						<div v-if="status.type === 'crowdsale'" class="progress-status">
 							<div class="w-100 h-100">
 								<span
 									class="progress-status_indicator-line d-inline-block"
@@ -159,9 +169,19 @@
 							</div>
 						</div>
 						<p class="text-white font-weight-bold raised">
-							{{ totalCommitments }}
-							{{ textCheck(marketInfo.paymentCurrency.symbol) }}
-							Raised
+							<span v-if="status.type === 'crowdsale'">
+								{{ totalCommitments }}
+								{{ textCheck(marketInfo.paymentCurrency.symbol) }}
+								Raised
+							</span>
+							<span v-if="status.type === 'batch'">
+								{{ totalCommitments }}
+								Tokens Sold
+							</span>
+							<span v-if="status.type === 'dutch'">
+								{{ totalCommitments }}
+								{{ textCheck(marketInfo.paymentCurrency.symbol) }}
+							</span>
 						</p>
 						<p class="countdown-instance-live text-white">
 							<i class="far fa-clock"></i>
@@ -230,6 +250,10 @@ export default {
 			required: true,
 		},
 		cardimg: {
+			type: String,
+			default: undefined,
+		},
+		mobilecardimg: {
 			type: String,
 			default: undefined,
 		},
@@ -328,6 +352,9 @@ export default {
 		cardImage() {
 			return require('~/assets/images/' + this.cardimg)
 		},
+		mobileCardImage() {
+			return require('~/assets/images/' + this.mobilecardimg)
+		},
 		logoImage() {
 			return this.logoimg
 		},
@@ -419,7 +446,7 @@ export default {
 			return toPrecision(this.marketInfo.commitmentsTotal, 3)
 		},
 		deadDate() {
-			return new Date(parseInt(this.marketInfo.endTime) * 1000).toUTCString()
+			return new Date(parseInt(this.marketInfo.startTime) * 1000).toUTCString()
 		},
 		websiteURL() {
 			let newurl
@@ -427,6 +454,39 @@ export default {
 			newurl = newurl.replace('http:', '')
 			newurl = newurl.replace('//', '')
 			return newurl
+		},
+		raiseTargetFrom() {
+			let ret
+			if (this.status.type === 'crowdsale') {
+				ret = this.marketInfo.goal
+			} else if (this.status.type === 'batch') {
+				ret = this.marketInfo.totalTokens
+			} else if (this.status.type === 'dutch') {
+				ret = this.marketInfo.startPrice
+			}
+			return ret
+		},
+		raiseTargetTo() {
+			let ret
+			if (this.status.type === 'crowdsale') {
+				ret = this.marketInfo.totalTokens / this.marketInfo.rate
+			} else if (this.status.type === 'batch') {
+				ret = ''
+			} else if (this.status.type === 'dutch') {
+				ret = this.marketInfo.minimumPrice
+			}
+			return ret
+		},
+		raisedTargetLabel() {
+			let ret
+			if (this.status.type === 'crowdsale') {
+				ret = 'Raised Target: '
+			} else if (this.status.type === 'batch') {
+				ret = 'Raised: '
+			} else if (this.status.type === 'dutch') {
+				ret = 'Target: '
+			}
+			return ret
 		},
 	},
 	async mounted() {
@@ -710,11 +770,20 @@ export default {
 
 .title {
 	font-size: 1.75rem;
+	@media screen and (min-width: 901px) and (max-width: 1000px) {
+		font-size: 1.5rem;
+	}
 	@media screen and (min-width: 801px) and (max-width: 900px) {
 		font-size: 1.25rem;
 	}
 	@media screen and (min-width: 768px) and (max-width: 800px) {
 		font-size: 1.1rem;
+	}
+	@media screen and (min-width: 401px) and (max-width: 575px) {
+		font-size: 1.5rem;
+	}
+	@media screen and (min-width: 361px) and (max-width: 399px) {
+		font-size: 1.2rem;
 	}
 	@media screen and (max-width: 360px) {
 		font-size: 1.1rem;
@@ -757,8 +826,11 @@ export default {
 	@media screen and (min-width: 768px) and (max-width: 820px) {
 		font-size: 0.5rem;
 	}
-	@media screen and (max-width: 300px) {
+	@media screen and (min-width: 351px) and (max-width: 425px) {
 		font-size: 0.65rem;
+	}
+	@media screen and (max-width: 350px) {
+		font-size: 0.45rem;
 	}
 }
 
@@ -820,40 +892,6 @@ export default {
 	}
 	@media screen and (max-width: 300px) {
 		font-size: 0.4rem;
-	}
-}
-
-.auction-description-white {
-	background-image: linear-gradient(
-		to bottom,
-		rgba(255, 255, 255, 1) 40%,
-		rgba(255, 255, 255, 0.2) 80%
-	);
-	color: transparent;
-	-webkit-background-clip: text;
-	background-clip: text;
-	font-size: 1rem;
-}
-
-.auction-description {
-	font-size: 1rem;
-	@media screen and (min-width: 1231px) and (max-width: 1326px) {
-		font-size: 0.75rem;
-	}
-	@media screen and (min-width: 1200px) and (max-width: 1230px) {
-		font-size: 0.7rem;
-	}
-	@media screen and (min-width: 951px) and (max-width: 11996px) {
-		font-size: 0.75rem;
-	}
-	@media screen and (min-width: 905px) and (max-width: 950px) {
-		font-size: 0.7rem;
-	}
-	@media screen and (min-width: 811px) and (max-width: 904px) {
-		font-size: 0.6rem;
-	}
-	@media screen and (min-width: 768px) and (max-width: 810px) {
-		font-size: 0.5rem;
 	}
 }
 
@@ -1043,24 +1081,41 @@ export default {
 	@media screen and (min-width: 768px) and (max-width: 787px) {
 		font-size: 0.4rem;
 	}
-	@media screen and (min-width: 311px) and (max-width: 359px) {
+	@media screen and (min-width: 311px) and (max-width: 420px) {
 		font-size: 0.6rem;
 	}
-	@media screen and (max-width: 359px) {
+	@media screen and (min-width: 321px) and (max-width: 359px) {
 		font-size: 0.5rem;
+	}
+	@media screen and (max-width: 320px) {
+		font-size: 0.35rem;
 	}
 }
 
-.read-more {
-	text-decoration: underline;
+.auction-description-white {
+	background-image: linear-gradient(
+		to bottom,
+		rgba(255, 255, 255, 1) 40%,
+		rgba(255, 255, 255, 0.2) 80%
+	);
+	color: transparent;
+	-webkit-background-clip: text;
+	background-clip: text;
 	font-size: 1rem;
+}
+
+.auction-description {
+	font-size: 1.25rem;
+	@media screen and (min-width: 1327px) and (max-width: 1440px) {
+		font-size: 0.95rem;
+	}
 	@media screen and (min-width: 1231px) and (max-width: 1326px) {
 		font-size: 0.75rem;
 	}
 	@media screen and (min-width: 1200px) and (max-width: 1230px) {
 		font-size: 0.7rem;
 	}
-	@media screen and (min-width: 951px) and (max-width: 1076px) {
+	@media screen and (min-width: 951px) and (max-width: 1199px) {
 		font-size: 0.75rem;
 	}
 	@media screen and (min-width: 905px) and (max-width: 950px) {
@@ -1071,6 +1126,38 @@ export default {
 	}
 	@media screen and (min-width: 768px) and (max-width: 810px) {
 		font-size: 0.5rem;
+	}
+	@media screen and (max-width: 767px) {
+		font-size: 1rem;
+	}
+}
+
+.read-more {
+	text-decoration: underline;
+	font-size: 1.25rem;
+	@media screen and (min-width: 1327px) and (max-width: 1440px) {
+		font-size: 0.95rem;
+	}
+	@media screen and (min-width: 1231px) and (max-width: 1326px) {
+		font-size: 0.75rem;
+	}
+	@media screen and (min-width: 1200px) and (max-width: 1230px) {
+		font-size: 0.7rem;
+	}
+	@media screen and (min-width: 951px) and (max-width: 1199px) {
+		font-size: 0.75rem;
+	}
+	@media screen and (min-width: 905px) and (max-width: 950px) {
+		font-size: 0.7rem;
+	}
+	@media screen and (min-width: 811px) and (max-width: 904px) {
+		font-size: 0.6rem;
+	}
+	@media screen and (min-width: 768px) and (max-width: 810px) {
+		font-size: 0.5rem;
+	}
+	@media screen and (max-width: 767px) {
+		font-size: 1rem;
 	}
 }
 
@@ -1135,13 +1222,13 @@ export default {
 	}
 }
 
-.card-content-back {
+.card-content-back1 {
 	@media screen and (max-width: 767px) {
 		background-color: #262f53;
 	}
 }
 
-.card-content-back-white {
+.card-content-back-white1 {
 	@media screen and (max-width: 767px) {
 		background-color: #f3f3f3;
 	}
@@ -1162,5 +1249,17 @@ export default {
 .logo-image-wrap {
 	margin-top: auto;
 	margin-bottom: auto;
+}
+
+.mobile-display {
+	display: none;
+	@media screen and (max-width: 767px) {
+		display: inline;
+	}
+}
+
+.mobile-card-image {
+	width: 100%;
+	padding: 1rem;
 }
 </style>
