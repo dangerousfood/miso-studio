@@ -6,7 +6,8 @@
 					<div class="col-12">
 						<div class="d-flex">
 							<img src="@/assets/images/misoBowl.png" class="bowl" />
-							<p class="text-uppercase text-white misoido pt-1">Miso Ido</p>
+							<!-- p class="text-uppercase text-white misoido pt-1">Miso Ido</p -->
+							<img :src="getMisoIdo" class="misoido" />
 						</div>
 						<p class="bottom-bar">&nbsp;</p>
 					</div>
@@ -228,6 +229,12 @@ export default {
 				return 'pane-card-back'
 			}
 			return 'pane-card-back-white'
+		},
+		getMisoIdo() {
+			if (this.mode) {
+				return require('~/assets/images/miso_ido_dark.png')
+			}
+			return require('~/assets/images/miso_ido_light.png')
 		},
 	},
 	watch: {
@@ -543,13 +550,21 @@ export default {
 		width: 4.5rem;
 	}
 }
+// .misoido {
+// 	font-size: 3rem;
+// 	@media screen and (min-width: 360px) and (max-width: 400px) {
+// 		font-size: 2rem;
+// 	}
+// 	@media screen and (max-width: 359px) {
+// 		font-size: 1.7rem;
+// 	}
+// }
 .misoido {
-	font-size: 3rem;
-	@media screen and (min-width: 360px) and (max-width: 400px) {
-		font-size: 2rem;
-	}
-	@media screen and (max-width: 359px) {
-		font-size: 1.7rem;
+	width: 13rem;
+	height: fit-content;
+	margin: auto 0;
+	@media screen and (max-width: 400px) {
+		width: 10rem;
 	}
 }
 .bottom-bar {
