@@ -493,7 +493,7 @@
 								</div>
 							</form>
 						</validation-observer>
-						<form class="needs-validation" @submit.prevent="updateListStatus">
+						<form class="needs-validation mb-3" @submit.prevent="updateListStatus">
 							<div class="row">
 								<div class="col-md-3" />
 								<label
@@ -514,6 +514,93 @@
 								</div>
 							</div>
 						</form>
+						<span
+							class="
+								text-uppercase text-secondary
+								font-weight-bold
+								border-bottom
+								pb-2
+								fs-4
+								h-100
+							"
+						>
+							Point List
+						</span>
+						<div class="form-row justify-content-center mt-4">
+							<div
+								v-for="(point, index) in pointsListModel.points"
+								:key="index"
+								class="col-12 d-flex justify-content-center"
+							>
+								<div class="col-md-5">
+									<base-input
+										v-model="point.account"
+										:label="`Account ${index + 1}`"
+										name="Account"
+										placeholder="Account Address"
+										type="text"
+										rules="required|isAddress"
+									></base-input>
+								</div>
+								<div class="col-md-5">
+									<base-input
+										v-model="point.amount"
+										:label="`Amount ${index + 1}`"
+										name="Amount"
+										placeholder="Amount"
+										type="number"
+										step="0.00001"
+										min="0"
+										rules="required|min_value:0"
+									></base-input>
+								</div>
+								<div class="col-md-1 mt-4">
+									<base-button
+										type="primary"
+										:min-width="50"
+										@click.prevent="removePoint(index)"
+									>
+										-
+									</base-button>
+								</div>
+							</div>
+							<base-button
+								class="mt-4"
+								type="primary"
+								:round="true"
+								@click.prevent="addPoint"
+							>
+								Add to List
+							</base-button>
+
+							<div class="justify-content-center mt-4 pl-3">
+								<div class="input-file-container">
+									<input
+										id="importCSV"
+										type="file"
+										class="mt-4 input-file"
+										@change="onFileChange"
+									/>
+									<label
+										tabindex="0"
+										for="my-file"
+										class="input-file-trigger is-rounded"
+									>
+										Import the CSV
+									</label>
+								</div>
+							</div>
+
+							<base-button
+								class="mt-4 ml-3"
+								type="primary"
+								:round="true"
+								:disabled="!pointsListModel.points.length"
+								@click.prevent="updatePointList"
+							>
+								Update
+							</base-button>
+						</div>
 					</div>
 
 					<!---- Cancel Auction !---->
@@ -561,6 +648,7 @@ import {
 	makeBatchCall,
 	sendTransaction,
 	sendTransactionAndWait,
+	toWei,
 } from '@/services/web3/base'
 import Swal from 'sweetalert2'
 
@@ -590,12 +678,32 @@ export default {
 			contractInstance: null,
 			loading: true,
 			subscription: null,
+			fileinput: '',
+			pointsListModel: {
+				listOwner: '',
+				points: [],
+			},
 		}
 	},
 	computed: {
 		...mapGetters({
 			coinbase: 'ethereum/coinbase',
 		}),
+	},
+	watch: {
+		fileinput() {
+			const arr = this.fileinput.split('\r\n')
+			const points = arr
+				.filter((elm) => elm !== '')
+				.map((elm) => {
+					const childArray = elm.split(',')
+					return {
+						account: childArray[0],
+						amount: childArray[childArray.length - 1],
+					}
+				})
+			this.pointsListModel.points = points
+		},
 	},
 	async mounted() {
 		// Contract
@@ -691,19 +799,38 @@ export default {
 			})
 		},
 		async updatePointList() {
-			// TODO: Hi, Sava please use it
-			// accounts is the address array
-			// amounts is the amount array
-			// const method = pointListContract(this.list.address).methods.setPoints(
-			// 	accounts,
-			// 	amounts
-			// )
-			// await sendTransaction(method, { from: this.coinbase })
-			// TODO: Clear the accounts and amounts array
+			console.log(this.pointsListModel.points)
+			const method = pointListContract(this.list.address).methods.setPoints(
+				this.pointsListModel.points.map((point) => point.account),
+				this.pointsListModel.points.map((point) => toWei(point.amount))
+			)
+			await sendTransaction(method, { from: this.coinbase })
+
+			this.pointList.points = []
 		},
 		async cancelAuction() {
 			const method = this.contractInstance.methods.cancelAuction()
 			await sendTransaction(method, { from: this.coinbase })
+		},
+
+		onFileChange(e) {
+			const files = e.target.files || e.dataTransfer.files
+			if (!files.length) return
+			this.createInput(files[0])
+		},
+		createInput(file) {
+			const reader = new FileReader()
+			const vm = this
+			reader.onload = (e) => {
+				vm.fileinput = reader.result
+			}
+			reader.readAsText(file)
+		},
+		addPoint() {
+			this.pointsListModel.points.push({ account: '', amount: 0 })
+		},
+		removePoint(index) {
+			this.pointsListModel.points.splice(index, 1)
 		},
 	},
 }
@@ -724,5 +851,47 @@ textarea.form-control {
 	&:active {
 		border: 1px solid #f46e41;
 	}
+}
+</style>
+<style lang="scss">
+.input-file-container {
+	position: relative;
+}
+.input-file-trigger {
+	display: block;
+	padding: 14px 45px;
+	background: #f46e41;
+	background-image: linear-gradient(to bottom left, #f46e41, #ba54f5, #f46e41);
+	background-size: 210% 210%;
+	background-position: top right;
+	background-color: #f46e41;
+	transition: all 0.15s ease;
+	box-shadow: none;
+	color: #ffffff;
+	font-size: 1rem !important;
+	font-weight: bolder;
+	cursor: pointer;
+}
+.input-file {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 225px;
+	opacity: 0;
+	padding: 14px 0;
+	cursor: pointer;
+}
+.input-file:hover + .input-file-trigger,
+.input-file:focus + .input-file-trigger,
+.input-file-trigger:hover,
+.input-file-trigger:focus {
+	background: #f46e41;
+	background-image: linear-gradient(to bottom left, #f46e41, #ba54f5, #f46e41);
+	background-size: 210% 210%;
+	background-position: top right;
+	background-color: #f46e41;
+	transition: all 0.15s ease;
+	box-shadow: none;
+	color: #ffffff;
 }
 </style>
