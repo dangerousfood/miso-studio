@@ -206,7 +206,7 @@
 								</div>
 								<div class="font-weight-bold text-uppercase d-flex flex-column">
 									<span class="fs-1">MAX Available</span>
-									<span class="text-white fs-3">
+									<span class="text-white text-right fs-3">
 										{{ maxTokenAmount }} {{ textCheck(tokenInfo.symbol) }}
 									</span>
 								</div>
