@@ -24,6 +24,7 @@
 						:ref="'landingcard' + index"
 						:class="{ 'pt-5': index !== 0 }"
 						:cardimg="cardcont.cardimg"
+						:mobilecardimg="cardcont.mobilecardimg"
 						:logoimg="cardcont.logoimg"
 						:title="cardcont.title"
 						:description="cardcont.description"
@@ -38,6 +39,7 @@
 					:key="index"
 					:class="{ 'pt-5': index !== 0 }"
 					:cardimg="cardcont.cardimg"
+					:mobilecardimg="cardcont.mobilecardimg"
 					:logoimg="cardcont.logoimg"
 					:title="cardcont.title"
 					:description="cardcont.description"
@@ -49,8 +51,7 @@
 				></landing-card>
 			</div>
 			<div class="col-lg-3 col-md-3 d-flex right-pane mt-5">
-				<div></div>
-				<div>
+				<scroll-div ref="myscroll1" :height="paneScrollHeight" view-class="scrolldiv">
 					<div v-for="(cardcont, index) in cardContent" :key="index">
 						<div class="d-flex">
 							<div class="status-icon">
@@ -68,11 +69,11 @@
 									:class="{ 'bg-disabled': index !== 0 }"
 								></div>
 							</div>
-							<div>
+							<div class="w-100">
 								<div class="text-white dead-date pb-1">{{ cardcont.deaddate }}</div>
 								<div class="d-flex">
 									<div
-										class="pane-card d-flex text-white"
+										class="pane-card d-flex text-white w-100"
 										:class="paneCardBack"
 										@click="paneClick(index)"
 									>
@@ -86,7 +87,7 @@
 							</div>
 						</div>
 					</div>
-				</div>
+				</scroll-div>
 			</div>
 		</div>
 	</div>
@@ -119,6 +120,7 @@ export default {
 		return {
 			loading: true,
 			scrollHeight: 0,
+			paneScrollHeight: 0,
 			auctionsList: [],
 			ingredients: [
 				{
@@ -136,53 +138,51 @@ export default {
 			],
 			options: { quality: { default: '1080p' } },
 			showModal: true,
-			cardContent: [
+			cardContent: [],
+			cardContentTemplate: [
 				{
 					cardimg: 'card01.png',
+					mobilecardimg: 'card_mobile01.png',
 					logoimg:
 						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
-					title: 'Manifold Finance',
+					title: '',
 					description: '',
-					websiteurl: 'manifoldfinance.com',
-					twitterurl: '',
-					mediumurl: '',
-					auction: '0x4d9858548CE846b8732E28cFce55317E31Fc5388',
-					deaddate: 'June 1 2021, 12AM UTC',
+					websiteurl: '',
+					auction: '',
+					deaddate: '',
 					panescript: '',
 					type: '',
-					status: '',
+					status: 'upcoming',
 					social: {},
 				},
 				{
 					cardimg: 'card02.png',
+					mobilecardimg: 'card_mobile02.png',
 					logoimg:
 						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
-					title: 'Manifold Finance',
+					title: '',
 					description: '',
-					websiteurl: 'app.fractionalart.com',
-					twitterurl: '',
-					mediumurl: '',
-					auction: '0x4d9858548CE846b8732E28cFce55317E31Fc5388',
-					deaddate: 'June 1 2021, 12AM UTC',
+					websiteurl: '',
+					auction: '',
+					deaddate: '',
 					panescript: '',
 					type: '',
-					status: '',
+					status: 'upcoming',
 					social: {},
 				},
 				{
 					cardimg: 'card01.png',
+					mobilecardimg: 'card_mobile01.png',
 					logoimg:
 						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
-					title: 'Manifold Finance',
+					title: '',
 					description: '',
-					websiteurl: 'xverse.ai',
-					twitterurl: '',
-					mediumurl: '',
-					auction: '0x4d9858548CE846b8732E28cFce55317E31Fc5388',
-					deaddate: 'June 1 2021, 12AM UTC',
+					websiteurl: '',
+					auction: '',
+					deaddate: '',
 					panescript: '',
 					type: '',
-					status: '',
+					status: 'upcoming',
 					social: {},
 				},
 			],
@@ -237,15 +237,19 @@ export default {
 	},
 	beforeMount() {
 		this.scrollHeight = window.innerHeight - 320
+		this.paneScrollHeight = window.innerHeight - 200
 		window.addEventListener('resize', this.myResize)
 	},
 	beforeDestroy() {
 		window.removeEventListener('resize', this.myResize)
 	},
 	async mounted() {
-		this.initAuctions()
+		await this.initAuctions()
 		let i
-		for (i = 0; i < this.cardContent.length; i++) {
+		this.cardContent = []
+		for (i = 0; i < this.auctionsList.length; i++) {
+			this.cardContent.push({ ...this.cardContentTemplate[i % 3] })
+			this.cardContent[i].auction = this.auctionsList[i]
 			await this.getTemplateId(this.cardContent[i].auction)
 			let type
 			switch (parseInt(this.marketTemplateId)) {
@@ -284,7 +288,7 @@ export default {
 			this.cardContent[i].type = type
 			this.cardContent[i].status = auction
 			this.cardContent[i].deaddate = new Date(
-				parseInt(this.marketInfo.endTime) * 1000
+				parseInt(this.marketInfo.startTime) * 1000
 			).toUTCString()
 
 			this.cardContent[i].title = `${this.tokenInfo.name} (${this.tokenInfo.symbol})`
@@ -292,10 +296,6 @@ export default {
 				0,
 				this.cardContent[i].title.lastIndexOf('(')
 			)
-
-			if (this.cardContent[i].description)
-				this.cardContent[i].description =
-					this.cardContent[i].description.substring(0, 200) + ' ...'
 
 			const methods = [
 				{ methodName: 'getDocuments', args: [this.cardContent[i].auction] },
@@ -315,6 +315,7 @@ export default {
 							break
 						case 'description':
 							this.cardContent[i].description = data
+							this.cardContent[i].panescript = data
 							break
 						case 'twitter':
 							this.cardContent[i].social[name] = 'https://' + data
@@ -325,6 +326,13 @@ export default {
 					}
 				}
 			})
+
+			if (this.cardContent[i].description)
+				this.cardContent[i].description =
+					this.cardContent[i].description.substring(0, 200) + ' ...'
+			if (this.cardContent[i].panescript)
+				this.cardContent[i].panescript =
+					this.cardContent[i].panescript.substring(0, 60) + ' ...'
 		}
 	},
 	methods: {
@@ -337,8 +345,9 @@ export default {
 				.filter((aution) => {
 					const currentTimestamp = Date.parse(new Date()) / 1000
 					return (
-						currentTimestamp >= parseInt(aution.startTime) &&
-						currentTimestamp < parseInt(aution.endTime)
+						(currentTimestamp >= parseInt(aution.startTime) &&
+							currentTimestamp < parseInt(aution.endTime)) ||
+						currentTimestamp < parseInt(aution.startTime)
 					)
 				})
 				.map((x) => x[0])
@@ -455,6 +464,7 @@ export default {
 
 		myResize() {
 			this.scrollHeight = window.innerHeight - 320
+			this.paneScrollHeight = window.innerHeight - 200
 		},
 
 		paneClick(ind) {
@@ -464,14 +474,16 @@ export default {
 				let height = 0
 				let i
 				for (i = 0; i < ind; i++) {
-					height =
-						height +
-						parseInt(getComputedStyle(document.documentElement).fontSize) * 3 +
-						document.getElementById('landingcard' + i).offsetHeight
+					if (document.getElementById('landingcard' + i))
+						height =
+							height +
+							parseInt(document.getElementById('landingcard' + i).offsetHeight)
 				}
+				// height =
+				// 	height + parseInt(getComputedStyle(document.documentElement).fontSize) * 3
 				this.$refs.myscroll.scrollTo(height)
 			}
-			this.currentpaneChanged(ind)
+			// this.currentpaneChanged(ind)
 		},
 
 		currentpaneChanged(val) {
@@ -491,19 +503,29 @@ export default {
 			let i
 			let height = 0
 			for (i = 0; i < this.cardContent.length; i++) {
-				height = height + document.getElementById('landingcard' + i).offsetHeight
+				if (document.getElementById('landingcard' + i))
+					height =
+						height + parseInt(document.getElementById('landingcard' + i).offsetHeight)
 			}
+			// height =
+			// 	height + parseInt(getComputedStyle(document.documentElement).fontSize) * 3
 			const maxScroll = height - this.$refs.myscroll.height
 			height = 0
 			if (e.target.scrollTop === maxScroll)
 				this.currentpaneChanged(this.cardContent.length - 1)
 			else if (e.target.scrollTop === 0) this.currentpaneChanged(0)
 			else {
+				// height = parseInt(getComputedStyle(document.documentElement).fontSize) * 3
 				for (i = 0; i < this.cardContent.length - 1; i++) {
-					height = height + document.getElementById('landingcard' + i).offsetHeight
-					if (e.target.scrollTop > height) {
-						this.currentpaneChanged(i + 1)
-						break
+					if (document.getElementById('landingcard' + i)) {
+						height =
+							height +
+							parseInt(document.getElementById('landingcard' + i).offsetHeight)
+						// console.log(e.target.scrollTop, height)
+						if (e.target.scrollTop <= height) {
+							this.currentpaneChanged(i + 1)
+							break
+						}
 					}
 				}
 			}
@@ -595,7 +617,7 @@ export default {
 }
 
 .margin-auto {
-	margin: auto;
+	margin: auto 0;
 }
 
 .dead-date {
@@ -609,7 +631,8 @@ export default {
 }
 
 .status-icon {
-	margin: auto;
+	margin-top: auto;
+	margin-bottom: auto;
 	padding-right: 0.5rem;
 }
 
