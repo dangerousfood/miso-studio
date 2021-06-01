@@ -174,7 +174,7 @@
 									<div class="col-sm-12 col-md-12">
 										<span class="h6 surtitle text-muted fs-3">Transaction Hash</span>
 										<a
-											class="d-block h4 fs-2"
+											class="d-block h4 text-primary"
 											:href="`${explorer.root}${explorer.tx}${transactionHash}`"
 											target="blank"
 										>
