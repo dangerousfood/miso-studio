@@ -380,8 +380,11 @@ export default {
 	cursor: default !important;
 }
 .btn-customs {
-	// padding: 12px 40px;
 	border-radius: unset;
 	height: 38px;
+}
+.dropdown-menu.show {
+	min-width: calc(100% - 30px);
+	margin-left: 15px;
 }
 </style>

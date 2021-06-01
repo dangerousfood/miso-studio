@@ -119,7 +119,7 @@ export default {
 			this.$emit('input', value)
 		},
 		onfocus() {
-			this.$emit("focus")
+			this.$emit('focus')
 		},
 		enter(value) {
 			const matched = this.matches[this.current]
@@ -158,11 +158,7 @@ export default {
 </script>
 
 <style scoped>
-	.dropdown-item.active {
-		background-color: #f6f9fc;
-	}
-	.dropdown-menu.show {
-		min-width: calc(100% - 30px);
-    	margin-left: 15px;
-	}
+.dropdown-item.active {
+	background-color: #f6f9fc;
+}
 </style>
