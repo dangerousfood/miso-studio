@@ -87,16 +87,15 @@
 						<div v-else class="d-flex col-12 align-items-center pl-3">
 							<base-radio
 								v-model="model.auction.payment_currency"
-								name="custom"
+								name="CUSTOM"
 								class="text-white col-2 font-weight-bold fs-4 mr-3 mb-2"
 							>
 								CUSTOM
 							</base-radio>
 							<base-input
-								v-model="customType"
+								v-model="customModel"
 								:disabled="true"
-								placeholder="Search by token name, token symbol, or Enter an ERC-20 token address"
-								class="custom-input col-10 p-0"
+								class="custom-input custom-disabled-input col-10 p-0"
 								name="token"
 							/>
 						</div>
@@ -260,6 +259,16 @@ export default {
 			const submitedTokens = userEth / rate - this.model.amount
 			return this.model.amount !== '' ? submitedTokens : 0
 		},
+		customModel() {
+			return (
+				this.model.auction.address +
+				' ( ' +
+				this.model.token.name +
+				' - ' +
+				this.model.token.symbol +
+				' )'
+			)
+		},
 	},
 	watch: {
 		customType(val) {
@@ -373,5 +382,8 @@ export default {
 	width: 128px;
 	border-radius: 10px;
 	background: rgba(246, 102, 69, 0.4);
+}
+.custom-disabled-input input {
+	color: #fff !important;
 }
 </style>

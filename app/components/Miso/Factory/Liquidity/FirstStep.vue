@@ -52,60 +52,6 @@
 						@focus="focuseColor('auction')"
 					/>
 				</div>
-				<div class="col-12 ma-30">
-					<div class="d-flex mt-4">
-						<div class="d-inline border-bottom mb-4 mt-5">
-							<div
-								class="font-weight-bold fs-4 mb-2"
-								:class="{ 'text-white': colors.token }"
-							>
-								YOUR TOKEN*
-							</div>
-						</div>
-					</div>
-					<div
-						class="justify-content-between row align-items-center"
-						@click="focuseColor('token')"
-					>
-						<div class="d-flex col-lg-12">
-							<autocomplete
-								v-model="model.token.address"
-								label=""
-								name="token"
-								placeholder="Enter the contract address of your MISO-created token."
-								rules="required|isAddress"
-								:suggestions="tokens"
-								:loading="tokensLoading"
-								:no-data="'No Tokens'"
-								tabindex="“-1”"
-								:style="{ flex: 1 }"
-								@input="fetchTokens"
-								@complete="handleTokenComplete"
-							></autocomplete>
-
-							<div class="text-right ml-4">
-								<base-button
-									class="text-capitalize btn btn-customs disabled btn-default m-0"
-								>
-									<span v-if="model.token.name">
-										{{ model.token.name }} ({{ model.token.symbol }})
-									</span>
-									<span v-else>SYMBOL</span>
-								</base-button>
-							</div>
-						</div>
-					</div>
-					<p class="d-inline">
-						Don’t have a token?
-						<nuxt-link
-							to="/factory/token"
-							tag="span"
-							class="font-weight-bold cursor-pointer border-bottom"
-						>
-							Create it now!
-						</nuxt-link>
-					</p>
-				</div>
 			</div>
 		</validation-observer>
 	</div>
@@ -114,7 +60,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { BaseInput } from '@/components'
-import Autocomplete from '@/components/Inputs/Autocomplete'
 import { getContractInstance as dutchAuctionContract } from '@/services/web3/auctions/dutch'
 import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
 import { getContractInstance as batchAuctionContract } from '@/services/web3/auctions/batch'
@@ -125,7 +70,6 @@ export default {
 	name: 'LiqudityStepOne',
 	components: {
 		BaseInput,
-		Autocomplete,
 	},
 	props: {
 		data: {
@@ -138,7 +82,6 @@ export default {
 			colors: {
 				admin: false,
 				auction: false,
-				token: false,
 			},
 			auctionAddress: '',
 			tokensLoading: false,
@@ -152,6 +95,11 @@ export default {
 					name: '',
 					symbol: '',
 					decimals: 0,
+				},
+				tokenInfo: {
+					address: '',
+					name: '',
+					symbol: '',
 				},
 				hasPointList: false,
 				totalTokens: 0,
@@ -191,7 +139,22 @@ export default {
 						break
 				}
 				this.model.auction.address = this.marketInfo.paymentCurrency.addr
-				this.model.auction.payment_currency = this.marketInfo.paymentCurrency.symbol
+				if (
+					this.marketInfo.paymentCurrency.symbol !== 'ETH' &&
+					this.marketInfo.paymentCurrency.symbol !== 'USDT' &&
+					this.marketInfo.paymentCurrency.symbol !== 'DAI' &&
+					this.marketInfo.paymentCurrency.symbol !== 'USD'
+				) {
+					this.model.auction.payment_currency = 'CUSTOM'
+				} else {
+					this.model.auction.payment_currency = this.marketInfo.paymentCurrency.symbol
+				}
+
+				this.model.token = {
+					address: this.marketInfo.tokenInfo.addr,
+					name: this.marketInfo.tokenInfo.name,
+					symbol: this.marketInfo.tokenInfo.symbol,
+				}
 			}
 		},
 	},
@@ -214,6 +177,9 @@ export default {
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			console.log(data)
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
+			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
+			this.marketInfo.tokenInfo.name = data.tokenInfo.name
+			this.marketInfo.tokenInfo.symbol = data.tokenInfo.symbol
 		},
 
 		async setCrowdsaleData(val) {
@@ -221,6 +187,9 @@ export default {
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			console.log(data)
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
+			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
+			this.marketInfo.tokenInfo.name = data.tokenInfo.name
+			this.marketInfo.tokenInfo.symbol = data.tokenInfo.symbol
 		},
 
 		async setBatchData(val) {
@@ -228,6 +197,9 @@ export default {
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
 			console.log(data)
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
+			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
+			this.marketInfo.tokenInfo.name = data.tokenInfo.name
+			this.marketInfo.tokenInfo.symbol = data.tokenInfo.symbol
 		},
 		...mapActions({
 			getTokens: 'tokens/getTokens',
@@ -251,28 +223,6 @@ export default {
 		selectCurrentAccount() {
 			this.focuseColor('admin')
 			this.model.wallet = this.coinbase
-		},
-		async fetchTokens() {
-			// Clear Tokens
-			this.model.token.name = ''
-			this.model.token.symbol = ''
-			this.model.token.decimals = ''
-
-			// Get Tokens
-			if (!this.tokensLoading) {
-				this.tokensLoading = true
-				if (this.tokens.length === 0) {
-					await this.getTokens()
-				}
-				this.tokensLoading = false
-			}
-		},
-		handleTokenComplete(token) {
-			this.model.token = {
-				address: token.addr,
-				name: token.name,
-				symbol: token.symbol,
-			}
 		},
 	},
 }

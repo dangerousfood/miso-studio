@@ -191,16 +191,9 @@ export default {
 				{
 					active: false,
 					top: 42.5,
-					title: 'AUCTION ADDRESS (optional)',
+					title: 'AUCTION ADDRESS*',
 					desctiption:
 						'Enter the address of the auction held for this token. \n\n This enables us to import data from the auction to facilitate the launching process. This is not required, if you did not have an auction, leave this field blank.',
-				},
-				{
-					active: false,
-					top: 59.5,
-					title: 'YOUR TOKEN ADDRESS',
-					desctiption:
-						'Search by token name or token symbol. Or, Enter the contract address of your MISO-created token.',
 				},
 			],
 			SecondStep: [
