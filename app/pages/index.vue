@@ -324,9 +324,6 @@ export default {
 							this.cardContent[i].description = data
 							this.cardContent[i].panescript = data
 							break
-						case 'twitter':
-							this.cardContent[i].social[name] = 'https://' + data
-							break
 						default:
 							this.cardContent[i].social[name] = data
 							break
