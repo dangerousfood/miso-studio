@@ -33,7 +33,8 @@
 								height="20"
 								:color="computedIconColor"
 							/>
-							{{ status.type }} auction
+							{{ status.type }}
+							<span v-if="status.type !== 'crowdsale'">&nbsp;auction</span>
 						</span>
 					</nobr>
 				</span>
