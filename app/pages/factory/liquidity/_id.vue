@@ -133,7 +133,7 @@
 import { mapGetters } from 'vuex'
 import { sendTransactionAndWait } from '@/services/web3/base'
 import { to18Decimals } from '@/util'
-import { dai, misoLauncher as misoLauncherAddress } from '@/constants/contracts'
+import { dai, uniswapFactory as misoLauncherAddress } from '@/constants/contracts'
 import { initContractInstance as misoLauncherContract } from '@/services/web3/liquidityLauncher'
 import { BaseButton, BaseDivider } from '~/components'
 
