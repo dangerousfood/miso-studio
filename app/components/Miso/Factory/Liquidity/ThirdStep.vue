@@ -36,34 +36,8 @@
 						class="font-weight-bold border-bottom d-inline cursor-pointer"
 						@click="selectCurrentAccount"
 					>
-						Use my account
+						Use Admin Address
 					</p>
-				</div>
-				<div class="col-12">
-					<div class="d-flex mt-5">
-						<div class="d-inline border-bottom mb-4">
-							<div
-								class="font-weight-bold fs-4 mb-2"
-								:class="{ 'text-white': activeSection.two }"
-							>
-								LAUNCH DATE*
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div
-							class="col-md-7 col-xs-12 col-sm-12"
-							@click="setActiveSection('two')"
-						>
-							<base-input rules="required|afterNow">
-								<el-date-picker
-									v-model="model.lunchDate"
-									type="datetime"
-									placeholder="Select date and time"
-								></el-date-picker>
-							</base-input>
-						</div>
-					</div>
 				</div>
 
 				<div class="col-12">
@@ -78,9 +52,9 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-7">
+						<div class="col-xs-12 col-sm-12 col-md-9">
 							<div class="row">
-								<div class="col-6">
+								<div class="col-4">
 									<div class="border-miso radio_wrapper">
 										<div
 											class="d-flex h-100 fs-3 mr-3 pl-3 align-items-center"
@@ -96,7 +70,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-6">
+								<div class="col-4">
 									<div class="border-miso radio_wrapper">
 										<div
 											class="d-flex h-100 fs-3 mr-3 pl-3 align-items-center"
@@ -112,7 +86,12 @@
 										</div>
 									</div>
 								</div>
-								<div class="col-6 mt-3 pr-0 custom-radio">
+								<div class="col-4">
+									<div class="mt-1 pt-2">
+										<span>Most Common</span>
+									</div>
+								</div>
+								<div class="col-4 mt-3 pr-0 custom-radio">
 									<div class="border-miso radio_wrapper">
 										<div
 											class="d-flex h-100 fs-3 mr-3 pl-3 align-items-center"
@@ -137,10 +116,12 @@
 								<div class="col-6 mt-3 px-0 custom-col">
 									<base-input
 										v-model="inputDays"
+										type="number"
 										:disabled="type !== 'custom'"
 										:rules="rule"
 										name="Timeline"
 										class="position-relative wrapper-custom w-60"
+										placeholder="Enter amount in days"
 									></base-input>
 								</div>
 							</div>
@@ -179,7 +160,6 @@ export default {
 			inputDays: null,
 			activeSection: {
 				one: false,
-				two: false,
 				three: false,
 			},
 		}
@@ -194,32 +174,20 @@ export default {
 		type(val) {
 			if (val !== 'custom') {
 				this.customDays = val
+				this.model.customDays = val
+				this.model.inputDays = null
 				this.inputDays = null
 				this.rule = ''
 			} else {
 				this.customDays = null
-				this.rule = 'isNumber|required'
+				this.model.customDays = null
+				this.model.inputDays = this.inputDays
+				this.rule = 'required'
 			}
 		},
 		inputDays(val) {
-			this.customDays = parseInt(val)
-		},
-		'model.lunchDate'(val) {
-			if (this.customDays) {
-				const result = new Date(val)
-				result.setDate(val.getDate() + this.customDays)
-				this.model.endTime = result
-			}
-		},
-		customDays(val) {
-			if (this.model.lunchDate) {
-				const result = new Date(this.model.lunchDate)
-				const days = parseInt(val)
-				if (days > 0) {
-					result.setDate(this.model.lunchDate.getDate() + days)
-					this.model.endTime = result
-				}
-			}
+			this.inputDays = val === '' ? 0 : parseInt(val)
+			this.model.inputDays = this.inputDays
 		},
 	},
 	created() {

@@ -119,62 +119,36 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-6" @click="activeSectionCalc('provision')">
-							<base-radio
-								v-model="amountType"
-								name="input"
-								class="text-white fs-4 mr-3 mb-2"
+						<div class="col-12 mb-4">
+							<div
+								class="d-flex align-items-center justify-content-between slider-label"
 							>
-								Enter the amount of token you would like to provide
-							</base-radio>
+								<span class="fs-2">
+									Token Ballance: {{ model.allowanceformatted }}
+									{{ model.token.symbol }}
+								</span>
+								<span class="fs-2">
+									Token Allowance: {{ model.allowance }} {{ model.token.symbol }}
+								</span>
+							</div>
 						</div>
-						<div class="col-6" @click="activeSectionCalc('provision')">
-							<base-radio
-								v-model="amountType"
-								name="slider"
-								class="text-white fs-4 mr-3 mb-2"
+						<div class="col-12 mb-4">
+							<div
+								class="d-flex align-items-center justify-content-between slider-label"
 							>
-								Enter the percentage of auction sale you would like to reserve for
-								provision
-							</base-radio>
+								<span class="fs-1">
+									{{ progressPercent > 100 ? '0' : progressPercent }}%
+								</span>
+								<span class="fs-1">100%</span>
+							</div>
 						</div>
+
 						<div class="col-12">
-							<div class="d-flex amount">
-								<div class="amount_section">
-									<div class="d-flex align-items-center w-100 mb-3">
-										<base-input
-											v-model="model.amount"
-											:disabled="amountType !== 'input'"
-											rules="required"
-											name="amount"
-											placeholder="200,000"
-											class="custom-input w-100"
-											@focus="activeSectionCalc('provision')"
-										/>
-										<span class="ml-3">{{ model.token.symbol }}</span>
-									</div>
-									<span class="fs-1">
-										Remaining Token Allowance: {{ remainingTokens }}
-									</span>
-								</div>
-								<div class="amount_or d-flex justify-content-center pt-3">- Or -</div>
-								<div class="amount_section">
-									<div
-										class="
-											d-flex
-											align-items-center
-											justify-content-between
-											slider-label
-										"
-									>
-										<span class="fs-1">0%</span>
-										<span class="fs-1">100% (ETH)</span>
-									</div>
+							<div class="position-relative d-flex">
+								<div class="w-100">
 									<client-only>
 										<vue-slider
-											v-model="percentage"
-											:lazy="true"
-											:disabled="amountType !== 'slider'"
+											v-model="userLimit"
 											:max="100"
 											:min="0"
 											:interval="1"
@@ -185,15 +159,52 @@
 												background: '#f46e41',
 											}"
 											tooltip="none"
-											class="vue-slider mt-4"
+											class="vue-slider"
 										></vue-slider>
 									</client-only>
-									<div class="mt-4 pt-2">
-										<span class="fs-1">
-											Your auction allocation: 800,000 {{ model.token.symbol }}
-										</span>
-									</div>
 								</div>
+							</div>
+						</div>
+						<div class="col-12 mt-4">
+							<base-input
+								v-model="tokenAmount"
+								type="number"
+								step="1"
+								name="input"
+								:bg-color="['#20284E', '#D5D6DC']"
+								:rules="`required|max_value:${formatedTokenBalance}`"
+								input-classes="is-small invest-input font-weight-bolder"
+								sixe="md"
+								rounded
+							/>
+						</div>
+						<div class="col-12 mt-4">
+							<div
+								v-if="
+									!tokensApproved &&
+									model.amount !== '' &&
+									model.amount !== '0' &&
+									model.amount !== 0
+								"
+								class="h-100 invest invest-bg d-sm-block d-none"
+							>
+								<base-button
+									:round="true"
+									class="
+										btn btn
+										font-weight-bold
+										text-uppercase
+										fs-2
+										px-5
+										is-rounded
+										btn-default
+										py-3
+									"
+									:loading="approveLoading"
+									@click="approve()"
+								>
+									approve
+								</base-button>
 							</div>
 						</div>
 						<div class="col-12">
@@ -211,6 +222,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { toDecimals, to18Decimals } from '@/util'
+import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
+import { misoLauncher as misoLauncherAddress } from '@/constants/contracts'
+// import { makeBatchCall } from '@/services/web3/base'
+import { sendTransactionAndWait } from '@/services/web3/base'
+
 export default {
 	name: 'SecondStep',
 	props: {
@@ -233,6 +251,13 @@ export default {
 				provision: false,
 			},
 			rule: '',
+			approveLoading: false,
+			user: {
+				tokenBalance: 0,
+				allowance: '',
+			},
+			userTokens: 0,
+			progressPercent: 0,
 		}
 	},
 	computed: {
@@ -269,6 +294,41 @@ export default {
 				' )'
 			)
 		},
+		tokensApproved() {
+			return (
+				parseFloat(this.model.amount) !== 0 &&
+				parseFloat(this.formatedAllowance) >= parseFloat(this.model.amount)
+			)
+		},
+		formatedAllowance() {
+			if (!this.model.allowance) return 0
+			return this.model.allowance
+		},
+		formatedTokenBalance() {
+			if (!this.model.allowance) return 0
+			return this.model.allowance
+		},
+		userLimit: {
+			get() {
+				return this.userTokens
+			},
+			set(val) {
+				this.updateTokenlimitAmount(val)
+			},
+		},
+		tokenAmount: {
+			get() {
+				return this.model.amount
+			},
+			set(val) {
+				this.updateTokenAmount(val)
+			},
+		},
+		...mapGetters({
+			coinbase: 'ethereum/coinbase',
+			tokens: 'tokens/list',
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
+		}),
 	},
 	watch: {
 		customType(val) {
@@ -325,6 +385,33 @@ export default {
 				}
 			}
 			this.$emit('active-input', this.activeSection)
+		},
+		approve() {
+			this.approveLoading = true
+			const method = erc20Contract(this.model.token.address).methods.approve(
+				misoLauncherAddress.address[this.currentProvidersNetworkId],
+				to18Decimals(this.model.amount)
+			)
+
+			sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+				if (receipt.status) {
+					this.user.allowance = receipt.events.Approval.returnValues[2]
+					this.model.allowance = toDecimals(this.user.allowance)
+					this.model.allowanceformatted = toDecimals(this.user.allowance)
+				}
+				this.approveLoading = false
+			})
+		},
+		updateTokenlimitAmount(val) {
+			this.progressPercent = val
+			const ratio = this.model.allowanceformatted / 100
+			this.model.amount = ratio * val
+		},
+		updateTokenAmount(val) {
+			const ratio = val / this.model.allowanceformatted
+			this.userTokens = 100 * ratio
+			this.progressPercent = this.userTokens
+			this.model.amount = val
 		},
 	},
 }
@@ -385,5 +472,8 @@ export default {
 }
 .custom-disabled-input input {
 	color: #fff !important;
+}
+.invest button {
+	background: #f46e41 !important;
 }
 </style>

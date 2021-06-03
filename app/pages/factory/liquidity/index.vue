@@ -169,6 +169,7 @@ export default {
 					name: '',
 					symbol: '',
 				},
+				auctionAddress: '',
 				auction: {
 					address: '',
 					payment_currency: '',
@@ -176,8 +177,11 @@ export default {
 				type: 'ETH',
 				amount: '',
 				vaultAddr: '',
-				lunchDate: null,
 				endTime: '',
+				allowance: '',
+				allowanceformatted: '',
+				customDays: '180',
+				inputDays: null,
 			},
 			chosenLauncherType: 1,
 			firstSteps: [
@@ -212,13 +216,6 @@ export default {
 					title: 'VAULT ADDRESS*',
 					desctiption:
 						'Enter the wallet address that will hold the created SLP tokens as well as any remaining base pair tokens.  Can be the admin address, or any other wallet address you have access to.',
-				},
-				{
-					active: false,
-					top: 40.5,
-					title: 'LAUNCH DATE*',
-					desctiption:
-						'Select the date to launch your liquidity pool on SushiSwap.  You must have put your funds in the launcher by this date - if you do not, the community can then launch a pool for your token themselves.',
 				},
 				{
 					active: false,

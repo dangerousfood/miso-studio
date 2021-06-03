@@ -48,7 +48,7 @@
 						v-model="auctionAddress"
 						name="auction"
 						rules="required|isAddress"
-						placeholder="Enter the address of the auction you held for your token. (Optional)"
+						placeholder="Enter the address of the auction you held for your token."
 						@focus="focuseColor('auction')"
 					/>
 				</div>
@@ -65,6 +65,9 @@ import { getContractInstance as crowdsaleContract } from '@/services/web3/auctio
 import { getContractInstance as batchAuctionContract } from '@/services/web3/auctions/batch'
 import { makeBatchCall } from '@/services/web3/base'
 import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
+import { toDecimals } from '@/util'
+import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
+import { misoMarket as misoMarketConfig } from '@/constants/contracts'
 
 export default {
 	name: 'LiqudityStepOne',
@@ -106,20 +109,27 @@ export default {
 				commitmentsTotal: 0,
 				finalized: 0,
 			},
+			user: {
+				tokenBalance: 0,
+				allowance: '',
+			},
 		}
 	},
 	computed: {
 		model() {
 			return this.data
 		},
-		...mapGetters({ coinbase: 'ethereum/coinbase', tokens: 'tokens/list' }),
+		...mapGetters({
+			coinbase: 'ethereum/coinbase',
+			tokens: 'tokens/list',
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
+		}),
 	},
 	watch: {
 		async auctionAddress(val) {
 			if (val) {
 				await this.getTemplateId(val)
 				// let finishAuction
-				console.log(this.marketTemplateId)
 				switch (parseInt(this.marketTemplateId)) {
 					case 1:
 						this.contractInstance = crowdsaleContract(val)
@@ -138,6 +148,7 @@ export default {
 					default:
 						break
 				}
+				this.model.auctionAddress = val
 				this.model.auction.address = this.marketInfo.paymentCurrency.addr
 				if (
 					this.marketInfo.paymentCurrency.symbol !== 'ETH' &&
@@ -155,6 +166,8 @@ export default {
 					name: this.marketInfo.tokenInfo.name,
 					symbol: this.marketInfo.tokenInfo.symbol,
 				}
+
+				await this.updateUserInfo()
 			}
 		},
 	},
@@ -175,7 +188,7 @@ export default {
 		async setDutchAuctionData(val) {
 			const methods = [{ methodName: 'getDutchAuctionInfo', args: [val] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
-			console.log(data)
+
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
 			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
 			this.marketInfo.tokenInfo.name = data.tokenInfo.name
@@ -185,7 +198,7 @@ export default {
 		async setCrowdsaleData(val) {
 			const methods = [{ methodName: 'getCrowdsaleInfo', args: [val] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
-			console.log(data)
+
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
 			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
 			this.marketInfo.tokenInfo.name = data.tokenInfo.name
@@ -195,7 +208,7 @@ export default {
 		async setBatchData(val) {
 			const methods = [{ methodName: 'getBatchAuctionInfo', args: [val] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
-			console.log(data)
+
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
 			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
 			this.marketInfo.tokenInfo.name = data.tokenInfo.name
@@ -223,6 +236,32 @@ export default {
 		selectCurrentAccount() {
 			this.focuseColor('admin')
 			this.model.wallet = this.coinbase
+		},
+		async updateUserInfo() {
+			const methods = [
+				{
+					methodName: 'allowance',
+					args: [
+						this.coinbase,
+						misoMarketConfig.address[this.currentProvidersNetworkId],
+					],
+				},
+				{
+					methodName: 'balanceOf',
+					args: [this.coinbase],
+				},
+			]
+
+			const data = await makeBatchCall(
+				erc20Contract(this.model.token.address),
+				methods
+			)
+			if (data) {
+				console.log(data)
+				;[this.user.allowance, this.user.tokenBalance] = data
+				this.model.allowance = toDecimals(this.user.allowance)
+				this.model.allowanceformatted = toDecimals(this.user.tokenBalance)
+			}
 		},
 	},
 }
