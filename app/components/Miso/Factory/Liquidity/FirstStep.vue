@@ -160,6 +160,8 @@ export default {
 				} else {
 					this.model.auction.payment_currency = this.marketInfo.paymentCurrency.symbol
 				}
+				this.model.auction.payment_currency_name =
+					this.marketInfo.paymentCurrency.name
 
 				this.model.token = {
 					address: this.marketInfo.tokenInfo.addr,
@@ -188,31 +190,34 @@ export default {
 		async setDutchAuctionData(val) {
 			const methods = [{ methodName: 'getDutchAuctionInfo', args: [val] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
-
+			console.log(data)
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
 			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
 			this.marketInfo.tokenInfo.name = data.tokenInfo.name
 			this.marketInfo.tokenInfo.symbol = data.tokenInfo.symbol
+			this.model.tokenSupply = toDecimals(data.totalTokens)
 		},
 
 		async setCrowdsaleData(val) {
 			const methods = [{ methodName: 'getCrowdsaleInfo', args: [val] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
-
+			console.log(data)
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
 			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
 			this.marketInfo.tokenInfo.name = data.tokenInfo.name
 			this.marketInfo.tokenInfo.symbol = data.tokenInfo.symbol
+			this.model.tokenSupply = toDecimals(data.totalTokens)
 		},
 
 		async setBatchData(val) {
 			const methods = [{ methodName: 'getBatchAuctionInfo', args: [val] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
-
+			console.log(data)
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
 			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
 			this.marketInfo.tokenInfo.name = data.tokenInfo.name
 			this.marketInfo.tokenInfo.symbol = data.tokenInfo.symbol
+			this.model.tokenSupply = toDecimals(data.totalTokens)
 		},
 		...mapActions({
 			getTokens: 'tokens/getTokens',
@@ -260,7 +265,7 @@ export default {
 				console.log(data)
 				;[this.user.allowance, this.user.tokenBalance] = data
 				this.model.allowance = toDecimals(this.user.allowance)
-				this.model.allowanceformatted = toDecimals(this.user.tokenBalance)
+				this.model.tokenbalance = toDecimals(this.user.tokenBalance)
 			}
 		},
 	},

@@ -124,7 +124,7 @@
 								class="d-flex align-items-center justify-content-between slider-label"
 							>
 								<span class="fs-2">
-									Token Ballance: {{ model.allowanceformatted }}
+									User's Token Ballance: {{ model.tokenbalance }}
 									{{ model.token.symbol }}
 								</span>
 								<span class="fs-2">
@@ -397,21 +397,23 @@ export default {
 				if (receipt.status) {
 					this.user.allowance = receipt.events.Approval.returnValues[2]
 					this.model.allowance = toDecimals(this.user.allowance)
-					this.model.allowanceformatted = toDecimals(this.user.allowance)
+					this.model.tokenbalance = toDecimals(this.user.allowance)
 				}
 				this.approveLoading = false
 			})
 		},
 		updateTokenlimitAmount(val) {
 			this.progressPercent = val
-			const ratio = this.model.allowanceformatted / 100
+			const ratio = this.model.tokenSupply / 100
 			this.model.amount = ratio * val
+			this.model.percent = this.progressPercent
 		},
 		updateTokenAmount(val) {
-			const ratio = val / this.model.allowanceformatted
+			const ratio = val / this.model.tokenSupply
 			this.userTokens = 100 * ratio
 			this.progressPercent = this.userTokens
 			this.model.amount = val
+			this.model.percent = this.progressPercent
 		},
 	},
 }

@@ -21,11 +21,12 @@
 								</div>
 								<div class="fs-2">
 									<span class="text-white font-weight-bold fs-4">
-										{{ liquidity.token.symbol }}
+										{{ liquidity.auction.payment_currency_name }}({{
+											liquidity.auction.payment_currency
+										}})
 									</span>
-									({{ liquidity.token.address | truncate(6) }})
 									<span class="text-white font-weight-bold fs-4">
-										+ ({{ liquidity.token.name }}) ({{ liquidity.token.symbol }})
+										+ {{ liquidity.token.name }} ({{ liquidity.token.symbol }})
 									</span>
 								</div>
 							</div>
@@ -37,12 +38,8 @@
 								</div>
 								<div class="fs-2">
 									<span class="text-white font-weight-bold fs-4">
-										{{ liquidity.token.symbol }}
-									</span>
-									({{ liquidity.token.address | truncate(6) }})
-									<span class="text-white font-weight-bold fs-4">
-										+ ({{ liquidity.token.name }}) ({{ liquidity.token.symbol }})
-										50%({{ liquidity.amount }}) / 50%
+										{{ liquidity.token.name }} ({{ liquidity.token.symbol }}) :
+										{{ liquidity.percent }}% ({{ liquidity.amount }})
 									</span>
 								</div>
 								<div class="text-white mt-3 fs-2 w-75">
@@ -121,7 +118,7 @@
 						<base-button
 							type="primary"
 							style="border-radius: 1.85rem !important"
-							@click="deployLiquid"
+							@click="deployLiquidity"
 						>
 							DEPLOY
 						</base-button>
@@ -136,8 +133,8 @@
 import { mapGetters } from 'vuex'
 import { sendTransactionAndWait } from '@/services/web3/base'
 import { to18Decimals } from '@/util'
-import { dai, usdc, tether } from '@/constants/contracts'
-import { getContractInstance as misoMarketContract } from '@/services/web3/misoMarket'
+import { dai, misoLauncher as misoLauncherAddress } from '@/constants/contracts'
+import { initContractInstance as misoLauncherContract } from '@/services/web3/liquidityLauncher'
 import { BaseButton, BaseDivider } from '~/components'
 
 export default {
@@ -158,22 +155,12 @@ export default {
 			coinbase: 'ethereum/coinbase',
 			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
 		}),
-		getDays() {
-			const diff =
-				(new Date(this.liquidity.endTime) - new Date(this.liquidity.lunchDate)) /
-				(1000 * 60 * 60 * 24)
-			return diff
-		},
-		endDate() {
-			return new Date(this.liquidity.lunchDate).toDateString()
-		},
 	},
 	mounted() {
 		this.breackpoint = this.$screen.breakpoint
-		this.marketFactoryAddress = misoMarketContract().options.address
 	},
 	methods: {
-		deployLiquid() {
+		deployLiquidity() {
 			return new Promise((resolve) => {
 				this.nextBtnLoading = true
 				const launcherTemplateID = 1
@@ -181,17 +168,16 @@ export default {
 				let data
 				switch (launcherTemplateID) {
 					case 1:
-						data = this.getData()
+						data = this.getdataParams()
 						break
 					default:
-						data = this.getData()
+						data = this.getdataParams()
 						break
 				}
-				console.log(data)
-				const method = misoMarketContract().methods.createMarket(
+				const method = misoLauncherContract().methods.createLauncher(
 					launcherTemplateID,
 					model.token.address,
-					to18Decimals(model.amount),
+					to18Decimals(model.tokenSupply),
 					dai.misoFeeAcct,
 					data
 				)
@@ -206,70 +192,29 @@ export default {
 				})
 			})
 		},
-		getData() {
+		getdataParams() {
 			const model = this.liquidity
-			console.log('model-----', model)
-			const end =
+			const locktime =
 				model.inputDays === null
 					? this.liquidity.customDays
 					: this.liquidity.inputDays
-			console.log('end-----', end)
 
-			const timestamp = new Date().getTime() + end * 1000 * 3600 * 24
-			const startDate = new Date().getTime() / 1000
-			const endDate = timestamp / 1000
-			console.log('startDate-----', startDate)
-			console.log('endDate-----', endDate)
-
-			let paymentCurrencyAddress = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-			const pointList = '0x0000000000000000000000000000000000000000'
-			const operator = this.coinbase
-			switch (model.auction.payment_currency) {
-				case 'ETH':
-					paymentCurrencyAddress = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
-					break
-				case 'USDC':
-					paymentCurrencyAddress = usdc.address[this.currentProvidersNetworkId]
-					break
-				case 'TETHER':
-					paymentCurrencyAddress = tether.address[this.currentProvidersNetworkId]
-					break
-				case 'DAI':
-					paymentCurrencyAddress = tether.address[this.currentProvidersNetworkId]
-					break
-				default:
-					paymentCurrencyAddress = model.auction.address
-					break
-			}
+			const timestamp = new Date().getTime() + locktime * 1000 * 3600 * 24
+			const lockTime = parseInt(timestamp / 1000)
+			const uniswapAddress =
+				misoLauncherAddress.address[this.currentProvidersNetworkId]
 
 			const dataParams = [
-				this.marketFactoryAddress,
-				model.token.address,
-				to18Decimals(model.amount),
-				startDate,
-				endDate,
-				paymentCurrencyAddress,
-				to18Decimals(model.amount),
-				to18Decimals(model.amount),
-				operator,
-				pointList,
+				model.auctionAddress,
+				uniswapAddress,
+				this.liquidity.token.address,
 				model.wallet,
+				this.liquidity.percent,
+				lockTime,
 			]
 
 			return web3.eth.abi.encodeParameters(
-				[
-					'address',
-					'address',
-					'uint256',
-					'uint256',
-					'uint256',
-					'address',
-					'uint256',
-					'uint256',
-					'address',
-					'address',
-					'address',
-				],
+				['address', 'address', 'address', 'address', 'uint256', 'uint256'],
 				dataParams
 			)
 		},
