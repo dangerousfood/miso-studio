@@ -67,7 +67,7 @@ import { makeBatchCall } from '@/services/web3/base'
 import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 import { toDecimals } from '@/util'
 import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
-import { misoMarket as misoMarketConfig } from '@/constants/contracts'
+import { misoLauncher as misoLauncherAddress } from '@/constants/contracts'
 
 export default {
 	name: 'LiqudityStepOne',
@@ -154,8 +154,6 @@ export default {
 				this.model.auction.payment_currency_name =
 					this.marketInfo.paymentCurrency.name
 
-				console.log('====> marketInfo', this.marketInfo)
-
 				this.model.token = {
 					address: this.marketInfo.tokenInfo.addr,
 					name: this.marketInfo.tokenInfo.name,
@@ -238,7 +236,7 @@ export default {
 					methodName: 'allowance',
 					args: [
 						this.coinbase,
-						misoMarketConfig.address[this.currentProvidersNetworkId],
+						misoLauncherAddress.address[this.currentProvidersNetworkId],
 					],
 				},
 				{

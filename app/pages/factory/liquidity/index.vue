@@ -404,11 +404,9 @@ export default {
 			this.modelUpdate(model)
 
 			if (this.tabIndex === 3) {
-				console.log('123----')
 				return new Promise((resolve) => {
 					this.nextBtnLoading = true
 					const launcherTemplateID = 1
-					const model = this.model
 					let data
 					switch (launcherTemplateID) {
 						case 1:
@@ -421,7 +419,7 @@ export default {
 					const method = misoLauncherContract().methods.createLauncher(
 						launcherTemplateID,
 						model.token.address,
-						to18Decimals((model.tokenSupply * model.percent) / 100),
+						to18Decimals(model.amount),
 						dai.misoFeeAcct,
 						data
 					)
@@ -439,17 +437,20 @@ export default {
 			}
 		},
 		getdataParams() {
-			const model = this.model
 			const factory = uniswapFactoryAddress.address[this.currentProvidersNetworkId]
-			const percent = (model.percent * 100).toFixed()
+			const percent = (this.model.percent * 100).toFixed()
 			const lockTime =
-				(model.inputDays === null ? model.customDays : model.inputDays) * 3600 * 24
+				(this.model.inputDays === null
+					? this.model.customDays
+					: this.model.inputDays) *
+				3600 *
+				24
 
 			const dataParams = [
-				model.auctionAddress,
+				this.model.auctionAddress,
 				factory,
-				model.wallet,
-				model.vaultAddr,
+				this.model.wallet,
+				this.model.vaultAddr,
 				percent,
 				lockTime,
 			]
