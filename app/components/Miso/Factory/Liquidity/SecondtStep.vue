@@ -28,6 +28,7 @@
 						<div
 							v-if="data.auction.payment_currency === 'ETH'"
 							class="d-flex align-items-center pl-3"
+							style="cursor: not-allowed"
 						>
 							<base-radio
 								v-model="model.auction.payment_currency"
@@ -41,6 +42,7 @@
 						<div
 							v-else-if="data.auction.payment_currency === 'DAI'"
 							class="d-flex align-items-center pl-3"
+							style="cursor: not-allowed"
 						>
 							<base-radio
 								v-model="model.auction.payment_currency"
@@ -56,6 +58,7 @@
 						<div
 							v-else-if="data.auction.payment_currency === 'USDT'"
 							class="d-flex align-items-center pl-3"
+							style="cursor: not-allowed"
 						>
 							<base-radio
 								v-model="model.auction.payment_currency"
@@ -72,11 +75,13 @@
 						<div
 							v-else-if="data.auction.payment_currency === 'TETHER'"
 							class="d-flex align-items-center pl-3"
+							style="cursor: not-allowed"
 						>
 							<base-radio
 								v-model="model.auction.payment_currency"
 								name="USDT"
 								class="text-white font-weight-bold fs-4 mr-3 mb-2"
+								style="cursor: not-allowed"
 							>
 								TETHER (USDT)
 							</base-radio>
@@ -84,10 +89,14 @@
 								<img src="@/assets/svg/USDT.svg" alt="USDT" class="img-fluid" />
 							</div>
 						</div>
-						<div v-else class="d-flex col-12 align-items-center pl-3">
+						<div
+							v-else
+							class="d-flex col-12 align-items-center pl-3"
+							style="cursor: not-allowed"
+						>
 							<base-radio
 								v-model="model.auction.payment_currency"
-								name="CUSTOM"
+								:name="model.auction.payment_currency"
 								class="text-white col-2 font-weight-bold fs-4 mr-3 mb-2"
 							>
 								CUSTOM

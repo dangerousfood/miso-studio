@@ -183,7 +183,6 @@ export default {
 		async setDutchAuctionData(val) {
 			const methods = [{ methodName: 'getDutchAuctionInfo', args: [val] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
-			console.log(data)
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
 			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
 			this.marketInfo.tokenInfo.name = data.tokenInfo.name
@@ -194,7 +193,6 @@ export default {
 		async setCrowdsaleData(val) {
 			const methods = [{ methodName: 'getCrowdsaleInfo', args: [val] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
-			console.log(data)
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
 			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
 			this.marketInfo.tokenInfo.name = data.tokenInfo.name
@@ -205,7 +203,6 @@ export default {
 		async setBatchData(val) {
 			const methods = [{ methodName: 'getBatchAuctionInfo', args: [val] }]
 			const [data] = await makeBatchCall(misoHelperContract(), methods)
-			console.log(data)
 			this.marketInfo.paymentCurrency = data.paymentCurrencyInfo
 			this.marketInfo.tokenInfo.addr = data.tokenInfo.addr
 			this.marketInfo.tokenInfo.name = data.tokenInfo.name
@@ -255,7 +252,6 @@ export default {
 				methods
 			)
 			if (data) {
-				console.log(data)
 				;[this.user.allowance, this.user.tokenBalance] = data
 				this.model.allowance = toDecimals(this.user.allowance)
 				this.model.tokenbalance = toDecimals(this.user.tokenBalance)

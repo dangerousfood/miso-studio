@@ -1,6 +1,9 @@
 <template>
 	<div class="row">
-		<div class="col-12 col-lg-9 col-xl-8 order-1 order-lg-0">
+		<div
+			v-if="tabIndex === 0 || tabIndex === 1 || tabIndex === 2"
+			class="col-12 col-lg-9 col-xl-8 order-1 order-lg-0"
+		>
 			<div class="d-flex align-items-center mt-4 px-5">
 				<svg-icon icon="liquid-luncher" height="70" width="70" />
 				<h2 class="mb-0 pl-3 text-white font-weight-bold fs-10">
@@ -11,7 +14,7 @@
 				<div class="col-12">
 					<div>
 						<client-only>
-							<liquid-wizard
+							<liquid-launcher-wizard
 								:start-index="tabIndex"
 								:next-button-text="nextBtnText"
 								:next-btn-loading="nextBtnLoading"
@@ -56,7 +59,85 @@
 									/>
 									<base-divider class="py-4 mt-5" />
 								</wizard-tab>
-							</liquid-wizard>
+								<wizard-tab :before-change="() => validateStep('step-4')">
+									<final-step
+										ref="step-4"
+										:data="model"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+							</liquid-launcher-wizard>
+						</client-only>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div v-else class="col-12 col-lg-12 order-1 order-lg-0">
+			<div class="d-flex align-items-center mt-4 px-5">
+				<svg-icon icon="liquid-luncher" height="70" width="70" />
+				<h2 class="mb-0 pl-3 text-white font-weight-bold fs-10">
+					Confirm Your Launch
+				</h2>
+			</div>
+			<div class="row px-5">
+				<div class="col-12">
+					<div>
+						<client-only>
+							<liquid-launcher-wizard
+								:start-index="tabIndex"
+								:next-button-text="nextBtnText"
+								:next-btn-loading="nextBtnLoading"
+								@update:startIndex="onTabChanged"
+							>
+								<wizard-tab :before-change="() => validateStep('step-1')">
+									<template slot="label">
+										<span class="fs-4 font-weight-bold">1</span>
+										<p>INITIAL SETUP</p>
+									</template>
+									<first-step
+										ref="step-1"
+										:data="model"
+										@active-input="firstStepInputs($event)"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab :before-change="() => validateStep('step-2')">
+									<template slot="label">
+										<span class="fs-4 font-weight-bold">2</span>
+										<p>LIQUIDITY OPTIONS</p>
+									</template>
+									<second-step
+										ref="step-2"
+										:data="model"
+										@active-input="secondStepInputs($event)"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab :before-change="() => validateStep('step-3')">
+									<template slot="label">
+										<span class="fs-4 font-weight-bold">3</span>
+										<p>LAUNCH SETTINGS</p>
+									</template>
+									<third-step
+										ref="step-3"
+										:data="model"
+										@active-input="thirdStepInputs($event)"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab :before-change="() => validateStep('step-4')">
+									<final-step
+										ref="step-4"
+										:data="model"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+							</liquid-launcher-wizard>
 						</client-only>
 					</div>
 				</div>
@@ -64,6 +145,7 @@
 		</div>
 
 		<div
+			v-if="tabIndex === 0 || tabIndex === 1 || tabIndex === 2"
 			class="
 				col-12 col-lg-3 col-xl-4
 				bg-dark
@@ -137,18 +219,23 @@
 
 <script>
 import Notificatoin from '@/components/Miso/Factory/Liquidity/sidebarNotification'
-import { LiquidWizard, WizardTab, BaseDivider } from '@/components'
+import { LiquidLauncherWizard, WizardTab, BaseDivider } from '@/components'
 import FirstStep from '@/components/Miso/Factory/Liquidity/FirstStep'
 import SecondStep from '@/components/Miso/Factory/Liquidity/SecondtStep'
 import ThirdStep from '@/components/Miso/Factory/Liquidity/ThirdStep'
+import FinalStep from '@/components/Miso/Factory/Liquidity/FinalStep'
 import { Vue } from 'vue-property-decorator'
 import { ZoomYTransition } from 'vue2-transitions'
 import { mapMutations, mapGetters } from 'vuex'
-// import ThirdStep from "@/components/Miso/Factory/Liquidity/FirstStep"
+import { sendTransactionAndWait } from '@/services/web3/base'
+import { to18Decimals } from '@/util'
+import { dai, uniswapFactory as uniswapFactoryAddress } from '@/constants/contracts'
+import { initContractInstance as misoLauncherContract } from '@/services/web3/liquidityLauncher'
+
 export default {
 	name: 'LiquidityFactoory',
 	components: {
-		LiquidWizard,
+		LiquidLauncherWizard,
 		WizardTab,
 		BaseDivider,
 		Notificatoin,
@@ -156,6 +243,7 @@ export default {
 		FirstStep,
 		SecondStep,
 		ThirdStep,
+		FinalStep,
 	},
 	data() {
 		return {
@@ -229,15 +317,23 @@ export default {
 				},
 			],
 			sidebarTitles: ['Initial Setup', 'Liquidity Options', 'Launch Settings'],
+			deployedMarket: {
+				address: '',
+				txHash: '',
+			},
 		}
 	},
 	computed: {
-		...mapGetters({ liquidity: 'factory/liquidModel' }),
+		...mapGetters({
+			coinbase: 'ethereum/coinbase',
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
+		}),
 		stepTitle() {
 			return ''
 		},
 		nextBtnText() {
 			if (this.tabIndex === 2) return 'Review'
+			if (this.tabIndex === 3) return 'Deploy'
 			return 'Next'
 		},
 	},
@@ -251,11 +347,7 @@ export default {
 			})
 		},
 	},
-	created() {
-		if (Object.keys(this.liquidity).length !== 0) {
-			this.model = this.liquidity
-		}
-	},
+
 	mounted() {
 		this.breackpoint = this.$screen.breakpoint
 	},
@@ -287,6 +379,21 @@ export default {
 		},
 		onTabChanged(newValue) {
 			this.tabIndex = newValue
+			if (this.tabIndex === 0) {
+				this.firstSteps.forEach((item) => {
+					item.active = false
+				})
+			}
+			if (this.tabIndex === 1) {
+				this.SecondStep.forEach((item) => {
+					item.active = false
+				})
+			}
+			if (this.tabIndex === 2) {
+				this.ThirdStep.forEach((item) => {
+					item.active = false
+				})
+			}
 		},
 		onStepValidated(validated, model) {
 			if (this.model === null) {
@@ -295,11 +402,62 @@ export default {
 				Object.assign(this.model, model)
 			}
 			this.modelUpdate(model)
-			if (this.tabIndex === 2 && validated) {
-				this.$router.push({
-					path: `/factory/liquidity/${this.model.token.address}`,
+
+			if (this.tabIndex === 3) {
+				console.log('123----')
+				return new Promise((resolve) => {
+					this.nextBtnLoading = true
+					const launcherTemplateID = 1
+					const model = this.model
+					let data
+					switch (launcherTemplateID) {
+						case 1:
+							data = this.getdataParams()
+							break
+						default:
+							data = this.getdataParams()
+							break
+					}
+					const method = misoLauncherContract().methods.createLauncher(
+						launcherTemplateID,
+						model.token.address,
+						to18Decimals((model.tokenSupply * model.percent) / 100),
+						dai.misoFeeAcct,
+						data
+					)
+
+					sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+						this.nextBtnLoading = false
+						if (receipt) {
+							this.deployedMarket.txHash = receipt.transactionHash
+							this.deployedMarket.address =
+								receipt.events.MarketCreated.returnValues[1]
+						}
+						resolve(receipt.status)
+					})
 				})
 			}
+		},
+		getdataParams() {
+			const model = this.model
+			const factory = uniswapFactoryAddress.address[this.currentProvidersNetworkId]
+			const percent = (model.percent * 100).toFixed()
+			const lockTime =
+				(model.inputDays === null ? model.customDays : model.inputDays) * 3600 * 24
+
+			const dataParams = [
+				model.auctionAddress,
+				factory,
+				model.wallet,
+				model.vaultAddr,
+				percent,
+				lockTime,
+			]
+
+			return web3.eth.abi.encodeParameters(
+				['address', 'address', 'address', 'address', 'uint256', 'uint256'],
+				dataParams
+			)
 		},
 	},
 }
