@@ -124,11 +124,11 @@
 								class="d-flex align-items-center justify-content-between slider-label"
 							>
 								<span class="fs-2">
-									User's Token Ballance: {{ model.tokenbalance }}
+									Ballance: {{ model.tokenbalance }}
 									{{ model.token.symbol }}
 								</span>
 								<span class="fs-2">
-									Token Allowance: {{ model.allowance }} {{ model.token.symbol }}
+									Allowance: {{ model.allowance }} {{ model.token.symbol }}
 								</span>
 							</div>
 						</div>
@@ -139,7 +139,9 @@
 								<span class="fs-1">
 									{{ progressPercent > 100 ? '0' : progressPercent }}%
 								</span>
-								<span class="fs-1">100%</span>
+								<span class="fs-1">
+									100% ({{ model.tokenSupply }} {{ model.token.symbol }})
+								</span>
 							</div>
 						</div>
 
@@ -209,9 +211,8 @@
 						</div>
 						<div class="col-12">
 							<div class="mt-5 fs-2">
-								25% of amount raised from auction in ETH, pairing with 200,000
-								{{ model.token.symbol }}, will be launched on SushiSwap as a 50/50
-								weighting liquidity pool.
+								The amount raised from the auction, pairing with tokens to be launched
+								on SushiSwap with equal weighting in the liquidity pool.
 							</div>
 						</div>
 					</div>

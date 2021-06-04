@@ -205,7 +205,7 @@ export default {
 	},
 	methods: {
 		selectCurrentAccount() {
-			this.model.vaultAddr = this.coinbase
+			this.model.vaultAddr = this.model.wallet
 			this.setActiveSection('one')
 		},
 		validate() {

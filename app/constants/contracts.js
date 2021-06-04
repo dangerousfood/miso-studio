@@ -251,12 +251,12 @@ export const masterChefTemplate = {
 
 export const uniswapFactory = {
 	address: {
-		1: '0xc0a47dFe034B400B47bDaD5FecDa2621de6c4d95', // main
-		3: '0x9c83dCE8CA20E9aAF9D3efc003b2ea62aBC08351', // ropsten
-		4: '0xf5D915570BC477f9B8D6C0E980aA81757A3AaC36', // rinkeby
-		42: '0xD3E51Ef092B2845f10401a0159B2B96e8B6c3D30', // kovan
-		5: '0x6Ce570d02D73d4c384b46135E87f8C592A8c86dA', // goerli
-		56: '', // BSC mainnet
-		97: '', // BSC testnet
+		1: '0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac', // main
+		3: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // ropsten
+		4: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // rinkeby
+		42: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // kovan
+		5: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // goerli
+		56: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // BSC mainnet
+		97: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // BSC testnet
 	},
 }

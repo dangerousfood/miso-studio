@@ -150,16 +150,7 @@ export default {
 				}
 				this.model.auctionAddress = val
 				this.model.auction.address = this.marketInfo.paymentCurrency.addr
-				if (
-					this.marketInfo.paymentCurrency.symbol !== 'ETH' &&
-					this.marketInfo.paymentCurrency.symbol !== 'USDT' &&
-					this.marketInfo.paymentCurrency.symbol !== 'DAI' &&
-					this.marketInfo.paymentCurrency.symbol !== 'USD'
-				) {
-					this.model.auction.payment_currency = 'CUSTOM'
-				} else {
-					this.model.auction.payment_currency = this.marketInfo.paymentCurrency.symbol
-				}
+				this.model.auction.payment_currency = this.marketInfo.paymentCurrency.symbol
 				this.model.auction.payment_currency_name =
 					this.marketInfo.paymentCurrency.name
 

@@ -21,12 +21,12 @@
 								</div>
 								<div class="fs-2">
 									<span class="text-white font-weight-bold fs-4">
-										{{ liquidity.auction.payment_currency_name }}({{
-											liquidity.auction.payment_currency
-										}})
+										{{ liquidity.token.name }} ({{ liquidity.token.symbol }})
 									</span>
 									<span class="text-white font-weight-bold fs-4">
-										+ {{ liquidity.token.name }} ({{ liquidity.token.symbol }})
+										+ {{ liquidity.auction.payment_currency_name }}({{
+											liquidity.auction.payment_currency
+										}})
 									</span>
 								</div>
 							</div>
@@ -43,10 +43,8 @@
 									</span>
 								</div>
 								<div class="text-white mt-3 fs-2 w-75">
-									25% of amount raised from auction in
-									{{ liquidity.auction.payment_currency }}, pairing with
-									{{ liquidity.amount }} {{ liquidity.token.symbol }}, will be
-									launched on SushiSwap as a 50/50 weighting liquidity pool.
+									The amount raised from the auction, pairing with tokens to be
+									launched on SushiSwap with equal weighting in the liquidity pool
 								</div>
 							</div>
 							<div class="col-12 mt-5">
@@ -82,7 +80,7 @@
 									<div class="col-12 mb-3">
 										<div class="fs-4 font-weight-bold">Admin Address</div>
 										<span class="font-weight-bold text-white mt-1 fs-2">
-											{{ liquidity.token.address }}
+											{{ liquidity.wallet }}
 										</span>
 									</div>
 									<div v-if="liquidity.auction" class="col-12 mb-3">
@@ -133,7 +131,7 @@
 import { mapGetters } from 'vuex'
 import { sendTransactionAndWait } from '@/services/web3/base'
 import { to18Decimals } from '@/util'
-import { dai, misoLauncher as misoLauncherAddress } from '@/constants/contracts'
+import { dai, uniswapFactory as uniswapFactoryAddress } from '@/constants/contracts'
 import { initContractInstance as misoLauncherContract } from '@/services/web3/liquidityLauncher'
 import { BaseButton, BaseDivider } from '~/components'
 
@@ -177,10 +175,12 @@ export default {
 				const method = misoLauncherContract().methods.createLauncher(
 					launcherTemplateID,
 					model.token.address,
-					to18Decimals(model.tokenSupply),
+					to18Decimals((model.tokenSupply * model.percent) / 100),
 					dai.misoFeeAcct,
 					data
 				)
+
+				console.log('====>', method)
 
 				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 					this.nextBtnLoading = false
@@ -194,24 +194,21 @@ export default {
 		},
 		getdataParams() {
 			const model = this.liquidity
-			const locktime =
-				model.inputDays === null
-					? this.liquidity.customDays
-					: this.liquidity.inputDays
-
-			const timestamp = new Date().getTime() + locktime * 1000 * 3600 * 24
-			const lockTime = parseInt(timestamp / 1000)
-			const uniswapAddress =
-				misoLauncherAddress.address[this.currentProvidersNetworkId]
+			const factory = uniswapFactoryAddress.address[this.currentProvidersNetworkId]
+			const percent = (model.percent * 100).toFixed()
+			const lockTime =
+				(model.inputDays === null ? model.customDays : model.inputDays) * 3600 * 24
 
 			const dataParams = [
 				model.auctionAddress,
-				uniswapAddress,
-				this.liquidity.token.address,
+				factory,
 				model.wallet,
-				this.liquidity.percent,
+				model.vaultAddr,
+				percent,
 				lockTime,
 			]
+
+			console.log('====>dataParams===>', dataParams)
 
 			return web3.eth.abi.encodeParameters(
 				['address', 'address', 'address', 'address', 'uint256', 'uint256'],
