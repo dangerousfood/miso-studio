@@ -154,6 +154,8 @@ export default {
 				this.model.auction.payment_currency_name =
 					this.marketInfo.paymentCurrency.name
 
+				console.log('====> marketInfo', this.marketInfo)
+
 				this.model.token = {
 					address: this.marketInfo.tokenInfo.addr,
 					name: this.marketInfo.tokenInfo.name,

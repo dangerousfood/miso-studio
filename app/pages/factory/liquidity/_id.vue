@@ -24,7 +24,7 @@
 										{{ liquidity.token.name }} ({{ liquidity.token.symbol }})
 									</span>
 									<span class="text-white font-weight-bold fs-4">
-										+ {{ liquidity.auction.payment_currency_name }}({{
+										+ {{ liquidity.auction.payment_currency_name }} ({{
 											liquidity.auction.payment_currency
 										}})
 									</span>
@@ -180,8 +180,6 @@ export default {
 					data
 				)
 
-				console.log('====>', method)
-
 				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 					this.nextBtnLoading = false
 					if (receipt) {
@@ -207,8 +205,6 @@ export default {
 				percent,
 				lockTime,
 			]
-
-			console.log('====>dataParams===>', dataParams)
 
 			return web3.eth.abi.encodeParameters(
 				['address', 'address', 'address', 'address', 'uint256', 'uint256'],
