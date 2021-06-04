@@ -56,24 +56,24 @@
 							</div>
 						</div>
 						<div
-							v-else-if="data.auction.payment_currency === 'USDT'"
+							v-else-if="data.auction.payment_currency === 'USDC'"
 							class="d-flex align-items-center pl-3"
 							style="cursor: not-allowed"
 						>
 							<base-radio
 								v-model="model.auction.payment_currency"
-								name="USDT"
+								name="USDC"
 								class="text-white font-weight-bold mr-3 mb-2"
 								:class="computedFontSize"
 							>
-								USDT
+								USDC
 							</base-radio>
 							<div class="tokenImage">
-								<img src="@/assets/svg/USD.svg" alt="USD" />
+								<img src="@/assets/svg/USD.svg" alt="USDC" />
 							</div>
 						</div>
 						<div
-							v-else-if="data.auction.payment_currency === 'TETHER'"
+							v-else-if="data.auction.payment_currency === 'USDT'"
 							class="d-flex align-items-center pl-3"
 							style="cursor: not-allowed"
 						>
@@ -298,9 +298,9 @@ export default {
 			return (
 				this.model.auction.address +
 				' ( ' +
-				this.model.token.name +
+				this.model.auction.payment_currency_name +
 				' - ' +
-				this.model.token.symbol +
+				this.model.auction.payment_currency +
 				' )'
 			)
 		},
