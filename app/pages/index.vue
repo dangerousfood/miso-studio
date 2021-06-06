@@ -142,7 +142,7 @@ export default {
 			cardContent: [],
 			cardContentTemplate: [
 				{
-					cardimg: 'card01.png',
+					cardimg: 'card01.jpg',
 					mobilecardimg: 'card_mobile01.png',
 					logoimg:
 						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
@@ -172,7 +172,7 @@ export default {
 					social: {},
 				},
 				{
-					cardimg: 'card01.png',
+					cardimg: 'card03.png',
 					mobilecardimg: 'card_mobile01.png',
 					logoimg:
 						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
@@ -568,6 +568,10 @@ export default {
 	background-image: linear-gradient(115deg, #ff000b 0%, #ff5100 40%, #f800ff 80%);
 	height: 2px;
 	margin: 0 auto;
+	@media screen and (max-width: 767px) {
+		margin: 0 -30px;
+		margin-top: 1rem;
+	}
 }
 
 .scrolldiv {
