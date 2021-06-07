@@ -301,13 +301,15 @@
 										</span>
 									</span>
 								</template>
-								<!-- <template #sub-button>
+								<template #sub-button>
 									<div class="h-100 invest-bg d-sm-block d-none">
 										<base-button
 											v-if="isApproved"
 											:round="true"
 											class="btn font-weight-bold text-uppercase fs-2 px-5"
-											:disabled="selectedTokenQuantity <= 0 || isUpcoming"
+											:disabled="
+												selectedTokenQuantity <= 0 || isUpcoming || isBadAuction
+											"
 											:loading="loading"
 											@click="invest"
 										>
@@ -317,14 +319,16 @@
 											v-else
 											:round="true"
 											class="btn font-weight-bold text-uppercase fs-2 px-5"
-											:disabled="selectedTokenQuantity <= 0 || isUpcoming"
+											:disabled="
+												selectedTokenQuantity <= 0 || isUpcoming || isBadAuction
+											"
 											:loading="loading"
 											@click="approve"
 										>
 											approve
 										</base-button>
 									</div>
-								</template> -->
+								</template>
 							</base-input>
 						</div>
 						<div v-if="isUpcoming" class="font-weight-bold text-center fs-1">
@@ -676,6 +680,11 @@ export default {
 			return this.status.auctionSuccessful
 				? 'Auction Finished Successfully'
 				: 'Auction Failed to Reach a Target'
+		},
+		isBadAuction() {
+			return (
+				this.$route.params.address === '0xEd4A285845f19945b0EbC04a3165e3DCAf62fEeD'
+			)
 		},
 		isUpcoming() {
 			const currentTimestamp = Date.parse(new Date()) / 1000
