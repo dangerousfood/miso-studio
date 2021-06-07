@@ -12,6 +12,9 @@
 								LIQUIDITY PAIR TOKEN*
 							</div>
 						</div>
+						<div class="ml-5 mb-4 liquidity_pair_token text-center py-2">
+							{{ model.token.symbol }} + {{ model.auction.payment_currency }}
+						</div>
 					</div>
 					<div
 						class="
@@ -23,11 +26,12 @@
 						"
 					>
 						<div
+							v-if="data.auction.payment_currency === 'ETH'"
 							class="d-flex align-items-center pl-3"
-							@click="activeSectionCalc('token')"
+							style="cursor: not-allowed"
 						>
 							<base-radio
-								v-model="type"
+								v-model="model.auction.payment_currency"
 								name="ETH"
 								class="text-white font-weight-bold fs-4 mr-3 mb-2"
 							>
@@ -35,94 +39,80 @@
 							</base-radio>
 							<svg-icon icon="ethereum" height="30" width="30" />
 						</div>
-						<p class="pr-3 mb-0">Most Common</p>
-					</div>
-					<div class="row mt-3">
-						<div class="col-lg-4 mb-3">
-							<div class="border-miso radio_wrapper">
-								<div
-									class="d-flex h-100 fs-4 mr-3 pl-3 align-items-center"
-									@click="activeSectionCalc('token')"
-								>
-									<base-radio
-										v-model="type"
-										name="DAI"
-										class="text-white font-weight-bold fs-3 mr-3 mb-2"
-									>
-										DAI
-									</base-radio>
-									<div class="tokenImage">
-										<img src="@/assets/svg/DAI.svg" alt="DAI" class="img-fluid" />
-									</div>
-								</div>
+						<div
+							v-else-if="data.auction.payment_currency === 'DAI'"
+							class="d-flex align-items-center pl-3"
+							style="cursor: not-allowed"
+						>
+							<base-radio
+								v-model="model.auction.payment_currency"
+								name="DAI"
+								class="text-white font-weight-bold fs-3 mr-3 mb-2"
+							>
+								DAI
+							</base-radio>
+							<div class="tokenImage">
+								<img src="@/assets/svg/DAI.svg" alt="DAI" class="img-fluid" />
 							</div>
 						</div>
-
-						<div class="col-lg-4 mb-3">
-							<div class="border-miso radio_wrapper">
-								<div
-									class="d-flex h-100 fs-4 mr-3 pl-3 align-items-center"
-									@click="activeSectionCalc('token')"
-								>
-									<base-radio
-										v-model="type"
-										name="USD"
-										class="text-white font-weight-bold mr-3 mb-2"
-										:class="computedFontSize"
-									>
-										USDC
-									</base-radio>
-									<div class="tokenImage">
-										<img src="@/assets/svg/USD.svg" alt="USD" />
-									</div>
-								</div>
+						<div
+							v-else-if="data.auction.payment_currency === 'USDC'"
+							class="d-flex align-items-center pl-3"
+							style="cursor: not-allowed"
+						>
+							<base-radio
+								v-model="model.auction.payment_currency"
+								name="USDC"
+								class="text-white font-weight-bold mr-3 mb-2"
+								:class="computedFontSize"
+							>
+								USDC
+							</base-radio>
+							<div class="tokenImage">
+								<img src="@/assets/svg/USD.svg" alt="USDC" />
 							</div>
 						</div>
-
-						<div class="col-lg-4 mb-3">
-							<div class="border-miso radio_wrapper">
-								<div
-									class="d-flex h-100 fs-3 mr-3 pl-3 align-items-center"
-									@click="activeSectionCalc('token')"
-								>
-									<base-radio
-										v-model="type"
-										name="USDT"
-										class="text-white font-weight-bold fs-4 mr-3 mb-2"
-									>
-										TETHER (USDT)
-									</base-radio>
-									<div class="tokenImage">
-										<img src="@/assets/svg/USDT.svg" alt="USDT" class="img-fluid" />
-									</div>
-								</div>
+						<div
+							v-else-if="data.auction.payment_currency === 'USDT'"
+							class="d-flex align-items-center pl-3"
+							style="cursor: not-allowed"
+						>
+							<base-radio
+								v-model="model.auction.payment_currency"
+								name="USDT"
+								class="text-white font-weight-bold fs-4 mr-3 mb-2"
+								style="cursor: not-allowed"
+							>
+								TETHER (USDT)
+							</base-radio>
+							<div class="tokenImage">
+								<img src="@/assets/svg/USDT.svg" alt="USDT" class="img-fluid" />
 							</div>
 						</div>
-						<div class="col-4">
-							<div class="border-miso radio_wrapper">
-								<div
-									class="d-flex h-100 fs-3 mr-3 pl-3 align-items-center"
-									@click="activeSectionCalc('token')"
-								>
-									<base-radio
-										v-model="type"
-										name="custom"
-										class="text-white text-uppercase font-weight-bold fs-4 mr-3 mb-2"
-									>
-										custom
-									</base-radio>
-								</div>
-							</div>
-						</div>
-						<div class="col-8">
+						<div
+							v-else
+							class="d-flex col-12 align-items-center pl-3"
+							style="cursor: not-allowed"
+						>
+							<base-radio
+								v-model="model.auction.payment_currency"
+								:name="model.auction.payment_currency"
+								class="text-white col-2 font-weight-bold fs-4 mr-3 mb-2"
+							>
+								CUSTOM
+							</base-radio>
 							<base-input
-								v-model="customType"
-								:disabled="!inputActive"
-								placeholder="Search by token name, token symbol, or Enter an ERC-20 token address"
-								class="custom-input"
+								v-model="customModel"
+								:disabled="true"
+								class="custom-input custom-disabled-input col-10 p-0"
 								name="token"
-								:rules="rule"
 							/>
+						</div>
+					</div>
+
+					<div class="row p-3">
+						<div class="">
+							Liquidity pair token is set to the payment currency from your auction.
 						</div>
 					</div>
 				</div>
@@ -138,61 +128,38 @@
 						</div>
 					</div>
 					<div class="row">
-						<div class="col-6" @click="activeSectionCalc('provision')">
-							<base-radio
-								v-model="amountType"
-								name="input"
-								class="text-white fs-4 mr-3 mb-2"
+						<div class="col-12 mb-4">
+							<div
+								class="d-flex align-items-center justify-content-between slider-label"
 							>
-								Enter the amount of token you would like to provide
-							</base-radio>
+								<span class="fs-2">
+									Ballance: {{ model.tokenbalance }}
+									{{ model.token.symbol }}
+								</span>
+								<span class="fs-2">
+									Allowance: {{ model.allowance }} {{ model.token.symbol }}
+								</span>
+							</div>
 						</div>
-						<div class="col-6" @click="activeSectionCalc('provision')">
-							<base-radio
-								v-model="amountType"
-								name="slider"
-								class="text-white fs-4 mr-3 mb-2"
+						<div class="col-12 mb-4">
+							<div
+								class="d-flex align-items-center justify-content-between slider-label"
 							>
-								Select the percentage of auction fund reserved for provision
-							</base-radio>
+								<span class="fs-1">
+									{{ progressPercent > 100 ? '0' : progressPercent }}%
+								</span>
+								<span class="fs-1">
+									100% ({{ model.tokenSupply }} {{ model.token.symbol }})
+								</span>
+							</div>
 						</div>
+
 						<div class="col-12">
-							<div class="d-flex amount">
-								<div class="amount_section">
-									<div class="d-flex align-items-center w-100 mb-3">
-										<base-input
-											v-model="model.amount"
-											:disabled="amountType !== 'input'"
-											rules="required"
-											name="amount"
-											placeholder="200,000"
-											class="custom-input w-100"
-											@focus="activeSectionCalc('provision')"
-										/>
-										<span class="ml-3">LCRX</span>
-									</div>
-									<span class="fs-1">
-										Remaining Token Balance: {{ remainingTokens }}
-									</span>
-								</div>
-								<div class="amount_or d-flex justify-content-center pt-3">- Or -</div>
-								<div class="amount_section">
-									<div
-										class="
-											d-flex
-											align-items-center
-											justify-content-between
-											slider-label
-										"
-									>
-										<span class="fs-1">0%</span>
-										<span class="fs-1">100% (ETH)</span>
-									</div>
+							<div class="position-relative d-flex">
+								<div class="w-100">
 									<client-only>
 										<vue-slider
-											v-model="percentage"
-											:lazy="true"
-											:disabled="amountType !== 'slider'"
+											v-model="userLimit"
 											:max="100"
 											:min="0"
 											:interval="1"
@@ -203,19 +170,58 @@
 												background: '#f46e41',
 											}"
 											tooltip="none"
-											class="vue-slider mt-4"
+											class="vue-slider"
 										></vue-slider>
 									</client-only>
-									<div class="mt-4 pt-2">
-										<span class="fs-1">Your auction allocation: 800,000 LCRX</span>
-									</div>
 								</div>
+							</div>
+						</div>
+						<div class="col-12 mt-4">
+							<base-input
+								v-model="tokenAmount"
+								type="number"
+								step="1"
+								name="input"
+								:bg-color="['#20284E', '#D5D6DC']"
+								:rules="`required|max_value:${formatedTokenBalance}`"
+								input-classes="is-small invest-input font-weight-bolder"
+								sixe="md"
+								rounded
+							/>
+						</div>
+						<div class="col-12 mt-4">
+							<div
+								v-if="
+									!tokensApproved &&
+									model.amount !== '' &&
+									model.amount !== '0' &&
+									model.amount !== 0
+								"
+								class="h-100 invest invest-bg d-sm-block d-none"
+							>
+								<base-button
+									:round="true"
+									class="
+										btn btn
+										font-weight-bold
+										text-uppercase
+										fs-2
+										px-5
+										is-rounded
+										btn-default
+										py-3
+									"
+									:loading="approveLoading"
+									@click="approve()"
+								>
+									approve
+								</base-button>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="mt-5 fs-2">
-								25% of amount raised from auction in ETH, pairing with 200,000 LCRX,
-								will be launched on SushiSwap as a 50/50 weighting liquidity pool.
+								The amount raised from the auction, pairing with tokens to be launched
+								on SushiSwap with equal weighting in the liquidity pool.
 							</div>
 						</div>
 					</div>
@@ -226,17 +232,25 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { toDecimals, to18Decimals } from '@/util'
+import { getContractInstance as erc20Contract } from '@/services/web3/erc20Token'
+import { misoLauncher as misoLauncherAddress } from '@/constants/contracts'
+// import { makeBatchCall } from '@/services/web3/base'
+import { sendTransactionAndWait } from '@/services/web3/base'
+
 export default {
 	name: 'SecondStep',
-	props: ['data'],
+	props: {
+		data: {
+			type: Object,
+			default: null,
+		},
+	},
 	data() {
 		return {
 			colors: {
 				token: false,
-			},
-			model: {
-				type: 'ETH',
-				amount: '',
 			},
 			type: 'ETH',
 			amountType: 'input',
@@ -244,13 +258,22 @@ export default {
 			customType: '',
 			percentage: 0,
 			activeSection: {
-				token: false,
 				provision: false,
 			},
 			rule: '',
+			approveLoading: false,
+			user: {
+				tokenBalance: 0,
+				allowance: '',
+			},
+			userTokens: 0,
+			progressPercent: 0,
 		}
 	},
 	computed: {
+		model() {
+			return this.data
+		},
 		computedFontSize() {
 			const width = this.$screen.width
 			if (width >= 1200 && width <= 1400) {
@@ -271,6 +294,51 @@ export default {
 			const submitedTokens = userEth / rate - this.model.amount
 			return this.model.amount !== '' ? submitedTokens : 0
 		},
+		customModel() {
+			return (
+				this.model.auction.address +
+				' ( ' +
+				this.model.auction.payment_currency_name +
+				' - ' +
+				this.model.auction.payment_currency +
+				' )'
+			)
+		},
+		tokensApproved() {
+			return (
+				parseFloat(this.model.amount) !== 0 &&
+				parseFloat(this.formatedAllowance) >= parseFloat(this.model.amount)
+			)
+		},
+		formatedAllowance() {
+			if (!this.model.allowance) return 0
+			return this.model.allowance
+		},
+		formatedTokenBalance() {
+			if (!this.model.allowance) return 0
+			return this.model.allowance
+		},
+		userLimit: {
+			get() {
+				return this.userTokens
+			},
+			set(val) {
+				this.updateTokenlimitAmount(val)
+			},
+		},
+		tokenAmount: {
+			get() {
+				return this.model.amount
+			},
+			set(val) {
+				this.updateTokenAmount(val)
+			},
+		},
+		...mapGetters({
+			coinbase: 'ethereum/coinbase',
+			tokens: 'tokens/list',
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
+		}),
 	},
 	watch: {
 		customType(val) {
@@ -297,6 +365,7 @@ export default {
 		},
 	},
 	created() {
+		console.log(this.data)
 		const typeChecks = ['USD', 'ETH', 'DAI', 'USDT']
 		if (this.data) {
 			Object.assign(this.model, this.data)
@@ -326,6 +395,35 @@ export default {
 				}
 			}
 			this.$emit('active-input', this.activeSection)
+		},
+		approve() {
+			this.approveLoading = true
+			const method = erc20Contract(this.model.token.address).methods.approve(
+				misoLauncherAddress.address[this.currentProvidersNetworkId],
+				to18Decimals(this.model.amount)
+			)
+
+			sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+				if (receipt.status) {
+					this.user.allowance = receipt.events.Approval.returnValues[2]
+					this.model.allowance = toDecimals(this.user.allowance)
+					this.model.tokenbalance = toDecimals(this.user.allowance)
+				}
+				this.approveLoading = false
+			})
+		},
+		updateTokenlimitAmount(val) {
+			this.progressPercent = val
+			const ratio = this.model.tokenSupply / 100
+			this.model.amount = ratio * val
+			this.model.percent = this.progressPercent
+		},
+		updateTokenAmount(val) {
+			const ratio = val / this.model.tokenSupply
+			this.userTokens = 100 * ratio
+			this.progressPercent = this.userTokens
+			this.model.amount = val
+			this.model.percent = this.progressPercent
 		},
 	},
 }
@@ -378,5 +476,16 @@ export default {
 	.radio_wrapper label {
 		font-size: 10px !important;
 	}
+}
+.liquidity_pair_token {
+	width: 128px;
+	border-radius: 10px;
+	background: rgba(246, 102, 69, 0.4);
+}
+.custom-disabled-input input {
+	color: #fff !important;
+}
+.invest button {
+	background: #f46e41 !important;
 }
 </style>

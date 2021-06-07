@@ -248,3 +248,15 @@ export const masterChefTemplate = {
 	},
 	abi: MISO_MASTER_CHEF_ABI,
 }
+
+export const uniswapFactory = {
+	address: {
+		1: '0xC0AEe478e3658e2610c5F7A4A2E1777cE9e4f2Ac', // main
+		3: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // ropsten
+		4: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // rinkeby
+		42: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // kovan
+		5: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // goerli
+		56: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // BSC mainnet
+		97: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // BSC testnet
+	},
+}

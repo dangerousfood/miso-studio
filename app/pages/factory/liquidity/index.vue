@@ -1,17 +1,20 @@
 <template>
 	<div class="row">
-		<div class="col-12 col-lg-9 col-xl-8 order-1 order-lg-0">
-			<div class="d-flex align-items-center mt-4">
+		<div
+			v-if="tabIndex === 0 || tabIndex === 1 || tabIndex === 2"
+			class="col-12 col-lg-9 col-xl-8 order-1 order-lg-0"
+		>
+			<div class="d-flex align-items-center mt-4 px-5">
 				<svg-icon icon="liquid-luncher" height="70" width="70" />
 				<h2 class="mb-0 pl-3 text-white font-weight-bold fs-10">
 					Liquidity Launcher
 				</h2>
 			</div>
-			<div class="row">
+			<div class="row px-5">
 				<div class="col-12">
 					<div>
 						<client-only>
-							<liquid-wizard
+							<liquid-launcher-wizard
 								:start-index="tabIndex"
 								:next-button-text="nextBtnText"
 								:next-btn-loading="nextBtnLoading"
@@ -56,7 +59,85 @@
 									/>
 									<base-divider class="py-4 mt-5" />
 								</wizard-tab>
-							</liquid-wizard>
+								<wizard-tab :before-change="() => validateStep('step-4')">
+									<final-step
+										ref="step-4"
+										:data="model"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+							</liquid-launcher-wizard>
+						</client-only>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div v-else class="col-12 col-lg-12 order-1 order-lg-0">
+			<div class="d-flex align-items-center mt-4 px-5">
+				<svg-icon icon="liquid-luncher" height="70" width="70" />
+				<h2 class="mb-0 pl-3 text-white font-weight-bold fs-10">
+					Confirm Your Launch
+				</h2>
+			</div>
+			<div class="row px-5">
+				<div class="col-12">
+					<div>
+						<client-only>
+							<liquid-launcher-wizard
+								:start-index="tabIndex"
+								:next-button-text="nextBtnText"
+								:next-btn-loading="nextBtnLoading"
+								@update:startIndex="onTabChanged"
+							>
+								<wizard-tab :before-change="() => validateStep('step-1')">
+									<template slot="label">
+										<span class="fs-4 font-weight-bold">1</span>
+										<p>INITIAL SETUP</p>
+									</template>
+									<first-step
+										ref="step-1"
+										:data="model"
+										@active-input="firstStepInputs($event)"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab :before-change="() => validateStep('step-2')">
+									<template slot="label">
+										<span class="fs-4 font-weight-bold">2</span>
+										<p>LIQUIDITY OPTIONS</p>
+									</template>
+									<second-step
+										ref="step-2"
+										:data="model"
+										@active-input="secondStepInputs($event)"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab :before-change="() => validateStep('step-3')">
+									<template slot="label">
+										<span class="fs-4 font-weight-bold">3</span>
+										<p>LAUNCH SETTINGS</p>
+									</template>
+									<third-step
+										ref="step-3"
+										:data="model"
+										@active-input="thirdStepInputs($event)"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab :before-change="() => validateStep('step-4')">
+									<final-step
+										ref="step-4"
+										:data="model"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+							</liquid-launcher-wizard>
 						</client-only>
 					</div>
 				</div>
@@ -64,6 +145,7 @@
 		</div>
 
 		<div
+			v-if="tabIndex === 0 || tabIndex === 1 || tabIndex === 2"
 			class="
 				col-12 col-lg-3 col-xl-4
 				bg-dark
@@ -137,18 +219,23 @@
 
 <script>
 import Notificatoin from '@/components/Miso/Factory/Liquidity/sidebarNotification'
-import { LiquidWizard, WizardTab, BaseDivider } from '@/components'
+import { LiquidLauncherWizard, WizardTab, BaseDivider } from '@/components'
 import FirstStep from '@/components/Miso/Factory/Liquidity/FirstStep'
 import SecondStep from '@/components/Miso/Factory/Liquidity/SecondtStep'
 import ThirdStep from '@/components/Miso/Factory/Liquidity/ThirdStep'
+import FinalStep from '@/components/Miso/Factory/Liquidity/FinalStep'
 import { Vue } from 'vue-property-decorator'
 import { ZoomYTransition } from 'vue2-transitions'
 import { mapMutations, mapGetters } from 'vuex'
-// import ThirdStep from "@/components/Miso/Factory/Liquidity/FirstStep"
+import { sendTransactionAndWait } from '@/services/web3/base'
+import { to18Decimals } from '@/util'
+import { dai, uniswapFactory as uniswapFactoryAddress } from '@/constants/contracts'
+import { initContractInstance as misoLauncherContract } from '@/services/web3/liquidityLauncher'
+
 export default {
 	name: 'LiquidityFactoory',
 	components: {
-		LiquidWizard,
+		LiquidLauncherWizard,
 		WizardTab,
 		BaseDivider,
 		Notificatoin,
@@ -156,13 +243,37 @@ export default {
 		FirstStep,
 		SecondStep,
 		ThirdStep,
+		FinalStep,
 	},
 	data() {
 		return {
 			breackpoint: null,
 			nextBtnLoading: false,
 			tabIndex: 0,
-			model: null,
+			model: {
+				wallet: '',
+				token: {
+					address: '',
+					name: '',
+					symbol: '',
+				},
+				auctionAddress: '',
+				auction: {
+					address: '',
+					payment_currency: '',
+					payment_currency_name: '',
+				},
+				type: 'ETH',
+				amount: '',
+				percent: '',
+				vaultAddr: '',
+				endTime: '',
+				allowance: '',
+				tokenbalance: '',
+				tokenSupply: '',
+				customDays: '180',
+				inputDays: null,
+			},
 			chosenLauncherType: 1,
 			firstSteps: [
 				{
@@ -175,26 +286,12 @@ export default {
 				{
 					active: false,
 					top: 42.5,
-					title: 'AUCTION ADDRESS (optional)',
+					title: 'AUCTION ADDRESS*',
 					desctiption:
-						'Enter the address of the auction held for this token. This enables us to import data from the auction to facilitate the launching process. This is not required, if you did not have an auction, leave this field blank.',
-				},
-				{
-					active: false,
-					top: 59.5,
-					title: 'YOUR TOKEN ADDRESS',
-					desctiption:
-						'Search by token name or token symbol. Or, Enter the contract address of your MISO-created token.',
+						'Enter the address of the auction held for this token. \n\n This enables us to import data from the auction to facilitate the launching process. This is not required, if you did not have an auction, leave this field blank.',
 				},
 			],
 			SecondStep: [
-				{
-					active: true,
-					top: 24.5,
-					title: 'LIQUIDITY PAIR TOKEN*',
-					desctiption:
-						'Select the asset that your custom token will be paired with when it’s liquidity pool is launched on SushiSwap.  Common pair tokens are ETH and stablecoins, but you can use any ERC-20 token.',
-				},
 				{
 					active: false,
 					top: 55,
@@ -213,13 +310,6 @@ export default {
 				},
 				{
 					active: false,
-					top: 40.5,
-					title: 'LAUNCH DATE*',
-					desctiption:
-						'Select the date to launch your liquidity pool on SushiSwap.  You must have put your funds in the launcher by this date - if you do not, the community can then launch a pool for your token themselves.',
-				},
-				{
-					active: false,
 					top: 60.5,
 					title: 'LIQUIDITY LOCKUP TIMELINE*',
 					desctiption:
@@ -227,15 +317,23 @@ export default {
 				},
 			],
 			sidebarTitles: ['Initial Setup', 'Liquidity Options', 'Launch Settings'],
+			deployedMarket: {
+				address: '',
+				txHash: '',
+			},
 		}
 	},
 	computed: {
-		...mapGetters({ liquidity: 'factory/liquidModel' }),
+		...mapGetters({
+			coinbase: 'ethereum/coinbase',
+			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
+		}),
 		stepTitle() {
 			return ''
 		},
 		nextBtnText() {
 			if (this.tabIndex === 2) return 'Review'
+			if (this.tabIndex === 3) return 'Deploy'
 			return 'Next'
 		},
 	},
@@ -249,11 +347,7 @@ export default {
 			})
 		},
 	},
-	created() {
-		if (Object.keys(this.liquidity).length !== 0) {
-			this.model = this.liquidity
-		}
-	},
+
 	mounted() {
 		this.breackpoint = this.$screen.breakpoint
 	},
@@ -285,6 +379,21 @@ export default {
 		},
 		onTabChanged(newValue) {
 			this.tabIndex = newValue
+			if (this.tabIndex === 0) {
+				this.firstSteps.forEach((item) => {
+					item.active = false
+				})
+			}
+			if (this.tabIndex === 1) {
+				this.SecondStep.forEach((item) => {
+					item.active = false
+				})
+			}
+			if (this.tabIndex === 2) {
+				this.ThirdStep.forEach((item) => {
+					item.active = false
+				})
+			}
 		},
 		onStepValidated(validated, model) {
 			if (this.model === null) {
@@ -293,11 +402,63 @@ export default {
 				Object.assign(this.model, model)
 			}
 			this.modelUpdate(model)
-			if (this.tabIndex === 2 && validated) {
-				this.$router.push({
-					path: `/factory/liquidity/${this.model.token.address}`,
+
+			if (this.tabIndex === 3) {
+				return new Promise((resolve) => {
+					this.nextBtnLoading = true
+					const launcherTemplateID = 1
+					let data
+					switch (launcherTemplateID) {
+						case 1:
+							data = this.getdataParams()
+							break
+						default:
+							data = this.getdataParams()
+							break
+					}
+					const method = misoLauncherContract().methods.createLauncher(
+						launcherTemplateID,
+						model.token.address,
+						to18Decimals(model.amount),
+						dai.misoFeeAcct,
+						data
+					)
+
+					sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+						this.nextBtnLoading = false
+						if (receipt) {
+							this.deployedMarket.txHash = receipt.transactionHash
+							this.deployedMarket.address =
+								receipt.events.MarketCreated.returnValues[1]
+						}
+						resolve(receipt.status)
+					})
 				})
 			}
+		},
+		getdataParams() {
+			const factory = uniswapFactoryAddress.address[this.currentProvidersNetworkId]
+			const percent = (this.model.percent * 100).toFixed()
+			const lockTime =
+				(this.model.inputDays === null
+					? this.model.customDays
+					: this.model.inputDays) *
+				3600 *
+				24
+
+			const dataParams = [
+				this.model.auctionAddress,
+				factory,
+				this.model.wallet,
+				this.model.vaultAddr,
+				percent,
+				lockTime,
+			]
+
+			return web3.eth.abi.encodeParameters(
+				['address', 'address', 'address', 'address', 'uint256', 'uint256'],
+				dataParams
+			)
 		},
 	},
 }
