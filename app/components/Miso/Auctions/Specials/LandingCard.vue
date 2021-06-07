@@ -990,8 +990,11 @@ export default {
 	@media screen and (min-width: 768px) and (max-width: 877px) {
 		font-size: 0.5rem;
 	}
-	@media screen and (max-width: 359px) {
+	@media screen and (min-width: 360px) and (max-width: 414px) {
 		font-size: 0.7rem;
+	}
+	@media screen and (max-width: 359px) {
+		font-size: 0.5rem;
 	}
 }
 
@@ -1024,8 +1027,11 @@ export default {
 	@media screen and (min-width: 768px) and (max-width: 877px) {
 		min-width: 5.7rem;
 	}
+	@media screen and (min-width: 360px) and (max-width: 414px) {
+		min-width: 8.2rem;
+	}
 	@media screen and (max-width: 359px) {
-		min-width: 7.9rem;
+		min-width: 6.2rem;
 	}
 }
 

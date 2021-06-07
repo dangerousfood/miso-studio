@@ -541,21 +541,12 @@ export default {
 <style lang="scss" scoped>
 .bowl {
 	width: 6rem;
-	height: fit-content;
+	// height: fit-content;
 	margin: auto 0;
 	@media screen and (max-width: 400px) {
 		width: 4.5rem;
 	}
 }
-// .misoido {
-// 	font-size: 3rem;
-// 	@media screen and (min-width: 360px) and (max-width: 400px) {
-// 		font-size: 2rem;
-// 	}
-// 	@media screen and (max-width: 359px) {
-// 		font-size: 1.7rem;
-// 	}
-// }
 .misoido {
 	width: 13rem;
 	height: fit-content;
