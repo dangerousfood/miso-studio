@@ -184,7 +184,7 @@ export default {
 			userLoading: false,
 			approveLoading: false,
 			liquidity_provision:
-				'25% of amount raised from auction in ETH, pairing with 200,000 LCRX, will be launched on SushiSwap as a 50/50 weighting liquidity pool.',
+				'The amount raised from the auction, pairing with tokens to be launched on SushiSwap with equal weighting in the liquidity pool.',
 		}
 	},
 	computed: {

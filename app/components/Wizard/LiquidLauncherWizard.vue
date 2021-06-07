@@ -2,13 +2,10 @@
 	<div class="wizard-container">
 		<div id="wizardProfile" class="card card-wizard active">
 			<form @submit.prevent>
-				<!--
-          You can switch " data-color="primary" "  with one of the next bright colors: "green", "orange", "red", "blue"
-        -->
 				<div class="card-header text-center">
 					<div
 						v-if="
-							activeTabIndex === 1 || activeTabIndex === 2 || activeTabIndex === 0
+							activeTabIndex === 0 || activeTabIndex === 1 || activeTabIndex === 2
 						"
 						class="wizard-navigation"
 					>
@@ -64,22 +61,20 @@
 					<slot name="footer" :next-tab="nextTab" :prev-tab="prevTab">
 						<div class="d-flex justify-content-between step">
 							<base-button
-								v-if="activeTabIndex < tabCount && activeTabIndex != 4"
 								wide
-								round
 								:type="computedButtonType"
 								:disabled="activeTabIndex === 0 || nextBtnLoading"
 								class="btn btn-previous"
+								:round="true"
 								@click.native="prevTab"
 							>
 								{{ prevButtonText }}
 							</base-button>
 							<base-button
-								v-if="activeTabIndex < tabCount && activeTabIndex !== 4"
 								:loading="nextBtnLoading"
-								round
 								type="primary"
 								class="btn btn-next"
+								:round="true"
 								@click.native="nextTab"
 							>
 								{{ nextButtonText }}
@@ -96,7 +91,7 @@
 import { throttle } from './throttle'
 
 export default {
-	name: 'SimpleWizard',
+	name: 'LiquidLauncherWizard',
 	components: {
 		TabItemContent: {
 			functional: true,
@@ -155,7 +150,7 @@ export default {
 			activeTabIndex: 0,
 			tabLinkWidth: 0,
 			tabLinkHeight: 50,
-			hiddenCount: 2,
+			hiddenCount: 1,
 		}
 	},
 	computed: {

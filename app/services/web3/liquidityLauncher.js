@@ -9,7 +9,7 @@ const misoLauncherAbi = misoLauncher.abi
 const misoLauncherAddress = misoLauncher.address
 let contractInstance
 
-const initContractInstance = () => {
+export const initContractInstance = () => {
 	if (
 		!contractInstance ||
 		web3.currentProvider.isMetaMask !== contractInstance.currentProvider.isMetaMask
@@ -17,6 +17,7 @@ const initContractInstance = () => {
 		const address = misoLauncherAddress[getNetworkId()]
 		contractInstance = new web3.eth.Contract(misoLauncherAbi, address)
 	}
+	return contractInstance
 }
 
 export const sendTransaction = async (methodName, args, options) => {
