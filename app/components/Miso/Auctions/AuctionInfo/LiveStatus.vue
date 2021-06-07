@@ -301,7 +301,7 @@
 										</span>
 									</span>
 								</template>
-								<template #sub-button>
+								<!-- <template #sub-button>
 									<div class="h-100 invest-bg d-sm-block d-none">
 										<base-button
 											v-if="isApproved"
@@ -324,7 +324,7 @@
 											approve
 										</base-button>
 									</div>
-								</template>
+								</template> -->
 							</base-input>
 						</div>
 						<div v-if="isUpcoming" class="font-weight-bold text-center fs-1">
