@@ -1008,24 +1008,24 @@ export default {
 	border-radius: 0.5rem;
 	padding: 0.5rem 0.5rem;
 	color: #ffffff;
-	min-width: 10rem;
+	min-width: 10.5rem;
 	@media screen and (min-width: 1231px) and (max-width: 1326px) {
-		min-width: 9rem;
+		min-width: 9.5rem;
 	}
 	@media screen and (min-width: 1200px) and (max-width: 1230px) {
-		min-width: 7.9rem;
+		min-width: 8.5rem;
 	}
 	@media screen and (min-width: 951px) and (max-width: 1076px) {
-		min-width: 9rem;
+		min-width: 9.5rem;
 	}
 	@media screen and (min-width: 905px) and (max-width: 950px) {
-		min-width: 7.9rem;
+		min-width: 8.5rem;
 	}
 	@media screen and (min-width: 878px) and (max-width: 904px) {
-		min-width: 6.8rem;
+		min-width: 7.5rem;
 	}
 	@media screen and (min-width: 768px) and (max-width: 877px) {
-		min-width: 5.7rem;
+		min-width: 6.5rem;
 	}
 	@media screen and (min-width: 360px) and (max-width: 414px) {
 		min-width: 8.2rem;
