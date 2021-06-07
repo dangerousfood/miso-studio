@@ -206,7 +206,7 @@
 								</div>
 								<div class="font-weight-bold text-uppercase d-flex flex-column">
 									<span class="fs-1">MAX Available</span>
-									<span class="text-white fs-3">
+									<span class="text-white text-right fs-3">
 										{{ maxTokenAmount }} {{ textCheck(tokenInfo.symbol) }}
 									</span>
 								</div>
@@ -545,6 +545,7 @@ import {
 	divNumbers,
 	multiplyNumbers,
 	toPrecision,
+	toNDecimals,
 } from '@/util'
 import CrowdProgress from '~/components/Miso/Auctions/Details/CrowdProgress'
 import DutchProgress from '~/components/Miso/Auctions/Details/DutchProgress'
@@ -737,7 +738,13 @@ export default {
 				return true
 			}
 			return (
-				parseInt(this.allowance) >= parseInt(to18Decimals(this.selectedTokenQuantity))
+				parseInt(this.allowance) >=
+				parseInt(
+					toNDecimals(
+						this.selectedTokenQuantity,
+						this.marketInfo.paymentCurrency.decimals
+					)
+				)
 			)
 		},
 		dutchProgress() {
@@ -772,7 +779,10 @@ export default {
 			return progress
 		},
 		userCommitments() {
-			return toDecimals(this.userInfo.commitments)
+			return toDecimals(
+				this.userInfo.commitments,
+				this.marketInfo.paymentCurrency.decimals
+			)
 		},
 		userTokensClaimable() {
 			return toDecimals(this.userInfo.tokensClaimable)
@@ -812,6 +822,7 @@ export default {
 		}
 	},
 	async mounted() {
+		console.log('===>', this.marketInfo, this.tokenInfo)
 		// if (!this.status.auctionSuccessful) {
 		this.showCountDown()
 		// }
@@ -928,7 +939,10 @@ export default {
 				value = to18Decimals(this.selectedTokenQuantity)
 			} else {
 				method = contract.methods.commitTokens(
-					to18Decimals(this.selectedTokenQuantity),
+					toNDecimals(
+						this.selectedTokenQuantity,
+						this.marketInfo.paymentCurrency.decimals
+					),
 					true
 				)
 			}
@@ -942,7 +956,10 @@ export default {
 		approve() {
 			this.loading = true
 			const auctionAddress = this.$route.params.address
-			const allowanceAmount = to18Decimals(this.selectedTokenQuantity)
+			const allowanceAmount = toNDecimals(
+				this.selectedTokenQuantity,
+				this.marketInfo.paymentCurrency.decimals
+			)
 			const method = erc20TokenContract(
 				this.marketInfo.paymentCurrency.addr
 			).methods.approve(auctionAddress, allowanceAmount)

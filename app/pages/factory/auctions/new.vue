@@ -414,7 +414,7 @@ import { BaseDivider, SimpleauctionWizard, WizardTab } from '@/components'
 
 import { theme } from '@/mixins/theme'
 import { sendTransactionAndWait } from '@/services/web3/base'
-import { to18Decimals } from '@/util'
+import { to18Decimals, toNDecimals } from '@/util'
 import { dai } from '@/constants/contracts'
 import { getContractInstance as misoMarketContract } from '@/services/web3/misoMarket'
 
@@ -499,15 +499,15 @@ export default {
 					description:
 						'Great for finding the true market value of a completely novel item',
 				},
-				{
-					title: 'Crowdsale',
-					id: 1,
-					disabled: false,
-					icon: 'crowdsale',
-					content: 'A fixed price and a fixed set of tokens.',
-					description:
-						'Great when the token price is already known or has been decided on previously',
-				},
+				// {
+				// 	title: 'Crowdsale',
+				// 	id: 1,
+				// 	disabled: false,
+				// 	icon: 'crowdsale',
+				// 	content: 'A fixed price and a fixed set of tokens.',
+				// 	description:
+				// 		'Great when the token price is already known or has been decided on previously',
+				// },
 				{
 					title: 'Batch Auction',
 					id: 3,
@@ -756,8 +756,8 @@ export default {
 				startDate,
 				endDate,
 				model.paymentCurrency.address,
-				to18Decimals(model.startPrice),
-				to18Decimals(model.minPrice),
+				toNDecimals(model.startPrice, model.paymentCurrency.decimals),
+				toNDecimals(model.minPrice, model.paymentCurrency.decimals),
 				operator,
 				pointList,
 				model.fundWallet,
@@ -787,9 +787,13 @@ export default {
 
 			const pointList = '0x0000000000000000000000000000000000000000'
 			const operator = this.coinbase
-			const rate = to18Decimals(1 / this.model.tokenPrice)
-			const goal = to18Decimals(
-				(this.model.tokenSupply * this.model.tokenPrice * this.model.goal) / 100
+			const rate = toNDecimals(
+				1 / this.model.tokenPrice,
+				this.model.paymentCurrency.decimals
+			)
+			const goal = toNDecimals(
+				(this.model.tokenSupply * this.model.tokenPrice * this.model.goal) / 100,
+				this.model.paymentCurrency.decimals
 			)
 			const dataParams = [
 				this.marketFactoryAddress,
@@ -836,7 +840,7 @@ export default {
 				startDate,
 				endDate,
 				model.paymentCurrency.address,
-				to18Decimals(model.minimumCommitmentAmount),
+				toNDecimals(model.minimumCommitmentAmount, model.paymentCurrency.decimals),
 				operator,
 				pointList,
 				model.fundWallet,
