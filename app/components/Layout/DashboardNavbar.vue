@@ -384,7 +384,7 @@ export default {
 				},
 				{
 					chainId: '0x13881',
-					chainName: 'Matic',
+					chainName: 'Matic Testnet',
 					nativeCurrency: {
 						name: 'Matic',
 						symbol: 'MATIC',
