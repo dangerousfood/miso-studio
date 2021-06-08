@@ -836,7 +836,6 @@ export default {
 		}
 	},
 	async mounted() {
-		console.log('===>', this.marketInfo, this.tokenInfo)
 		// if (!this.status.auctionSuccessful) {
 		this.showCountDown()
 		// }
