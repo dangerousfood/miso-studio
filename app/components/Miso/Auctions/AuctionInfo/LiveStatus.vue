@@ -199,7 +199,7 @@
 							</template>
 							<template v-else>
 								<div class="font-weight-bold text-uppercase d-flex flex-column">
-									<span class="fs-1">Amount</span>
+									<span class="fs-1">Minimum token Amount</span>
 									<span class="text-white fs-3">
 										{{ tokenAmount }} {{ textCheck(tokenInfo.symbol) }}
 									</span>
@@ -836,6 +836,7 @@ export default {
 		}
 	},
 	async mounted() {
+		// console.log('====>', this.marketInfo)
 		// if (!this.status.auctionSuccessful) {
 		this.showCountDown()
 		// }
@@ -942,6 +943,13 @@ export default {
 		invest() {
 			if (BigNumber(this.tokenAmount).isGreaterThan(BigNumber(this.maxTokenAmount)))
 				return
+			if (
+				BigNumber(this.selectedTokenQuantity).isGreaterThan(
+					BigNumber(this.accountBalance)
+				)
+			)
+				return
+
 			const contract = getAuctionContract(this.$route.params.address)
 			this.loading = true
 			let method
