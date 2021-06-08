@@ -25,7 +25,7 @@
 				class="text-white"
 				:class="[slideBar ? 'pl-4 ml-1' : 'pl-2']"
 			>
-				MISO v1.0.4.2
+				MISO v1.0.4.4
 			</span>
 		</div>
 		<div v-if="notDesktopSize" slot="logo" class="d-flex justify-content-center">
