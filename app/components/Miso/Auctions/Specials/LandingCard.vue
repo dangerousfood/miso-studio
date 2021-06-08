@@ -1137,15 +1137,15 @@ export default {
 }
 
 .auction-description {
-	font-size: 1.25rem;
+	font-size: 1.1rem;
 	@media screen and (min-width: 1327px) and (max-width: 1440px) {
 		font-size: 0.95rem;
 	}
-	@media screen and (min-width: 1231px) and (max-width: 1326px) {
+	@media screen and (min-width: 1241px) and (max-width: 1326px) {
 		font-size: 0.75rem;
 	}
-	@media screen and (min-width: 1200px) and (max-width: 1230px) {
-		font-size: 0.7rem;
+	@media screen and (min-width: 1200px) and (max-width: 1240px) {
+		font-size: 0.65rem;
 	}
 	@media screen and (min-width: 951px) and (max-width: 1199px) {
 		font-size: 0.75rem;

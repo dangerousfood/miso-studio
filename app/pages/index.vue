@@ -243,8 +243,8 @@ export default {
 		},
 	},
 	beforeMount() {
-		this.scrollHeight = window.innerHeight - 320
-		this.paneScrollHeight = window.innerHeight - 200
+		this.scrollHeight = window.innerHeight - 260
+		this.paneScrollHeight = window.innerHeight - 260
 		window.addEventListener('resize', this.myResize)
 	},
 	beforeDestroy() {
@@ -322,7 +322,7 @@ export default {
 							break
 						case 'description':
 							this.cardContent[i].description = data
-							this.cardContent[i].panescript = data
+							// this.cardContent[i].panescript = data
 							break
 						default:
 							this.cardContent[i].social[name] = data
@@ -331,12 +331,12 @@ export default {
 				}
 			})
 
-			if (this.cardContent[i].description)
-				this.cardContent[i].description =
-					this.cardContent[i].description.substring(0, 200) + ' ...'
-			if (this.cardContent[i].panescript)
-				this.cardContent[i].panescript =
-					this.cardContent[i].panescript.substring(0, 60) + ' ...'
+			// if (this.cardContent[i].description)
+			// 	this.cardContent[i].description =
+			// 		this.cardContent[i].description.substring(0, 200) + ' ...'
+			// if (this.cardContent[i].panescript)
+			// 	this.cardContent[i].panescript =
+			// 		this.cardContent[i].panescript.substring(0, 60) + ' ...'
 		}
 	},
 	methods: {
@@ -492,8 +492,8 @@ export default {
 		},
 
 		myResize() {
-			this.scrollHeight = window.innerHeight - 320
-			this.paneScrollHeight = window.innerHeight - 200
+			this.scrollHeight = window.innerHeight - 260
+			this.paneScrollHeight = window.innerHeight - 260
 		},
 
 		paneClick(ind) {
