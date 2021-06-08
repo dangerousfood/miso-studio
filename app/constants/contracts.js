@@ -212,7 +212,7 @@ export const usdc = {
 		3: '', // ropsten
 		4: '', // rinkeby
 		42: '', // kovan
-		5: '0x78deca24cba286c0f8d56370f5406b48cfce2f86', // goerli
+		5: '0x4169B19a55b0241ce811903fB437322fae72e3BE', // goerli
 		56: '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', // BSC mainnet
 		97: '0x6C3355465DcC591427A22370E134bAB19463e692', // BSC testnet
 		137: '', // Matic mainnet

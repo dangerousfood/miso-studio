@@ -413,8 +413,6 @@ export default {
 					methods
 				)
 
-				console.log('====>', launcherTemplateId)
-
 				return new Promise((resolve) => {
 					this.nextBtnLoading = true
 
