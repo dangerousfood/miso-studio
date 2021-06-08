@@ -382,6 +382,17 @@ export default {
 					rpcUrls: ['https://bsc-dataseed.binance.org'],
 					blockExplorerUrls: ['https://bscscan.com'],
 				},
+				{
+					chainId: '0x13881',
+					chainName: 'Matic',
+					nativeCurrency: {
+						name: 'Matic',
+						symbol: 'MATIC',
+						decimals: 18,
+					},
+					rpcUrls: ['https://rpc-mumbai.matic.today'],
+					blockExplorerUrls: ['https://explorer-mumbai.maticvigil.com'],
+				},
 			],
 			PendingIDs: [
 				{

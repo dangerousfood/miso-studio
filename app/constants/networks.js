@@ -155,15 +155,25 @@ export const EXPLORERS = {
 	80001: {
 		name: 'Matic Testnet',
 		unit: 'MATIC',
-		isTest: false,
-		hasExplorer: false,
+		isTest: true,
+		hasExplorer: true,
+		explorer: {
+			root: 'https://explorer-mumbai.maticvigil.com/',
+			address: 'address/',
+			tx: 'tx/',
+		},
 		httpProvider: 'https://rpc-mumbai.matic.today',
 	},
 	137: {
 		name: 'Matic',
 		unit: 'MATIC',
-		isTest: true,
-		hasExplorer: false,
+		isTest: false,
+		hasExplorer: true,
+		explorer: {
+			root: 'https://explorer-mainnet.maticvigil.com/',
+			address: 'address/',
+			tx: 'tx/',
+		},
 		httpProvider: 'https://rpc-mainnet.maticvigil.com',
 	},
 	56: {
