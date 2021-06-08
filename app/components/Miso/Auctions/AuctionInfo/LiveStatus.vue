@@ -940,7 +940,8 @@ export default {
 			}, 1000)
 		},
 		invest() {
-			if (this.tokenAmount > this.maxTokenAmount) return
+			if (BigNumber(this.tokenAmount).isGreaterThan(BigNumber(this.maxTokenAmount)))
+				return
 			const contract = getAuctionContract(this.$route.params.address)
 			this.loading = true
 			let method
