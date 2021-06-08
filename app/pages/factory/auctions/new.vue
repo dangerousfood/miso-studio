@@ -413,7 +413,7 @@ import { mapGetters } from 'vuex'
 import { BaseDivider, SimpleauctionWizard, WizardTab } from '@/components'
 
 import { theme } from '@/mixins/theme'
-import { sendTransactionAndWait } from '@/services/web3/base'
+import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
 import { to18Decimals, toNDecimals } from '@/util'
 import { dai } from '@/constants/contracts'
 import { getContractInstance as misoMarketContract } from '@/services/web3/misoMarket'
@@ -709,9 +709,17 @@ export default {
 		async validateStep(ref) {
 			if (!(await this.$refs[ref].validate())) return false
 
+			// Auction Template Id
+			const methods = [
+				{ methodName: 'currentTemplateId', args: [this.chosenAuctionType] },
+			]
+			const [auctionTemplateId] = await makeBatchCall(misoMarketContract(), methods)
+
 			return new Promise((resolve) => {
 				this.nextBtnLoading = true
 				const model = this.model
+
+				// Data Param
 				let data
 				switch (this.chosenAuctionType) {
 					case 2:
@@ -724,8 +732,10 @@ export default {
 						data = this.getBatchData()
 						break
 				}
+
+				// Create Market
 				const method = misoMarketContract().methods.createMarket(
-					this.chosenAuctionType,
+					auctionTemplateId,
 					model.token.address,
 					to18Decimals(model.tokenSupply),
 					dai.misoFeeAcct,
