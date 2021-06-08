@@ -508,16 +508,16 @@ export default {
 				// 	description:
 				// 		'Great when the token price is already known or has been decided on previously',
 				// },
-				{
-					title: 'Batch Auction',
-					id: 3,
-					disabled: false,
-					icon: 'batch',
-					content:
-						'A set amount of tokens are divided amongst all the contributors to the Market event, weighted according to their contribution to the pool.',
-					description:
-						'Great for projects looking to ensure that everyone taking part is rewarded',
-				},
+				// {
+				// 	title: 'Batch Auction',
+				// 	id: 3,
+				// 	disabled: false,
+				// 	icon: 'batch',
+				// 	content:
+				// 		'A set amount of tokens are divided amongst all the contributors to the Market event, weighted according to their contribution to the pool.',
+				// 	description:
+				// 		'Great for projects looking to ensure that everyone taking part is rewarded',
+				// },
 			],
 			allSteps: [
 				{
