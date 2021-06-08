@@ -845,15 +845,18 @@ export default {
 			let balance = 0
 			if (paymentTokenAddress !== '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE') {
 				const methods = [{ methodName: 'balanceOf', args: [this.coinbase] }]
-				balance = await makeBatchCall(
+				const [balanceOf] = await makeBatchCall(
 					erc20TokenContract(paymentTokenAddress),
 					methods
 				)
+				balance = balanceOf
 				await this.updateAllowance()
 			} else {
 				balance = await web3.eth.getBalance(this.coinbase)
 			}
-			this.accountBalance = parseFloat(toPrecision(toDecimals(balance), 3))
+			this.accountBalance = parseFloat(
+				toPrecision(toDecimals(balance, this.marketInfo.paymentCurrency.decimals), 3)
+			)
 		}
 		const auctionAddress = this.$route.params.address
 		this.contractInstance = getAuctionContract(auctionAddress)
@@ -941,7 +944,10 @@ export default {
 			}, 1000)
 		},
 		invest() {
-			if (BigNumber(this.tokenAmount).isGreaterThan(BigNumber(this.maxTokenAmount)))
+			if (
+				this.status.type !== 'batch' &&
+				BigNumber(this.tokenAmount).isGreaterThan(BigNumber(this.maxTokenAmount))
+			)
 				return
 			if (
 				BigNumber(this.selectedTokenQuantity).isGreaterThan(
