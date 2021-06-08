@@ -199,7 +199,7 @@
 							</template>
 							<template v-else>
 								<div class="font-weight-bold text-uppercase d-flex flex-column">
-									<span class="fs-1">Minimum token Amount</span>
+									<span class="fs-1">Amount</span>
 									<span class="text-white fs-3">
 										{{ tokenAmount }} {{ textCheck(tokenInfo.symbol) }}
 									</span>
@@ -257,6 +257,9 @@
 							input-classes="is-small invest-input font-weight-bolder"
 							sixe="md"
 							rounded
+							:clickable="maxTokenAmount > 0"
+							:disabled="maxTokenAmount <= 0"
+							:rules="`required|decimal|max_value:${maxTokenAmount}`"
 						/>
 					</div>
 					<div class="col-12 mt-4 mb-3">
@@ -551,6 +554,7 @@ import {
 	toPrecision,
 	toNDecimals,
 } from '@/util'
+import BigNumber from 'bignumber.js'
 import CrowdProgress from '~/components/Miso/Auctions/Details/CrowdProgress'
 import DutchProgress from '~/components/Miso/Auctions/Details/DutchProgress'
 import BatchProgress from '~/components/Miso/Auctions/Details/BatchProgress'
@@ -620,7 +624,6 @@ export default {
 				return this.userTokens
 			},
 			set(val) {
-				console.log(val)
 				this.userTokens = val
 			},
 		},
@@ -649,7 +652,9 @@ export default {
 		},
 		selectedTokenQuantity: {
 			get() {
-				return this.userTokens
+				return BigNumber(this.userTokens)
+					.decimalPlaces(Number(this.marketInfo.paymentCurrency.decimals))
+					.toString()
 			},
 			set(val) {
 				if (val > this.maxInvestAmount) {
@@ -936,6 +941,7 @@ export default {
 			}, 1000)
 		},
 		invest() {
+			if (this.tokenAmount > this.maxTokenAmount) return
 			const contract = getAuctionContract(this.$route.params.address)
 			this.loading = true
 			let method
