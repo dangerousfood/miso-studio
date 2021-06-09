@@ -61,5 +61,18 @@
         "outputs": [],
         "stateMutability": "nonpayable",
         "type": "function"
+    },
+    {
+        "inputs": [
+          {
+            "internalType": "address payable",
+            "name": "_wallet",
+            "type": "address"
+          }
+        ],
+        "name": "setAuctionWallet",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
     }
 ]
