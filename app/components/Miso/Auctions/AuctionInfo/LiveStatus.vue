@@ -1044,13 +1044,7 @@ export default {
 		opacity: 0.8;
 	}
 }
-.upcoming-counter {
-	/* position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	width: 100%; */
-}
+
 .center-status {
 	position: absolute;
 	left: 50%;
@@ -1201,8 +1195,6 @@ export default {
 			border-top-left-radius: 0 !important;
 			border-bottom-left-radius: 0 !important;
 		}
-	}
-	input {
 	}
 }
 </style>

@@ -9,75 +9,11 @@
 				<h2 class="mb-0 pl-3 text-white font-weight-bold fs-10">
 					Liquidity Launcher
 				</h2>
-			</div>
-			<div class="row px-5">
-				<div class="col-12">
-					<div>
-						<client-only>
-							<liquid-launcher-wizard
-								:start-index="tabIndex"
-								:next-button-text="nextBtnText"
-								:next-btn-loading="nextBtnLoading"
-								@update:startIndex="onTabChanged"
-							>
-								<wizard-tab :before-change="() => validateStep('step-1')">
-									<template slot="label">
-										<span class="fs-4 font-weight-bold">1</span>
-										<p>INITIAL SETUP</p>
-									</template>
-									<first-step
-										ref="step-1"
-										:data="model"
-										@active-input="firstStepInputs($event)"
-										@on-validated="onStepValidated"
-									/>
-									<base-divider class="py-4 mt-5" />
-								</wizard-tab>
-								<wizard-tab :before-change="() => validateStep('step-2')">
-									<template slot="label">
-										<span class="fs-4 font-weight-bold">2</span>
-										<p>LIQUIDITY OPTIONS</p>
-									</template>
-									<second-step
-										ref="step-2"
-										:data="model"
-										@active-input="secondStepInputs($event)"
-										@on-validated="onStepValidated"
-									/>
-									<base-divider class="py-4 mt-5" />
-								</wizard-tab>
-								<wizard-tab :before-change="() => validateStep('step-3')">
-									<template slot="label">
-										<span class="fs-4 font-weight-bold">3</span>
-										<p>LAUNCH SETTINGS</p>
-									</template>
-									<third-step
-										ref="step-3"
-										:data="model"
-										@active-input="thirdStepInputs($event)"
-										@on-validated="onStepValidated"
-									/>
-									<base-divider class="py-4 mt-5" />
-								</wizard-tab>
-								<wizard-tab :before-change="() => validateStep('step-4')">
-									<final-step
-										ref="step-4"
-										:data="model"
-										@on-validated="onStepValidated"
-									/>
-									<base-divider class="py-4 mt-5" />
-								</wizard-tab>
-							</liquid-launcher-wizard>
-						</client-only>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div v-else class="col-12 col-lg-12 order-1 order-lg-0">
-			<div class="d-flex align-items-center mt-4 px-5">
-				<svg-icon icon="liquid-luncher" height="70" width="70" />
-				<h2 class="mb-0 pl-3 text-white font-weight-bold fs-10">
+				<h2 v-if="tabIndex === 3" class="mb-0 pl-3 text-white font-weight-bold fs-10">
 					Confirm Your Launch
+				</h2>
+				<h2 v-else class="mb-0 pl-3 text-white font-weight-bold fs-10">
+					Transaction Confirmed
 				</h2>
 			</div>
 			<div class="row px-5">
@@ -132,6 +68,101 @@
 								<wizard-tab :before-change="() => validateStep('step-4')">
 									<final-step
 										ref="step-4"
+										:data="model"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab
+									v-if="!!model.deployedLauncher.txHash"
+									:before-change="() => validateStep('step-5')"
+								>
+									<final-wallet-step
+										ref="step-5"
+										:data="model"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+							</liquid-launcher-wizard>
+						</client-only>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div v-else class="col-12 col-lg-12 order-1 order-lg-0">
+			<div class="d-flex align-items-center mt-4 px-5">
+				<svg-icon icon="liquid-luncher" height="70" width="70" />
+				<h2 v-if="tabIndex === 3" class="mb-0 pl-3 text-white font-weight-bold fs-10">
+					Confirm Your Launch
+				</h2>
+				<h2 v-else class="mb-0 pl-3 text-white font-weight-bold fs-10">
+					Transaction Confirmed
+				</h2>
+			</div>
+			<div class="row px-5">
+				<div class="col-12">
+					<div>
+						<client-only>
+							<liquid-launcher-wizard
+								:start-index="tabIndex"
+								:next-button-text="nextBtnText"
+								:next-btn-loading="nextBtnLoading"
+								@update:startIndex="onTabChanged"
+							>
+								<wizard-tab :before-change="() => validateStep('step-1')">
+									<template slot="label">
+										<span class="fs-4 font-weight-bold">1</span>
+										<p>INITIAL SETUP</p>
+									</template>
+									<first-step
+										ref="step-1"
+										:data="model"
+										@active-input="firstStepInputs($event)"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab :before-change="() => validateStep('step-2')">
+									<template slot="label">
+										<span class="fs-4 font-weight-bold">2</span>
+										<p>LIQUIDITY OPTIONS</p>
+									</template>
+									<second-step
+										ref="step-2"
+										:data="model"
+										@active-input="secondStepInputs($event)"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab :before-change="() => validateStep('step-3')">
+									<template slot="label">
+										<span class="fs-4 font-weight-bold">3</span>
+										<p>LAUNCH SETTINGS</p>
+									</template>
+									<third-step
+										ref="step-3"
+										:data="model"
+										@active-input="thirdStepInputs($event)"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab :before-change="() => validateStep('step-4')">
+									<final-step
+										ref="step-4"
+										:data="model"
+										@on-validated="onStepValidated"
+									/>
+									<base-divider class="py-4 mt-5" />
+								</wizard-tab>
+								<wizard-tab
+									v-if="!model.deployedLauncher.txHash"
+									:before-change="() => validateStep('step-5')"
+								>
+									<final-wallet-step
+										ref="step-5"
 										:data="model"
 										@on-validated="onStepValidated"
 									/>
@@ -224,6 +255,7 @@ import FirstStep from '@/components/Miso/Factory/Liquidity/FirstStep'
 import SecondStep from '@/components/Miso/Factory/Liquidity/SecondtStep'
 import ThirdStep from '@/components/Miso/Factory/Liquidity/ThirdStep'
 import FinalStep from '@/components/Miso/Factory/Liquidity/FinalStep'
+import FinalWalletStep from '@/components/Miso/Factory/Liquidity/FinalWalletStep'
 import { Vue } from 'vue-property-decorator'
 import { ZoomYTransition } from 'vue2-transitions'
 import { mapMutations, mapGetters } from 'vuex'
@@ -231,6 +263,7 @@ import { sendTransactionAndWait, makeBatchCall } from '@/services/web3/base'
 import { to18Decimals } from '@/util'
 import { dai, uniswapFactory as uniswapFactoryAddress } from '@/constants/contracts'
 import { initContractInstance as misoLauncherContract } from '@/services/web3/liquidityLauncher'
+import { getContractInstance as getAuctionContract } from '@/services/web3/auctions/auction'
 
 export default {
 	name: 'LiquidityFactoory',
@@ -244,6 +277,7 @@ export default {
 		SecondStep,
 		ThirdStep,
 		FinalStep,
+		FinalWalletStep,
 	},
 	data() {
 		return {
@@ -273,6 +307,10 @@ export default {
 				tokenSupply: '',
 				customDays: '180',
 				inputDays: null,
+				deployedLauncher: {
+					address: '',
+					txHash: '',
+				},
 			},
 			chosenLauncherType: 3,
 			firstSteps: [
@@ -317,10 +355,6 @@ export default {
 				},
 			],
 			sidebarTitles: ['Initial Setup', 'Liquidity Options', 'Launch Settings'],
-			deployedMarket: {
-				address: '',
-				txHash: '',
-			},
 		}
 	},
 	computed: {
@@ -334,6 +368,7 @@ export default {
 		nextBtnText() {
 			if (this.tabIndex === 2) return 'Review'
 			if (this.tabIndex === 3) return 'Deploy'
+			if (this.tabIndex === 4) return 'Set Auction Wallet'
 			return 'Next'
 		},
 	},
@@ -439,9 +474,30 @@ export default {
 					sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 						this.nextBtnLoading = false
 						if (receipt) {
-							this.deployedMarket.txHash = receipt.transactionHash
-							this.deployedMarket.address =
-								receipt.events.MarketCreated.returnValues[1]
+							this.model.deployedLauncher.txHash = receipt.transactionHash
+							this.model.deployedLauncher.address =
+								receipt.events.LauncherCreated.returnValues[1]
+						}
+						resolve(receipt.status)
+					})
+				})
+			}
+
+			if (this.tabIndex === 4) {
+				return new Promise((resolve) => {
+					this.nextBtnLoading = true
+
+					const contract = getAuctionContract(this.model.auctionAddress)
+					const method = contract.methods.setAuctionWallet(
+						this.model.deployedLauncher.address
+					)
+
+					sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+						this.nextBtnLoading = false
+						if (receipt) {
+							this.model.deployedLauncher.txHash = receipt.transactionHash
+							this.model.deployedLauncher.address =
+								receipt.events.LauncherCreated.returnValues[1]
 						}
 						resolve(receipt.status)
 					})
