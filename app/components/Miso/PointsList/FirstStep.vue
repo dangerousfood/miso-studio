@@ -9,19 +9,82 @@
 				>
 					<div class="form-row justify-content-center mb-4">
 						<div class="col-md-12">
+							<div class="d-flex">
+								<div class="d-inline border-bottom mb-4">
+									<div
+										class="font-weight-bold fs-4 mb-2"
+										:class="{ 'text-white': items.listOwnerAddress }"
+									>
+										LIST OWNER ADDRESS*
+									</div>
+								</div>
+							</div>
 							<base-input
 								v-model="model.listOwner"
-								label="List Owner"
 								name="List Owner"
 								placeholder="List Owner Address"
 								type="text"
 								rules="required|isAddress"
 								@focus="focusInput('listOwnerAddress')"
 							></base-input>
+							<div class="d-flex">
+								<p
+									class="border-bottom font-weight-bold"
+									@click="selectCurrentAccount"
+								>
+									Use my account
+								</p>
+							</div>
+						</div>
+					</div>
 
-							<p class="font-weight-bold" @click="selectCurrentAccount">
-								Use my account
+					<div class="form-row justify-content-center mb-4 pt-4">
+						<div class="col-md-12">
+							<div class="d-flex">
+								<div class="d-inline border-bottom mb-2">
+									<div
+										class="font-weight-bold fs-4 mb-2"
+										:class="{ 'text-white': items.importList }"
+									>
+										IMPORT OR CREATE LIST*
+									</div>
+								</div>
+							</div>
+							<p class="mb-4">
+								Autofill your list by uploading a .csv file below, or create one
+								manually.
 							</p>
+							<div
+								class="import_create_list row d-flex"
+								rules="required"
+								@focus="focusInput('importList')"
+							>
+								<div class="col-md-6">
+									<div class="justify-content-center">
+										<div class="input-file-container">
+											<input
+												id="importCSV"
+												type="file"
+												class="input-file"
+												@change="onFileChange"
+											/>
+											<label
+												tabindex="0"
+												for="my-file"
+												class="input-file-trigger is-rounded"
+											>
+												Import the CSV
+											</label>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-6"></div>
+							</div>
+							<div class="d-flex">
+								<p class="border-bottom font-weight-bold" @click="addPoint">
+									Create a list manually
+								</p>
+							</div>
 						</div>
 					</div>
 
@@ -63,34 +126,8 @@
 								</base-button>
 							</div>
 						</div>
-						<base-button
-							class="mt-4"
-							type="primary"
-							:round="true"
-							@click.prevent="addPoint"
-						>
-							Add to List
-						</base-button>
-
-						<div class="justify-content-center mt-4 pl-3">
-							<div class="input-file-container">
-								<input
-									id="importCSV"
-									type="file"
-									class="mt-4 input-file"
-									@change="onFileChange"
-								/>
-								<label
-									tabindex="0"
-									for="my-file"
-									class="input-file-trigger is-rounded"
-								>
-									Import the CSV
-								</label>
-							</div>
-						</div>
 					</div>
-					<hr />
+					<!-- <hr />
 					<base-button
 						v-if="!hideNextBtn"
 						:loading="waitingForConfirmation"
@@ -100,7 +137,7 @@
 						native-type="submit"
 					>
 						Deploy
-					</base-button>
+					</base-button> -->
 				</form>
 			</validation-observer>
 		</div>
@@ -138,6 +175,11 @@ export default {
 			pointListAddress: null,
 			pointListDeployedEventSubscribtion: null,
 			fileinput: '',
+			items: {
+				listOwnerAddress: false,
+				importList: false,
+				addresses_purchaseCaps: false,
+			},
 		}
 	},
 	computed: {
@@ -145,21 +187,6 @@ export default {
 			coinbase: 'ethereum/coinbase',
 			explorer: 'ethereum/explorer',
 		}),
-		nextBtnText() {
-			let text = ''
-			switch (this.activeStep) {
-				case 0:
-					text = 'Deploy'
-					break
-				case 2:
-					text = 'Start Over'
-					break
-			}
-			return text
-		},
-		hideNextBtn() {
-			return this.activeStep === 1
-		},
 		model() {
 			return this.initModel
 		},

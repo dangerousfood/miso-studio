@@ -136,21 +136,21 @@ export default {
 			allSteps: [
 				{
 					active: false,
-					top: 32,
+					top: 25,
 					title: 'LIST OWNER ADDRESS*',
 					desctiption:
 						'Enter the wallet address of the owner or administrator of this list.  If that person is you, then enter your wallet address you most commonly use to manage actions on MISO.                   ',
 				},
 				{
 					active: false,
-					top: 22,
+					top: 35,
 					title: 'IMPORT LIST',
 					desctiption:
 						'Autofill your list by uploading a .csv file with instructed format below, or enter list manually in the next step. \n\n CSV Formatting \n\n In your spreadsheet application, enter the name of your list as the filename and format the following: \n\nThe word “Address” in column 1A \n\nThe word “Amount” in column 1B \n\nAddresses and amounts in subsequent A & B columns, respectively \n\nExport from your spreadsheet application as a .CSV file and upload here',
 				},
 				{
 					active: false,
-					top: 38,
+					top: 25,
 					title: 'ADDRESSES & PURCHASE CAPS*',
 					desctiption:
 						'Enter a wallet address, and set an amount (in tokens) this address will be able to purchase.  The criteria for who and how much is completely up to you - this list will act like a “guest list” and prevent people who are not on the list from purchasing, and/or prevent people on the list from buying more than their allotted amount.  You can have as many addresses on this list as you’d like.',
