@@ -1,94 +1,94 @@
 <template>
 	<div>
-		<div class="">
-			<validation-observer ref="observer">
-				<form
-					v-if="activeStep === 0"
-					class="needs-validation"
-					@submit.prevent="handleSubmit(deployPointsList)"
-				>
-					<div class="form-row justify-content-center mb-4">
-						<div class="col-md-12">
-							<div class="d-flex">
-								<div class="d-inline border-bottom mb-4">
-									<div
-										class="font-weight-bold fs-4 mb-2"
-										:class="{ 'text-white': items.listOwnerAddress }"
-									>
-										LIST OWNER ADDRESS*
-									</div>
-								</div>
-							</div>
-							<base-input
-								v-model="model.listOwner"
-								name="List Owner"
-								placeholder="List Owner Address"
-								type="text"
-								rules="required|isAddress"
-								@focus="focusInput('listOwnerAddress')"
-							></base-input>
-							<div class="d-flex">
-								<p
-									class="border-bottom font-weight-bold"
-									@click="selectCurrentAccount"
-								>
-									Use my account
-								</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="form-row justify-content-center mb-4 pt-4">
-						<div class="col-md-12">
-							<div class="d-flex">
-								<div class="d-inline border-bottom mb-2">
-									<div
-										class="font-weight-bold fs-4 mb-2"
-										:class="{ 'text-white': items.importList }"
-									>
-										IMPORT OR CREATE LIST*
-									</div>
-								</div>
-							</div>
-							<p class="mb-4">
-								Autofill your list by uploading a .csv file below, or create one
-								manually.
-							</p>
+		<validation-observer ref="observer">
+			<div class="form-row justify-content-center mb-4">
+				<div class="col-md-12">
+					<div class="d-flex">
+						<div class="d-inline border-bottom mb-4">
 							<div
-								class="import_create_list row d-flex"
-								rules="required"
-								@focus="focusInput('importList')"
+								class="font-weight-bold fs-4 mb-2"
+								:class="{ 'text-white': items.listOwnerAddress }"
 							>
-								<div class="col-md-6">
-									<div class="justify-content-center">
-										<div class="input-file-container">
-											<input
-												id="importCSV"
-												type="file"
-												class="input-file"
-												@change="onFileChange"
-											/>
-											<label
-												tabindex="0"
-												for="my-file"
-												class="input-file-trigger is-rounded"
-											>
-												Import the CSV
-											</label>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-6"></div>
-							</div>
-							<div class="d-flex">
-								<p class="border-bottom font-weight-bold" @click="addPoint">
-									Create a list manually
-								</p>
+								LIST OWNER ADDRESS*
 							</div>
 						</div>
 					</div>
+					<base-input
+						v-model="model.listOwner"
+						name="List Owner"
+						placeholder="List Owner Address"
+						type="text"
+						rules="required|isAddress"
+						@focus="focusInput('listOwnerAddress')"
+					></base-input>
+					<div class="d-flex">
+						<p
+							class="border-bottom font-weight-bold"
+							:class="{ 'text-white': items.listOwnerAddress }"
+							style="color: rgba(255, 255, 255, 0.5)"
+							@click="selectCurrentAccount"
+						>
+							Use my account
+						</p>
+					</div>
+				</div>
+			</div>
 
-					<div class="form-row justify-content-center">
+			<div class="form-row justify-content-center mb-4 pt-4">
+				<div class="col-md-12">
+					<div class="d-flex">
+						<div class="d-inline border-bottom mb-2">
+							<div
+								class="font-weight-bold fs-4 mb-2"
+								:class="{ 'text-white': items.importList }"
+							>
+								IMPORT OR CREATE LIST*
+							</div>
+						</div>
+					</div>
+					<p class="mb-4">
+						Autofill your list by uploading a .csv file below, or create one manually.
+					</p>
+					<div
+						class="import_create_list row d-flex"
+						rules="required"
+						@focus="focusInput('importList')"
+					>
+						<div class="col-md-6">
+							<div class="justify-content-center">
+								<div class="input-file-container">
+									<input
+										id="importCSV"
+										type="file"
+										class="input-file"
+										@change="onFileChange"
+									/>
+									<label
+										tabindex="0"
+										for="my-file"
+										class="input-file-trigger is-rounded"
+									>
+										Import the CSV
+									</label>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6"></div>
+					</div>
+					<div class="d-flex mt-4">
+						<p
+							class="border-bottom font-weight-bold"
+							:class="{ 'text-white': items.importList }"
+							style="color: rgba(255, 255, 255, 0.5)"
+							@click="addPoint"
+						>
+							Create a list manually
+						</p>
+					</div>
+				</div>
+			</div>
+
+			<!-- <div class="form-row justify-content-center">
 						<div
 							v-for="(point, index) in model.points"
 							:key="index"
@@ -126,38 +126,19 @@
 								</base-button>
 							</div>
 						</div>
-					</div>
-					<!-- <hr />
-					<base-button
-						v-if="!hideNextBtn"
-						:loading="waitingForConfirmation"
-						class="float-right"
-						type="primary"
-						:round="true"
-						native-type="submit"
-					>
-						Deploy
-					</base-button> -->
-				</form>
-			</validation-observer>
-		</div>
+					</div> -->
+		</validation-observer>
 	</div>
 </template>
 <script>
 import { mapGetters } from 'vuex'
 import { Steps, Step } from 'element-ui'
-import {
-	subscribeToPointListDeployedEvent,
-	getContractInstance,
-} from '@/services/web3/listFactory'
-import { sendTransaction, toWei } from '@/services/web3/base'
-import { BaseButton } from '~/components'
+import { subscribeToPointListDeployedEvent } from '@/services/web3/listFactory'
 
 export default {
 	components: {
 		[Steps.name]: Steps,
 		[Step.name]: Step,
-		BaseButton,
 	},
 	props: {
 		initModel: {
@@ -167,11 +148,7 @@ export default {
 	},
 	data() {
 		return {
-			activeStep: 0,
 			wizardModel: null,
-			prevBtnDisabled: true,
-			waitingForConfirmation: false,
-			transactionHash: null,
 			pointListAddress: null,
 			pointListDeployedEventSubscribtion: null,
 			fileinput: '',
@@ -208,35 +185,11 @@ export default {
 	},
 	mounted() {
 		this.subscribeToPointListDeployedEvent()
-		this.listFactoryContract = getContractInstance()
 	},
 	beforeDestroy() {
 		this.unsubscribeFromPointListDeployedEvent()
 	},
 	methods: {
-		validateStep(ref) {
-			return this.$refs[ref].validate()
-		},
-		onStepValidated(validated) {
-			this.wizardModel = validated
-			this.nextTab()
-		},
-		changeStep() {
-			if (this.activeStep === 2) {
-				this.model = {
-					listOwner: '',
-					points: [
-						{
-							account: '',
-							amount: 0,
-						},
-					],
-				}
-				this.activeStep = 0
-			} else {
-				this.activeStep++
-			}
-		},
 		selectCurrentAccount() {
 			this.model.listOwner = this.coinbase
 		},
@@ -258,28 +211,6 @@ export default {
 		},
 		removePoint(index) {
 			this.model.points.splice(index, 1)
-		},
-		async deployPointsList() {
-			// Validation
-			const isValid = await this.$refs.observer.validate()
-			if (!isValid) return
-
-			// Deploy PointsList
-			const methodToSend = this.listFactoryContract.methods.deployPointList(
-				this.model.listOwner,
-				this.model.points.map((point) => point.account),
-				this.model.points.map((point) => toWei(point.amount))
-			)
-
-			const txHash = await sendTransaction(methodToSend, {
-				from: this.coinbase,
-			})
-
-			if (txHash) {
-				this.transactionHash = txHash
-				this.changeStep()
-			}
-			this.waitingForConfirmation = false
 		},
 		subscribeToPointListDeployedEvent() {
 			this.pointListDeployedEventSubscribtion = subscribeToPointListDeployedEvent()

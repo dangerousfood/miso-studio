@@ -13,7 +13,7 @@
 						:next-btn-loading="nextBtnLoading"
 						@update:startIndex="onTabChanged"
 					>
-						<wizard-tab :before-change="() => deployAuction('step1')">
+						<wizard-tab :before-change="() => validateStep('step1')">
 							<template slot="label">
 								<span class="fs-5">1</span>
 								<p>INITIAL SETUP</p>
@@ -26,7 +26,7 @@
 							></first-step>
 							<base-divider class="my-5" />
 						</wizard-tab>
-						<wizard-tab :before-change="() => deployAuction('step2')">
+						<wizard-tab :before-change="() => validateStep('step2')">
 							<template slot="label">
 								<span class="fs-5">2</span>
 								<p>SET PERMISSIONS</p>
@@ -39,7 +39,7 @@
 								@active-focus="allStepInputs"
 							></second-step>
 						</wizard-tab>
-						<wizard-tab :before-change="() => validateStep('step3')">
+						<wizard-tab :before-change="() => deployPermissionList('step3')">
 							<template slot="label">
 								<span class="fs-5">3</span>
 								<p>REVIEW & DEPLOY</p>
@@ -107,6 +107,8 @@ import Notificatoin from '@/components/Miso/Factory/Liquidity/sidebarNotificatio
 import FirstStep from '@/components/Miso/PointsList/FirstStep'
 import SecondStep from '@/components/Miso/PointsList/SecondStep.vue'
 import ThirdStep from '@/components/Miso/PointsList/ThirdStep.vue'
+import { getContractInstance } from '@/services/web3/listFactory'
+import { sendTransaction, toWei } from '@/services/web3/base'
 
 const tokenFactoryAddress = tokenFactory.address
 
@@ -127,6 +129,7 @@ export default {
 			contractAddress: '',
 			deploymentFee: 0.1,
 			tabIndex: 0,
+			transactionHash: null,
 			model: {
 				listOwner: '',
 				points: [],
@@ -161,6 +164,7 @@ export default {
 	computed: {
 		...mapGetters({
 			currentProvidersNetworkId: 'ethereum/currentProvidersNetworkId',
+			coinbase: 'ethereum/coinbase',
 		}),
 		nextBtnText() {
 			if (this.tabIndex === 2) return 'Review'
@@ -170,6 +174,7 @@ export default {
 	},
 	mounted() {
 		this.contractAddress = this.getTokenFactoryAddress()
+		this.listFactoryContract = getContractInstance()
 	},
 	methods: {
 		getTokenFactoryAddress() {
@@ -190,8 +195,28 @@ export default {
 			}
 			this.chosenAuctionType = val
 		},
+		async validateStep(ref) {
+			return await this.$refs[ref].validate()
+		},
 		onStepValidated(validated, model) {
 			this.model = { ...this.model, ...model }
+		},
+		async deployPermissionList() {
+			// Deploy PointsList
+			const methodToSend = this.listFactoryContract.methods.deployPointList(
+				this.model.listOwner,
+				this.model.points.map((point) => point.account),
+				this.model.points.map((point) => toWei(point.amount))
+			)
+
+			const txHash = await sendTransaction(methodToSend, {
+				from: this.coinbase,
+			})
+
+			if (txHash) {
+				this.transactionHash = txHash
+			}
+			this.nextBtnLoading = false
 		},
 	},
 }
