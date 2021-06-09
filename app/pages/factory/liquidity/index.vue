@@ -158,7 +158,7 @@
 									<base-divider class="py-4 mt-5" />
 								</wizard-tab>
 								<wizard-tab
-									v-if="!model.deployedLauncher.txHash"
+									v-if="!!model.deployedLauncher.txHash"
 									:before-change="() => validateStep('step-5')"
 								>
 									<final-wallet-step
