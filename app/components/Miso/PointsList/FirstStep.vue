@@ -176,7 +176,7 @@ export default {
 						amount: childArray[childArray.length - 1],
 					}
 				})
-			this.pointsListModel.points = points
+			this.model.points = points
 		},
 	},
 	mounted() {
@@ -196,7 +196,7 @@ export default {
 		},
 		changeStep() {
 			if (this.activeStep === 2) {
-				this.pointsListModel = {
+				this.model = {
 					listOwner: '',
 					points: [
 						{
@@ -211,10 +211,10 @@ export default {
 			}
 		},
 		selectCurrentAccount() {
-			this.pointsListModel.listOwner = this.coinbase
+			this.model.listOwner = this.coinbase
 		},
 		addPoint() {
-			this.pointsListModel.points.push({ account: '', amount: 0 })
+			this.model.points.push({ account: '', amount: 0 })
 		},
 		onFileChange(e) {
 			const files = e.target.files || e.dataTransfer.files
@@ -230,7 +230,7 @@ export default {
 			reader.readAsText(file)
 		},
 		removePoint(index) {
-			this.pointsListModel.points.splice(index, 1)
+			this.model.points.splice(index, 1)
 		},
 		async deployPointsList() {
 			// Validation
@@ -239,9 +239,9 @@ export default {
 
 			// Deploy PointsList
 			const methodToSend = this.listFactoryContract.methods.deployPointList(
-				this.pointsListModel.listOwner,
-				this.pointsListModel.points.map((point) => point.account),
-				this.pointsListModel.points.map((point) => toWei(point.amount))
+				this.model.listOwner,
+				this.model.points.map((point) => point.account),
+				this.model.points.map((point) => toWei(point.amount))
 			)
 
 			const txHash = await sendTransaction(methodToSend, {
