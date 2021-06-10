@@ -14,9 +14,13 @@
 											</div>
 										</div>
 										<div class="fs-2">
-											<span class="text-white font-weight-bold fs-4">
+											<a
+												class="text-white font-weight-bold fs-4"
+												:href="`${explorer.root}${explorer.tx}${model.deployedLauncher.txHash}`"
+												target="blank"
+											>
 												{{ model.deployedLauncher.txHash }}
-											</span>
+											</a>
 										</div>
 									</div>
 
@@ -27,9 +31,13 @@
 											</div>
 										</div>
 										<div class="fs-2">
-											<span class="text-white font-weight-bold fs-4">
+											<a
+												class="text-white font-weight-bold fs-4"
+												:href="`${explorer.root}${explorer.address}${model.auctionAddress}`"
+												target="blank"
+											>
 												{{ model.auctionAddress }}
-											</span>
+											</a>
 										</div>
 									</div>
 
@@ -56,6 +64,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
 	props: {
 		data: {
@@ -68,6 +78,10 @@ export default {
 		model() {
 			return this.data
 		},
+		...mapGetters({
+			coinbase: 'ethereum/coinbase',
+			explorer: 'ethereum/explorer',
+		}),
 	},
 	methods: {
 		validate() {

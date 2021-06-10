@@ -12,15 +12,13 @@
 				<h2 v-if="tabIndex === 3" class="mb-0 pl-3 text-white font-weight-bold fs-10">
 					Confirm Your Launch
 				</h2>
-				<h2 v-else class="mb-0 pl-3 text-white font-weight-bold fs-10">
-					Transaction Confirmed
-				</h2>
 			</div>
 			<div class="row px-5">
 				<div class="col-12">
 					<div>
 						<client-only>
 							<liquid-launcher-wizard
+								ref="lastWizard0"
 								:start-index="tabIndex"
 								:next-button-text="nextBtnText"
 								:next-btn-loading="nextBtnLoading"
@@ -65,7 +63,7 @@
 									/>
 									<base-divider class="py-4 mt-5" />
 								</wizard-tab>
-								<wizard-tab :before-change="() => validateStep('step-4')">
+								<wizard-tab :before-change="() => deploy()">
 									<final-step
 										ref="step-4"
 										:data="model"
@@ -73,10 +71,7 @@
 									/>
 									<base-divider class="py-4 mt-5" />
 								</wizard-tab>
-								<wizard-tab
-									v-if="!!model.deployedLauncher.txHash"
-									:before-change="() => validateStep('step-5')"
-								>
+								<wizard-tab :before-change="() => setAuctionWallet()">
 									<final-wallet-step
 										ref="step-5"
 										:data="model"
@@ -105,6 +100,7 @@
 					<div>
 						<client-only>
 							<liquid-launcher-wizard
+								ref="lastWizard1"
 								:start-index="tabIndex"
 								:next-button-text="nextBtnText"
 								:next-btn-loading="nextBtnLoading"
@@ -149,7 +145,7 @@
 									/>
 									<base-divider class="py-4 mt-5" />
 								</wizard-tab>
-								<wizard-tab :before-change="() => validateStep('step-4')">
+								<wizard-tab :before-change="() => deploy()">
 									<final-step
 										ref="step-4"
 										:data="model"
@@ -157,10 +153,7 @@
 									/>
 									<base-divider class="py-4 mt-5" />
 								</wizard-tab>
-								<wizard-tab
-									v-if="!!model.deployedLauncher.txHash"
-									:before-change="() => validateStep('step-5')"
-								>
+								<wizard-tab :before-change="() => setAuctionWallet()">
 									<final-wallet-step
 										ref="step-5"
 										:data="model"
@@ -412,6 +405,58 @@ export default {
 		async validateStep(ref) {
 			return await this.$refs[ref].validate()
 		},
+		async deploy() {
+			this.nextBtnLoading = true
+			await this.waitDeploy()
+			this.nextBtnLoading = false
+			if (this.model.deployedLauncher.txHash) {
+				return true
+			} else {
+				return false
+			}
+		},
+		async waitDeploy() {
+			// Launcher Template Id
+			const methods = [
+				{ methodName: 'currentTemplateId', args: [this.chosenLauncherType] },
+			]
+			const [launcherTemplateId] = await makeBatchCall(
+				misoLauncherContract(),
+				methods
+			)
+
+			return new Promise((resolve) => {
+				// Data Param
+				let data
+				switch (this.chosenLauncherType) {
+					case 3:
+						data = this.getdataParams()
+						break
+					default:
+						data = this.getdataParams()
+						break
+				}
+
+				// Create Launcher
+				const method = misoLauncherContract().methods.createLauncher(
+					launcherTemplateId,
+					this.model.token.address,
+					to18Decimals(this.model.amount),
+					dai.misoFeeAcct,
+					data
+				)
+
+				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+					this.nextBtnLoading = false
+					if (receipt) {
+						this.model.deployedLauncher.txHash = receipt.transactionHash
+						this.model.deployedLauncher.address =
+							receipt.events.LauncherCreated.returnValues[1]
+					}
+					resolve(receipt.status)
+				})
+			})
+		},
 		onTabChanged(newValue) {
 			this.tabIndex = newValue
 			if (this.tabIndex === 0) {
@@ -430,79 +475,13 @@ export default {
 				})
 			}
 		},
-		async onStepValidated(validated, model) {
+		onStepValidated(validated, model) {
 			if (this.model === null) {
 				this.model = model
 			} else {
 				Object.assign(this.model, model)
 			}
 			this.modelUpdate(model)
-
-			if (this.tabIndex === 3) {
-				// Launcher Template Id
-				const methods = [
-					{ methodName: 'currentTemplateId', args: [this.chosenLauncherType] },
-				]
-				const [launcherTemplateId] = await makeBatchCall(
-					misoLauncherContract(),
-					methods
-				)
-
-				return new Promise((resolve) => {
-					this.nextBtnLoading = true
-
-					// Data Param
-					let data
-					switch (this.chosenLauncherType) {
-						case 3:
-							data = this.getdataParams()
-							break
-						default:
-							data = this.getdataParams()
-							break
-					}
-
-					// Create Launcher
-					const method = misoLauncherContract().methods.createLauncher(
-						launcherTemplateId,
-						model.token.address,
-						to18Decimals(model.amount),
-						dai.misoFeeAcct,
-						data
-					)
-
-					sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
-						this.nextBtnLoading = false
-						if (receipt) {
-							this.model.deployedLauncher.txHash = receipt.transactionHash
-							this.model.deployedLauncher.address =
-								receipt.events.LauncherCreated.returnValues[1]
-						}
-						resolve(receipt.status)
-					})
-				})
-			}
-
-			if (this.tabIndex === 4) {
-				return new Promise((resolve) => {
-					this.nextBtnLoading = true
-
-					const contract = getAuctionContract(this.model.auctionAddress)
-					const method = contract.methods.setAuctionWallet(
-						this.model.deployedLauncher.address
-					)
-
-					sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
-						this.nextBtnLoading = false
-						if (receipt) {
-							this.model.deployedLauncher.txHash = receipt.transactionHash
-							this.model.deployedLauncher.address =
-								receipt.events.LauncherCreated.returnValues[1]
-						}
-						resolve(receipt.status)
-					})
-				})
-			}
 		},
 		getdataParams() {
 			const factory = uniswapFactoryAddress.address[this.currentProvidersNetworkId]
@@ -527,6 +506,63 @@ export default {
 				['address', 'address', 'address', 'address', 'uint256', 'uint256'],
 				dataParams
 			)
+		},
+		setAuctionWallet() {
+			this.nextBtnLoading = true
+			this.waitAuctionWallet()
+			return false
+		},
+		waitAuctionWallet() {
+			return new Promise((resolve) => {
+				this.nextBtnLoading = true
+
+				const contract = getAuctionContract(this.model.auctionAddress)
+				const method = contract.methods.setAuctionWallet(
+					this.model.deployedLauncher.address
+				)
+
+				sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
+					this.nextBtnLoading = false
+					if (receipt) {
+						this.nextBtnLoading = false
+						this.resetDataModel()
+					}
+					resolve(receipt.status)
+				})
+			})
+		},
+		resetDataModel() {
+			this.model = {
+				wallet: '',
+				token: {
+					address: '',
+					name: '',
+					symbol: '',
+				},
+				auctionAddress: '',
+				auction: {
+					address: '',
+					payment_currency: '',
+					payment_currency_name: '',
+				},
+				type: 'ETH',
+				amount: '',
+				percent: '',
+				vaultAddr: '',
+				endTime: '',
+				allowance: '',
+				tokenbalance: '',
+				tokenSupply: '',
+				customDays: '180',
+				inputDays: null,
+				deployedLauncher: {
+					address: '',
+					txHash: '',
+				},
+			}
+			this.$refs['step-1'].resetAuctionAddress()
+			this.$refs.lastWizard1.navigateToTab(0)
+			this.$refs.lastWizard1.activeTab()
 		},
 	},
 }
