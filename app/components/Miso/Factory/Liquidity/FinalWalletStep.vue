@@ -48,9 +48,13 @@
 											</div>
 										</div>
 										<div class="fs-2">
-											<span class="text-white font-weight-bold fs-4">
+											<a
+												class="text-white font-weight-bold fs-4"
+												:href="`${explorer.root}${explorer.address}${model.deployedLauncher.address}`"
+												target="blank"
+											>
 												{{ model.deployedLauncher.address }}
-											</span>
+											</a>
 										</div>
 									</div>
 								</div>

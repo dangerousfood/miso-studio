@@ -373,7 +373,7 @@
 							<!-- not finalized -->
 							<div v-if="!marketInfo.finalized">
 								<!-- admin privileges -->
-								<div v-if="userInfo.isAdmin">
+								<div v-if="canFinalize">
 									<div class="text-center text-white font-weight-bold fs-5">
 										Congratulations!
 									</div>
@@ -505,7 +505,7 @@
 								</div>
 							</div>
 							<div v-else>
-								<div v-if="userInfo.isAdmin">
+								<div v-if="canFinalize">
 									<div
 										v-if="!marketInfo.finalized"
 										class="withdraw d-flex justify-content-center"
@@ -545,6 +545,7 @@ import { mapGetters, mapActions } from 'vuex'
 import { sendTransactionAndWait, makeBatchCall } from '@/services/web3/base'
 import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 import { getContractInstance as getAuctionContract } from '@/services/web3/auctions/auction'
+import { getContractInstance as postAuctionLauncherContract } from '@/services/web3/postAuctionLauncher'
 import { getContractInstance as erc20TokenContract } from '@/services/web3/erc20Token'
 import {
 	to18Decimals,
@@ -616,6 +617,11 @@ export default {
 			totalParticipants: 'commitments/totalParticipants',
 		}),
 		// TODO needs to be set if user is author of auction or not
+		canFinalize() {
+			if (this.userInfo.isAdmin) return true
+			if (!this.marketInfo.liquidityTemplate) return false
+			return this.marketInfo.liquidityTemplate > 0
+		},
 		isAuthor() {
 			return false
 		},
@@ -887,8 +893,7 @@ export default {
 		},
 		async withdraw() {
 			this.loading = true
-			const contract = getAuctionContract(this.$route.params.address)
-			const method = contract.methods.withdrawTokens(this.coinbase)
+			const method = this.contractInstance.methods.withdrawTokens(this.coinbase)
 
 			await sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 				if (receipt.status) {
@@ -903,8 +908,18 @@ export default {
 		},
 		async finalizeAuction() {
 			this.loading = true
-			const contract = getAuctionContract(this.$route.params.address)
-			const method = contract.methods.finalize()
+
+			let method
+			if (
+				this.marketInfo.liquidityTemplate &&
+				this.marketInfo.liquidityTemplate > 0
+			) {
+				method = postAuctionLauncherContract(
+					this.marketInfo.wallet
+				).methods.finalize()
+			} else {
+				method = this.contractInstance.methods.finalize()
+			}
 
 			await sendTransactionAndWait(method, { from: this.coinbase }, (receipt) => {
 				if (receipt.status) {
@@ -956,7 +971,6 @@ export default {
 			)
 				return
 
-			const contract = getAuctionContract(this.$route.params.address)
 			this.loading = true
 			let method
 			let value = 0
@@ -964,10 +978,10 @@ export default {
 				this.marketInfo.paymentCurrency.addr ===
 				'0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
 			) {
-				method = contract.methods.commitEth(this.coinbase, true)
+				method = this.contractInstance.methods.commitEth(this.coinbase, true)
 				value = to18Decimals(this.selectedTokenQuantity)
 			} else {
-				method = contract.methods.commitTokens(
+				method = this.contractInstance.methods.commitTokens(
 					toNDecimals(
 						this.selectedTokenQuantity,
 						this.marketInfo.paymentCurrency.decimals
