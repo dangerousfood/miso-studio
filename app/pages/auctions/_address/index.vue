@@ -412,7 +412,7 @@ export default {
 						address: this.auctionAddress,
 						topics: [TOPIC_ADDED_COMMITMENT],
 					},
-					(error, result) => {
+					(result, error) => {
 						if (!error) {
 							const decodedData = web3.eth.abi.decodeParameters(
 								['address', 'uint256'],
