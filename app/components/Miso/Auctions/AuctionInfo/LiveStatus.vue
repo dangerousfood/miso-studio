@@ -737,9 +737,7 @@ export default {
 						return this.marketInfo.totalTokens
 					return divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice)
 				}
-				return toFixed(
-					divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice)
-				)
+				return divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice)
 			},
 			set(val) {
 				this.userTokens = multiplyNumbers(val, this.marketInfo.currentPrice)
