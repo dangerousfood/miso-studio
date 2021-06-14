@@ -143,9 +143,8 @@ export default {
 			cardContentTemplate: [
 				{
 					cardimg: 'card01.jpg',
-					mobilecardimg: 'card_mobile01.png',
-					logoimg:
-						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
+					mobilecardimg: 'card_mobile01.svg',
+					logoimg: 'https://volatility.com/logos/logo-mark.svg',
 					title: '',
 					description: '',
 					websiteurl: '',
@@ -157,8 +156,8 @@ export default {
 					social: {},
 				},
 				{
-					cardimg: 'card02.png',
-					mobilecardimg: 'card_mobile02.png',
+					cardimg: 'card02.jpg',
+					mobilecardimg: 'card_mobile02.jpg',
 					logoimg:
 						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
 					title: '',
@@ -173,7 +172,7 @@ export default {
 				},
 				{
 					cardimg: 'card03.png',
-					mobilecardimg: 'card_mobile01.png',
+					mobilecardimg: 'card_mobile03.png',
 					logoimg:
 						'https://github.com/manifoldfinance/boards/blob/master/256_256.png?raw=true',
 					title: '',
