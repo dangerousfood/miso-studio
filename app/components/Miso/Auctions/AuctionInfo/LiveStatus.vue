@@ -552,8 +552,8 @@ import {
 	toDecimals,
 	divNumbers,
 	multiplyNumbers,
-	toPrecision,
 	toNDecimals,
+	toFixed,
 } from '@/util'
 import BigNumber from 'bignumber.js'
 import CrowdProgress from '~/components/Miso/Auctions/Details/CrowdProgress'
@@ -706,12 +706,11 @@ export default {
 			return currentTimestamp < this.marketInfo.endTime
 		},
 		maxTokenAmount() {
-			return toPrecision(
+			return toFixed(
 				Math.max(
 					0,
 					this.marketInfo.totalTokens - this.marketInfo.totalTokensCommitted
-				),
-				5
+				)
 			)
 		},
 		maxInvestAmount() {
@@ -725,14 +724,11 @@ export default {
 		},
 		percentRemaining() {
 			return parseFloat(
-				toPrecision(
-					divNumbers(this.maxTokenAmount, this.marketInfo.totalTokens) * 100,
-					5
-				)
+				toFixed(divNumbers(this.maxTokenAmount, this.marketInfo.totalTokens) * 100)
 			)
 		},
 		totalCommitments() {
-			return toPrecision(this.marketInfo.commitmentsTotal, 3)
+			return toFixed(this.marketInfo.commitmentsTotal)
 		},
 		tokenAmount: {
 			get() {
@@ -741,9 +737,8 @@ export default {
 						return this.marketInfo.totalTokens
 					return divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice)
 				}
-				return toPrecision(
-					divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice),
-					3
+				return toFixed(
+					divNumbers(this.selectedTokenQuantity, this.marketInfo.currentPrice)
 				)
 			},
 			set(val) {
@@ -861,7 +856,7 @@ export default {
 				balance = await web3.eth.getBalance(this.coinbase)
 			}
 			this.accountBalance = parseFloat(
-				toPrecision(toDecimals(balance, this.marketInfo.paymentCurrency.decimals), 3)
+				toFixed(toDecimals(balance, this.marketInfo.paymentCurrency.decimals))
 			)
 		}
 		const auctionAddress = this.$route.params.address

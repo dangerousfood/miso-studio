@@ -51,6 +51,10 @@ export const toNDecimals = (value, decimals) => {
 	return BigNumber(value).multipliedBy(TENPOW).toFixed()
 }
 
+export const toFixed = (value, decimals = 0, rounding = 1) => {
+	return BigNumber(value).toFixed(decimals, rounding)
+}
+
 export const toPrecision = (value, precision) => {
 	const number = BigNumber(value).toPrecision(precision)
 	return BigNumber(number).toFixed()
