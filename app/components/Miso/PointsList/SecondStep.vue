@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<validation-observer v-if="!manualInputState" ref="observer">
+		<validation-observer>
 			<div class="form-row justify-content-center mb-4">
 				<div class="col-md-12">
 					<div class="d-flex">
@@ -98,7 +98,7 @@
 				</div>
 			</div>
 		</validation-observer>
-		<validation-observer v-else ref="manualObserver">
+		<validation-observer v-if="manualInputState" ref="observer">
 			<div class="form-row justify-content-center">
 				<!-- style="min-height: 500px;display: block;" -->
 				<div class="col-12 d-flex">
@@ -202,7 +202,6 @@
 <script>
 import { mapGetters } from 'vuex'
 import { Steps, Step } from 'element-ui'
-import { subscribeToPointListDeployedEvent } from '@/services/web3/listFactory'
 
 export default {
 	components: {
@@ -224,6 +223,7 @@ export default {
 				listOwnerAddress: false,
 				auction_payment_token: false,
 				importList: false,
+				importListFailur: false,
 				addresses_purchaseCaps: false,
 			},
 			successFileLoad: 'ready',
@@ -241,7 +241,8 @@ export default {
 		},
 	},
 	watch: {
-		fileinput() {
+		fileinput(newValue) {
+			if (newValue === 'temp') return
 			const arr = this.fileinput.split('\r\n')
 			const points = arr
 				.filter((elm) => elm !== '')
@@ -252,21 +253,24 @@ export default {
 						amount: childArray[childArray.length - 1],
 					}
 				})
-			this.successFileLoad = this.fileValidate(points) ? 'success' : 'error'
-			this.model.points = this.fileValidate(points) ? points : []
+			if (this.fileValidate(points)) {
+				this.focusInput('importList')
+				this.successFileLoad = 'success'
+				this.model.points = points
+			} else {
+				this.focusInput('importListFailur')
+				this.successFileLoad = 'error'
+				this.model.points = []
+			}
 		},
-	},
-	mounted() {
-		this.subscribeToPointListDeployedEvent()
-	},
-	beforeDestroy() {
-		this.unsubscribeFromPointListDeployedEvent()
 	},
 	methods: {
 		selectCurrentAccount() {
 			this.model.listOwner = this.coinbase
 		},
 		showManualInput() {
+			this.fileinput = 'temp'
+			this.successFileLoad = 'ready'
 			this.model.points = []
 			this.manualInputState = true
 			this.addPoint()
@@ -278,13 +282,13 @@ export default {
 			this.items.listOwnerAddress = false
 			this.items.addresses_purchaseCaps = false
 			this.items.auction_payment_token = false
-			this.items.importList = true
-			this.$emit('active-focus', this.items)
 
 			const files = e.target.files || e.dataTransfer.files
 			if (!files.length) return
 			this.createInput(files[0])
 			this.fileName = files[0].name
+
+			this.manualInputState = false
 		},
 		createInput(file) {
 			const reader = new FileReader()
@@ -297,33 +301,14 @@ export default {
 		removePoint(index) {
 			this.model.points.splice(index, 1)
 		},
-		subscribeToPointListDeployedEvent() {
-			this.pointListDeployedEventSubscribtion = subscribeToPointListDeployedEvent()
-				.on('data', (event) => {
-					if (this.transactionHash) {
-						if (this.transactionHash.toLowerCase() === event.transactionHash) {
-							this.pointListAddress = event.returnValues.pointList
-							this.changeStep()
-						}
-					}
-				})
-				.on('error', (error) => {
-					console.log('event error:', error)
-				})
-		},
-		unsubscribeFromPointListDeployedEvent() {
-			if (this.pointListDeployedEventSubscribtion) {
-				this.pointListDeployedEventSubscribtion.unsubscribe()
-			}
-		},
 		redirect(url) {
 			this.$router.push(url)
 		},
 		validate() {
-			const observer = this.manualInputState
-				? this.$refs.manualObserver
-				: this.$refs.observer
-			return observer.validate().then((res) => {
+			if (!this.manualInputState) {
+				return this.model.points.length > 0
+			}
+			return this.$refs.observer.validate().then((res) => {
 				this.$emit('on-validated', res, this.model)
 				return res
 			})
