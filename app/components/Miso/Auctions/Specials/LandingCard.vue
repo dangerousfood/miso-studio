@@ -54,8 +54,12 @@
 							{{ raisedTargetLabel }}
 							<nobr>
 								{{ raiseTargetFrom }}
-								{{ textCheck(marketInfo.paymentCurrency.symbol) }}
-								<span v-if="status.type !== 'batch'">~</span>
+								<span v-if="status.type !== 'batch'">
+									{{ textCheck(marketInfo.paymentCurrency.symbol) }}~
+								</span>
+								<span v-else>
+									{{ textCheck(tokenInfo.symbol) }}
+								</span>
 							</nobr>
 							<nobr>
 								{{ raiseTargetTo }}
@@ -177,11 +181,13 @@
 							</span>
 							<span v-if="status.type === 'batch'">
 								{{ totalCommitments }}
-								Tokens Sold
+								{{ textCheck(marketInfo.paymentCurrency.symbol) }}
+								Raised
 							</span>
 							<span v-if="status.type === 'dutch'">
 								{{ totalCommitments }}
 								{{ textCheck(marketInfo.paymentCurrency.symbol) }}
+								Raised
 							</span>
 						</p>
 						<p class="countdown-instance-live text-white">
@@ -483,7 +489,7 @@ export default {
 			if (this.status.type === 'crowdsale') {
 				ret = 'Raised Target: '
 			} else if (this.status.type === 'batch') {
-				ret = 'Raised: '
+				ret = 'Total: '
 			} else if (this.status.type === 'dutch') {
 				ret = 'Target: '
 			}
