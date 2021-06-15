@@ -40,30 +40,12 @@
 						</p>
 					</div>
 					<div class="d-flex flex-column">
-						<template v-if="status.type === 'batch'">
-							<span class="fs-1 mb-1 text-uppercase font-weight-bold text-center">
-								Remaining:
-							</span>
-							<p class="fs-3 text-white font-weight-bold text-center">
-								{{ parseFloat(maxTokenAmount) - parseFloat(marketInfo.totalTokens) }}
-							</p>
-						</template>
-						<template v-else>
-							<span
-								class="
-									fs-1
-									mb-1
-									text-center text-uppercase
-									font-weight-bold
-									text-center
-								"
-							>
-								Remaining:
-							</span>
-							<p class="fs-3 text-white font-weight-bold text-center">
-								{{ percentRemaining }} %
-							</p>
-						</template>
+						<span class="fs-1 mb-1 text-center text-uppercase font-weight-bold">
+							Remaining:
+						</span>
+						<p class="fs-3 text-white font-weight-bold text-center">
+							{{ percentRemaining }} %
+						</p>
 					</div>
 					<div class="d-flex flex-column">
 						<span
@@ -191,8 +173,8 @@
 									</span>
 								</div>
 								<div class="font-weight-bold text-uppercase d-flex flex-column">
-									<span class="fs-1">Balance</span>
-									<span class="text-white fs-3">
+									<span class="fs-1 text-right">Balance</span>
+									<span class="text-white text-right fs-3">
 										{{ accountBalance }} {{ marketInfo.paymentCurrency.symbol }}
 									</span>
 								</div>
@@ -205,7 +187,7 @@
 									</span>
 								</div>
 								<div class="font-weight-bold text-uppercase d-flex flex-column">
-									<span class="fs-1">MAX Available</span>
+									<span class="fs-1 text-right">MAX Available</span>
 									<span class="text-white text-right fs-3">
 										{{ maxTokenAmount }} {{ textCheck(tokenInfo.symbol) }}
 									</span>
@@ -556,7 +538,6 @@ import {
 	divNumbers,
 	multiplyNumbers,
 	toNDecimals,
-	toFixed,
 	toDecimalPlaces,
 } from '@/util'
 import BigNumber from 'bignumber.js'
@@ -710,7 +691,7 @@ export default {
 			return currentTimestamp < this.marketInfo.endTime
 		},
 		maxTokenAmount() {
-			return toFixed(
+			return toDecimalPlaces(
 				Math.max(
 					0,
 					this.marketInfo.totalTokens - this.marketInfo.totalTokensCommitted
@@ -728,12 +709,17 @@ export default {
 			)
 		},
 		percentRemaining() {
+			if (this.status.type === 'batch' && this.isLive) {
+				return 100
+			}
 			return parseFloat(
-				toFixed(divNumbers(this.maxTokenAmount, this.marketInfo.totalTokens) * 100)
+				toDecimalPlaces(
+					divNumbers(this.maxTokenAmount, this.marketInfo.totalTokens) * 100
+				)
 			)
 		},
 		totalCommitments() {
-			return toFixed(this.marketInfo.commitmentsTotal)
+			return toDecimalPlaces(this.marketInfo.commitmentsTotal)
 		},
 		tokenAmount: {
 			get() {

@@ -70,4 +70,8 @@ export const divNumbers = (a, b) => {
 	return BigNumber(a).dividedBy(b).toFixed()
 }
 
+export const toDecimalPlaces = (value, decimals = 5) => {
+	return BigNumber(value).decimalPlaces(Number(decimals)).toString()
+}
+
 export const zeroAddress = '0x0000000000000000000000000000000000000000'
