@@ -363,7 +363,8 @@ export default {
 			return require('~/assets/images/' + this.mobilecardimg)
 		},
 		logoImage() {
-			return this.logoimg
+			if (this.logoimg && this.logoimg.startsWith('http')) return this.logoimg
+			return require('~/assets/images/' + this.logoimg)
 		},
 		seconds: () => 1000,
 		minutes() {
