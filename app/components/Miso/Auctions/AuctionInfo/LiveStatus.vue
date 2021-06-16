@@ -3,11 +3,23 @@
 		<card class="p1-2 project-status h-100">
 			<div v-if="!finalize.author">
 				<div
-					class="d-flex flex-sm-row flex-column justify-content-between mt-2 project-status_text"
+					class="
+						d-flex
+						flex-sm-row flex-column
+						justify-content-between
+						mt-2
+						project-status_text
+					"
 				>
 					<div class="d-flex flex-column">
 						<span
-							class="fs-1 mb-1 text-uppercase font-weight-bold text-center text-sm-left"
+							class="
+								fs-1
+								mb-1
+								text-uppercase
+								font-weight-bold
+								text-center text-sm-left
+							"
 						>
 							Amount For Sale:
 						</span>
@@ -38,7 +50,13 @@
 						</template>
 						<template v-else>
 							<span
-								class="fs-1 mb-1 text-center text-uppercase font-weight-bold text-center"
+								class="
+									fs-1
+									mb-1
+									text-center text-uppercase
+									font-weight-bold
+									text-center
+								"
 							>
 								Remaining:
 							</span>
@@ -49,7 +67,12 @@
 					</div>
 					<div class="d-flex flex-column">
 						<span
-							class="fs-1 mb-1 text-sm-right text-center text-uppercase font-weight-bold"
+							class="
+								fs-1
+								mb-1
+								text-sm-right text-center text-uppercase
+								font-weight-bold
+							"
 						>
 							Participants:
 						</span>
@@ -266,7 +289,13 @@
 								<template #custom>
 									<span class="position-absolute symbol_wrapper">
 										<span
-											class="d-flex align-items-center font-weight-bold text-white fs-2"
+											class="
+												d-flex
+												align-items-center
+												font-weight-bold
+												text-white
+												fs-2
+											"
 										>
 											<span class="pr-3 amount">{{ selectedTokenQuantity }}</span>
 											<span class="token">
@@ -282,7 +311,10 @@
 											:round="true"
 											class="btn font-weight-bold text-uppercase fs-2 px-5"
 											:disabled="
-												selectedTokenQuantity <= 0 || isUpcoming || isBadAuction
+												selectedTokenQuantity === 'NaN' ||
+												selectedTokenQuantity <= 0 ||
+												isUpcoming ||
+												isBadAuction
 											"
 											:loading="loading"
 											@click="invest"
@@ -356,7 +388,14 @@
 										class="withdraw d-flex justify-content-center"
 									>
 										<base-button
-											class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+											class="
+												btn
+												finalize
+												bg-orange
+												text-uppercase text-white
+												font-weight-bold
+												cursor-pointer
+											"
 											:loading="loading"
 											@click="finalizeAuction"
 										>
@@ -389,7 +428,14 @@
 									class="withdraw d-flex justify-content-center"
 								>
 									<base-button
-										class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+										class="
+											btn
+											finalize
+											bg-orange
+											text-uppercase text-white
+											font-weight-bold
+											cursor-pointer
+										"
 										:disabled="!canClaim"
 										:loading="loading"
 										@click="withdraw"
@@ -445,7 +491,14 @@
 								</div>
 								<div class="withdraw d-flex justify-content-center">
 									<base-button
-										class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+										class="
+											btn
+											finalize
+											bg-orange
+											text-uppercase text-white
+											font-weight-bold
+											cursor-pointer
+										"
 										:loading="loading"
 										:disabled="parseFloat(userInfo.commitments) === 0"
 										@click="withdraw"
@@ -461,7 +514,14 @@
 										class="withdraw d-flex justify-content-center"
 									>
 										<base-button
-											class="btn finalize bg-orange text-uppercase text-white font-weight-bold cursor-pointer"
+											class="
+												btn
+												finalize
+												bg-orange
+												text-uppercase text-white
+												font-weight-bold
+												cursor-pointer
+											"
 											:loading="loading"
 											@click="finalizeAuction"
 										>
@@ -497,7 +557,7 @@ import {
 	multiplyNumbers,
 	toNDecimals,
 	toFixed,
-	toPrecision,
+	toDecimalPlaces,
 } from '@/util'
 import BigNumber from 'bignumber.js'
 import CrowdProgress from '~/components/Miso/Auctions/Details/CrowdProgress'
@@ -799,8 +859,10 @@ export default {
 				balance = await web3.eth.getBalance(this.coinbase)
 			}
 			this.accountBalance = parseFloat(
-				// toFixed(toDecimals(balance, this.marketInfo.paymentCurrency.decimals))
-				toPrecision(toDecimals(balance, this.marketInfo.paymentCurrency.decimals), 5)
+				toDecimalPlaces(
+					toDecimals(balance, this.marketInfo.paymentCurrency.decimals),
+					6
+				)
 			)
 		}
 		const auctionAddress = this.$route.params.address
