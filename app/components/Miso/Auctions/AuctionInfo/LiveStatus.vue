@@ -311,7 +311,10 @@
 											:round="true"
 											class="btn font-weight-bold text-uppercase fs-2 px-5"
 											:disabled="
-												selectedTokenQuantity <= 0 || isUpcoming || isBadAuction
+												selectedTokenQuantity === 'NaN' ||
+												selectedTokenQuantity <= 0 ||
+												isUpcoming ||
+												isBadAuction
 											"
 											:loading="loading"
 											@click="invest"
@@ -854,7 +857,7 @@ export default {
 				balance = await web3.eth.getBalance(this.coinbase)
 			}
 			this.accountBalance = parseFloat(
-				toFixed(toDecimals(balance, this.marketInfo.paymentCurrency.decimals))
+				toFixed(toDecimals(balance, this.marketInfo.paymentCurrency.decimals), 6)
 			)
 		}
 		const auctionAddress = this.$route.params.address
