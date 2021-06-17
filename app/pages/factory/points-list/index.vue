@@ -330,7 +330,12 @@ export default {
 				pointListAddress: null,
 				points: [],
 				auction: {
-					payment_currency: 'ETH',
+					payment_currency: {
+						address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+						name: 'Ethereum',
+						symbol: 'ETH',
+						decimals: 18,
+					},
 					customAuctionAddress: '',
 				},
 			}
