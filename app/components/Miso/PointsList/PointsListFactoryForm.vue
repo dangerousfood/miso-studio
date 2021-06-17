@@ -1,17 +1,8 @@
 <template>
 	<div>
 		<div class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative">
-			<span
-				class="
-					text-uppercase text-secondary
-					font-weight-bold
-					border-bottom
-					pb-2
-					fs-4
-					h-100
-				"
-			>
-				LIST FACTORY
+			<span class="text-secondary font-weight-bold px-5 pb-2 fs-10 h-100">
+				New Permission List
 			</span>
 		</div>
 		<div class="px-5">
@@ -20,7 +11,7 @@
 					<wizard-tab :before-change="() => validateStep('step1')">
 						<template slot="label">
 							<span class="fs-5">1</span>
-							<p>List</p>
+							<p>INITIAL SETUP</p>
 						</template>
 						<validation-observer ref="observer" v-slot="{ handleSubmit }">
 							<form
@@ -127,7 +118,7 @@
 					<wizard-tab :before-change="() => validateStep('step2')">
 						<template slot="label">
 							<span class="fs-5">2</span>
-							<p>Deployment</p>
+							<p>SET PERMISSIONS</p>
 						</template>
 						<div v-if="activeStep === 1" class="row">
 							<div class="col-md-6">
@@ -189,7 +180,7 @@
 					<wizard-tab :before-change="() => validateStep('step3')">
 						<template slot="label">
 							<span class="fs-5">3</span>
-							<p>Result</p>
+							<p>REVIEW & DEPLOY</p>
 						</template>
 
 						<div v-if="activeStep === 2">
