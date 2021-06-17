@@ -14,7 +14,7 @@
 								text-white
 							"
 						>
-							Deployed PointList Address:
+							Permission List Address:
 						</h5>
 					</div>
 					<div class="pb-4 d-flex align-items-center">
@@ -144,11 +144,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { Steps, Step } from 'element-ui'
-import {
-	getContractInstance,
-	subscribeToPointListDeployedEvent,
-} from '@/services/web3/listFactory'
-import { sendTransaction } from '@/services/web3/base'
+import { sendTransactionAndWait } from '@/services/web3/base'
 import { toNDecimals } from '@/util/index'
 import { getContractInstance as pointListContract } from '@/services/web3/pointList'
 
@@ -213,9 +209,6 @@ export default {
 			},
 		},
 	},
-	mounted() {
-		this.listFactoryContract = getContractInstance()
-	},
 	methods: {
 		selectCurrentAccount() {
 			this.model.listOwner = this.coinbase
@@ -260,37 +253,17 @@ export default {
 				)
 			)
 
-			const txHash = await sendTransaction(methodToAdd, {
-				from: this.coinbase,
-			})
-
-			if (txHash) {
-				this.transactionHash = txHash
-			} else {
-				this.nextBtnLoading = false
-				this.$set(this.groupedPoints[inx], 'addStatus', false)
-			}
-
-			this.pointListDeployedEventSubscribtion = subscribeToPointListDeployedEvent()
-				.on('data', (event) => {
-					if (txHash) {
-						if (txHash.toLowerCase() === event.transactionHash) {
-							this.nextBtnLoading = false
-							this.$set(this.groupedPoints[inx], 'addStatus', false)
-							this.$set(this.groupedPoints[inx], 'success', true)
-							this.unsubscribeFromPointListDeployedEvent()
-						}
+			await sendTransactionAndWait(
+				methodToAdd,
+				{ from: this.coinbase },
+				(receipt) => {
+					if (receipt.status) {
+						this.$set(this.groupedPoints[inx], 'success', true)
 					}
-				})
-				.on('error', (error) => {
-					console.log('event error:', error)
 					this.nextBtnLoading = false
-				})
-		},
-		unsubscribeFromPointListDeployedEvent() {
-			if (this.pointListDeployedEventSubscribtion) {
-				this.pointListDeployedEventSubscribtion.unsubscribe()
-			}
+					this.$set(this.groupedPoints[inx], 'addStatus', false)
+				}
+			)
 		},
 		downloadCSV() {
 			const encodedUri = encodeURI(this.csvContent)

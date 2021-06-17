@@ -14,7 +14,7 @@
 								text-white
 							"
 						>
-							Deployed PointList Address:
+							Permission List Address:
 						</h5>
 					</div>
 					<div class="pb-4 d-flex align-items-center">

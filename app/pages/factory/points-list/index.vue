@@ -166,11 +166,8 @@ import Notificatoin from '@/components/Miso/Factory/Liquidity/sidebarNotificatio
 import FirstStep from '@/components/Miso/PointsList/FirstStep'
 import SecondStep from '@/components/Miso/PointsList/SecondStep.vue'
 import ThirdStep from '@/components/Miso/PointsList/ThirdStep.vue'
-import {
-	getContractInstance,
-	subscribeToPointListDeployedEvent,
-} from '@/services/web3/listFactory'
-import { sendTransaction } from '@/services/web3/base'
+import { getContractInstance } from '@/services/web3/listFactory'
+import { sendTransactionAndWait } from '@/services/web3/base'
 
 const tokenFactoryAddress = tokenFactory.address
 
@@ -197,7 +194,12 @@ export default {
 				pointListAddress: null,
 				points: [],
 				auction: {
-					payment_currency: 'ETH',
+					payment_currency: {
+						address: '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE',
+						name: 'Ethereum',
+						symbol: 'ETH',
+						decimals: 18,
+					},
 					customAuctionAddress: '',
 				},
 			},
@@ -305,30 +307,18 @@ export default {
 					[]
 				)
 
-				const txHash = await sendTransaction(methodToSend, {
-					from: this.coinbase,
-				})
-
-				if (txHash) {
-					this.transactionHash = txHash
-				} else {
-					this.nextBtnLoading = false
-				}
-
-				subscribeToPointListDeployedEvent()
-					.on('data', (event) => {
-						if (txHash) {
-							if (txHash.toLowerCase() === event.transactionHash) {
-								this.model.pointListAddress = event.returnValues.pointList
-								this.nextBtnLoading = false
-								this.changeStep()
-							}
+				await sendTransactionAndWait(
+					methodToSend,
+					{ from: this.coinbase },
+					(receipt) => {
+						if (receipt.status) {
+							this.model.pointListAddress =
+								receipt.events.PointListDeployed.returnValues.addr
+							this.changeStep()
 						}
-					})
-					.on('error', (error) => {
-						console.log('event error:', error)
 						this.nextBtnLoading = false
-					})
+					}
+				)
 			}
 		},
 		changeStep() {
