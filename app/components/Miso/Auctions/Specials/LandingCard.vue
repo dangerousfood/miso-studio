@@ -361,9 +361,12 @@ export default {
 			return 'split-line-back-white'
 		},
 		cardImage() {
+			if (this.cardimg && this.cardimg.startsWith('http')) return this.cardimg
 			return require('~/assets/images/' + this.cardimg)
 		},
 		mobileCardImage() {
+			if (this.mobilecardimg && this.mobilecardimg.startsWith('http'))
+				return this.mobilecardimg
 			return require('~/assets/images/' + this.mobilecardimg)
 		},
 		logoImage() {
