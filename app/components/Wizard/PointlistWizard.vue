@@ -157,7 +157,7 @@ export default {
 			type: String,
 			default: 'Finish',
 		},
-        nextButtonDisabled: {
+		nextButtonDisabled: {
 			type: Boolean,
 			default: false,
 		},
