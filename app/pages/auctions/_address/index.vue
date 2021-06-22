@@ -106,7 +106,10 @@ export default {
 				totalTokens: 0,
 				commitmentsTotal: 0,
 				wallet: '',
-				liquidityTemplate: null,
+				liquidity: {
+					liquidityTemplate: null,
+					lpTokenAddress: null,
+				},
 				finalized: 0,
 			},
 			tokenInfo: {
@@ -384,15 +387,20 @@ export default {
 			this.marketInfo.wallet = wallet
 
 			// Get Liquidity Template
-			const method = [{ methodName: 'liquidityTemplate' }]
+			const method = [
+				{ methodName: 'liquidityTemplate' },
+				{ methodName: 'getLPTokenAddress' },
+			]
 			try {
-				const [liquidityTemplate] = await makeBatchCall(
+				const [liquidityTemplate, lpTokenAddress] = await makeBatchCall(
 					postAuctionLauncherContract(wallet),
 					method
 				)
-				this.marketInfo.liquidityTemplate = Number(liquidityTemplate)
+				this.marketInfo.liquidity.liquidityTemplate = Number(liquidityTemplate)
+				this.marketInfo.liquidity.lpTokenAddress = lpTokenAddress
 			} catch (error) {
-				this.marketInfo.liquidityTemplate = null
+				this.marketInfo.liquidity.liquidityTemplate = null
+				this.marketInfo.liquidity.lpTokenAddress = null
 			}
 		},
 

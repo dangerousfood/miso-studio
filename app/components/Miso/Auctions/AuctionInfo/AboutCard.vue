@@ -135,9 +135,13 @@
 				<div class="pt-3 mt-1 pr-5">
 					<h5 class="fs-1 font-weight-bold text-uppercase mb-0">CONTRACT:</h5>
 					<div class="d-flex align-items-center">
-						<p class="font-weight-bold text-white text-uppercase fs-3 mb-0">
+						<a
+							class="font-weight-bold text-white text-uppercase fs-3 mb-0"
+							:href="`${explorer.root}${explorer.address}${$route.params.address}`"
+							target="blank"
+						>
 							{{ $route.params.address | truncate(6) }}
-						</p>
+						</a>
 						<div class="copy-box d-flex align-items-center ml-2">
 							<div class="copy-box_icon">
 								<svg-icon
@@ -159,9 +163,13 @@
 				<div class="pt-3 mt-1 pr-5">
 					<h5 class="fs-1 font-weight-bold text-uppercase mb-0">TOKEN:</h5>
 					<div class="d-flex align-items-center">
-						<p class="font-weight-bold text-white text-uppercase fs-3 mb-0">
+						<a
+							class="font-weight-bold text-white text-uppercase fs-3 mb-0"
+							:href="`${explorer.root}${explorer.address}${tokenInfo.addr}`"
+							target="blank"
+						>
 							{{ tokenInfo.addr | truncate(6) }}
-						</p>
+						</a>
 						<div class="copy-box d-flex align-items-center ml-2">
 							<div class="copy-box_icon">
 								<svg-icon
@@ -172,6 +180,34 @@
 									color="#F46E41"
 									:fill="false"
 									@click="copyToClipboard(tokenInfo.addr)"
+								/>
+							</div>
+							<span class="font-weight-bolder text-white fs-2 pl-1">copy</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- LPToken Contract -->
+				<div v-if="marketInfo.liquidity.lpTokenAddress" class="pt-3 mt-1 pr-5">
+					<h5 class="fs-1 font-weight-bold text-uppercase mb-0">LPTOKEN:</h5>
+					<div class="d-flex align-items-center">
+						<a
+							class="font-weight-bold text-white text-uppercase fs-3 mb-0"
+							:href="`https://analytics.sushi.com/pairs/${marketInfo.liquidity.lpTokenAddress}`"
+							target="blank"
+						>
+							{{ marketInfo.liquidity.lpTokenAddress | truncate(6) }}
+						</a>
+						<div class="copy-box d-flex align-items-center ml-2">
+							<div class="copy-box_icon">
+								<svg-icon
+									class="cursor-pointer"
+									icon="copy"
+									height="20"
+									width="20"
+									color="#F46E41"
+									:fill="false"
+									@click="copyToClipboard(marketInfo.liquidity.lpTokenAddress)"
 								/>
 							</div>
 							<span class="font-weight-bolder text-white fs-2 pl-1">copy</span>
@@ -258,6 +294,7 @@ import { Card, BaseDivider } from '@/components'
 import { theme } from '@/mixins/theme'
 import { divNumbers, toPrecision } from '@/util'
 import BigNumber from 'bignumber.js'
+import { mapGetters } from 'vuex'
 
 export default {
 	components: {
@@ -326,6 +363,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters({
+			explorer: 'ethereum/explorer',
+		}),
 		seconds: () => 1000,
 		minutes() {
 			return this.seconds * 60
@@ -474,7 +514,7 @@ export default {
 			})
 		},
 		textCheck(str, val) {
-			const pattern = /^[()\s0-9a-zA-Z.,/$#:&_]+$/
+			const pattern = /^[()\s0-9a-zA-Z.,/$#:&_-]+$/
 			if (str.match(pattern)) {
 				return str
 			} else {
