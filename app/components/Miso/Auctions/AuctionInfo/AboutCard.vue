@@ -52,7 +52,7 @@
 									border-danger
 								"
 							>
-								<img src="@/assets/images/Vector.svg" class="mr-2 mb-0" />
+								<img src="@/assets/svg/private.svg" class="mr-2 mb-0" />
 								Private
 							</div>
 						</div>
