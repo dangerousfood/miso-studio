@@ -38,20 +38,22 @@
 									></span>
 									{{ status.auction }}
 								</span>
-								<span
-									v-if="pointList"
-									class="
-										fs-2
-										font-weight-bold
-										text-capitalize text-white
-										d-flex
-										align-items-center
-										pl-2
-									"
-								>
-									<span class="radius-full status-indicator btn-primary mr-2"></span>
-									<span class="pl-2">private</span>
-								</span>
+							</div>
+							<div
+								v-if="isPrivate"
+								class="
+									d-flex
+									special_status
+									px-3
+									py-2
+									mr-2
+									text-white
+									font-weight-bold
+									border-danger
+								"
+							>
+								<img src="@/assets/svg/private.svg" class="mr-2 mb-0" />
+								Private
 							</div>
 						</div>
 						<p class="font-weight-bold text-uppercase fs-2 d-flex align-items-center">
@@ -292,7 +294,7 @@
 import { Card, BaseDivider } from '@/components'
 // import { Popover } from "element-ui"
 import { theme } from '@/mixins/theme'
-import { divNumbers, toPrecision } from '@/util'
+import { divNumbers, toPrecision, zeroAddress } from '@/util'
 import BigNumber from 'bignumber.js'
 import { mapGetters } from 'vuex'
 
@@ -334,10 +336,6 @@ export default {
 			type: String,
 			required: true,
 			description: 'full data for status card',
-		},
-		pointList: {
-			type: Boolean,
-			default: false,
 		},
 	},
 	data() {
@@ -394,6 +392,12 @@ export default {
 		},
 		getFullTime() {
 			return `${this.displayDays} : ${this.displayHours} : ${this.displayMinutes} : ${this.displaySeconds}`
+		},
+		isPrivate() {
+			return (
+				this.marketInfo.hasPointList &&
+				this.marketInfo.pointListAddress !== zeroAddress
+			)
 		},
 		auctionType() {
 			if (this.type === 'crowdsale') {
