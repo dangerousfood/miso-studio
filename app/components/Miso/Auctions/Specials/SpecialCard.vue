@@ -368,9 +368,8 @@ export default {
 			this.buyhoverflag = false
 		},
 		checkTitle(value) {
-			const specialReg = '^(?=.*[!@#$%^&*"\\[\\]\\{\\}<>/\\=\\\\\\_´+`~\\:;,\\.€\\|])'
-
-			if (!value.match(specialReg)) {
+			const pattern = /^[()\s0-9a-zA-Z.,/$#:&_-]+$/
+			if (value.match(pattern)) {
 				return value
 			} else {
 				return (
