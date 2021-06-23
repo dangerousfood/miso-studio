@@ -6,7 +6,6 @@
 					:info="about"
 					:market-info="marketInfo"
 					:token-info="tokenInfo"
-					:point-list="marketInfo.hasPointList"
 					:user="userInfo"
 					:price="marketInfo.currentPrice"
 					:type="status.type"
@@ -103,6 +102,7 @@ export default {
 					decimals: 0,
 				},
 				hasPointList: false,
+				pointListAddress: '',
 				totalTokens: 0,
 				commitmentsTotal: 0,
 				wallet: '',
@@ -212,6 +212,14 @@ export default {
 			}
 		})
 
+		// PointList
+		const pointListMethod = [{ methodName: 'pointList' }]
+		const [pointList] = await makeBatchCall(
+			getAuctionContract(this.auctionAddress),
+			pointListMethod
+		)
+		this.marketInfo.pointListAddress = pointList
+
 		this.loading = false
 	},
 	beforeDestroy() {
@@ -235,6 +243,7 @@ export default {
 			this.setTokenInfo(tokenInfo)
 			this.marketInfo.startTime = data.startTime
 			this.marketInfo.endTime = data.endTime
+			this.marketInfo.hasPointList = data.usePointList
 			this.marketInfo.startPrice = toDecimals(
 				data.startPrice,
 				this.marketInfo.paymentCurrency.decimals
@@ -272,6 +281,7 @@ export default {
 			this.setTokenInfo(tokenInfo)
 			this.marketInfo.startTime = data.startTime
 			this.marketInfo.endTime = data.endTime
+			this.marketInfo.hasPointList = data.usePointList
 			this.marketInfo.rate = toDecimals(
 				data.rate,
 				this.marketInfo.paymentCurrency.decimals
@@ -305,6 +315,7 @@ export default {
 			this.setTokenInfo(tokenInfo)
 			this.marketInfo.startTime = data.startTime
 			this.marketInfo.endTime = data.endTime
+			this.marketInfo.hasPointList = data.usePointList
 			this.marketInfo.totalTokens = toDecimals(data.totalTokens)
 			this.marketInfo.finalized = data.finalized
 			this.marketInfo.commitmentsTotal = toPrecision(
