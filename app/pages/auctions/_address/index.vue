@@ -201,6 +201,8 @@ export default {
 				switch (name) {
 					case 'website':
 					case 'icon':
+					case 'desktopBanner':
+					case 'mobileBanner':
 					case 'description':
 						this.about[name] = data
 						break
