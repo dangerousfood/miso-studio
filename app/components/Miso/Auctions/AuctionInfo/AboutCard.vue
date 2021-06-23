@@ -40,11 +40,7 @@
 								</span>
 							</div>
 							<div
-								v-if="
-									pointList &&
-									marketInfo.pointListAddress !=
-										'0x0000000000000000000000000000000000000000'
-								"
+								v-if="isPrivate"
 								class="
 									d-flex
 									special_status
@@ -298,7 +294,7 @@
 import { Card, BaseDivider } from '@/components'
 // import { Popover } from "element-ui"
 import { theme } from '@/mixins/theme'
-import { divNumbers, toPrecision } from '@/util'
+import { divNumbers, toPrecision, zeroAddress } from '@/util'
 import BigNumber from 'bignumber.js'
 import { mapGetters } from 'vuex'
 
@@ -340,10 +336,6 @@ export default {
 			type: String,
 			required: true,
 			description: 'full data for status card',
-		},
-		pointList: {
-			type: Boolean,
-			default: false,
 		},
 	},
 	data() {
@@ -400,6 +392,12 @@ export default {
 		},
 		getFullTime() {
 			return `${this.displayDays} : ${this.displayHours} : ${this.displayMinutes} : ${this.displaySeconds}`
+		},
+		isPrivate() {
+			return (
+				this.marketInfo.hasPointList &&
+				this.marketInfo.pointListAddress !== zeroAddress
+			)
 		},
 		auctionType() {
 			if (this.type === 'crowdsale') {

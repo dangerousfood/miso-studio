@@ -39,11 +39,7 @@
 						/>
 					</div>
 					<div
-						v-if="
-							marketInfo.hasPointList &&
-							marketInfo.pointListAddress !=
-								'0x0000000000000000000000000000000000000000'
-						"
+						v-if="isPrivate"
 						class="
 							special_status
 							px-3
@@ -175,7 +171,13 @@ import {
 import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
 import { getContractInstance as batchAuctionContract } from '@/services/web3/auctions/batch'
 import { makeBatchCall } from '@/services/web3/base'
-import { toDecimals, toPrecision, to18Decimals, toNDecimals } from '@/util/index'
+import {
+	toDecimals,
+	toPrecision,
+	to18Decimals,
+	toNDecimals,
+	zeroAddress,
+} from '@/util'
 
 import CrowdProgress from '~/components/Miso/Auctions/Specials/CrowdProgress'
 import DutchProgress from '~/components/Miso/Auctions/Specials/DutchIndicator'
@@ -287,6 +289,12 @@ export default {
 		isUpcoming() {
 			const currentTimestamp = Date.parse(new Date()) / 1000
 			return this.marketInfo.startTime > currentTimestamp
+		},
+		isPrivate() {
+			return (
+				this.marketInfo.hasPointList &&
+				this.marketInfo.pointListAddress !== zeroAddress
+			)
 		},
 		sliderMax() {
 			if (this.limit > 0) {

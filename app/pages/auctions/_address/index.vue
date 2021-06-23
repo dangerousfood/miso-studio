@@ -6,7 +6,6 @@
 					:info="about"
 					:market-info="marketInfo"
 					:token-info="tokenInfo"
-					:point-list="marketInfo.hasPointList"
 					:user="userInfo"
 					:price="marketInfo.currentPrice"
 					:type="status.type"
@@ -42,10 +41,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
-import {
-	getContractInstance as dutchAuctionContract,
-	clearingPrice,
-} from '@/services/web3/auctions/dutch'
+import { clearingPrice } from '@/services/web3/auctions/dutch'
 import { getContractInstance as getAuctionContract } from '@/services/web3/auctions/auction'
 import { getContractInstance as postAuctionLauncherContract } from '@/services/web3/postAuctionLauncher'
 import { makeBatchCall } from '@/services/web3/base'
@@ -53,8 +49,6 @@ import { toDecimals, toPrecision, to18Decimals, toNDecimals } from '@/util/index
 import AboutCard from '@/components/Miso/Auctions/AuctionInfo/AboutCard'
 import LiveStatus from '@/components/Miso/Auctions/AuctionInfo/LiveStatus'
 import Commitments from '@/components/Miso/Auctions/Commitments'
-import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
-import { getContractInstance as batchAuctionContract } from '@/services/web3/auctions/batch'
 
 const TOPIC_ADDED_COMMITMENT =
 	'0x077511a636ba1f10551cc7b89c13ff66a6ac9344e8a917527817a9690b15af7a'
@@ -161,18 +155,15 @@ export default {
 		switch (parseInt(this.marketTemplateId)) {
 			case 1:
 				type = 'crowdsale'
-				this.contractInstance = crowdsaleContract(this.auctionAddress)
 				await this.setCrowdsaleData()
 				// finishAuction = this.marketInfo.totalTokensCommitted
 				break
 			case 2:
 				type = 'dutch'
-				this.contractInstance = dutchAuctionContract(this.auctionAddress)
 				await this.setDutchAuctionData()
 				break
 			case 3:
 				type = 'batch'
-				this.contractInstance = batchAuctionContract(this.auctionAddress)
 				await this.setBatchData()
 				break
 			case 4:
@@ -223,7 +214,10 @@ export default {
 
 		// PointList
 		const pointListMethod = [{ methodName: 'pointList' }]
-		const [pointList] = await makeBatchCall(this.contractInstance, pointListMethod)
+		const [pointList] = await makeBatchCall(
+			getAuctionContract(this.auctionAddress),
+			pointListMethod
+		)
 		this.marketInfo.pointListAddress = pointList
 
 		this.loading = false
