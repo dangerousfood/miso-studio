@@ -40,7 +40,11 @@
 								</span>
 							</div>
 							<div
-								v-if="pointList && marketInfo.pointListAddress"
+								v-if="
+									pointList &&
+									marketInfo.pointListAddress !=
+										'0x0000000000000000000000000000000000000000'
+								"
 								class="
 									d-flex
 									special_status

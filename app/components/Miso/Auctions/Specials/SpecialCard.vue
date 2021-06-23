@@ -39,7 +39,11 @@
 						/>
 					</div>
 					<div
-						v-if="marketInfo.hasPointList && marketInfo.pointListAddress"
+						v-if="
+							marketInfo.hasPointList &&
+							marketInfo.pointListAddress !=
+								'0x0000000000000000000000000000000000000000'
+						"
 						class="
 							special_status
 							px-3

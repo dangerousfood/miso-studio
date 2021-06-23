@@ -26,7 +26,11 @@
 				</div>
 				<span class="auction-button d-flex align-items-center">
 					<div
-						v-if="marketInfo.hasPointList && marketInfo.pointListAddress"
+						v-if="
+							marketInfo.hasPointList &&
+							marketInfo.pointListAddress !=
+								'0x0000000000000000000000000000000000000000'
+						"
 						class="
 							border-0
 							special_status
