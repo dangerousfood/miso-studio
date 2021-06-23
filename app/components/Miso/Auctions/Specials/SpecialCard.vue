@@ -39,6 +39,33 @@
 						/>
 					</div>
 					<div
+						v-if="marketInfo.hasPointList && marketInfo.pointListAddress"
+						class="
+							special_status
+							px-3
+							py-2
+							mr-2
+							text-white
+							font-weight-bold
+							border-danger
+						"
+					>
+						<svg
+							class="mr-2 mb-0"
+							width="12"
+							height="16"
+							viewBox="0 0 12 16"
+							fill="none"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								d="M11 7.15625H9.9375V3.21875C9.9375 1.97598 9.04219 0.96875 7.9375 0.96875H4.0625C2.95781 0.96875 2.0625 1.97598 2.0625 3.21875V7.15625H1C0.723437 7.15625 0.5 7.40762 0.5 7.71875V14.4688C0.5 14.7799 0.723437 15.0312 1 15.0312H11C11.2766 15.0312 11.5 14.7799 11.5 14.4688V7.71875C11.5 7.40762 11.2766 7.15625 11 7.15625ZM6.4375 11.3223V12.2539C6.4375 12.3313 6.38125 12.3945 6.3125 12.3945H5.6875C5.61875 12.3945 5.5625 12.3313 5.5625 12.2539V11.3223C5.43352 11.2181 5.33725 11.0706 5.28755 10.9009C5.23784 10.7313 5.23727 10.5482 5.28591 10.3782C5.33455 10.2082 5.42989 10.0599 5.55821 9.95468C5.68654 9.84948 5.84122 9.7928 6 9.7928C6.15878 9.7928 6.31346 9.84948 6.44179 9.95468C6.57011 10.0599 6.66545 10.2082 6.71409 10.3782C6.76273 10.5482 6.76216 10.7313 6.71245 10.9009C6.66275 11.0706 6.56648 11.2181 6.4375 11.3223ZM8.8125 7.15625H3.1875V3.21875C3.1875 2.67559 3.57969 2.23438 4.0625 2.23438H7.9375C8.42031 2.23438 8.8125 2.67559 8.8125 3.21875V7.15625Z"
+								fill="#F3664A"
+							/>
+						</svg>
+						Private
+					</div>
+					<div
 						class="
 							special_status
 							px-3
@@ -212,6 +239,7 @@ export default {
 				totalTokensCommitted: 0,
 				paymentCurrency: 'ETH',
 				hasPointList: false,
+				pointListAddress: '',
 				totalTokens: 0,
 				commitmentsTotal: 0,
 			},
@@ -343,6 +371,12 @@ export default {
 			default:
 				break
 		}
+
+		// PointList
+		const pointListMethod = [{ methodName: 'pointList' }]
+		const [pointList] = await makeBatchCall(this.contractInstance, pointListMethod)
+		this.marketInfo.pointListAddress = pointList
+
 		const currentTimestamp = Date.parse(new Date()) / 1000
 		let auction
 		if (this.marketInfo.startTime > currentTimestamp) {
@@ -417,6 +451,7 @@ export default {
 			this.setTokenInfo(tokenInfo)
 			this.marketInfo.startTime = data.startTime
 			this.marketInfo.endTime = data.endTime
+			this.marketInfo.hasPointList = data.usePointList
 			this.marketInfo.startPrice = toDecimals(
 				data.startPrice,
 				this.marketInfo.paymentCurrency.decimals
@@ -476,6 +511,7 @@ export default {
 			this.setTokenInfo(tokenInfo)
 			this.marketInfo.startTime = data.startTime
 			this.marketInfo.endTime = data.endTime
+			this.marketInfo.hasPointList = data.usePointList
 			this.marketInfo.rate = toDecimals(
 				data.rate,
 				this.marketInfo.paymentCurrency.decimals
@@ -509,6 +545,7 @@ export default {
 			this.setTokenInfo(tokenInfo)
 			this.marketInfo.startTime = data.startTime
 			this.marketInfo.endTime = data.endTime
+			this.marketInfo.hasPointList = data.usePointList
 			this.marketInfo.totalTokens = toDecimals(data.totalTokens)
 			this.marketInfo.commitmentsTotal = toPrecision(
 				toDecimals(data.commitmentsTotal, this.marketInfo.paymentCurrency.decimals),
