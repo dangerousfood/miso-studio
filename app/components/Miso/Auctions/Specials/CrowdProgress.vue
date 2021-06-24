@@ -14,7 +14,7 @@
 					></span>
 					<span class="text pl-2 text-uppercase font-weight-bold">min raise:</span>
 					<span class="fs-2 pl-2 text-white font-weight-bold no-whitespace">
-						{{ soft }} ETH
+						{{ soft }} {{ marketInfo.paymentCurrency.symbol }}
 					</span>
 				</span>
 			</span>
@@ -92,7 +92,7 @@
 						max raise:
 					</span>
 					<span class="fs-2 pr-2 text-white font-weight-bold text-right">
-						{{ hard }} ETH
+						{{ hard }} {{ marketInfo.paymentCurrency.symbol }}
 					</span>
 					<span
 						class="progress-status_text-line rigth"
