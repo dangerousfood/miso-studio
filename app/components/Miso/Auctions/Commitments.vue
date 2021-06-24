@@ -122,6 +122,18 @@
 					</template>
 				</el-table-column>
 			</el-table>
+
+			<div class="col-12 d-flex justify-content-end flex-wrap mb-3">
+				<download-excel
+					class="btn mr-3"
+					:data="json_data"
+					:fields="json_fields"
+					worksheet="Commitments"
+					name="commitments.xls"
+				>
+					Download CSV
+				</download-excel>
+			</div>
 		</div>
 		<div
 			slot="footer"
@@ -155,6 +167,7 @@ import * as moment from 'moment'
 import { shortenAddress } from '@/util'
 import clientPaginationMixin from '@/components/Tables/PaginatedTables/clientPaginationMixin'
 import { BasePagination, BaseSwitch } from '@/components'
+import JsonExcel from 'vue-json-excel'
 
 export default {
 	components: {
@@ -165,6 +178,7 @@ export default {
 		EthImage,
 		BasePagination,
 		BaseSwitch,
+		DownloadExcel: JsonExcel,
 	},
 	mixins: [clientPaginationMixin],
 	props: {
@@ -197,6 +211,13 @@ export default {
 		return {
 			isAll: true,
 			tableData: [],
+			json_fields: {
+				address: 'address',
+				amount: 'amount',
+				claimable: 'claimable',
+				txHash: 'txHash',
+			},
+			json_data: [],
 		}
 	},
 	computed: {
@@ -226,6 +247,15 @@ export default {
 		},
 		setTableData(data) {
 			this.tableData = data
+
+			data.forEach((element) => {
+				this.json_data.push({
+					address: element.address,
+					amount: element.amount,
+					claimable: element.amount / this.currentPrice,
+					txHash: element.txHash,
+				})
+			})
 		},
 		handleSwitch(isAll) {
 			if (isAll) {
