@@ -93,7 +93,7 @@
 						</li>
 						<li class="nav-item text-white">
 							<a
-								href="https://github.com/sushiswap/miso-studio"
+								href="https://github.com/sushiswap"
 								target="_blank"
 								class="mt-3 mb-0 py-0 d-flex align-items-center"
 							>
@@ -186,7 +186,7 @@
 						<ul v-show="showSidebar" class="nav mb-3">
 							<li class="nav-item text-white">
 								<a
-									href="https://instantmiso.gitbook.io/miso/"
+									href="https://instantmiso.gitbook.io/miso"
 									target="_blank"
 									class="mt-3 mb-0 py-0 d-flex align-items-center"
 								>
@@ -196,7 +196,7 @@
 							</li>
 							<li class="nav-item text-white">
 								<a
-									href="https://github.com/sushiswap/miso-studio"
+									href="https://github.com/sushiswap"
 									target="_blank"
 									class="mt-3 mb-0 py-0 d-flex align-items-center"
 								>
