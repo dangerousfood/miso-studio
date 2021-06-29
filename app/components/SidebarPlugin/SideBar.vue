@@ -113,7 +113,7 @@
 						</li>
 						<li class="nav-item text-white">
 							<a
-								href="https://twitter.com/chefgonpachi"
+								href="https://twitter.com/SushiSwap"
 								target="_blank"
 								class="mt-3 mb-0 py-0 d-flex align-items-center"
 							>
@@ -196,7 +196,7 @@
 							</li>
 							<li class="nav-item text-white">
 								<a
-									href="https://github.com/chefgonpachi/MISO"
+									href="https://github.com/sushiswap/sushiswap"
 									target="_blank"
 									class="mt-3 mb-0 py-0 d-flex align-items-center"
 								>
@@ -216,7 +216,7 @@
 							</li>
 							<li class="nav-item text-white">
 								<a
-									href="https://twitter.com/chefgonpachi"
+									href="https://twitter.com/SushiSwap"
 									target="_blank"
 									class="mt-3 mb-0 py-0 d-flex align-items-center"
 								>
