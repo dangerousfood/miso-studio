@@ -431,7 +431,7 @@ export default {
 		},
 		isUpcoming() {
 			const currentTimestamp = Date.parse(new Date()) / 1000
-			return this.marketInfo.startTime > currentTimestamp
+			return this.marketInfo.startTime > currentTimestamp && !this.marketInfo.finished
 		},
 		isPrivate() {
 			return (
@@ -567,7 +567,9 @@ export default {
 
 		const currentTimestamp = Date.parse(new Date()) / 1000
 		let auction
-		if (this.marketInfo.startTime > currentTimestamp) {
+		if (this.marketInfo.finalized) {
+			auction = 'finished'
+		} else if (this.marketInfo.startTime > currentTimestamp) {
 			auction = 'upcoming'
 			this.status.date = new Date(this.marketInfo.startTime * 1000)
 		} else if (currentTimestamp < this.marketInfo.endTime) {
@@ -651,6 +653,7 @@ export default {
 				data.minimumPrice,
 				this.marketInfo.paymentCurrency.decimals
 			)
+			this.marketInfo.finalized = data.finalized
 			this.marketInfo.commitmentsTotal = toPrecision(
 				toDecimals(data.commitmentsTotal, this.marketInfo.paymentCurrency.decimals),
 				3
@@ -712,6 +715,7 @@ export default {
 				this.marketInfo.paymentCurrency.decimals
 			)
 			this.marketInfo.totalTokens = toDecimals(data.totalTokens)
+			this.marketInfo.finalized = data.finalized
 			this.marketInfo.commitmentsTotal = toPrecision(
 				toDecimals(data.commitmentsTotal, this.marketInfo.paymentCurrency.decimals),
 				2
@@ -738,6 +742,7 @@ export default {
 			this.marketInfo.endTime = data.endTime
 			this.marketInfo.hasPointList = data.usePointList
 			this.marketInfo.totalTokens = toDecimals(data.totalTokens)
+			this.marketInfo.finalized = data.finalized
 			this.marketInfo.commitmentsTotal = toPrecision(
 				toDecimals(data.commitmentsTotal, this.marketInfo.paymentCurrency.decimals),
 				2
