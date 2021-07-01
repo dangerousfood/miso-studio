@@ -174,7 +174,9 @@ export default {
 		}
 		const currentTimestamp = Date.parse(new Date()) / 1000
 		let auction
-		if (this.marketInfo.startTime > currentTimestamp) {
+		if (this.marketInfo.finalized) {
+			auction = 'finished'
+		} else if (this.marketInfo.startTime > currentTimestamp) {
 			auction = 'upcoming'
 			this.status.date = new Date(this.marketInfo.startTime * 1000)
 		} else if (currentTimestamp < this.marketInfo.endTime) {
