@@ -294,7 +294,9 @@ export default {
 			}
 			const currentTimestamp = Date.parse(new Date()) / 1000
 			let auction
-			if (this.marketInfo.startTime > currentTimestamp) {
+			if (this.marketInfo.finalized) {
+				auction = 'finished'
+			} else if (this.marketInfo.startTime > currentTimestamp) {
 				auction = 'upcoming'
 				this.status.date = new Date(this.marketInfo.startTime * 1000)
 			} else if (currentTimestamp < this.marketInfo.endTime) {
@@ -363,12 +365,13 @@ export default {
 		async initAuctions() {
 			await this.getAuctions()
 			this.auctionsList = this.auctions
-				.filter((aution) => {
+				.filter((auction) => {
 					const currentTimestamp = Date.parse(new Date()) / 1000
 					return (
-						(currentTimestamp >= parseInt(aution.startTime) &&
-							currentTimestamp < parseInt(aution.endTime)) ||
-						currentTimestamp < parseInt(aution.startTime)
+						((currentTimestamp >= parseInt(auction.startTime) &&
+							currentTimestamp < parseInt(auction.endTime)) ||
+							currentTimestamp < parseInt(auction.startTime)) &&
+						!auction.finalized
 					)
 				})
 				.map((x) => x[0])
@@ -391,6 +394,7 @@ export default {
 				data.minimumPrice,
 				this.marketInfo.paymentCurrency.decimals
 			)
+			this.marketInfo.finalized = data.finalized
 			this.marketInfo.commitmentsTotal = toPrecision(
 				toDecimals(data.commitmentsTotal, this.marketInfo.paymentCurrency.decimals),
 				3
@@ -451,6 +455,7 @@ export default {
 				this.marketInfo.paymentCurrency.decimals
 			)
 			this.marketInfo.totalTokens = toDecimals(data.totalTokens)
+			this.marketInfo.finalized = data.finalized
 			this.marketInfo.commitmentsTotal = toPrecision(
 				toDecimals(data.commitmentsTotal, this.marketInfo.paymentCurrency.decimals),
 				2
@@ -476,6 +481,7 @@ export default {
 			this.marketInfo.startTime = data.startTime
 			this.marketInfo.endTime = data.endTime
 			this.marketInfo.totalTokens = toDecimals(data.totalTokens)
+			this.marketInfo.finalized = data.finalized
 			this.marketInfo.commitmentsTotal = toPrecision(
 				toDecimals(data.commitmentsTotal, this.marketInfo.paymentCurrency.decimals),
 				2
