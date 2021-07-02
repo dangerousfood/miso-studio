@@ -8,7 +8,7 @@
 				:style="{ left: startPosition + '%' }"
 			>
 				<span
-					v-if="startPosition < 50"
+					v-if="isNaN(startPosition) || startPosition < 50"
 					class="d-flex flex-column progress-status_text-box left"
 				>
 					<span class="text pl-2 text-uppercase font-weight-bold">min raise:</span>
@@ -27,7 +27,7 @@
 				>
 					<span class="text pr-2 text-uppercase font-weight-bold">min raise:</span>
 					<span class="fs-2 pr-2 text-white font-weight-bold no-whitespace">
-						{{ soft }} {{ marketInfo.paymentCurrency.symbol }}
+						{{ startPosition }} {{ marketInfo.paymentCurrency.symbol }}
 					</span>
 					<span
 						class="progress-status_text-line right"
