@@ -27,7 +27,7 @@
 				>
 					<span class="text pr-2 text-uppercase font-weight-bold">min raise:</span>
 					<span class="fs-2 pr-2 text-white font-weight-bold no-whitespace">
-						{{ startPosition }} {{ marketInfo.paymentCurrency.symbol }}
+						{{ soft }} {{ marketInfo.paymentCurrency.symbol }}
 					</span>
 					<span
 						class="progress-status_text-line right"
