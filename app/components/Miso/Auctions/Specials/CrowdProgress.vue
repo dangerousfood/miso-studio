@@ -172,7 +172,7 @@ export default {
 		salePrice() {
 			return `1 ${this.textCheck(this.tokenInfo.symbol)} = ${toPrecision(
 				1 / this.marketInfo.rate,
-				2
+				5
 			)} ${this.textCheck(this.marketInfo.paymentCurrency.symbol)}`
 		},
 		soft() {
