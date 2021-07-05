@@ -241,7 +241,7 @@ export default {
 	}
 	&_current-price {
 		left: 0;
-		bottom: 0;
+		bottom: -10px;
 		margin-bottom: -24px;
 		margin-left: 4px;
 		background: -webkit-linear-gradient(45deg, #f05240, #ba23ab);

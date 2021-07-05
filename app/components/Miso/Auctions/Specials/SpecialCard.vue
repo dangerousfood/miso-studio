@@ -116,7 +116,7 @@
 			</div>
 			<base-divider
 				class="mb-4 mt-2 py-1"
-				:style="{ marginTop: status.type === 'crowdsale' ? '25px !important' : '' }"
+				:style="{ marginTop: status.type !== 'batch' ? '25px !important' : '' }"
 			/>
 			<!-- <div class="d-flex flex-column">
 				<div class="font-weight-bold text-white text-uppercase fs-1">recipe:</div>
