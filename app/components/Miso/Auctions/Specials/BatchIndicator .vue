@@ -69,7 +69,7 @@
 				flex-column
 			"
 		>
-			<span class="fs-1">min raise</span>
+			<span class="fs-1">min raise:</span>
 			<span class="text-white fs-2">
 				{{ minRaise }} {{ marketInfo.paymentCurrency.symbol }}
 			</span>
@@ -84,7 +84,7 @@
 				flex-column
 			"
 		>
-			<span class="fs-1">total raised</span>
+			<span class="fs-1">total raised:</span>
 			<span class="text-white fs-2">
 				{{ marketInfo.commitmentsTotal }} {{ marketInfo.paymentCurrency.symbol }}
 			</span>
@@ -99,7 +99,7 @@
 				flex-column
 			"
 		>
-			<span class="fs-1">auction token price</span>
+			<span class="fs-1">auction token price:</span>
 			<span class="text-white fs-2">
 				{{ marketInfo.currentPrice }} {{ marketInfo.paymentCurrency.symbol }}
 			</span>

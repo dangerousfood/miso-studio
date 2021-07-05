@@ -3,7 +3,7 @@
 		<div class="d-flex w-100 position-relative">
 			<!-- starting price text -->
 			<span class="position-absolute progress-status_start-price d-flex flex-column">
-				<span class="font-weight-bold fs-1 text-uppercase">starting price</span>
+				<span class="font-weight-bold fs-1 text-uppercase">starting price:</span>
 				<span class="font-weight-bold text-white fs-2 text-uppercase">
 					{{ marketInfo.startPrice }} {{ marketInfo.paymentCurrency.symbol }}
 					<!-- 0.0005897 ETH -->
@@ -13,7 +13,7 @@
 
 			<!-- total raised text -->
 			<span class="position-absolute progress-status_total-raised d-flex flex-column">
-				<span class="font-weight-bold fs-1 text-uppercase">total raised</span>
+				<span class="font-weight-bold fs-1 text-uppercase">total raised:</span>
 				<span class="font-weight-bold text-white fs-2 text-uppercase">
 					{{ marketInfo.commitmentsTotal }} {{ marketInfo.paymentCurrency.symbol }}
 				</span>
@@ -24,7 +24,7 @@
 			<span
 				class="position-absolute progress-status_reserve-price d-flex flex-column"
 			>
-				<span class="font-weight-bold fs-1 text-uppercase">RESERVE PRICE</span>
+				<span class="font-weight-bold fs-1 text-uppercase">RESERVE PRICE:</span>
 				<span class="font-weight-bold text-white fs-2 text-uppercase">
 					{{ marketInfo.minimumPrice }} {{ marketInfo.paymentCurrency.symbol }}
 				</span>
@@ -35,7 +35,7 @@
 			<span
 				class="position-absolute progress-status_current-price d-flex flex-column"
 			>
-				<span class="font-weight-bold fs-1 text-uppercase">auction token price</span>
+				<span class="font-weight-bold fs-1 text-uppercase">auction token price:</span>
 				<span class="font-weight-bold text-white fs-2 text-uppercase">
 					{{ marketInfo.currentPrice }} {{ marketInfo.paymentCurrency.symbol }}
 				</span>
