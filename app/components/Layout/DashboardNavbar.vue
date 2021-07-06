@@ -92,7 +92,7 @@
 				<div class="d-flex justify-content-center pb-5 mb-0 pb-lg-0">
 					<button
 						v-if="!coinbase"
-						class="text-uppercase rounded-pill connect-btn text-white"
+						class="text-uppercase rounded-pill connect-btn text-white my-3"
 						:class="{ 'connect-btn_white': !darkMode }"
 						@click="connectAccount()"
 					>
