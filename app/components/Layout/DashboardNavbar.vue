@@ -597,17 +597,24 @@ export default {
 		toggleMenu() {
 			this.showMenu = !this.showMenu
 		},
-		changeEthChain(index) {
+		async changeEthChain(index) {
 			const chain = this.ChainIDs[index]
-			ethereum
-				.send('wallet_addEthereumChain', [chain, this.coinbase])
-				.then((result) => {
-					console.log('result:', result)
-					this.showNetworkModal = false
+			try {
+				await ethereum.request({
+					method: 'wallet_switchEthereumChain',
+					params: [{ chainId: chain.chainId }],
 				})
-				.catch((error) => {
-					console.log('error:', error)
-				})
+			} catch (switchError) {
+				ethereum
+					.send('wallet_addEthereumChain', [chain])
+					.then((result) => {
+						console.log('result:', result)
+						this.showNetworkModal = false
+					})
+					.catch((error) => {
+						console.log('error:', error)
+					})
+			}
 		},
 	},
 }
