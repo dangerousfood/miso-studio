@@ -9,11 +9,11 @@
 			>
 				{{ content }}
 			</div>
-			<div class="restricted-card-showdiv" v-if="!showFullText">
+			<div v-if="!showFullText" class="restricted-card-showdiv">
 				<div>...</div>
 				<div class="restricted-card-showtext" @click="toggleText()">Show Message</div>
 			</div>
-			<div class="restricted-card-hidetext" @click="toggleText()" v-else>
+			<div v-else class="restricted-card-hidetext" @click="toggleText()">
 				Hide Message
 			</div>
 		</div>
