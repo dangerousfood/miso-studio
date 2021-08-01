@@ -673,6 +673,102 @@
 						</validation-observer>
 					</div>
 
+					<!-- Country Ban -->
+					<hr />
+					<div
+						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
+					>
+						<span
+							class="
+								text-uppercase text-secondary
+								font-weight-bold
+								border-bottom
+								pb-2
+								fs-4
+								h-100
+							"
+						>
+							Country Ban
+						</span>
+					</div>
+					<hr />
+					<div class="px-md-5">
+						<validation-observer v-slot="{ invalid }">
+							<form class="needs-validation" @submit.prevent="updateDocument(14)">
+								<label class="form-control-label fs-3 text-white col-md-4 mt-4">
+									Select the Countries
+								</label>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-5 mt-3">
+										<vue-tags-input
+											v-model="country"
+											class="country-select"
+											placeholder="Choose Countries"
+											:tags="tags"
+											:allow-edit-tags="true"
+											:autocomplete-items="bannedCountryItems"
+											@tags-changed="updateBannedCountries"
+										>
+											<div
+												slot="autocomplete-item"
+												slot-scope="props"
+												class="my-item country-item"
+												@click="props.performAdd(props.item)"
+											>
+												{{ props.item.text }}
+											</div>
+										</vue-tags-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+							<form
+								class="needs-validation pt-2"
+								@submit.prevent="updateDocument(15)"
+							>
+								<label class="form-control-label fs-3 text-white col-md-4 mt-4">
+									Warning Message
+								</label>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-5 mt-3">
+										<base-input
+											:rules="`required|text:${document.bannedWarning}`"
+											name="Warning Message"
+										>
+											<textarea
+												v-model="document.bannedWarning"
+												class="form-control font-weight-bold text-bg-white p-2"
+												type="text"
+												rules="required|text"
+											/>
+										</base-input>
+									</div>
+									<div class="col-md-* mt-3">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+					</div>
+
 					<!---- Cancel Auction !---->
 					<hr />
 					<div
@@ -709,6 +805,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import VueTagsInput from '@johmun/vue-tags-input'
 import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 import { getContractInstance as dutchAuctionContract } from '@/services/web3/auctions/dutch'
 import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
@@ -722,9 +819,13 @@ import {
 } from '@/services/web3/base'
 import Swal from 'sweetalert2'
 import { zeroAddress } from '@/util/web3'
+import countryList from 'country-list'
 
 export default {
 	name: 'AuctionAdminInfo',
+	components: {
+		VueTagsInput,
+	},
 	data() {
 		return {
 			auctionAddress: this.$route.params.address,
@@ -743,6 +844,8 @@ export default {
 				docs: '',
 				desktopBanner: '',
 				mobileBanner: '',
+				bannedCountries: '',
+				bannedWarning: '',
 			},
 			list: {
 				address: '',
@@ -756,6 +859,9 @@ export default {
 				listOwner: '',
 				points: [],
 			},
+			country: '',
+			tags: [],
+			countries: [],
 		}
 	},
 	computed: {
@@ -766,6 +872,11 @@ export default {
 			return (
 				this.list.address !== zeroAddress && web3.utils.isAddress(this.list.address)
 			)
+		},
+		bannedCountryItems() {
+			return this.countries.filter((item) => {
+				return item.text.toLowerCase().includes(this.country.toLowerCase())
+			})
 		},
 	},
 	watch: {
@@ -826,6 +937,12 @@ export default {
 		this.list.status = marketStatus.usePointList
 
 		this.loading = false
+	},
+	created() {
+		const countryCodeList = countryList.getCodeList()
+		this.countries = Object.keys(countryCodeList).map((key) => {
+			return { key: key.toUpperCase(), text: countryCodeList[key] }
+		})
 	},
 	methods: {
 		async getTemplateId() {
@@ -918,6 +1035,9 @@ export default {
 		removePoint(index) {
 			this.pointsListModel.points.splice(index, 1)
 		},
+		updateBannedCountries(newTags) {
+			this.document.bannedCountries = newTags.map((country) => country.key).join(',')
+		},
 	},
 }
 </script>
@@ -979,5 +1099,11 @@ textarea.form-control {
 	transition: all 0.15s ease;
 	box-shadow: none;
 	color: #ffffff;
+}
+.country-item {
+	background-color: #000a35;
+}
+.country-select {
+	max-width: 100% !important;
 }
 </style>
