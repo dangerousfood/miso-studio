@@ -4,9 +4,7 @@
 			<div class="col-md-11 mt-6">
 				<div v-if="!loading">
 					<!---- Details !---->
-					<div
-						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
-					>
+					<div class="hero-section mt-4 pt-3 pb-2 position-relative">
 						<span
 							class="
 								text-uppercase text-secondary
@@ -25,7 +23,6 @@
 						</p>
 						<p>Do not waste your gas.</p>
 					</div>
-					<hr />
 					<div class="px-md-5">
 						<validation-observer v-slot="{ invalid }">
 							<form class="needs-validation" @submit.prevent="updateDocument(0)">
@@ -213,9 +210,7 @@
 
 					<!---- Social Info !---->
 					<hr />
-					<div
-						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
-					>
+					<div class="hero-section mt-4 pt-3 pb-2 position-relative">
 						<span
 							class="
 								text-uppercase text-secondary
@@ -229,7 +224,6 @@
 							Socials
 						</span>
 					</div>
-					<hr />
 					<div class="px-md-5">
 						<validation-observer v-slot="{ invalid }">
 							<form class="needs-validation" @submit.prevent="updateDocument(3)">
@@ -505,9 +499,7 @@
 
 					<!---- Permission List !---->
 					<hr />
-					<div
-						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
-					>
+					<div class="hero-section mt-4 pt-3 pb-2 position-relative">
 						<span
 							class="
 								text-uppercase text-secondary
@@ -527,7 +519,6 @@
 							sample list in our Github Repo.
 						</p>
 					</div>
-					<hr />
 					<div class="px-md-5">
 						<validation-observer v-slot="{ invalid }">
 							<form class="needs-validation" @submit.prevent="updateList">
@@ -673,11 +664,105 @@
 						</validation-observer>
 					</div>
 
+					<!-- Country Ban -->
+					<hr />
+					<div class="hero-section mt-4 pt-3 pb-2 position-relative">
+						<span
+							class="
+								text-uppercase text-secondary
+								font-weight-bold
+								border-bottom
+								pb-2
+								fs-4
+								h-100
+							"
+						>
+							Country Ban
+						</span>
+					</div>
+					<div class="px-md-5">
+						<validation-observer v-slot="{ invalid }">
+							<form class="needs-validation" @submit.prevent="updateDocument(14)">
+								<label class="form-control-label fs-3 text-white col-md-4 mt-4">
+									Select the Countries
+								</label>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-5 mt-3">
+										<vue-tags-input
+											v-model="country"
+											class="country-select"
+											placeholder="Choose Countries"
+											:tags="document.bannedCountries"
+											:allow-edit-tags="true"
+											:autocomplete-items="bannedCountryItems"
+											@tags-changed="updateBannedCountries"
+										>
+											<div
+												slot="autocomplete-item"
+												slot-scope="props"
+												class="form-control my-item country-item"
+												@click="props.performAdd(props.item)"
+											>
+												{{ props.item.text }}
+											</div>
+										</vue-tags-input>
+									</div>
+									<div class="col-md-* mt-2">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+						<validation-observer v-slot="{ invalid }">
+							<form
+								class="needs-validation pt-2"
+								@submit.prevent="updateDocument(15)"
+							>
+								<label class="form-control-label fs-3 text-white col-md-4 mt-4">
+									Warning Message
+								</label>
+								<div class="row">
+									<div class="col-md-2" />
+									<div class="col-md-5 mt-3">
+										<base-input
+											:rules="`required|text:${document.bannedWarning}`"
+											name="Warning Message"
+										>
+											<textarea
+												v-model="document.bannedWarning"
+												class="form-control font-weight-bold text-bg-white p-2"
+												type="text"
+												rules="required|text"
+												placeholder="The content contained in this website does not constitute an offer or sale of securities in or into the United States, or to or for the account or benefit of U.S. persons, or in any other jurisdictions where it is unlawful to do so. Transfer of BIT tokens may be subject to legal restrictions under applicable laws. Under no circumstances shall BIT tokens be reoffered, resold or transferred within the United States or to, or for the account or benefit of, U.S. persons, except pursuant to an exemption from, or in a transaction not subject to, the registration requirements of the U.S. Securities Act of 1933, as amended."
+											/>
+										</base-input>
+									</div>
+									<div class="col-md-* mt-3">
+										<base-button
+											class="float-right"
+											type="primary"
+											native-type="submit"
+											:disabled="invalid"
+										>
+											Update
+										</base-button>
+									</div>
+								</div>
+							</form>
+						</validation-observer>
+					</div>
+
 					<!---- Cancel Auction !---->
 					<hr />
-					<div
-						class="hero-section mt-4 pt-3 pb-2 border-bottom-after position-relative"
-					>
+					<div class="hero-section mt-4 pt-3 pb-2 position-relative">
 						<span
 							class="
 								text-uppercase text-secondary
@@ -709,6 +794,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import VueTagsInput from '@johmun/vue-tags-input'
 import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 import { getContractInstance as dutchAuctionContract } from '@/services/web3/auctions/dutch'
 import { getContractInstance as crowdsaleContract } from '@/services/web3/auctions/crowdsale'
@@ -722,9 +808,13 @@ import {
 } from '@/services/web3/base'
 import Swal from 'sweetalert2'
 import { zeroAddress } from '@/util/web3'
+import countryList from 'country-list'
 
 export default {
 	name: 'AuctionAdminInfo',
+	components: {
+		VueTagsInput,
+	},
 	data() {
 		return {
 			auctionAddress: this.$route.params.address,
@@ -743,6 +833,8 @@ export default {
 				docs: '',
 				desktopBanner: '',
 				mobileBanner: '',
+				bannedCountries: [],
+				bannedWarning: '',
 			},
 			list: {
 				address: '',
@@ -756,6 +848,8 @@ export default {
 				listOwner: '',
 				points: [],
 			},
+			country: '',
+			countries: [],
 		}
 	},
 	computed: {
@@ -766,6 +860,20 @@ export default {
 			return (
 				this.list.address !== zeroAddress && web3.utils.isAddress(this.list.address)
 			)
+		},
+		bannedCountryItems() {
+			return this.countries.filter((item) => {
+				return item.text.toLowerCase().includes(this.country.toLowerCase())
+			})
+		},
+		bannedCountryKeys() {
+			const keys = this.document.bannedCountries
+				.map((country) => country.key)
+				.join(',')
+			if (keys.length === 0) {
+				return ' '
+			}
+			return keys
 		},
 	},
 	watch: {
@@ -808,7 +916,14 @@ export default {
 			const name = document['0']
 			const data = document['1']
 			if (name && data) {
-				this.document[name] = data
+				// Banned Countries
+				if (name === 'bannedCountries') {
+					this.document.bannedCountries = this.countries.filter((country) =>
+						data.split(',').includes(country.key)
+					)
+				} else {
+					this.document[name] = data
+				}
 			}
 		})
 
@@ -827,6 +942,12 @@ export default {
 
 		this.loading = false
 	},
+	created() {
+		const countryCodeList = countryList.getCodeList()
+		this.countries = Object.keys(countryCodeList).map((key) => {
+			return { key: key.toUpperCase(), text: countryCodeList[key] }
+		})
+	},
 	methods: {
 		async getTemplateId() {
 			const methods = [{ methodName: 'marketTemplate' }]
@@ -838,7 +959,8 @@ export default {
 		},
 		async updateDocument(index) {
 			const name = Object.keys(this.document)[index]
-			const data = this.document[name]
+			const data =
+				name === 'bannedCountries' ? this.bannedCountryKeys : this.document[name]
 			const method = this.contractInstance.methods.setDocument(name, data)
 
 			if (name === 'icon' || name === 'desktopBanner' || name === 'mobileBanner') {
@@ -884,12 +1006,10 @@ export default {
 			})
 		},
 		async updatePointList() {
-			console.log(this.pointsListModel.points)
 			const method = pointListContract(this.list.address).methods.setPoints(
 				this.pointsListModel.points.map((point) => point.account),
 				this.pointsListModel.points.map((point) => toWei(point.amount))
 			)
-			console.log(pointListContract(this.list.address), method)
 			await sendTransaction(method, { from: this.coinbase })
 
 			this.pointsListModel.points = []
@@ -918,6 +1038,9 @@ export default {
 		removePoint(index) {
 			this.pointsListModel.points.splice(index, 1)
 		},
+		updateBannedCountries(newTags) {
+			this.document.bannedCountries = newTags.filter((country) => country.key)
+		},
 	},
 }
 </script>
@@ -937,6 +1060,14 @@ textarea.form-control {
 	&:active {
 		border: 1px solid #f46e41;
 	}
+}
+.country-item.form-control {
+	border: none;
+	display: flex;
+	align-items: center;
+}
+.country-select {
+	max-width: 100% !important;
 }
 </style>
 <style lang="scss">
