@@ -1,5 +1,11 @@
 <template>
 	<div>
+		<div
+			class="col-12 restricted-card-container"
+			v-if="auctionAddress === restrictedAuction && restricted"
+		>
+			<region-restricted-card />
+		</div>
 		<div v-if="!loading" class="row mt-4 pt-3 justify-content-center">
 			<div class="col-12 col-lg-6">
 				<about-card
@@ -20,6 +26,7 @@
 					:user-info="userInfo"
 					@updateUserInfo="updateUserInfo"
 					@auctionFinalized="finalizeAuction"
+					:restricted="auctionAddress === restrictedAuction && restricted"
 				/>
 			</div>
 			<br />
@@ -47,6 +54,7 @@ import { getContractInstance as postAuctionLauncherContract } from '@/services/w
 import { makeBatchCall } from '@/services/web3/base'
 import { toDecimals, toPrecision, to18Decimals, toNDecimals } from '@/util/index'
 import AboutCard from '@/components/Miso/Auctions/AuctionInfo/AboutCard'
+import RegionRestrictedCard from '@/components/Miso/Auctions/AuctionInfo/RegionRestrictedCard'
 import LiveStatus from '@/components/Miso/Auctions/AuctionInfo/LiveStatus'
 import Commitments from '@/components/Miso/Auctions/Commitments'
 
@@ -59,6 +67,7 @@ export default {
 		LiveStatus,
 		AboutCard,
 		Commitments,
+		RegionRestrictedCard,
 	},
 	data() {
 		return {
@@ -127,6 +136,9 @@ export default {
 			loading: true,
 			subscription: null,
 			aboutStatus: {},
+			restrictedAuction: '0x63250A31E221F689132F2421813F90ec73AF2b7a',
+			restrictedCountries: ['US'],
+			restricted: true,
 		}
 	},
 	computed: {
@@ -149,6 +161,10 @@ export default {
 		},
 	},
 	async mounted() {
+		const country = await (await fetch('https://ipapi.co/country')).text()
+		if (!this.restrictedCountries.includes(country)) {
+			this.restricted = false
+		}
 		await this.getTemplateId()
 		let type
 		// let finishAuction
@@ -491,4 +507,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.restricted-card-container {
+	padding: 0;
+	margin-left: -30px;
+	width: calc(100% + 60px);
+	max-width: calc(100% + 60px);
+}
+</style>

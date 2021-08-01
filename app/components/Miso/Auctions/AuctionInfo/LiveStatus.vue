@@ -295,6 +295,7 @@
 											:round="true"
 											class="btn font-weight-bold text-uppercase fs-2 px-5"
 											:disabled="
+												restricted ||
 												selectedTokenQuantity === 'NaN' ||
 												selectedTokenQuantity <= 0 ||
 												isUpcoming ||
@@ -310,7 +311,10 @@
 											:round="true"
 											class="btn font-weight-bold text-uppercase fs-2 px-5"
 											:disabled="
-												selectedTokenQuantity <= 0 || isUpcoming || isBadAuction
+												restricted ||
+												selectedTokenQuantity <= 0 ||
+												isUpcoming ||
+												isBadAuction
 											"
 											:loading="loading"
 											@click="approve"
@@ -557,6 +561,10 @@ export default {
 		BatchProgress,
 	},
 	props: {
+		restricted: {
+			type: Boolean,
+			required: true,
+		},
 		status: {
 			type: [Object, Array],
 			required: true,
