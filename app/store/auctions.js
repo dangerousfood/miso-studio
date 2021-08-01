@@ -29,7 +29,9 @@ export const actions = {
 			commit(
 				'SET_AUCTIONS',
 				auctions[0].filter(
-					(auction) => auction.addr !== '0xEd4A285845f19945b0EbC04a3165e3DCAf62fEeD'
+					(auction) =>
+						auction.addr !== '0xEd4A285845f19945b0EbC04a3165e3DCAf62fEeD' &&
+						auction.addr !== '0x595Ff4d3Cebb8Bf652C198481A82F6A4440f551c'
 				)
 			)
 		}
