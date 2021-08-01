@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<div
-			class="col-12 restricted-card-container"
 			v-if="auctionAddress === restrictedAuction && restricted"
+			class="col-12 restricted-card-container"
 		>
 			<region-restricted-card />
 		</div>
@@ -24,9 +24,9 @@
 					:market-info="marketInfo"
 					:token-info="tokenInfo"
 					:user-info="userInfo"
+					:restricted="auctionAddress === restrictedAuction && restricted"
 					@updateUserInfo="updateUserInfo"
 					@auctionFinalized="finalizeAuction"
-					:restricted="auctionAddress === restrictedAuction && restricted"
 				/>
 			</div>
 			<br />
