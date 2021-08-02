@@ -683,12 +683,10 @@
 					<div class="px-md-5">
 						<validation-observer v-slot="{ invalid }">
 							<form class="needs-validation" @submit.prevent="updateDocument(14)">
-								<label class="form-control-label fs-3 text-white col-md-4 mt-4">
-									Select the Countries
-								</label>
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-5 mt-3">
+										<div class="mb-3">Select the Countries</div>
 										<vue-tags-input
 											v-model="country"
 											class="country-select"
@@ -708,7 +706,7 @@
 											</div>
 										</vue-tags-input>
 									</div>
-									<div class="col-md-* mt-2">
+									<div class="col-md-* mt-5">
 										<base-button
 											class="float-right"
 											type="primary"
@@ -726,12 +724,10 @@
 								class="needs-validation pt-2"
 								@submit.prevent="updateDocument(15)"
 							>
-								<label class="form-control-label fs-3 text-white col-md-4 mt-4">
-									Warning Message
-								</label>
 								<div class="row">
 									<div class="col-md-2" />
 									<div class="col-md-5 mt-3">
+										<div class="mb-3">Warning Message</div>
 										<base-input
 											:rules="`required|text:${document.bannedWarning}`"
 											name="Warning Message"
@@ -745,7 +741,7 @@
 											/>
 										</base-input>
 									</div>
-									<div class="col-md-* mt-3">
+									<div class="col-md-* mt-5">
 										<base-button
 											class="float-right"
 											type="primary"
