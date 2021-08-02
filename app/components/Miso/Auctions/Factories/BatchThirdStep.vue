@@ -243,9 +243,16 @@ export default {
 		},
 		minRaise() {
 			if (this.model.minimumCommitmentAmount !== '') {
-				return toDecimalPlaces(
-					multiplyNumbers(this.model.tokenSupply, this.model.minimumCommitmentAmount),
-					this.model.paymentCurrency.decimals
+				return (
+					toDecimalPlaces(
+						multiplyNumbers(
+							this.model.tokenSupply,
+							this.model.minimumCommitmentAmount
+						),
+						this.model.paymentCurrency.decimals
+					) +
+					' ' +
+					this.model.paymentCurrency.symbol
 				)
 			}
 			return 0

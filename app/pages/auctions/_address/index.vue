@@ -1,5 +1,11 @@
 <template>
 	<div>
+		<div
+			v-if="bannedCountries.length > 0 && bannedWarning.length > 0"
+			class="col-12 restricted-card-container"
+		>
+			<region-restricted-card :warning-content="bannedWarning" />
+		</div>
 		<div v-if="!loading" class="row mt-4 pt-3 justify-content-center">
 			<div class="col-12 col-lg-6">
 				<about-card
@@ -18,6 +24,7 @@
 					:market-info="marketInfo"
 					:token-info="tokenInfo"
 					:user-info="userInfo"
+					:restricted="restricted"
 					@updateUserInfo="updateUserInfo"
 					@auctionFinalized="finalizeAuction"
 				/>
@@ -47,6 +54,7 @@ import { getContractInstance as postAuctionLauncherContract } from '@/services/w
 import { makeBatchCall } from '@/services/web3/base'
 import { toDecimals, toPrecision, to18Decimals, toNDecimals } from '@/util/index'
 import AboutCard from '@/components/Miso/Auctions/AuctionInfo/AboutCard'
+import RegionRestrictedCard from '@/components/Miso/Auctions/AuctionInfo/RegionRestrictedCard'
 import LiveStatus from '@/components/Miso/Auctions/AuctionInfo/LiveStatus'
 import Commitments from '@/components/Miso/Auctions/Commitments'
 
@@ -59,6 +67,7 @@ export default {
 		LiveStatus,
 		AboutCard,
 		Commitments,
+		RegionRestrictedCard,
 	},
 	data() {
 		return {
@@ -127,6 +136,9 @@ export default {
 			loading: true,
 			subscription: null,
 			aboutStatus: {},
+			restricted: false,
+			bannedWarning: '',
+			bannedCountries: [],
 		}
 	},
 	computed: {
@@ -208,6 +220,12 @@ export default {
 					case 'description':
 						this.about[name] = data
 						break
+					case 'bannedWarning':
+						this.bannedWarning = data
+						break
+					case 'bannedCountries':
+						this.bannedCountries = data.split(',')
+						break
 					default:
 						this.about.icons.social[name] = data
 				}
@@ -221,6 +239,16 @@ export default {
 			pointListMethod
 		)
 		this.marketInfo.pointListAddress = pointList
+
+		// Check banned countries
+		if (this.bannedCountries.length > 0) {
+			try {
+				const country = await (await fetch('https://ipapi.co/country')).text()
+				if (this.bannedCountries.includes(country)) {
+					this.restricted = true
+				}
+			} catch (error) {}
+		}
 
 		this.loading = false
 	},
@@ -491,4 +519,11 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.restricted-card-container {
+	padding: 0;
+	margin-left: -30px;
+	width: calc(100% + 60px);
+	max-width: calc(100% + 60px);
+}
+</style>
