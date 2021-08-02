@@ -4,16 +4,22 @@
 		<div>
 			<div
 				:class="
-					showFullText ? 'restricted-card-content-full' : 'restricted-card-content'
+					isShortText || showFullText
+						? 'restricted-card-content-full'
+						: 'restricted-card-content'
 				"
 			>
-				{{ content }}
+				{{ warningContent }}
 			</div>
-			<div v-if="!showFullText" class="restricted-card-showdiv">
+			<div v-if="!isShortText && !showFullText" class="restricted-card-showdiv">
 				<div>...</div>
 				<div class="restricted-card-showtext" @click="toggleText()">Show Message</div>
 			</div>
-			<div v-else class="restricted-card-hidetext" @click="toggleText()">
+			<div
+				v-if="!isShortText && showFullText"
+				class="restricted-card-hidetext"
+				@click="toggleText()"
+			>
 				Hide Message
 			</div>
 		</div>
@@ -25,22 +31,22 @@ import { theme } from '@/mixins/theme'
 export default {
 	components: {},
 	mixins: [theme],
-	props: {},
+	props: {
+		warningContent: {
+			type: String,
+			required: true,
+		},
+	},
 	data() {
 		return {
-			content: `The content contained in this website does not constitute an offer or sale of
-				securities in or into the United States, or to or for the account or benefit of
-				U.S. persons, or in any other jurisdictions where it is unlawful to do so.
-				Transfer of BIT tokens may be subject to legal restrictions under applicable
-				laws. Under no circumstances shall BIT tokens be reoffered, resold or
-				transferred within the United States or to, or for the account or benefit of,
-				U.S. persons, except pursuant to an exemption from, or in a transaction not
-				subject to, the registration requirements of the U.S. Securities Act of 1933, as
-				amended.`,
 			showFullText: false,
 		}
 	},
-	computed: {},
+	computed: {
+		isShortText() {
+			return this.warningContent.length < 150
+		},
+	},
 	mounted() {},
 	methods: {
 		toggleText() {
@@ -52,7 +58,7 @@ export default {
 
 <style lang="scss" scoped>
 .restricted-card {
-	background-color: #f6664525;
+	background-color: #fee9e4;
 	padding: 20px;
 }
 .restricted-card-title {
@@ -69,7 +75,7 @@ export default {
 	position: absolute;
 	bottom: 20px;
 	right: 20px;
-	background-color: rgb(254, 233, 228);
+	background-color: #fee9e4;
 	div {
 		display: inline;
 	}

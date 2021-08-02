@@ -1,10 +1,7 @@
 <template>
 	<div>
-		<div
-			v-if="auctionAddress === restrictedAuction && restricted"
-			class="col-12 restricted-card-container"
-		>
-			<region-restricted-card />
+		<div v-if="restricted" class="col-12 restricted-card-container">
+			<region-restricted-card :warning-content="bannedWarning" />
 		</div>
 		<div v-if="!loading" class="row mt-4 pt-3 justify-content-center">
 			<div class="col-12 col-lg-6">
@@ -24,7 +21,7 @@
 					:market-info="marketInfo"
 					:token-info="tokenInfo"
 					:user-info="userInfo"
-					:restricted="auctionAddress === restrictedAuction && restricted"
+					:restricted="restricted"
 					@updateUserInfo="updateUserInfo"
 					@auctionFinalized="finalizeAuction"
 				/>
@@ -136,9 +133,9 @@ export default {
 			loading: true,
 			subscription: null,
 			aboutStatus: {},
-			restrictedAuction: '0x63250A31E221F689132F2421813F90ec73AF2b7a',
-			restrictedCountries: ['US'],
-			restricted: true,
+			restricted: false,
+			bannedWarning: '',
+			bannedCountries: [],
 		}
 	},
 	computed: {
@@ -161,10 +158,6 @@ export default {
 		},
 	},
 	async mounted() {
-		const country = await (await fetch('https://ipapi.co/country')).text()
-		if (!this.restrictedCountries.includes(country)) {
-			this.restricted = false
-		}
 		await this.getTemplateId()
 		let type
 		// let finishAuction
@@ -224,6 +217,12 @@ export default {
 					case 'description':
 						this.about[name] = data
 						break
+					case 'bannedWarning':
+						this.bannedWarning = data
+						break
+					case 'bannedCountries':
+						this.bannedCountries = data
+						break
 					default:
 						this.about.icons.social[name] = data
 				}
@@ -237,6 +236,12 @@ export default {
 			pointListMethod
 		)
 		this.marketInfo.pointListAddress = pointList
+
+		// Check banned countries
+		const country = await (await fetch('https://ipapi.co/country')).text()
+		if (this.bannedCountries.includes(country)) {
+			this.restricted = true
+		}
 
 		this.loading = false
 	},
