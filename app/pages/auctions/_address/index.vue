@@ -1,6 +1,9 @@
 <template>
 	<div>
-		<div v-if="restricted" class="col-12 restricted-card-container">
+		<div
+			v-if="bannedCountries.length > 0 && bannedWarning.length > 0"
+			class="col-12 restricted-card-container"
+		>
 			<region-restricted-card :warning-content="bannedWarning" />
 		</div>
 		<div v-if="!loading" class="row mt-4 pt-3 justify-content-center">
@@ -221,7 +224,7 @@ export default {
 						this.bannedWarning = data
 						break
 					case 'bannedCountries':
-						this.bannedCountries = data
+						this.bannedCountries = data.split(',')
 						break
 					default:
 						this.about.icons.social[name] = data
@@ -238,9 +241,13 @@ export default {
 		this.marketInfo.pointListAddress = pointList
 
 		// Check banned countries
-		const country = await (await fetch('https://ipapi.co/country')).text()
-		if (this.bannedCountries.includes(country)) {
-			this.restricted = true
+		if (this.bannedCountries.length > 0) {
+			try {
+				const country = await (await fetch('https://ipapi.co/country')).text()
+				if (this.bannedCountries.includes(country)) {
+					this.restricted = true
+				}
+			} catch (error) {}
 		}
 
 		this.loading = false
