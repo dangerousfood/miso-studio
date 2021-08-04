@@ -496,7 +496,7 @@ export default {
 				),
 				totalTokens: to18Decimals(this.marketInfo.totalTokens),
 				commitmentsTotal: toNDecimals(
-					this.commitmentsTotal,
+					this.marketInfo.commitmentsTotal,
 					this.marketInfo.paymentCurrency.decimals
 				),
 			}
