@@ -9,22 +9,110 @@
 					align-items-start
 				"
 			>
-				<div class="d-flex align-items-center">
-					<div class="token-img mr-2">
+				<div class="d-flex align-items-center w-100">
+					<!-- Logo !-->
+					<div class="token-img mr-4">
 						<img :src="computedTokenImg" class="img-fluid" />
 					</div>
-					<div class="d-flex flex-column" :class="{ 'pl-4': checkImage }">
-						<div class="d-flex align-items-center">
-							<h4 class="card-title font-weight-bold text-capitalize fs-5 mb-1">
-								{{ textCheck(title, 'title') }}
-							</h4>
-							<div class="d-flex flex-column">
-								<span
-									v-if="
-										status.auction !== 'upcoming' && status.auction !== 'finished'
-									"
+					<!-- Logo !-->
+
+					<div class="d-flex flex-column w-100">
+						<div class="d-flex justify-content-between align-items-center">
+							<div class="d-flex align-items-center">
+								<!-- Title !-->
+								<h4 class="card-title font-weight-bold text-capitalize fs-5 mb-1">
+									{{ textCheck(title, 'title') }}
+								</h4>
+								<!-- Title !-->
+
+								<!-- Auction Status !-->
+								<div class="d-flex flex-column">
+									<span
+										v-if="
+											status.auction !== 'upcoming' && status.auction !== 'finished'
+										"
+										class="
+											fs-2
+											font-weight-bold
+											text-capitalize text-white
+											d-flex
+											align-items-center
+											pl-2
+										"
+									>
+										<span
+											class="radius-full status-indicator mr-2"
+											:class="computedStatusColor"
+										></span>
+										{{ status.auction }}
+									</span>
+								</div>
+								<!-- Auction Status !-->
+
+								<!-- Private !-->
+								<div
+									v-if="isPrivate"
 									class="
-										fs-2
+										d-flex
+										special_status
+										px-3
+										py-2
+										mr-2
+										text-white
+										font-weight-bold
+										border-danger
+									"
+								>
+									<img src="@/assets/svg/private.svg" class="mr-2 mb-0" />
+									Private
+								</div>
+								<!-- Private !-->
+							</div>
+
+							<!-- Timer !-->
+							<div
+								v-if="status.auction !== 'upcoming' && status.auction !== 'finished'"
+								class="duration mt-sm-0 mt-3 ml-2"
+							>
+								<div class="bg-primary radius-md">
+									<div class="d-flex justify-content-around text-white">
+										<div class="d-flex flex-column align-items-center text-uppercase">
+											<span class="fs-2 font-weight-bold">
+												{{ displayDays }}
+											</span>
+											<span class="abbr">days</span>
+										</div>
+										&nbsp;:&nbsp;
+										<div class="d-flex flex-column align-items-center text-uppercase">
+											<span class="fs-2 font-weight-bold">
+												{{ displayHours }}
+											</span>
+											<span class="abbr">hrs</span>
+										</div>
+										&nbsp;:&nbsp;
+										<div class="d-flex flex-column align-items-center text-uppercase">
+											<span class="fs-2 font-weight-bold">
+												{{ displayMinutes }}
+											</span>
+											<span class="abbr">min</span>
+										</div>
+										&nbsp;:&nbsp;
+										<div class="d-flex flex-column align-items-center text-uppercase">
+											<span class="fs-2 font-weight-bold">
+												{{ displaySeconds }}
+											</span>
+											<span class="abbr">Sec</span>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- Timer !-->
+
+							<!-- Status !-->
+							<div v-else>
+								<span
+									class="
+										fs-3
 										font-weight-bold
 										text-capitalize text-white
 										d-flex
@@ -39,23 +127,9 @@
 									{{ status.auction }}
 								</span>
 							</div>
-							<div
-								v-if="isPrivate"
-								class="
-									d-flex
-									special_status
-									px-3
-									py-2
-									mr-2
-									text-white
-									font-weight-bold
-									border-danger
-								"
-							>
-								<img src="@/assets/svg/private.svg" class="mr-2 mb-0" />
-								Private
-							</div>
+							<!-- Status !-->
 						</div>
+						<!-- Token Price !-->
 						<p class="font-weight-bold text-uppercase fs-2 d-flex align-items-center">
 							{{ tokenPriceTitle }}
 							<span class="text-white ml-2">{{ tokenPrice }}</span>
@@ -72,61 +146,7 @@
 								></span>
 							</el-tooltip>
 						</p>
-					</div>
-				</div>
-				<div>
-					<span
-						v-if="status.auction === 'upcoming' || status.auction === 'finished'"
-						class="
-							fs-3
-							font-weight-bold
-							text-capitalize text-white
-							d-flex
-							align-items-center
-							pl-2
-						"
-					>
-						<span
-							class="radius-full status-indicator mr-2"
-							:class="computedStatusColor"
-						></span>
-						{{ status.auction }}
-					</span>
-				</div>
-				<div
-					v-if="status.auction !== 'upcoming' && status.auction !== 'finished'"
-					class="duration mt-sm-0 mt-3"
-				>
-					<div class="bg-primary radius-md">
-						<div class="d-flex justify-content-around text-white">
-							<div class="d-flex flex-column align-items-center text-uppercase">
-								<span class="fs-2 font-weight-bold">
-									{{ displayDays }}
-								</span>
-								<span class="abbr">days</span>
-							</div>
-							&nbsp;:&nbsp;
-							<div class="d-flex flex-column align-items-center text-uppercase">
-								<span class="fs-2 font-weight-bold">
-									{{ displayHours }}
-								</span>
-								<span class="abbr">hrs</span>
-							</div>
-							&nbsp;:&nbsp;
-							<div class="d-flex flex-column align-items-center text-uppercase">
-								<span class="fs-2 font-weight-bold">
-									{{ displayMinutes }}
-								</span>
-								<span class="abbr">min</span>
-							</div>
-							&nbsp;:&nbsp;
-							<div class="d-flex flex-column align-items-center text-uppercase">
-								<span class="fs-2 font-weight-bold">
-									{{ displaySeconds }}
-								</span>
-								<span class="abbr">Sec</span>
-							</div>
-						</div>
+						<!-- Token Price !-->
 					</div>
 				</div>
 			</div>
@@ -413,12 +433,7 @@ export default {
 			}
 			return 'Crowdsale'
 		},
-		checkImage() {
-			if (this.info.icon) {
-				return this.info.icon.match(/\.(jpeg|jpg|gif|png)$/) != null
-			}
-			return false
-		},
+
 		urlCheck() {
 			const pattern = new RegExp(
 				'^(https?:\\/\\/)?' + // protocol
