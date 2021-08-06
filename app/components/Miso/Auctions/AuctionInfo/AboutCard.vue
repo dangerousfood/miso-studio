@@ -473,7 +473,7 @@ export default {
 			}`
 		},
 		tokenPriceStatusColor() {
-			if (this.status.auction === 'live') {
+			if (this.status.auction === 'live' || this.status.auction === 'finished') {
 				if (this.type === 'dutch') {
 					if (
 						BigNumber(

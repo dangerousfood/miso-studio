@@ -414,7 +414,7 @@ import { BaseDivider, SimpleauctionWizard, WizardTab } from '@/components'
 
 import { theme } from '@/mixins/theme'
 import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
-import { multiplyNumbers, to18Decimals, toNDecimals } from '@/util'
+import { divNumbers, multiplyNumbers, to18Decimals, toNDecimals } from '@/util'
 import { dai } from '@/constants/contracts'
 import { getContractInstance as misoMarketContract } from '@/services/web3/misoMarket'
 
@@ -806,7 +806,13 @@ export default {
 				this.model.paymentCurrency.decimals
 			)
 			const goal = toNDecimals(
-				(this.model.tokenSupply * this.model.tokenPrice * this.model.goal) / 100,
+				divNumbers(
+					multiplyNumbers(
+						multiplyNumbers(this.model.tokenSupply, this.model.tokenPrice),
+						this.model.goal
+					),
+					100
+				),
 				this.model.paymentCurrency.decimals
 			)
 			const dataParams = [
@@ -847,6 +853,10 @@ export default {
 
 			const pointList = '0x0000000000000000000000000000000000000000'
 			const operator = this.coinbase
+			const minimumCommitmentAmount = toNDecimals(
+				multiplyNumbers(model.minimumCommitmentAmount, model.tokenSupply),
+				model.paymentCurrency.decimals
+			)
 			const dataParams = [
 				this.marketFactoryAddress,
 				model.token.address,
@@ -854,10 +864,7 @@ export default {
 				startDate,
 				endDate,
 				model.paymentCurrency.address,
-				toNDecimals(
-					multiplyNumbers(model.minimumCommitmentAmount, model.tokenSupply),
-					model.paymentCurrency.decimals
-				),
+				minimumCommitmentAmount,
 				operator,
 				pointList,
 				model.fundWallet,
