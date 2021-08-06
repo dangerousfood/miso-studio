@@ -488,12 +488,9 @@ export default {
 				}
 				if (this.type === 'batch') {
 					if (
-						BigNumber(
-							divNumbers(
-								this.marketInfo.commitmentsTotal,
-								this.marketInfo.totalTokens
-							)
-						).comparedTo(this.marketInfo.minimumCommitmentAmount) < 0
+						BigNumber(this.marketInfo.commitmentsTotal).comparedTo(
+							this.marketInfo.minimumCommitmentAmount
+						) < 0
 					)
 						return 'bg-danger'
 					return 'bg-success'
@@ -506,7 +503,7 @@ export default {
 				return 'Auction is only successful if token price goes above reserve price.'
 			}
 			if (this.type === 'batch') {
-				return 'Auction is only successful if token price goes above minimum price.'
+				return 'Auction is only successful if amount raised goes above min raise.'
 			}
 			return ''
 		},

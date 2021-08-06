@@ -109,7 +109,6 @@
 
 <script>
 import { inpidatorTheme } from '@/mixins/auctionIndicator'
-import { toDecimalPlaces, multiplyNumbers } from '@/util'
 
 export default {
 	mixins: [inpidatorTheme],
@@ -158,13 +157,7 @@ export default {
 		},
 		minRaise() {
 			if (this.marketInfo.minimumCommitmentAmount !== '') {
-				return toDecimalPlaces(
-					multiplyNumbers(
-						this.marketInfo.totalTokens,
-						this.marketInfo.minimumCommitmentAmount
-					),
-					this.marketInfo.paymentCurrency.decimals
-				)
+				return this.marketInfo.minimumCommitmentAmount
 			}
 			return 0
 		},

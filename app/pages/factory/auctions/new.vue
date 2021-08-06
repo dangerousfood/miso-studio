@@ -414,7 +414,7 @@ import { BaseDivider, SimpleauctionWizard, WizardTab } from '@/components'
 
 import { theme } from '@/mixins/theme'
 import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
-import { to18Decimals, toNDecimals } from '@/util'
+import { multiplyNumbers, to18Decimals, toNDecimals } from '@/util'
 import { dai } from '@/constants/contracts'
 import { getContractInstance as misoMarketContract } from '@/services/web3/misoMarket'
 
@@ -854,7 +854,10 @@ export default {
 				startDate,
 				endDate,
 				model.paymentCurrency.address,
-				toNDecimals(model.minimumCommitmentAmount, model.paymentCurrency.decimals),
+				toNDecimals(
+					multiplyNumbers(model.minimumCommitmentAmount, model.tokenSupply),
+					model.paymentCurrency.decimals
+				),
 				operator,
 				pointList,
 				model.fundWallet,

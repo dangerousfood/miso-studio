@@ -1,6 +1,23 @@
 <template>
 	<div class="progress-status" :class="{ 'boder-light': finalize }">
 		<div class="w-100 h-100" :style="[isClaimed ? { opacity: 0.1 } : '']">
+			<!-- min raise -->
+			<span class="position-absolute progress-status_min-raise d-flex flex-column">
+				<el-tooltip
+					content="The sale needs to raise this much or more to be successful"
+					:open-delay="200"
+					placement="top-start"
+					:effect="getTooltipEffect"
+				>
+					<span class="font-weight-bold fs-1 text-uppercase">min raise</span>
+				</el-tooltip>
+				<span class="font-weight-bold text-white fs-3 text-uppercase">
+					{{ minRaise }} {{ marketInfo.paymentCurrency.symbol }}
+					<!-- 0.0005897 ETH -->
+				</span>
+			</span>
+			<!-- min raise -->
+
 			<span
 				class="progress-status_indicator-line d-inline-block"
 				:class="[statusLightColor]"
@@ -185,6 +202,12 @@ export default {
 			}
 			return `calc(${this.progress}% - ${10}px)`
 		},
+		minRaise() {
+			if (this.marketInfo.minimumCommitmentAmount !== '') {
+				return this.marketInfo.minimumCommitmentAmount
+			}
+			return 0
+		},
 		isClaimed() {
 			const claimed = parseFloat(this.userInfo.claimed)
 			const tokensClaimable = parseFloat(this.userInfo.tokensClaimable)
@@ -201,6 +224,21 @@ export default {
 	border-left: 1px solid;
 	border-right: 1px solid;
 	position: relative;
+	&_min-raise {
+		left: 0;
+		top: 0;
+		margin-top: -6px;
+		margin-left: 4px;
+		@media screen and (max-width: 500px) {
+			margin-top: -2px;
+			span {
+				&:first-child {
+					font-size: 10px !important;
+				}
+				font-size: 12px !important;
+			}
+		}
+	}
 	&_indicator-line {
 		position: absolute;
 		height: 4px;
