@@ -154,7 +154,7 @@
 			<div v-if="airdropAuctionId === auctionAddress">
 				<base-divider class="mb-4 mt-2 py-1" />
 				<div class="airdrop-info">
-					<div class="title font-weight-bold">
+					<div class="title text-white font-weight-bold">
 						🎈 Airdrop bonus for participants of this auction 🎈
 					</div>
 					<div class="text-white px-5 my-3">
@@ -838,7 +838,6 @@ export default {
 .airdrop-info {
 	text-align: center;
 	.title {
-		color: rgba(13, 23, 69, 0.9);
 		font-size: 1rem;
 	}
 	.hyperlink {

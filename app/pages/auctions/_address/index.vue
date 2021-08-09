@@ -209,6 +209,7 @@ export default {
 		AboutCard,
 		Commitments,
 		RegionRestrictedCard,
+		WarningModal,
 	},
 	data() {
 		return {
@@ -280,6 +281,7 @@ export default {
 			restricted: false,
 			bannedWarning: '',
 			bannedCountries: [],
+			warningModalVisible: false,
 		}
 	},
 	computed: {
@@ -387,6 +389,7 @@ export default {
 				const country = await (await fetch('https://ipapi.co/country')).text()
 				if (this.bannedCountries.includes(country)) {
 					this.restricted = true
+					this.warningModalVisible = true
 				}
 			} catch (error) {}
 		}
@@ -656,6 +659,9 @@ export default {
 
 			this.setCommitments(commitments)
 		},
+		closeModal() {
+			this.warningModalVisible = false
+		},
 	},
 }
 </script>
@@ -666,5 +672,27 @@ export default {
 	margin-left: -30px;
 	width: calc(100% + 60px);
 	max-width: calc(100% + 60px);
+}
+.text-h6 {
+	font-size: 20px !important;
+	line-height: 24px !important;
+	letter-spacing: -0.01em;
+}
+.restriction-panel {
+	background: rgba(50, 55, 80, 0.49);
+	border-radius: 8px;
+	height: 100%;
+	max-height: 450px;
+	overflow-y: scroll;
+	padding: 20px;
+}
+.restriction-line {
+	font-size: 14px;
+	color: rgba(255, 255, 255, 0.8);
+	margin: 8px 0;
+	span {
+		font-size: 14px;
+		color: rgba(255, 255, 255, 0.8);
+	}
 }
 </style>
