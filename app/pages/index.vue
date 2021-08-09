@@ -13,7 +13,6 @@
 						<div class="col-12">
 							<div class="d-flex">
 								<img src="@/assets/images/misoBowl.png" class="bowl" />
-								<!-- p class="text-uppercase text-white misoido pt-1">Miso Ido</p -->
 								<img :src="getMisoIdo" class="misoido" />
 							</div>
 							<p class="bottom-bar">&nbsp;</p>
@@ -34,6 +33,7 @@
 						:social="cardcont.social"
 						:auction="cardcont.auction"
 						:ingredients="ingredients"
+						:airdrop="airdropAuctionId === cardcont.auction"
 					></landing-card>
 				</scroll-div>
 				<landing-card
@@ -49,6 +49,7 @@
 					:social="cardcont.social"
 					:auction="cardcont.auction"
 					:ingredients="ingredients"
+					:airdrop="airdropAuctionId === cardcont.auction"
 					class="landing-mobile"
 				></landing-card>
 			</div>
@@ -89,6 +90,11 @@
 										</div>
 									</div>
 								</div>
+								<div class="text-white airdrop pt-1 mb-6">
+									<span v-if="cardcont.auction === airdropAuctionId">
+										🎈 Airdrop Available
+									</span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -100,7 +106,6 @@
 
 <script>
 import LandingCard from '@/components/Miso/Auctions/Specials/LandingCard'
-// import AuctionModal from '@/components/web3-core/navbar/AuctionModal'
 import { mapGetters, mapActions } from 'vuex'
 import ScrollDiv from 'vue-scroll-div'
 
@@ -118,7 +123,6 @@ export default {
 	name: 'LiveAuctions',
 	components: {
 		LandingCard,
-		// AuctionModal,
 		ScrollDiv,
 	},
 	data() {
@@ -216,6 +220,7 @@ export default {
 			},
 			contractInstance: null,
 			currentpane: 0,
+			airdropAuctionId: '0xc9d8f38fEfD57B77beEdC156C955Db8E5084912e',
 		}
 	},
 	computed: {
@@ -335,7 +340,6 @@ export default {
 							break
 						case 'description':
 							this.cardContent[i].description = data
-							// this.cardContent[i].panescript = data
 							break
 						case 'desktopBanner':
 							this.cardContent[i].cardimg = data
@@ -352,13 +356,6 @@ export default {
 					}
 				}
 			})
-
-			// if (this.cardContent[i].description)
-			// 	this.cardContent[i].description =
-			// 		this.cardContent[i].description.substring(0, 200) + ' ...'
-			// if (this.cardContent[i].panescript)
-			// 	this.cardContent[i].panescript =
-			// 		this.cardContent[i].panescript.substring(0, 60) + ' ...'
 		}
 	},
 	methods: {
@@ -535,11 +532,8 @@ export default {
 							height +
 							parseInt(document.getElementById('landingcard' + i).offsetHeight)
 				}
-				// height =
-				// 	height + parseInt(getComputedStyle(document.documentElement).fontSize) * 3
 				this.$refs.myscroll.scrollTo(height)
 			}
-			// this.currentpaneChanged(ind)
 		},
 
 		currentpaneChanged(val) {
@@ -563,21 +557,17 @@ export default {
 					height =
 						height + parseInt(document.getElementById('landingcard' + i).offsetHeight)
 			}
-			// height =
-			// 	height + parseInt(getComputedStyle(document.documentElement).fontSize) * 3
 			const maxScroll = height - this.$refs.myscroll.height
 			height = 86
 			if (e.target.scrollTop === maxScroll)
 				this.currentpaneChanged(this.cardContent.length - 1)
 			else if (e.target.scrollTop <= height) this.currentpaneChanged(0)
 			else {
-				// height = parseInt(getComputedStyle(document.documentElement).fontSize) * 3
 				for (i = 0; i < this.cardContent.length - 1; i++) {
 					if (document.getElementById('landingcard' + i)) {
 						height =
 							height +
 							parseInt(document.getElementById('landingcard' + i).offsetHeight)
-						// console.log(e.target.scrollTop, height)
 						if (e.target.scrollTop <= height) {
 							this.currentpaneChanged(i + 1)
 							break
@@ -598,7 +588,6 @@ export default {
 <style lang="scss" scoped>
 .bowl {
 	width: 6rem;
-	// height: fit-content;
 	margin: auto 0;
 	@media screen and (max-width: 400px) {
 		width: 4.5rem;
@@ -624,7 +613,6 @@ export default {
 
 .scrolldiv {
 	width: 100%;
-	// height: 800px;
 	@media screen and (max-width: 767px) {
 		display: none;
 	}
@@ -653,7 +641,6 @@ export default {
 	padding: 0.5rem;
 	border: none;
 	cursor: pointer;
-	margin-bottom: 1.5rem;
 }
 
 .pane-card-back {
@@ -686,6 +673,10 @@ export default {
 
 .dead-date {
 	font-size: 0.6rem;
+}
+
+.airdrop {
+	font-size: 0.8rem;
 }
 
 .green-circle {

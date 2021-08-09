@@ -151,6 +151,147 @@
 				</div>
 			</div>
 
+			<div v-if="airdropAuctionId === auctionAddress">
+				<base-divider class="mb-4 mt-2 py-1" />
+				<div class="airdrop-info">
+					<div class="title font-weight-bold">
+						🎈 Airdrop bonus for participants of this auction 🎈
+					</div>
+					<div class="text-white px-5 my-3">
+						Participants who contribute to the first 90% raise of the auction are
+						elligible to receive the airdrop. Early participants enjoy a higher
+						distribution rate.
+					</div>
+					<div>
+						<span class="text-white">To learn about the airdrop details,</span>
+						<span
+							class="hyperlink font-weight-bold cursor-pointer"
+							@click="openModal"
+						>
+							Click here.
+						</span>
+					</div>
+				</div>
+				<warning-modal
+					id="warningModal"
+					:show.sync="warningModalVisible"
+					class="modal-search"
+					:centered="true"
+					:show-close="false"
+					modal-classes="wide-modal"
+				>
+					<div
+						class="d-flex flex-col h-full w-100 bg-white rounded overflow-y-auto p-6"
+					>
+						<div class="relative mb-2">
+							<h2
+								class="text-h6 mt-2.5 font-bold mb-0 airdrop-modal-text text-center"
+							>
+								🎈 BitDAO Airdrop for MISO 🎈
+								<br />
+								auction participants
+							</h2>
+						</div>
+						<div class="d-flex flex-column flex-sm-row airdrop-modal-content">
+							<div class="w-full h-full position-relative" style="flex: 1">
+								<div
+									class="airdrop-gradient"
+									style="width: calc(100% - 20px); height: calc(100% - 20px)"
+								></div>
+								<div
+									class="airdrop-gradient position-absolute"
+									style="
+										left: 20px;
+										top: 20px;
+										width: calc(100% - 20px);
+										height: calc(100% - 20px);
+									"
+								>
+									<div
+										class="
+											airdrop-white airdrop-modal-text
+											text-center
+											d-flex
+											flex-column
+											items-center
+											justify-content-center
+										"
+									>
+										<div class="my-1">Bonus will be in the form of</div>
+										<div class="my-1">
+											<span class="airdrop-highlight-primary">BIT-ETH-SLP</span>
+											<span class="airdrop-modal-text">based on final price</span>
+										</div>
+										<div
+											class="airdrop-gradient my-3"
+											style="width: calc(100% - 40px); height: 3px"
+										></div>
+										<div class="my-1">
+											<span class="airdrop-modal-text">SLP will be saked for</span>
+											<span class="airdrop-highlight-secondary">90 days,</span>
+										</div>
+										<div class="my-1">then airdropped after.</div>
+									</div>
+								</div>
+							</div>
+							<div
+								class="w-full h-full airdrop-gradient ml-sm-3 mt-sm-0 mt-3"
+								style="flex: 1; min-height: 150px"
+							>
+								<div class="airdrop-white">
+									<div class="airdrop-table">
+										<div class="airdrop-table-row">
+											<div class="font-bold">Airdrop Tier</div>
+											<div class="font-bold">Bonus Allocation</div>
+										</div>
+										<div class="airdrop-table-row">
+											<div>First 10% of commitments</div>
+											<div>40%</div>
+										</div>
+										<div class="airdrop-table-row">
+											<div>Next 10% of commitments</div>
+											<div>35.6%</div>
+										</div>
+										<div class="airdrop-table-row">
+											<div>Next 10% of commitments</div>
+											<div>31.1%</div>
+										</div>
+										<div class="airdrop-table-row">
+											<div>Next 10% of commitments</div>
+											<div>26.7%</div>
+										</div>
+										<div class="airdrop-table-row">
+											<div>Next 10% of commitments</div>
+											<div>22.2%</div>
+										</div>
+										<div class="airdrop-table-row">
+											<div>Next 10% of commitments</div>
+											<div>17.8%</div>
+										</div>
+										<div class="airdrop-table-row">
+											<div>Next 10% of commitments</div>
+											<div>13.3%</div>
+										</div>
+										<div class="airdrop-table-row">
+											<div>Next 10% of commitments</div>
+											<div>8.9%</div>
+										</div>
+										<div class="airdrop-table-row">
+											<div>Next 10% of commitments</div>
+											<div>4.4%</div>
+										</div>
+										<div class="airdrop-table-row">
+											<div>Next 10% of commitments</div>
+											<div>0%</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</warning-modal>
+			</div>
+
 			<base-divider class="mb-4 mt-2 py-1" />
 			<div class="pt-2">
 				<!-- Auction Contract -->
@@ -276,13 +417,11 @@
 				</div>
 			</div>
 			<div v-if="user.isAdmin" class="pt-4 pr-5">
-				<!-- <h5 class="fs-1 mb-1 font-weight-bold text-uppercase">admin:</h5> -->
 				<nuxt-link :to="`/auction-admin/${auctionAddress}`">Edit</nuxt-link>
 			</div>
 			<div v-if="info.description" class="pt-4 pr-5">
 				<h5 class="fs-1 mb-1 font-weight-bold text-uppercase">Description:</h5>
 				<p class="fs-2">
-					<!-- {{ textCheck(info.description, "description") }} -->
 					{{ info.description }}
 				</p>
 			</div>
@@ -312,16 +451,17 @@
 
 <script>
 import { Card, BaseDivider } from '@/components'
-// import { Popover } from "element-ui"
 import { theme } from '@/mixins/theme'
 import { divNumbers, toPrecision, zeroAddress } from '@/util'
 import BigNumber from 'bignumber.js'
 import { mapGetters } from 'vuex'
+import WarningModal from '@/components/WarningModal.vue'
 
 export default {
 	components: {
 		Card,
 		BaseDivider,
+		WarningModal,
 	},
 	mixins: [theme],
 	props: {
@@ -378,6 +518,8 @@ export default {
 				twitter: 'fab fa-twitter',
 				docs: 'fa fa-book',
 			},
+			airdropAuctionId: '0xc9d8f38fEfD57B77beEdC156C955Db8E5084912e',
+			warningModalVisible: false,
 		}
 	},
 	computed: {
@@ -579,6 +721,12 @@ export default {
 			const nameCapitalized = name.charAt(0).toUpperCase() + name.slice(1)
 			return val === 'whitepaper' ? 'Documentation' : nameCapitalized
 		},
+		openModal() {
+			this.warningModalVisible = true
+		},
+		closeModal() {
+			this.warningModalVisible = false
+		},
 	},
 }
 </script>
@@ -685,6 +833,75 @@ export default {
 	.card-title {
 		font-size: 16px !important;
 	}
+}
+
+.airdrop-info {
+	text-align: center;
+	.title {
+		color: rgba(13, 23, 69, 0.9);
+		font-size: 1rem;
+	}
+	.hyperlink {
+		color: rgb(186, 35, 171);
+	}
+}
+.airdrop-gradient {
+	background: linear-gradient(
+		90.07deg,
+		#eb8a90 0.06%,
+		#f9c2ca 35.13%,
+		#2d82b7 63.04%,
+		#5cc7f2 86.62%,
+		#5cc7f2 99.94%
+	);
+	border-radius: 8px;
+}
+.airdrop-white {
+	background: white;
+	width: calc(100% - 3px);
+	height: calc(100% - 3px);
+	margin-left: 1.5px;
+	margin-top: 1.5px;
+	border-radius: 8px;
+	padding: 10px;
+
+	span {
+		font-size: 14px !important;
+	}
+}
+.airdrop-highlight-primary {
+	color: #3989bb !important;
+}
+.airdrop-highlight-secondary {
+	color: #db627d !important;
+}
+.airdrop-modal-content {
+	height: 300px;
+}
+@media screen and (max-width: 575px) {
+	.airdrop-modal-content {
+		height: 450px;
+	}
+}
+.airdrop-table {
+	overflow-y: scroll;
+	height: 100%;
+	.airdrop-table-row {
+		display: flex;
+		flex-direction: row;
+		padding: 15px 0;
+		border-bottom: 0.4px solid rgba(0, 0, 0, 0.3);
+		div:first-child {
+			flex: 6;
+			margin-right: 15px;
+		}
+		div:last-child {
+			flex: 4;
+		}
+	}
+}
+.airdrop-modal-text {
+	color: black !important;
 }
 </style>
 
