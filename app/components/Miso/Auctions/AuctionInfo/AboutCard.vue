@@ -473,7 +473,7 @@ export default {
 			}`
 		},
 		tokenPriceStatusColor() {
-			if (this.status.auction === 'live' || this.status.auction === 'finished') {
+			if (this.status.auction === 'live') {
 				if (this.type === 'dutch') {
 					if (
 						BigNumber(
@@ -490,6 +490,15 @@ export default {
 					if (
 						BigNumber(this.marketInfo.commitmentsTotal).comparedTo(
 							this.marketInfo.minimumCommitmentAmount
+						) < 0
+					)
+						return 'bg-danger'
+					return 'bg-success'
+				}
+				if (this.type === 'crowdsale') {
+					if (
+						BigNumber(this.marketInfo.commitmentsTotal).comparedTo(
+							this.marketInfo.goal
 						) < 0
 					)
 						return 'bg-danger'

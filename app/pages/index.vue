@@ -343,6 +343,9 @@ export default {
 						case 'mobileBanner':
 							this.cardContent[i].mobilecardimg = data
 							break
+						case 'bannedWarning':
+						case 'bannedCountries':
+							break
 						default:
 							this.cardContent[i].social[name] = data
 							break
