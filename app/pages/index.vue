@@ -273,6 +273,7 @@ export default {
 			}
 			this.cardContent.push({ ...this.cardContentTemplate[templateIndex] })
 			this.cardContent[i].auction = this.auctionsList[i]
+			this.cardContent[i].social = {}
 			await this.getTemplateId(this.cardContent[i].auction)
 			let type
 			switch (parseInt(this.marketTemplateId)) {
