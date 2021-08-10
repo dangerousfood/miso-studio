@@ -387,6 +387,8 @@ export default {
 		if (this.bannedCountries.length > 0) {
 			try {
 				const country = await (await fetch('https://ipapi.co/country')).text()
+				console.log(this.bannedCountries)
+				console.log(country)
 				if (this.bannedCountries.includes(country)) {
 					this.restricted = true
 					this.warningModalVisible = true
