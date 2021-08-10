@@ -121,6 +121,9 @@
 			<div class="auction-description text-white">
 				{{ description }}
 			</div>
+			<div v-if="airdrop" class="auction-airdrop my-1">
+				🎈 Airdrop Available For Participants - Early Receives More
+			</div>
 			<!-- div v-if="description !== ''" class="read-more text-white pb-2">
 				<nuxt-link :to="`/auctions/${auction}`" tag="div" class="cursor-pointer">
 					<span class="cursor-pointer">Read More</span>
@@ -234,9 +237,7 @@
 </template>
 
 <script>
-// import { Card, BaseDivider } from '@/components'
 import { theme } from '@/mixins/theme'
-
 import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
 import {
 	getContractInstance as dutchAuctionContract,
@@ -255,19 +256,9 @@ import {
 import { mapGetters } from 'vuex'
 import { inpidatorTheme } from '@/mixins/auctionIndicator'
 
-// import CrowdProgress from '~/components/Miso/Auctions/Specials/CrowdProgress'
-// import DutchProgress from '~/components/Miso/Auctions/Specials/DutchIndicator'
-// import BatchProgress from '~/components/Miso/Auctions/Specials/BatchIndicator '
-
 export default {
 	name: 'LandingCard',
-	components: {
-		// Card,
-		// BaseDivider,
-		// CrowdProgress,
-		// DutchProgress,
-		// BatchProgress,
-	},
+	components: {},
 	mixins: [theme, inpidatorTheme],
 	props: {
 		iconLink: {
@@ -309,6 +300,11 @@ export default {
 		social: {
 			type: Object,
 			default: undefined,
+		},
+		airdrop: {
+			type: Boolean,
+			default: false,
+			description: 'Whether the auction supports airdrop',
 		},
 	},
 	data() {
@@ -1363,5 +1359,10 @@ export default {
 	color: #ffa500 !important;
 	font-size: 12px;
 	vertical-align: middle;
+}
+
+.auction-airdrop {
+	color: rgba(196, 13, 126, 1);
+	font-weight: bold;
 }
 </style>
