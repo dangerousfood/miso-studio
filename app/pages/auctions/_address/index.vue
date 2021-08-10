@@ -1,9 +1,6 @@
 <template>
 	<div>
-		<div
-			v-if="bannedCountries.length > 0 && bannedWarning.length > 0"
-			class="col-12 restricted-card-container"
-		>
+		<div v-if="restricted" class="col-12 restricted-card-container">
 			<region-restricted-card :warning-content="bannedWarning" />
 		</div>
 		<warning-modal
@@ -387,8 +384,6 @@ export default {
 		if (this.bannedCountries.length > 0) {
 			try {
 				const country = await (await fetch('https://ipapi.co/country')).text()
-				console.log(this.bannedCountries)
-				console.log(country)
 				if (this.bannedCountries.includes(country)) {
 					this.restricted = true
 					this.warningModalVisible = true
