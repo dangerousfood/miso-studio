@@ -151,7 +151,7 @@
 				</div>
 			</div>
 
-			<div v-if="airdropAuctionId === auctionAddress">
+			<div v-if="airdropAuctionIds.includes(auctionAddress)">
 				<base-divider class="mb-4 mt-2 py-1" />
 				<div class="airdrop-info">
 					<div class="title text-white font-weight-bold">
@@ -518,7 +518,11 @@ export default {
 				twitter: 'fab fa-twitter',
 				docs: 'fa fa-book',
 			},
-			airdropAuctionId: '0xc9d8f38fEfD57B77beEdC156C955Db8E5084912e',
+			airdropAuctionIds: [
+				'0xc9d8f38fEfD57B77beEdC156C955Db8E5084912e',
+				'0x831dC63790468299c57928809ec4eA34DC8C475f',
+				'0x4c4564a1FE775D97297F9e3Dc2e762e0Ed5Dda0e',
+			],
 			warningModalVisible: false,
 		}
 	},
