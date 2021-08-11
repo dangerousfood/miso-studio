@@ -33,7 +33,7 @@
 						:social="cardcont.social"
 						:auction="cardcont.auction"
 						:ingredients="ingredients"
-						:airdrop="airdropAuctionId === cardcont.auction"
+						:airdrop="airdropAuctionIds.includes(cardcont.auction)"
 					></landing-card>
 				</scroll-div>
 				<landing-card
@@ -49,7 +49,7 @@
 					:social="cardcont.social"
 					:auction="cardcont.auction"
 					:ingredients="ingredients"
-					:airdrop="airdropAuctionId === cardcont.auction"
+					:airdrop="airdropAuctionIds.includes(cardcont.auction)"
 					class="landing-mobile"
 				></landing-card>
 			</div>
@@ -91,7 +91,7 @@
 									</div>
 								</div>
 								<div class="text-white airdrop pt-1 mb-6">
-									<span v-if="cardcont.auction === airdropAuctionId">
+									<span v-if="airdropAuctionIds.includes(cardcont.auction)">
 										🎈 Airdrop Available
 									</span>
 								</div>
@@ -220,7 +220,11 @@ export default {
 			},
 			contractInstance: null,
 			currentpane: 0,
-			airdropAuctionId: '0xc9d8f38fEfD57B77beEdC156C955Db8E5084912e',
+			airdropAuctionIds: [
+				'0xc9d8f38fEfD57B77beEdC156C955Db8E5084912e',
+				'0x831dC63790468299c57928809ec4eA34DC8C475f',
+				'0x4c4564a1FE775D97297F9e3Dc2e762e0Ed5Dda0e',
+			],
 		}
 	},
 	computed: {
