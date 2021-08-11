@@ -1009,14 +1009,18 @@ export default {
 }
 
 .view-auction {
-	background-image: linear-gradient(
-		to right,
-		rgba(245, 62, 46, 1) 36.52%,
-		rgba(209, 54, 158, 1) 72.9%
-	);
-	color: transparent;
-	-webkit-background-clip: text;
-	background-clip: text;
+	& > div > div,
+	& > div > div > i {
+		background-image: linear-gradient(
+			to right,
+			rgba(245, 62, 46, 1) 36.52%,
+			rgba(209, 54, 158, 1) 72.9%
+		);
+		color: transparent;
+		-webkit-background-clip: text;
+		background-clip: text;
+		-webkit-text-fill-color: transparent;
+	}
 	font-size: 1rem;
 	margin: auto;
 	@media screen and (min-width: 1231px) and (max-width: 1326px) {
