@@ -158,9 +158,8 @@
 						🎈 Airdrop bonus for participants of this auction 🎈
 					</div>
 					<div class="text-white px-5 my-3">
-						Participants who contribute to the first 90% raise of the auction are
-						elligible to receive the airdrop. Early participants enjoy a higher
-						distribution rate.
+						Participants are eligible to receive up to a 40% bonus airdrop. Early
+						participants enjoy a larger bonus rate.
 					</div>
 					<div>
 						<span class="text-white">To learn about the airdrop details,</span>
