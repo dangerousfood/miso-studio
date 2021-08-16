@@ -199,6 +199,7 @@ import {
 	badAuctions as badAuctionsAddress,
 	commitmentDisableAuctions as commitmentDisableAuctionsAddress,
 } from '@/constants/contracts'
+import BigNumber from 'bignumber.js'
 
 const TOPIC_ADDED_COMMITMENT =
 	'0x077511a636ba1f10551cc7b89c13ff66a6ac9344e8a917527817a9690b15af7a'
@@ -215,6 +216,7 @@ export default {
 	data() {
 		return {
 			auctionAddress: this.$route.params.address,
+			auctionCommitmentsTotal: BigNumber(0),
 			// can be Object or Array
 			about: {
 				icons: {
@@ -349,8 +351,11 @@ export default {
 		if (this.coinbase) {
 			await this.updateUserInfo()
 		}
-		if (!commitmentDisableAuctionsAddress.includes(this.auctionAddress))
+		if (commitmentDisableAuctionsAddress.includes(this.auctionAddress)) {
+			await this.getPastCommitmentsForDisableAuction()
+		} else {
 			await this.getPastCommitments()
+		}
 		this.subscribeToNewCommitments()
 
 		// Documents
@@ -448,6 +453,8 @@ export default {
 				this.status.date = new Date(data.endTime * 1000)
 			}
 			this.updateDutchData()
+
+			this.auctionCommitmentsTotal = BigNumber(data.commitmentsTotal)
 		},
 
 		async setCrowdsaleData() {
@@ -482,6 +489,8 @@ export default {
 			this.status.totalTokens = toDecimals(data.totalTokens)
 			this.marketInfo.currentPrice = toPrecision(1 / this.marketInfo.rate, 2)
 			this.updateCrowdsaleData()
+
+			this.auctionCommitmentsTotal = BigNumber(data.commitmentsTotal)
 		},
 
 		async setBatchData() {
@@ -513,6 +522,8 @@ export default {
 				this.marketInfo.commitmentsTotal / this.status.totalTokens,
 				5
 			)
+
+			this.auctionCommitmentsTotal = BigNumber(data.commitmentsTotal)
 		},
 
 		updateDutchData() {
@@ -638,6 +649,39 @@ export default {
 				.on('changed', function (log) {
 					console.log('changed:', log)
 				})
+		},
+		async getPastCommitmentsForDisableAuction() {
+			const commitments = []
+			let total = BigNumber(0)
+			let blockNumber = await web3.eth.getBlockNumber()
+
+			while (blockNumber > 0 && this.auctionCommitmentsTotal.isGreaterThan(total)) {
+				const logs = await web3.eth.getPastLogs({
+					fromBlock: blockNumber - 100,
+					toBlock: blockNumber,
+					address: this.auctionAddress,
+					topics: [TOPIC_ADDED_COMMITMENT],
+				})
+				blockNumber -= 101
+				logs.forEach((log) => {
+					const decodedData = web3.eth.abi.decodeParameters(
+						['address', 'uint256'],
+						log.data
+					)
+					total = total.plus(BigNumber(decodedData[1]))
+					commitments.push({
+						txHash: log.transactionHash,
+						timestamp: log.blockNumber,
+						address: decodedData[0],
+						amount: toDecimals(
+							decodedData[1],
+							this.marketInfo.paymentCurrency.decimals
+						),
+					})
+				})
+			}
+
+			this.setCommitments(commitments)
 		},
 		async getPastCommitments() {
 			const commitments = []
