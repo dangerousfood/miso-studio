@@ -19,23 +19,7 @@
 						Region Restriction Detected
 					</h2>
 					<div
-						class="
-							p-1
-							absolute
-							top-0
-							right-0
-							w-5
-							h-5
-							rounded-full
-							border-2
-							text-primary
-							hover:text-high-emphesis
-							border-primary
-							d-flex
-							items-center
-							justify-content-center
-							cursor-pointer
-						"
+						class="p-1 absolute top-0 right-0 w-5 h-5 rounded-full border-2 text-primary hover:text-high-emphesis border-primary d-flex items-center justify-content-center cursor-pointer"
 						@click="closeModal"
 					>
 						<svg
@@ -167,7 +151,7 @@
 				/>
 			</div>
 			<br />
-			<div class="col-12 col-lg-12 mt-4 pt-3">
+			<!-- <div class="col-12 col-lg-12 mt-4 pt-3">
 				<commitments
 					:commitments="listCommitments"
 					:short-currency="marketInfo.paymentCurrency.symbol"
@@ -176,7 +160,7 @@
 					:current-price="marketInfo.currentPrice"
 					:minimum-price="marketInfo.minimumPrice"
 				/>
-			</div>
+			</div> -->
 		</div>
 		<loader v-else width="80" height="80" y="250" />
 	</div>
@@ -193,18 +177,18 @@ import { toDecimals, toPrecision, to18Decimals, toNDecimals } from '@/util/index
 import AboutCard from '@/components/Miso/Auctions/AuctionInfo/AboutCard'
 import RegionRestrictedCard from '@/components/Miso/Auctions/AuctionInfo/RegionRestrictedCard'
 import LiveStatus from '@/components/Miso/Auctions/AuctionInfo/LiveStatus'
-import Commitments from '@/components/Miso/Auctions/Commitments'
+// import Commitments from '@/components/Miso/Auctions/Commitments'
 import WarningModal from '@/components/WarningModal.vue'
 
-const TOPIC_ADDED_COMMITMENT =
-	'0x077511a636ba1f10551cc7b89c13ff66a6ac9344e8a917527817a9690b15af7a'
+// const TOPIC_ADDED_COMMITMENT =
+// 	'0x077511a636ba1f10551cc7b89c13ff66a6ac9344e8a917527817a9690b15af7a'
 
 export default {
 	name: 'AuctionInfo',
 	components: {
 		LiveStatus,
 		AboutCard,
-		Commitments,
+		// Commitments,
 		RegionRestrictedCard,
 		WarningModal,
 	},
@@ -341,8 +325,8 @@ export default {
 		if (this.coinbase) {
 			await this.updateUserInfo()
 		}
-		await this.getPastCommitments()
-		this.subscribeToNewCommitments()
+		// await this.getPastCommitments()
+		// this.subscribeToNewCommitments()
 
 		// Documents
 		const methods = [{ methodName: 'getDocuments', args: [this.auctionAddress] }]
@@ -596,66 +580,66 @@ export default {
 			this.tokenInfo = tokenInfo
 		},
 
-		subscribeToNewCommitments() {
-			this.subscription = web3socket.eth
-				.subscribe(
-					'logs',
-					{
-						address: this.auctionAddress,
-						topics: [TOPIC_ADDED_COMMITMENT],
-					},
-					(error, result) => {
-						if (!error) {
-							const decodedData = web3.eth.abi.decodeParameters(
-								['address', 'uint256'],
-								result.data
-							)
-							this.addCommitment({
-								txHash: result.transactionHash,
-								timestamp: result.blockNumber,
-								address: decodedData[0],
-								amount: toDecimals(
-									decodedData[1],
-									this.marketInfo.paymentCurrency.decimals
-								),
-							})
-						}
-					}
-				)
-				.on('connected', function (subscriptionId) {
-					console.log('subscriptionId:', subscriptionId)
-				})
-				.on('data', function (log) {})
-				.on('changed', function (log) {
-					console.log('changed:', log)
-				})
-		},
-		async getPastCommitments() {
-			const commitments = []
-			const logs = await web3.eth.getPastLogs({
-				fromBlock: 0,
-				toBlock: 'latest',
-				address: this.auctionAddress,
-				topics: [TOPIC_ADDED_COMMITMENT],
-			})
-			logs.forEach((log) => {
-				const decodedData = web3.eth.abi.decodeParameters(
-					['address', 'uint256'],
-					log.data
-				)
-				commitments.push({
-					txHash: log.transactionHash,
-					timestamp: log.blockNumber,
-					address: decodedData[0],
-					amount: toDecimals(
-						decodedData[1],
-						this.marketInfo.paymentCurrency.decimals
-					),
-				})
-			})
+		// subscribeToNewCommitments() {
+		// 	this.subscription = web3socket.eth
+		// 		.subscribe(
+		// 			'logs',
+		// 			{
+		// 				address: this.auctionAddress,
+		// 				topics: [TOPIC_ADDED_COMMITMENT],
+		// 			},
+		// 			(error, result) => {
+		// 				if (!error) {
+		// 					const decodedData = web3.eth.abi.decodeParameters(
+		// 						['address', 'uint256'],
+		// 						result.data
+		// 					)
+		// 					this.addCommitment({
+		// 						txHash: result.transactionHash,
+		// 						timestamp: result.blockNumber,
+		// 						address: decodedData[0],
+		// 						amount: toDecimals(
+		// 							decodedData[1],
+		// 							this.marketInfo.paymentCurrency.decimals
+		// 						),
+		// 					})
+		// 				}
+		// 			}
+		// 		)
+		// 		.on('connected', function (subscriptionId) {
+		// 			console.log('subscriptionId:', subscriptionId)
+		// 		})
+		// 		.on('data', function (log) {})
+		// 		.on('changed', function (log) {
+		// 			console.log('changed:', log)
+		// 		})
+		// },
+		// async getPastCommitments() {
+		// 	const commitments = []
+		// 	const logs = await web3.eth.getPastLogs({
+		// 		fromBlock: 0,
+		// 		toBlock: 'latest',
+		// 		address: this.auctionAddress,
+		// 		topics: [TOPIC_ADDED_COMMITMENT],
+		// 	})
+		// 	logs.forEach((log) => {
+		// 		const decodedData = web3.eth.abi.decodeParameters(
+		// 			['address', 'uint256'],
+		// 			log.data
+		// 		)
+		// 		commitments.push({
+		// 			txHash: log.transactionHash,
+		// 			timestamp: log.blockNumber,
+		// 			address: decodedData[0],
+		// 			amount: toDecimals(
+		// 				decodedData[1],
+		// 				this.marketInfo.paymentCurrency.decimals
+		// 			),
+		// 		})
+		// 	})
 
-			this.setCommitments(commitments)
-		},
+		// 	this.setCommitments(commitments)
+		// },
 		closeModal() {
 			this.warningModalVisible = false
 		},
