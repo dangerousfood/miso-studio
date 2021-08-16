@@ -1,6 +1,7 @@
 // import { getAuctions } from "@/services/web3/auctionFactory"
 import { makeBatchCall } from '@/services/web3/base'
 import { getContractInstance as misoHelperContract } from '@/services/web3/misoHelper'
+import { badAuctions as badAuctionsAddress } from '@/constants/contracts'
 
 export const state = () => ({
 	auctions: [],
@@ -28,12 +29,7 @@ export const actions = {
 			// const sortedAuctions = sort(auctions, "createdAt", "desc")
 			commit(
 				'SET_AUCTIONS',
-				auctions[0].filter(
-					(auction) =>
-						auction.addr !== '0xEd4A285845f19945b0EbC04a3165e3DCAf62fEeD' &&
-						auction.addr !== '0x595Ff4d3Cebb8Bf652C198481A82F6A4440f551c' &&
-						auction.addr !== '0xE82c43b2e83383Ed050D17E9A89cEF98845119d9'
-				)
+				auctions[0].filter((auction) => !badAuctionsAddress.includes(auction.addr))
 			)
 		}
 		commit('SET_LOADING', false)
