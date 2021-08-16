@@ -7,7 +7,10 @@ import blockies from 'ethereum-blockies-updated'
 export default {
 	name: 'EthImage',
 	props: {
-		opts: Object,
+		opts: {
+			type: Object,
+			required: true,
+		},
 	},
 	computed: {
 		dataurl() {
