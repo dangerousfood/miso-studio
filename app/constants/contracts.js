@@ -299,3 +299,9 @@ export const uniswapFactory = {
 		80001: '0xc35DADB65012eC5796536bD9864eD8773aBc74C4', // Matic testnet
 	},
 }
+
+export const badAuctions = [
+	'0xEd4A285845f19945b0EbC04a3165e3DCAf62fEeD',
+	'0x595Ff4d3Cebb8Bf652C198481A82F6A4440f551c',
+	'0xE82c43b2e83383Ed050D17E9A89cEF98845119d9'
+]
