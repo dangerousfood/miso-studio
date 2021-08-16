@@ -305,3 +305,7 @@ export const badAuctions = [
 	'0x595Ff4d3Cebb8Bf652C198481A82F6A4440f551c',
 	'0xE82c43b2e83383Ed050D17E9A89cEF98845119d9'
 ]
+
+export const commitmentDisableAuctions = [
+	'0x4c4564a1FE775D97297F9e3Dc2e762e0Ed5Dda0e'
+]

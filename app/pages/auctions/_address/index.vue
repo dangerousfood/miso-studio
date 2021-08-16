@@ -179,6 +179,10 @@ import RegionRestrictedCard from '@/components/Miso/Auctions/AuctionInfo/RegionR
 import LiveStatus from '@/components/Miso/Auctions/AuctionInfo/LiveStatus'
 import Commitments from '@/components/Miso/Auctions/Commitments'
 import WarningModal from '@/components/WarningModal.vue'
+import {
+	badAuctions as badAuctionsAddress,
+	commitmentDisableAuctions as commitmentDisableAuctionsAddress,
+} from '@/constants/contracts'
 
 const TOPIC_ADDED_COMMITMENT =
 	'0x077511a636ba1f10551cc7b89c13ff66a6ac9344e8a917527817a9690b15af7a'
@@ -325,7 +329,8 @@ export default {
 		if (this.coinbase) {
 			await this.updateUserInfo()
 		}
-		await this.getPastCommitments()
+		if (!commitmentDisableAuctionsAddress.includes(this.auctionAddress))
+			await this.getPastCommitments()
 		this.subscribeToNewCommitments()
 
 		// Documents
