@@ -195,6 +195,7 @@ import RegionRestrictedCard from '@/components/Miso/Auctions/AuctionInfo/RegionR
 import LiveStatus from '@/components/Miso/Auctions/AuctionInfo/LiveStatus'
 import Commitments from '@/components/Miso/Auctions/Commitments'
 import WarningModal from '@/components/WarningModal.vue'
+import { badAuctions as badAuctionsAddress } from '@/constants/contracts'
 
 const TOPIC_ADDED_COMMITMENT =
 	'0x077511a636ba1f10551cc7b89c13ff66a6ac9344e8a917527817a9690b15af7a'
@@ -301,6 +302,10 @@ export default {
 		},
 	},
 	async mounted() {
+		if (badAuctionsAddress.includes(this.auctionAddress)) {
+			this.$router.push('/')
+			return
+		}
 		await this.getTemplateId()
 		let type
 		// let finishAuction
@@ -394,7 +399,7 @@ export default {
 		this.loading = false
 	},
 	beforeDestroy() {
-		this.subscription.unsubscribe()
+		if (this.subscription) this.subscription.unsubscribe()
 		this.resetCommitmentsState()
 	},
 	methods: {
