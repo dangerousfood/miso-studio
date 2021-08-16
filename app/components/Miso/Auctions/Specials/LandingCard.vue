@@ -120,9 +120,9 @@
 			<div class="split-line" :class="splitLineBack"></div>
 			<div class="auction-description text-white">
 				{{ description }}
-			</div>
-			<div v-if="airdrop" class="auction-airdrop my-1">
-				🎈 Airdrop Available For Participants - Early Receives More
+				<div v-if="airdrop" class="auction-airdrop my-1">
+					🎈 Airdrop Available For Participants - Early Receives More
+				</div>
 			</div>
 			<!-- div v-if="description !== ''" class="read-more text-white pb-2">
 				<nuxt-link :to="`/auctions/${auction}`" tag="div" class="cursor-pointer">
@@ -1196,26 +1196,29 @@ export default {
 
 .auction-description {
 	font-size: 1.1rem;
-	@media screen and (min-width: 1327px) and (max-width: 1440px) {
+	@media screen and (min-width: 1445px) and (max-width: 1500px) {
 		font-size: 0.95rem;
 	}
-	@media screen and (min-width: 1241px) and (max-width: 1326px) {
+	@media screen and (min-width: 1300px) and (max-width: 1444px) {
 		font-size: 0.75rem;
 	}
-	@media screen and (min-width: 1200px) and (max-width: 1240px) {
+	@media screen and (min-width: 1200px) and (max-width: 1299px) {
 		font-size: 0.65rem;
 	}
-	@media screen and (min-width: 951px) and (max-width: 1199px) {
+	@media screen and (min-width: 1030px) and (max-width: 1199px) {
 		font-size: 0.75rem;
 	}
-	@media screen and (min-width: 905px) and (max-width: 950px) {
+	@media screen and (min-width: 985px) and (max-width: 1029px) {
 		font-size: 0.7rem;
 	}
-	@media screen and (min-width: 811px) and (max-width: 904px) {
+	@media screen and (min-width: 865px) and (max-width: 984px) {
 		font-size: 0.6rem;
 	}
-	@media screen and (min-width: 768px) and (max-width: 810px) {
+	@media screen and (min-width: 805px) and (max-width: 864px) {
 		font-size: 0.5rem;
+	}
+	@media screen and (min-width: 768px) and (max-width: 804px) {
+		font-size: 0.3rem;
 	}
 	@media screen and (max-width: 767px) {
 		font-size: 1rem;
