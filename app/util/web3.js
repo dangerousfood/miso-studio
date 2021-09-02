@@ -75,3 +75,4 @@ export const toDecimalPlaces = (value, decimals = 5) => {
 }
 
 export const zeroAddress = '0x0000000000000000000000000000000000000000'
+export const wethAddress = '0x3dDD8b6D092df917473680d6C41F80F708C45395'

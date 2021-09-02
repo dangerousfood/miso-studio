@@ -414,7 +414,14 @@ import { BaseDivider, SimpleauctionWizard, WizardTab } from '@/components'
 
 import { theme } from '@/mixins/theme'
 import { makeBatchCall, sendTransactionAndWait } from '@/services/web3/base'
-import { divNumbers, multiplyNumbers, to18Decimals, toNDecimals } from '@/util'
+import {
+	divNumbers,
+	multiplyNumbers,
+	to18Decimals,
+	toNDecimals,
+	zeroAddress,
+	wethAddress,
+} from '@/util'
 import { dai } from '@/constants/contracts'
 import { getContractInstance as misoMarketContract } from '@/services/web3/misoMarket'
 
@@ -678,6 +685,7 @@ export default {
 	computed: {
 		...mapGetters({
 			coinbase: 'ethereum/coinbase',
+			networkId: 'ethereum/networkId',
 		}),
 		notificationSteps() {
 			if (this.chosenAuctionType === 2) return this.allSteps
@@ -761,7 +769,7 @@ export default {
 			const startDate = new Date(model.startDate).getTime() / 1000
 			const endDate = new Date(model.endDate).getTime() / 1000
 
-			const pointList = '0x0000000000000000000000000000000000000000'
+			const pointList = zeroAddress
 			const operator = this.coinbase
 			const dataParams = [
 				this.marketFactoryAddress,
@@ -799,7 +807,7 @@ export default {
 			const startDate = new Date(model.startDate).getTime() / 1000
 			const endDate = new Date(model.endDate).getTime() / 1000
 
-			const pointList = '0x0000000000000000000000000000000000000000'
+			const pointList = zeroAddress
 			const operator = this.coinbase
 			const rate = toNDecimals(
 				1 / this.model.tokenPrice,
@@ -851,12 +859,19 @@ export default {
 			const startDate = new Date(model.startDate).getTime() / 1000
 			const endDate = new Date(model.endDate).getTime() / 1000
 
-			const pointList = '0x0000000000000000000000000000000000000000'
+			const pointList = zeroAddress
 			const operator = this.coinbase
 			const minimumCommitmentAmount = toNDecimals(
 				multiplyNumbers(model.minimumCommitmentAmount, model.tokenSupply),
 				model.paymentCurrency.decimals
 			)
+			if (
+				parseInt(this.networkId) === 1 &&
+				(model.paymentCurrency.symbol === 'ETH' ||
+					model.paymentCurrency.symbol === 'WETH')
+			) {
+				model.fundWallet = wethAddress
+			}
 			const dataParams = [
 				this.marketFactoryAddress,
 				model.token.address,
