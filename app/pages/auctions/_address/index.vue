@@ -19,7 +19,23 @@
 						Region Restriction Detected
 					</h2>
 					<div
-						class="p-1 absolute top-0 right-0 w-5 h-5 rounded-full border-2 text-primary hover:text-high-emphesis border-primary d-flex items-center justify-content-center cursor-pointer"
+						class="
+							p-1
+							absolute
+							top-0
+							right-0
+							w-5
+							h-5
+							rounded-full
+							border-2
+							text-primary
+							hover:text-high-emphesis
+							border-primary
+							d-flex
+							items-center
+							justify-content-center
+							cursor-pointer
+						"
 						@click="closeModal"
 					>
 						<svg
