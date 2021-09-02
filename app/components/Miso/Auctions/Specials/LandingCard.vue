@@ -27,7 +27,16 @@
 				<span class="auction-button d-flex align-items-center">
 					<div
 						v-if="isPrivate"
-						class="border-0 special_status px-3 py-2 mr-2 text-white font-weight-bold border-danger"
+						class="
+							border-0
+							special_status
+							px-3
+							py-2
+							mr-2
+							text-white
+							font-weight-bold
+							border-danger
+						"
 					>
 						<img src="@/assets/svg/private.svg" class="mr-2 mb-0" />
 						Private
