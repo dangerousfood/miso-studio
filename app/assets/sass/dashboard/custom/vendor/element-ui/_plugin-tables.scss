@@ -12,7 +12,7 @@
 }
 
 .el-table table td, .el-table table th.is-leaf {
-  border-bottom: none;
+  border-bottom: none !important;
 }
 
 .el-table.el-table--enable-row-hover table.el-table__body tr:hover > td {

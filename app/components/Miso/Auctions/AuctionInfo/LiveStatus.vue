@@ -710,7 +710,6 @@ export default {
 		},
 		maxInvestAmount() {
 			if (this.status.type === 'batch') {
-				console.log('accountBalance:', this.accountBalance)
 				return this.accountBalance
 			}
 
