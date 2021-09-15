@@ -67,54 +67,58 @@
 					</div>
 					<div class="restriction-line">
 						1. The Buyer is not a U.S. person (as defined in Rule 902(k) of Regulation
-						S under the Securities Act) and is not purchasing the BitDAO tokens for
-						the account or benefit of a U.S. person.
+						S under the Securities Act) and is not purchasing the
+						{{ tokenInfo.name }} tokens for the account or benefit of a U.S. person.
 					</div>
 					<div class="restriction-line">
-						2. The Buyer is not a person in the United States when the BitDAO tokens
-						were or are offered to the Buyer or, if applicable, its Affiliates (as
-						defined in Rule 501(b) of Regulation D under the U.S. Securities Act of
-						1933, as amended (the “Securities Act”)); and the Buyer, including any
-						authorized director, employee, signatory or representative who places the
-						buy order, is outside the United States at the time the buy order is
-						originated.
+						2. The Buyer is not a person in the United States when the
+						{{ tokenInfo.name }} tokens were or are offered to the Buyer or, if
+						applicable, its Affiliates (as defined in Rule 501(b) of Regulation D
+						under the U.S. Securities Act of 1933, as amended (the “Securities Act”));
+						and the Buyer, including any authorized director, employee, signatory or
+						representative who places the buy order, is outside the United States at
+						the time the buy order is originated.
 					</div>
 					<div class="restriction-line">
-						3. The Buyer is eligible to participate in the BitDAO token offering,
-						whether as a professional, sophisticated or accredited investor or
-						otherwise, as may be required under the laws of the jurisdiction in which
-						it is located or other applicable to it.
+						3. The Buyer is eligible to participate in the {{ tokenInfo.name }} token
+						offering, whether as a professional, sophisticated or accredited investor
+						or otherwise, as may be required under the laws of the jurisdiction in
+						which it is located or other applicable to it.
 					</div>
 					<div class="restriction-line">
 						4. The Buyer has the requisite experience, knowledge and expertise in
 						financial and business matters as to be capable of evaluating the merits,
-						risks and suitability of participating in the BitDAO token offering.
+						risks and suitability of participating in the {{ tokenInfo.name }} token
+						offering.
 					</div>
 					<div class="restriction-line">
 						5. The Buyer has not entered into any agreement or arrangement (including
 						any derivatives arrangement) for or in connection with, and is not
-						purchasing the BitDAO tokens with the view of entering into any agreement
-						or arrangement (including any derivatives arrangement) with another person
-						for or in connection with, the resale or transfer of the BitDAO tokens,
-						under which the economic benefits and risks of the BitDAO tokens would
-						pass on to such person. Notwithstanding the foregoing, the Buyer shall not
-						transfer any BitDAO tokens at any time if such transfer would result in a
+						purchasing the {{ tokenInfo.name }} tokens with the view of entering into
+						any agreement or arrangement (including any derivatives arrangement) with
+						another person for or in connection with, the resale or transfer of the
+						{{ tokenInfo.name }} tokens, under which the economic benefits and risks
+						of the {{ tokenInfo.name }} tokens would pass on to such person.
+						Notwithstanding the foregoing, the Buyer shall not transfer any
+						{{ tokenInfo.name }} tokens at any time if such transfer would result in a
 						violation of any applicable laws, including but not limited to transfer
 						restrictions.
 					</div>
 					<div class="restriction-line">
-						6. The Buyer understands that to the extent that the BitDAO tokens are
-						securities or other regulated products or instruments under the laws of
-						any jurisdiction in which the BitDAO tokens are to be traded or subject of
-						transfers, such trades or transfers of the BitDAO tokens may be restricted
+						6. The Buyer understands that to the extent that the
+						{{ tokenInfo.name }} tokens are securities or other regulated products or
+						instruments under the laws of any jurisdiction in which the
+						{{ tokenInfo.name }} tokens are to be traded or subject of transfers, such
+						trades or transfers of the {{ tokenInfo.name }} tokens may be restricted
 						by such laws.
 					</div>
 					<div class="restriction-line">
-						7. The Buyer further understands and agrees that the BitDAO tokens shall
-						be subject to transfer restrictions under applicable laws. The Buyer
-						agrees, and undertakes to notify and procure each subsequent buyer or
-						transferee of BitDAO tokens to agree, that the BitDAO tokens may be
-						offered, sold or otherwise transferred only:
+						7. The Buyer further understands and agrees that the
+						{{ tokenInfo.name }} tokens shall be subject to transfer restrictions
+						under applicable laws. The Buyer agrees, and undertakes to notify and
+						procure each subsequent buyer or transferee of {{ tokenInfo.name }} tokens
+						to agree, that the {{ tokenInfo.name }} tokens may be offered, sold or
+						otherwise transferred only:
 					</div>
 					<div class="restriction-line">
 						a. pursuant to a registration statement that has been declared effective
@@ -524,6 +528,8 @@ export default {
 			)
 
 			this.auctionCommitmentsTotal = BigNumber(data.commitmentsTotal)
+
+			console.log('------>', this.marketInfo)
 		},
 
 		updateDutchData() {
