@@ -31,59 +31,57 @@
 					></base-switch>
 				</div>
 			</div>
-			<div>
-				<el-table
-					ref="tableRef"
-					class="table-responsive table-flush"
-					:data="queriedData"
-					row-key="id"
-					header-row-class-name="thead"
-					@sort-change="sortChange"
+			<el-table
+				ref="tableRef"
+				class="table-responsive table-flush"
+				:data="queriedData"
+				row-key="id"
+				header-row-class-name="thead"
+				@sort-change="sortChange"
+			>
+				<el-table-column
+					v-for="(column, index) in columns"
+					:key="index"
+					:label="column.label"
+					:min-width="column.width"
+					:prop="column.address"
+					:sortable="column.sortable"
 				>
-					<el-table-column
-						v-for="(column, index) in columns"
-						:key="index"
-						:label="column.label"
-						:min-width="column.width"
-						:prop="column.address"
-						:sortable="column.sortable"
+					<template v-if="column.label === 'Address'" #default="{ row }">
+						<eth-image
+							class="avatar avatar-xs mr-2"
+							:opts="{
+								seed: row.address,
+								size: 10,
+								scale: 5,
+							}"
+						/>
+						<span>{{ shortenAddress(row.address) }}</span>
+					</template>
+					<template
+						v-else-if="column.label === 'Amount Committed'"
+						#default="{ row }"
 					>
-						<template v-if="column.label === 'Address'" #default="{ row }">
-							<eth-image
-								class="avatar avatar-xs mr-2"
-								:opts="{
-									seed: row.address,
-									size: 10,
-									scale: 5,
-								}"
-							/>
-							<span>{{ shortenAddress(row.address) }}</span>
-						</template>
-						<template
-							v-else-if="column.label === 'Amount Committed'"
-							#default="{ row }"
-						>
-							<span>{{ row.amount }} {{ shortCurrency }}</span>
-						</template>
-						<template
-							v-else-if="column.label === 'Tokens Claimable'"
-							#default="{ row }"
-						>
-							<span>
-								{{ row.amount / currentPrice }}
-							</span>
-						</template>
-						<template v-else-if="column.label === 'Tx Hash'" #default="{ row }">
-							<a :href="`${txUrl}${row.txHash}`" target="_blank">
-								{{ shortenAddress(row.txHash) }}
-							</a>
-						</template>
-						<template v-else-if="column.label === 'Block Number'" #default="{ row }">
-							<span>{{ row.timestamp }}</span>
-						</template>
-					</el-table-column>
-				</el-table>
-			</div>
+						<span>{{ row.amount }} {{ shortCurrency }}</span>
+					</template>
+					<template
+						v-else-if="column.label === 'Tokens Claimable'"
+						#default="{ row }"
+					>
+						<span>
+							{{ row.amount / currentPrice }}
+						</span>
+					</template>
+					<template v-else-if="column.label === 'Tx Hash'" #default="{ row }">
+						<a :href="`${txUrl}${row.txHash}`" target="_blank">
+							{{ shortenAddress(row.txHash) }}
+						</a>
+					</template>
+					<template v-else-if="column.label === 'Block Number'" #default="{ row }">
+						<span>{{ row.timestamp }}</span>
+					</template>
+				</el-table-column>
+			</el-table>
 
 			<div class="col-12 d-flex justify-content-end flex-wrap mb-3 downloadCSV">
 				<download-excel
@@ -301,6 +299,7 @@ export default {
 	}
 	.el-table__header {
 		min-width: 1366px;
+		background: transparent;
 	}
 	.el-table__body {
 		min-width: 1366px;
