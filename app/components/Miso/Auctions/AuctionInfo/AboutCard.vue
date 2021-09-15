@@ -381,11 +381,16 @@
 				<div v-if="info.website && urlCheck" class="pt-3">
 					<h5 class="fs-1 font-weight-bold mb-2 text-uppercase">Website:</h5>
 					<a
-						:href="info.website"
+						:href="
+							info.website.startsWith('https://') ||
+							info.website.startsWith('http://')
+								? info.website
+								: `https://${info.website}`
+						"
 						target="_blank"
 						class="font-weight-bold text-white pt-0 mt-0 fs-3"
 					>
-						<u>{{ info.website }}</u>
+						<u>{{ websiteURL }}</u>
 					</a>
 				</div>
 				<div v-if="Object.keys(info.icons.social).length" class="pt-3">
@@ -666,6 +671,16 @@ export default {
 				return this.info.icon
 			}
 			return require('static/s3/img/token_placeholder.png')
+		},
+		websiteURL() {
+			let newurl
+			newurl = this.info.website.replace('https:', '')
+			newurl = newurl.replace('http:', '')
+			newurl = newurl.replace('//', '')
+			if (newurl.endsWith('/')) {
+				newurl = newurl.slice(0, -1)
+			}
+			return newurl
 		},
 	},
 	mounted() {
