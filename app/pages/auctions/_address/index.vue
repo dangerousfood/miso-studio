@@ -528,8 +528,6 @@ export default {
 			)
 
 			this.auctionCommitmentsTotal = BigNumber(data.commitmentsTotal)
-
-			console.log('------>', this.marketInfo)
 		},
 
 		updateDutchData() {
