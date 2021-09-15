@@ -299,7 +299,6 @@ export default {
 	}
 	.el-table__header {
 		min-width: 1366px;
-		background: transparent;
 	}
 	.el-table__body {
 		min-width: 1366px;

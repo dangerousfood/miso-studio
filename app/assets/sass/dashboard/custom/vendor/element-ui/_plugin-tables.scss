@@ -55,7 +55,8 @@
 
 div.el-table,
 .el-table table tr,
-.el-table table thead th {
+.el-table table thead th,
+.el-table th.el-table__cell {
   background-color: transparent;
 }
 
