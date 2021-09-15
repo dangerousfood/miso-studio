@@ -186,7 +186,7 @@
 							<h2
 								class="text-h6 mt-2.5 font-bold mb-0 airdrop-modal-text text-center"
 							>
-								🎈 BitDAO Airdrop for MISO 🎈
+								🎈 {{ tokenInfo.name }} Airdrop for MISO 🎈
 								<br />
 								auction participants
 							</h2>
