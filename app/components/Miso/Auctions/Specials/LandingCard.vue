@@ -97,7 +97,11 @@
 			<div class="text-white social-link pb-1">
 				<a
 					v-if="websiteurl !== ''"
-					:href="websiteurl"
+					:href="
+						websiteurl.startsWith('https://') || websiteurl.startsWith('http://')
+							? websiteurl
+							: `https://${websiteurl}`
+					"
 					class="text-white"
 					target="_blank"
 				>
@@ -493,6 +497,9 @@ export default {
 			newurl = this.websiteurl.replace('https:', '')
 			newurl = newurl.replace('http:', '')
 			newurl = newurl.replace('//', '')
+			if (newurl.endsWith('/')) {
+				newurl = newurl.slice(0, -1)
+			}
 			return newurl
 		},
 		raiseTargetFrom() {
